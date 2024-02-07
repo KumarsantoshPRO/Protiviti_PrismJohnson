@@ -331,7 +331,7 @@
                                 vertical="true"
                                 focusable="true"
                             >
-                                <Table items="{oRequestModel>/}">
+                                <Table items="{oRequestModel>/}" >
                                     <headerToolbar>
                                         <Toolbar>
                                             <ToolbarSpacer />
@@ -340,6 +340,7 @@
                                                 text="Add More Products"
                                                 icon="sap-icon://add"
                                                 visible="{GlobalModel>/Editable}"
+                                                press="onAddRow"
                                             />
                                         </Toolbar>
                                     </headerToolbar>
@@ -665,6 +666,7 @@
                                                 <Button
                                                     icon="sap-icon://delete"
                                                     visible="{GlobalModel>/Editable}"
+                                                    press="onDelete"
                                                 />
                                             </cells>
                                         </ColumnListItem>

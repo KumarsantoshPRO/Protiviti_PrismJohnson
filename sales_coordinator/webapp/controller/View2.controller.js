@@ -197,7 +197,18 @@ sap.ui.define([
             onCancel: function() {
                 this.getView().getModel("GlobalModel").setProperty("/Editable", false);
             },
-
+            //Start: Santosh Changes(07, Feb 2024)
+            onAddRow: function(){
+debugger;
+this.getView().getModel("oRequestModel").getData().push({});
+this.getView().getModel("oRequestModel").refresh(true);
+            },
+            onDelete: function(oEvent){
+           debugger;
+           this.getView().getModel("oRequestModel").getData().pop();
+this.getView().getModel("oRequestModel").refresh(true);
+            },
+//End: Santosh Changes(07, Feb 2024)
             onBack: function() {
                 this.oRouter = this.getOwnerComponent().getRouter();
                 this.oRouter.navTo("page1",{});
