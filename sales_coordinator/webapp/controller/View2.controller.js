@@ -199,12 +199,12 @@ sap.ui.define([
             },
             //Start: Santosh Changes(07, Feb 2024)
             onAddRow: function(){
-debugger;
+ 
 this.getView().getModel("oRequestModel").getData().push({});
 this.getView().getModel("oRequestModel").refresh(true);
             },
             onDelete: function(oEvent){
-           debugger;
+       
            this.getView().getModel("oRequestModel").getData().pop();
 this.getView().getModel("oRequestModel").refresh(true);
             },
