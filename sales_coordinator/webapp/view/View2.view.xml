@@ -1,0 +1,922 @@
+<mvc:View
+    xmlns:unified="sap.ui.unified"
+    height="100%"
+    controllerName="prj.salescoordinator.controller.View2"
+    xmlns:mvc="sap.ui.core.mvc"
+    xmlns:l="sap.ui.layout"
+    xmlns:core="sap.ui.core"
+    xmlns:f="sap.f"
+    xmlns:forms="sap.ui.layout.form"
+    xmlns:uxap="sap.uxap"
+    xmlns="sap.m"
+    xmlns:upload="sap.m.upload"
+    xmlns:t="sap.ui.table"
+    xmlns:rowmodes="sap.ui.table.rowmodes"
+    xmlns:u="sap.ui.unified"
+>
+    <!-- <f:ShellBar
+			title="Requestor Application"
+			secondTitle=""
+			homeIcon="/css/johnson_img.png"
+			showCopilot="false"
+			showSearch="false"
+			showNotifications="false"
+			showProductSwitcher="false">
+	</f:ShellBar> -->
+
+    <uxap:ObjectPageLayout
+        id="ObjectPageLayout"
+        upperCaseAnchorBar="false"
+        showFooter="true"
+    >
+        <uxap:headerTitle>
+            <uxap:ObjectPageHeader objectTitle="">
+                <Button
+                    text="Edit"
+                    type="Emphasized"
+                    press="onEdit"
+                    visible="{=${GlobalModel>/Editable}===false? true:false}"
+                />
+                <Button
+                    text="Back"
+                    press="onBack"
+                />
+            </uxap:ObjectPageHeader>
+        </uxap:headerTitle>
+        <uxap:sections>
+            <uxap:ObjectPageSection
+                titleUppercase="true"
+                title="General Info"
+            >
+                <uxap:subSections>
+                    <uxap:ObjectPageSubSection
+                        title="General Info"
+                        titleUppercase="true"
+                    >
+                        <uxap:blocks>
+                            <forms:Form
+                                id="idChangeForm"
+                                editable="true"
+                                visible="{GlobalModel>/Editable}"
+                            >
+                                <forms:title />
+                                <forms:layout>
+                                    <forms:ResponsiveGridLayout
+                                        labelSpanXL="4"
+                                        labelSpanL="4"
+                                        labelSpanM="4"
+                                        labelSpanS="12"
+                                        adjustLabelSpan="false"
+                                        emptySpanXL="0"
+                                        emptySpanL="0"
+                                        emptySpanM="0"
+                                        emptySpanS="0"
+                                        columnsXL="3"
+                                        columnsL="3"
+                                        columnsM="2"
+                                        singleContainerFullSize="false"
+                                    />
+                                </forms:layout>
+                                <forms:formContainers>
+                                    <forms:FormContainer title="">
+                                        <forms:formElements>
+                                            <forms:FormElement
+                                                label="Customer Name"
+                                            >
+                                                <forms:fields>
+                                                    <Select
+                                                        visible="{GlobalModel>/Editable}"
+                                                    />
+                                                </forms:fields>
+                                            </forms:FormElement>
+                                            <forms:FormElement
+                                                label="Distribution Channel"
+                                            >
+                                                <forms:fields>
+                                                    <Select
+                                                        visible="{GlobalModel>/Editable}"
+                                                    />
+                                                </forms:fields>
+                                            </forms:FormElement>
+                                            <forms:FormElement
+                                                label="Order Type"
+                                            >
+                                                <forms:fields>
+                                                    <Select
+                                                        visible="{GlobalModel>/Editable}"
+                                                    />
+                                                </forms:fields>
+                                            </forms:FormElement>
+                                        </forms:formElements>
+                                    </forms:FormContainer>
+
+                                    <forms:FormContainer title="">
+                                        <forms:formElements>
+                                            <forms:FormElement
+                                                label="Customer ID"
+                                            >
+                                                <forms:fields>
+                                                    <Select
+                                                        visible="{GlobalModel>/Editable}"
+                                                    />
+                                                </forms:fields>
+                                            </forms:FormElement>
+                                            <forms:FormElement
+                                                label="Payment Term"
+                                            >
+                                                <forms:fields>
+                                                    <Select
+                                                        visible="{GlobalModel>/Editable}"
+                                                    />
+                                                </forms:fields>
+                                            </forms:FormElement>
+                                            <forms:FormElement
+                                                label="Validity (Days)"
+                                            >
+                                                <forms:fields>
+                                                    <Select
+                                                        visible="{GlobalModel>/Editable}"
+                                                    />
+                                                </forms:fields>
+                                            </forms:FormElement>
+                                        </forms:formElements>
+                                    </forms:FormContainer>
+
+                                    <forms:FormContainer title="">
+                                        <forms:formElements>
+                                            <forms:FormElement
+                                                label="Sales Office"
+                                            >
+                                                <forms:fields>
+                                                    <Select
+                                                        visible="{GlobalModel>/Editable}"
+                                                    />
+                                                </forms:fields>
+                                            </forms:FormElement>
+                                            <forms:FormElement
+                                                label="Order Number"
+                                            >
+                                                <forms:fields>
+                                                    <Select
+                                                        visible="{GlobalModel>/Editable}"
+                                                    />
+                                                </forms:fields>
+                                            </forms:FormElement>
+
+                                            <forms:FormElement label="Remarks">
+                                                <forms:fields>
+                                                    <TextArea
+                                                        id="TextArea"
+                                                        placeholder="Enter text"
+                                                        maxlength="20"
+                                                        change="handleChange"
+                                                        input="handleInput"
+                                                        showExceededText="true"
+                                                        rows="4"
+                                                        ariaLabelledBy="TextAreaLabel"
+                                                    />
+                                                </forms:fields>
+                                            </forms:FormElement>
+                                        </forms:formElements>
+                                    </forms:FormContainer>
+                                </forms:formContainers>
+                            </forms:Form>
+
+                            <forms:Form
+                                id="idDisplayForm"
+                                editable="true"
+                                visible="{=${GlobalModel>/Editable}===false? true:false}"
+                            >
+                                <forms:title>
+                                    <!-- <core:Title text="Supplier" /> -->
+                                </forms:title>
+                                <forms:layout>
+                                    <forms:ResponsiveGridLayout
+                                        labelSpanXL="4"
+                                        labelSpanL="4"
+                                        labelSpanM="4"
+                                        labelSpanS="12"
+                                        adjustLabelSpan="false"
+                                        emptySpanXL="0"
+                                        emptySpanL="0"
+                                        emptySpanM="0"
+                                        emptySpanS="0"
+                                        columnsXL="3"
+                                        columnsL="3"
+                                        columnsM="2"
+                                        singleContainerFullSize="false"
+                                    />
+                                </forms:layout>
+                                <forms:formContainers>
+                                    <forms:FormContainer title="">
+                                        <forms:formElements>
+                                            <forms:FormElement
+                                                label="Customer Name"
+                                            >
+                                                <forms:fields>
+                                                    <Text
+                                                        text="{GlobalModel>/customer}"
+                                                        visible="{=${GlobalModel>/Editable}===false? true:false}"
+                                                    />
+                                                </forms:fields>
+                                            </forms:FormElement>
+                                            <forms:FormElement
+                                                label="Distribution Channel"
+                                            >
+                                                <forms:fields>
+                                                    <Text
+                                                        text="{GlobalModel>/disChanl}"
+                                                        visible="{=${GlobalModel>/Editable}===false? true:false}"
+                                                    />
+                                                </forms:fields>
+                                            </forms:FormElement>
+                                            <forms:FormElement
+                                                label="Order Type"
+                                            >
+                                                <forms:fields>
+                                                    <Text
+                                                        text="{GlobalModel>/orderType}"
+                                                        visible="{=${GlobalModel>/Editable}===false? true:false}"
+                                                    />
+                                                </forms:fields>
+                                            </forms:FormElement>
+                                        </forms:formElements>
+                                    </forms:FormContainer>
+
+                                    <forms:FormContainer title="">
+                                        <forms:formElements>
+                                            <forms:FormElement
+                                                label="Customer ID"
+                                            >
+                                                <forms:fields>
+                                                    <Text
+                                                        text="{GlobalModel>/custId}"
+                                                        visible="{=${GlobalModel>/Editable}===false? true:false}"
+                                                    />
+                                                </forms:fields>
+                                            </forms:FormElement>
+                                            <forms:FormElement
+                                                label="Payment Term"
+                                            >
+                                                <forms:fields>
+                                                    <Text
+                                                        text="{GlobalModel>/payterm}"
+                                                        visible="{=${GlobalModel>/Editable}===false? true:false}"
+                                                    />
+                                                </forms:fields>
+                                            </forms:FormElement>
+                                            <forms:FormElement
+                                                label="Validity (Days)"
+                                            >
+                                                <forms:fields>
+                                                    <Text
+                                                        text="{GlobalModel>/validity}"
+                                                        visible="{=${GlobalModel>/Editable}===false? true:false}"
+                                                    />
+                                                </forms:fields>
+                                            </forms:FormElement>
+                                        </forms:formElements>
+                                    </forms:FormContainer>
+
+                                    <forms:FormContainer title="">
+                                        <forms:formElements>
+                                            <forms:FormElement
+                                                label="Sales Office"
+                                            >
+                                                <forms:fields>
+                                                    <Text
+                                                        text="{GlobalModel>/SalesOfc}"
+                                                        visible="{=${GlobalModel>/Editable}===false? true:false}"
+                                                    />
+                                                </forms:fields>
+                                            </forms:FormElement>
+                                            <forms:FormElement
+                                                label="Order Number"
+                                            >
+                                                <forms:fields>
+                                                    <Text
+                                                        text="{GlobalModel>/orderNo}"
+                                                        visible="{=${GlobalModel>/Editable}===false? true:false}"
+                                                    />
+                                                </forms:fields>
+                                            </forms:FormElement>
+                                            <forms:FormElement label="Remarks">
+                                                <forms:fields>
+                                                    <Text
+                                                        text="{GlobalModel>/remarks}"
+                                                        visible="{=${GlobalModel>/Editable}===false? true:false}"
+                                                    />
+                                                </forms:fields>
+                                            </forms:FormElement>
+                                        </forms:formElements>
+                                    </forms:FormContainer>
+                                </forms:formContainers>
+                            </forms:Form>
+                        </uxap:blocks>
+                    </uxap:ObjectPageSubSection>
+                </uxap:subSections>
+            </uxap:ObjectPageSection>
+            <uxap:ObjectPageSection
+                titleUppercase="true"
+                title="Additional Product Details"
+            >
+                <uxap:subSections>
+                    <uxap:ObjectPageSubSection
+                        title="Additional Product Details"
+                        titleUppercase="true"
+                    >
+                        <uxap:blocks>
+                            <ScrollContainer
+                                width="100%"
+                                vertical="true"
+                                focusable="true"
+                            >
+                                <Table items="{oRequestModel>/}">
+                                    <headerToolbar>
+                                        <Toolbar>
+                                            <ToolbarSpacer />
+                                            <Button
+                                                width="100%"
+                                                text="Add More Products"
+                                                icon="sap-icon://add"
+                                                visible="{GlobalModel>/Editable}"
+                                            />
+                                        </Toolbar>
+                                    </headerToolbar>
+                                    <columns>
+                                        <Column
+                                            minScreenWidth="Tablet"
+                                            demandPopin="true"
+                                            hAlign="Center"
+                                            width="10rem"
+                                        >
+                                            <Text
+                                                text="Material Freight Groups"
+                                            />
+                                        </Column>
+                                        <Column
+                                            minScreenWidth="Tablet"
+                                            demandPopin="true"
+                                            hAlign="Center"
+                                            width="10rem"
+                                        >
+                                            <Text text="Sizes (FT)" />
+                                        </Column>
+                                        <Column
+                                            minScreenWidth="Tablet"
+                                            demandPopin="true"
+                                            hAlign="Center"
+                                            width="10rem"
+                                        >
+                                            <Text text="Designs" />
+                                        </Column>
+                                        <Column
+                                            minScreenWidth="Tablet"
+                                            demandPopin="true"
+                                            hAlign="Center"
+                                            width="10rem"
+                                        >
+                                            <Text text="Supplying Plant" />
+                                        </Column>
+                                        <Column
+                                            minScreenWidth="Tablet"
+                                            demandPopin="true"
+                                            hAlign="Center"
+                                            width="10rem"
+                                        >
+                                            <Text text="Manufacturing Amount" />
+                                        </Column>
+                                        <!-- <Column  minScreenWidth="Tablet" demandPopin="true" hAlign="Center" width="10rem">
+												<Text text="Source"/>
+											</Column> -->
+                                        <Column
+                                            minScreenWidth="Desktop"
+                                            demandPopin="true"
+                                            hAlign="Center"
+                                            width="10rem"
+                                        >
+                                            <Text
+                                                text="Current Volume (Sqft)"
+                                            />
+                                        </Column>
+                                        <Column
+                                            minScreenWidth="Desktop"
+                                            demandPopin="true"
+                                            hAlign="Center"
+                                            width="10rem"
+                                        >
+                                            <Text text="Total Volume (Sqft)" />
+                                        </Column>
+                                        <Column
+                                            minScreenWidth="Desktop"
+                                            demandPopin="true"
+                                            hAlign="Center"
+                                            width="10rem"
+                                        >
+                                            <Text text="Ex Factory (SqFt)" />
+                                        </Column>
+                                        <Column
+                                            minScreenWidth="Desktop"
+                                            demandPopin="true"
+                                            hAlign="Center"
+                                            width="10rem"
+                                        >
+                                            <Text
+                                                text="On-Invoice discount per SqFt"
+                                            />
+                                        </Column>
+                                        <Column
+                                            minScreenWidth="Desktop"
+                                            demandPopin="true"
+                                            hAlign="Center"
+                                            width="10rem"
+                                        >
+                                            <Text
+                                                text="Schemes discount per SqFt(If Applicable)"
+                                            />
+                                        </Column>
+                                        <Column
+                                            minScreenWidth="Desktop"
+                                            demandPopin="true"
+                                            hAlign="Center"
+                                            width="10rem"
+                                        >
+                                            <Text text="Schemes %" />
+                                        </Column>
+                                        <Column
+                                            minScreenWidth="Desktop"
+                                            demandPopin="true"
+                                            hAlign="Center"
+                                            width="10rem"
+                                        >
+                                            <Text text="ORC Entity" />
+                                        </Column>
+
+                                        <Column
+                                            minScreenWidth="Desktop"
+                                            demandPopin="true"
+                                            hAlign="Center"
+                                            width="10rem"
+                                        >
+                                            <Text text="ORC %" />
+                                        </Column>
+                                        <Column
+                                            minScreenWidth="Desktop"
+                                            demandPopin="true"
+                                            hAlign="Center"
+                                            width="10rem"
+                                        >
+                                            <Text text="Freight SqFt" />
+                                        </Column>
+                                        <Column
+                                            minScreenWidth="Desktop"
+                                            demandPopin="true"
+                                            hAlign="Center"
+                                            width="10rem"
+                                        >
+                                            <Text text="Competitor Name" />
+                                        </Column>
+                                        <Column
+                                            minScreenWidth="Desktop"
+                                            demandPopin="true"
+                                            hAlign="Center"
+                                            width="10rem"
+                                        >
+                                            <Text
+                                                text="Competitor landed price"
+                                            />
+                                        </Column>
+
+                                        <Column
+                                            visible="false"
+                                            minScreenWidth="Desktop"
+                                            demandPopin="true"
+                                            hAlign="Center"
+                                            width="10rem"
+                                        >
+                                            <Text text="Competitor receipt" />
+                                        </Column>
+                                        <Column
+                                            minScreenWidth="Desktop"
+                                            demandPopin="true"
+                                            hAlign="Center"
+                                            width="5rem"
+                                        >
+                                            <Text text="Delete" />
+                                        </Column>
+                                    </columns>
+                                    <items>
+                                        <ColumnListItem vAlign="Middle">
+                                            <cells>
+                                                <VBox>
+                                                    <Select
+                                                        visible="{GlobalModel>/Editable}"
+                                                    />
+                                                    <Text
+                                                        text="{oRequestModel>material}"
+                                                        visible="{=${GlobalModel>/Editable}===false? true:false}"
+                                                    />
+                                                </VBox>
+                                                <VBox>
+                                                    <Select
+                                                        visible="{GlobalModel>/Editable}"
+                                                    />
+                                                    <Text
+                                                        text="{oRequestModel>size}"
+                                                        visible="{=${GlobalModel>/Editable}===false? true:false}"
+                                                    />
+                                                </VBox>
+                                                <VBox>
+                                                    <Select
+                                                        visible="{GlobalModel>/Editable}"
+                                                    />
+                                                    <Text
+                                                        text="{oRequestModel>design}"
+                                                        visible="{=${GlobalModel>/Editable}===false? true:false}"
+                                                    />
+                                                </VBox>
+                                                <VBox>
+                                                    <Select
+                                                        visible="{GlobalModel>/Editable}"
+                                                    />
+                                                    <Text
+                                                        text="{oRequestModel>supplyPlant}"
+                                                        visible="{=${GlobalModel>/Editable}===false? true:false}"
+                                                    />
+                                                </VBox>
+                                                <VBox>
+                                                    <Select
+                                                        visible="{GlobalModel>/Editable}"
+                                                    />
+                                                    <Text
+                                                        text="{oRequestModel>ManftPlant}"
+                                                        visible="{=${GlobalModel>/Editable}===false? true:false}"
+                                                    />
+                                                </VBox>
+                                                <!-- <VBox>
+													<Select visible="{GlobalModel>/Editable}"></Select>
+													<Text text="{oRequestModel>source1}" visible="{=${GlobalModel>/Editable}===false? true:false}" />
+												</VBox> -->
+
+                                                <VBox>
+                                                    <Input
+                                                        visible="{GlobalModel>/Editable}"
+                                                    />
+                                                    <Text
+                                                        text="{oRequestModel>curVol}"
+                                                        visible="{=${GlobalModel>/Editable}===false? true:false}"
+                                                    />
+                                                </VBox>
+                                                <VBox>
+                                                    <Input
+                                                        visible="{GlobalModel>/Editable}"
+                                                    />
+                                                    <Text
+                                                        text="{oRequestModel>totalVol}"
+                                                        visible="{=${GlobalModel>/Editable}===false? true:false}"
+                                                    />
+                                                </VBox>
+                                                <VBox>
+                                                    <Input
+                                                        visible="{GlobalModel>/Editable}"
+                                                    />
+                                                    <Text
+                                                        text="{oRequestModel>exFactory}"
+                                                        visible="{=${GlobalModel>/Editable}===false? true:false}"
+                                                    />
+                                                </VBox>
+                                                <VBox>
+                                                    <Input
+                                                        visible="{GlobalModel>/Editable}"
+                                                    />
+                                                    <Text
+                                                        text="{oRequestModel>onInvoice}"
+                                                        visible="{=${GlobalModel>/Editable}===false? true:false}"
+                                                    />
+                                                </VBox>
+                                                <VBox>
+                                                    <Input
+                                                        visible="{GlobalModel>/Editable}"
+                                                    />
+                                                    <Text
+                                                        text="{oRequestModel>scmDiscnt}"
+                                                        visible="{=${GlobalModel>/Editable}===false? true:false}"
+                                                    />
+                                                </VBox>
+                                                <VBox>
+                                                    <Input
+                                                        visible="{GlobalModel>/Editable}"
+                                                    />
+                                                    <Text
+                                                        text="{oRequestModel>scmPercent}"
+                                                        visible="{=${GlobalModel>/Editable}===false? true:false}"
+                                                    />
+                                                </VBox>
+                                                <VBox>
+                                                    <Input
+                                                        visible="{GlobalModel>/Editable}"
+                                                    />
+                                                    <Text
+                                                        text="{oRequestModel>orcEntity}"
+                                                        visible="{=${GlobalModel>/Editable}===false? true:false}"
+                                                    />
+                                                </VBox>
+                                                <VBox>
+                                                    <Input
+                                                        visible="{GlobalModel>/Editable}"
+                                                    />
+                                                    <Text
+                                                        text="{oRequestModel>orcPercent}"
+                                                        visible="{=${GlobalModel>/Editable}===false? true:false}"
+                                                    />
+                                                </VBox>
+                                                <VBox>
+                                                    <Input
+                                                        visible="{GlobalModel>/Editable}"
+                                                    />
+                                                    <Text
+                                                        text="{oRequestModel>freightSqft}"
+                                                        visible="{=${GlobalModel>/Editable}===false? true:false}"
+                                                    />
+                                                </VBox>
+                                                <VBox>
+                                                    <Input
+                                                        visible="{GlobalModel>/Editable}"
+                                                    />
+                                                    <Text
+                                                        text="{oRequestModel>competatorName}"
+                                                        visible="{=${GlobalModel>/Editable}===false? true:false}"
+                                                    />
+                                                </VBox>
+                                                <VBox>
+                                                    <Input
+                                                        visible="{GlobalModel>/Editable}"
+                                                    />
+                                                    <Text
+                                                        text="{oRequestModel>competatorLandedPrice}"
+                                                        visible="{=${GlobalModel>/Editable}===false? true:false}"
+                                                    />
+                                                </VBox>
+                                                <Button
+                                                    visible="false"
+                                                    text="Upload"
+                                                    icon="sap-icon://upload"
+                                                />
+                                                <Button
+                                                    icon="sap-icon://delete"
+                                                    visible="{GlobalModel>/Editable}"
+                                                />
+                                            </cells>
+                                        </ColumnListItem>
+                                    </items>
+                                </Table>
+                            </ScrollContainer>
+                        </uxap:blocks>
+                    </uxap:ObjectPageSubSection>
+                </uxap:subSections>
+            </uxap:ObjectPageSection>
+
+            <uxap:ObjectPageSection
+                titleUppercase="true"
+                title="Summary Details"
+            >
+                <uxap:subSections>
+                    <uxap:ObjectPageSubSection
+                        title="Summary Details"
+                        titleUppercase="true"
+                    >
+                        <uxap:blocks>
+                            <forms:Form
+                                id="idSummaryDetails"
+                                editable="true"
+                            >
+                                <!-- <forms:title>
+										<core:Title text="Supplier" />
+									</forms:title> -->
+                                <forms:layout>
+                                    <forms:ColumnLayout
+                                        columnsM="2"
+                                        columnsL="3"
+                                        columnsXL="6"
+                                    />
+                                </forms:layout>
+                                <forms:formContainers>
+                                    <forms:FormContainer title="">
+                                        <forms:formElements>
+                                            <forms:FormElement
+                                                label="Invoice Discount (Volume %)"
+                                            >
+                                                <forms:fields>
+                                                    <Input
+                                                        value=""
+                                                        visible="{GlobalModel>/Editable}"
+                                                    >
+                                                        <layoutData>
+                                                            <forms:ColumnElementData
+                                                                cellsSmall="6"
+                                                                cellsLarge="2"
+                                                            />
+                                                        </layoutData>
+                                                    </Input>
+                                                    <Text
+                                                        text="{GlobalModel>/invoiceDis}"
+                                                        visible="{=${GlobalModel>/Editable}===false? true:false}"
+                                                    />
+                                                    <Input
+                                                        value=""
+                                                        visible="{GlobalModel>/Editable}"
+                                                    />
+                                                    <Text
+                                                        text="{GlobalModel>/invoicePer}"
+                                                        visible="{=${GlobalModel>/Editable}===false? true:false}"
+                                                    />
+                                                </forms:fields>
+                                            </forms:FormElement>
+
+                                            <forms:FormElement
+                                                label="Fraight Cost"
+                                            >
+                                                <forms:fields>
+                                                    <Input
+                                                        value=""
+                                                        visible="{GlobalModel>/Editable}"
+                                                    />
+                                                    <Text
+                                                        text="{GlobalModel>/fraightCost}"
+                                                        visible="{=${GlobalModel>/Editable}===false? true:false}"
+                                                    />
+                                                </forms:fields>
+                                            </forms:FormElement>
+                                        </forms:formElements>
+                                    </forms:FormContainer>
+
+                                    <forms:FormContainer title="">
+                                        <forms:formElements>
+                                            <forms:FormElement
+                                                label="Scheme Discount (Volume %)"
+                                            >
+                                                <forms:fields>
+                                                    <Input
+                                                        value=""
+                                                        visible="{GlobalModel>/Editable}"
+                                                    >
+                                                        <layoutData>
+                                                            <forms:ColumnElementData
+                                                                cellsSmall="6"
+                                                                cellsLarge="2"
+                                                            />
+                                                        </layoutData>
+                                                    </Input>
+                                                    <Text
+                                                        text="{GlobalModel>/schemeVal}"
+                                                        visible="{=${GlobalModel>/Editable}===false? true:false}"
+                                                    />
+                                                    <Input
+                                                        value=""
+                                                        visible="{GlobalModel>/Editable}"
+                                                    />
+                                                    <Text
+                                                        text="{GlobalModel>/schemePer}"
+                                                        visible="{=${GlobalModel>/Editable}===false? true:false}"
+                                                    />
+                                                </forms:fields>
+                                            </forms:FormElement>
+                                        </forms:formElements>
+                                    </forms:FormContainer>
+
+                                    <forms:FormContainer title="">
+                                        <forms:formElements>
+                                            <forms:FormElement
+                                                label="Payment Term Discount (Volume %)"
+                                            >
+                                                <forms:fields>
+                                                    <Input
+                                                        value=""
+                                                        visible="{GlobalModel>/Editable}"
+                                                    >
+                                                        <layoutData>
+                                                            <forms:ColumnElementData
+                                                                cellsSmall="6"
+                                                                cellsLarge="2"
+                                                            />
+                                                        </layoutData>
+                                                    </Input>
+                                                    <Text
+                                                        text="{GlobalModel>/payVal}"
+                                                        visible="{=${GlobalModel>/Editable}===false? true:false}"
+                                                    />
+                                                    <Input
+                                                        value=""
+                                                        visible="{GlobalModel>/Editable}"
+                                                    />
+                                                    <Text
+                                                        text="{GlobalModel>/payPer}"
+                                                        visible="{=${GlobalModel>/Editable}===false? true:false}"
+                                                    />
+                                                </forms:fields>
+                                            </forms:FormElement>
+                                        </forms:formElements>
+                                    </forms:FormContainer>
+                                </forms:formContainers>
+                            </forms:Form>
+                        </uxap:blocks>
+                    </uxap:ObjectPageSubSection>
+                </uxap:subSections>
+            </uxap:ObjectPageSection>
+            <uxap:ObjectPageSection
+                titleUppercase="true"
+                title="Attachments"
+            >
+                <uxap:subSections>
+                    <uxap:ObjectPageSubSection
+                        title="Attachments"
+                        titleUppercase="true"
+                    >
+                        <uxap:blocks>
+                            <forms:Form
+                                id="idFormAttachment"
+                                editable="true"
+                            >
+                                <!-- <forms:title>
+										<core:Title text="Supplier" />
+									</forms:title> -->
+                                <forms:layout>
+                                    <forms:ColumnLayout
+                                        columnsM="2"
+                                        columnsL="3"
+                                        columnsXL="6"
+                                    />
+                                </forms:layout>
+                                <forms:formContainers>
+                                    <forms:FormContainer title="">
+                                        <forms:formElements>
+                                            <forms:FormElement
+                                                label="Attach Files"
+                                            >
+                                                <forms:fields>
+											                                                     <u:FileUploader
+                                                        id="fileUploader"
+														 
+                                                        name="myFileUpload"
+                                                        uploadUrl="upload/"
+                                                        multiple="true"
+                                                       
+                                                        uploadComplete="handleUploadComplete"
+                                                        style="Emphasized"
+                                                        fileType="txt,jpg, pdf"
+                                                    />
+													 
+                                                    <Button
+                                                        text="Upload File"
+                                                        press="handleUploadPress"
+                                                    />
+													 
+
+                                                </forms:fields>
+                                            </forms:FormElement>
+											
+                                        </forms:formElements>
+                                    </forms:FormContainer>
+                                </forms:formContainers>
+                            </forms:Form>
+                        </uxap:blocks>
+                    </uxap:ObjectPageSubSection>
+                </uxap:subSections>
+            </uxap:ObjectPageSection>
+        </uxap:sections>
+
+        <uxap:footer>
+            <Bar visible="{GlobalModel>/Editable}">
+                <contentLeft>
+                    <Button
+                        id="chatButton"
+                        class="sapUiTinyMarginBeginEnd"
+                        icon="sap-icon://SAP-icons-TNT/message-start-event"
+                        type="Attention"
+                        text="Message"
+                        press="handleMessages"
+                    >
+                        <!-- <customData>
+									<BadgeCustomData
+										key="badge"
+										value="{= ${chatModel>/}.length}"
+										visible="true"/>
+								</customData> -->
+                    </Button>
+                </contentLeft>
+                <contentRight>
+                    <Button
+                        text="Save"
+                        press="onSave"
+                        type="Success"
+                    />
+                    <Button
+                        text="Cancel"
+                        press="onCancel"
+                        type="Reject"
+                    />
+                </contentRight>
+            </Bar>
+        </uxap:footer>
+    </uxap:ObjectPageLayout>
+</mvc:View>
