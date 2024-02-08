@@ -331,7 +331,7 @@
                                 vertical="true"
                                 focusable="true"
                             >
-                                <Table items="{oRequestModel>/}" >
+                                <Table id="idTblProducts" items="{oRequestModel>/}">
                                     <headerToolbar>
                                         <Toolbar>
                                             <ToolbarSpacer />
@@ -677,7 +677,82 @@
                     </uxap:ObjectPageSubSection>
                 </uxap:subSections>
             </uxap:ObjectPageSection>
-
+       <uxap:ObjectPageSection
+                titleUppercase="true"
+                title="Attachments"
+            >
+                <uxap:subSections>
+                    <uxap:ObjectPageSubSection
+                        title="Attachments"
+                        titleUppercase="true"
+                    >
+                        <uxap:blocks>
+                            <upload:UploadSet
+                                id="UploadSet"
+                                instantUpload="true"
+                                showIcons="true"
+                                uploadEnabled="true"
+                                terminationEnabled="true"
+                                fileTypes="txt,doc,png"
+                                maxFileNameLength="30"
+                                maxFileSize="200"
+                                mediaTypes="text/plain,application/msword,image/png"
+                                uploadUrl="../../../../upload"
+                                items="{path: '/items', templateShareable: false}"
+                                mode="MultiSelect"
+                                selectionChanged="onSelectionChange"
+                            >
+                                <upload:toolbar>
+                                    <OverflowToolbar>
+                                        <ToolbarSpacer />
+                                        <!-- <Button
+							id="uploadSelectedButton"
+							text="Upload selected"
+							press="onUploadSelectedButton"/>
+					<Button
+							id="downloadSelectedButton"
+							text="Download selected"
+							press="onDownloadSelectedButton"/>
+					<Button
+							id="versionButton"
+							enabled="false"
+							text="Upload a new version"
+							press="onVersionUpload"/> -->
+                                        <upload:UploadSetToolbarPlaceholder />
+                                    </OverflowToolbar>
+                                </upload:toolbar>
+                                <upload:items>
+                                    <upload:UploadSetItem
+                                        fileName="{fileName}"
+                                        mediaType="{mediaType}"
+                                        url="{url}"
+                                        thumbnailUrl="{thumbnailUrl}"
+                                        markers="{path: 'markers', templateShareable: false}"
+                                        statuses="{path: 'statuses', templateShareable: false}"
+                                        uploadState="{uploadState}"
+                                    >
+                                        <upload:markers>
+                                            <ObjectMarker
+                                                type="{type}"
+                                                visibility="{visibility}"
+                                            />
+                                        </upload:markers>
+                                        <upload:statuses>
+                                            <ObjectStatus
+                                                title="{title}"
+                                                text="{text}"
+                                                state="{state}"
+                                                icon="{icon}"
+                                                active="{active}"
+                                            />
+                                        </upload:statuses>
+                                    </upload:UploadSetItem>
+                                </upload:items>
+                            </upload:UploadSet>
+                        </uxap:blocks>
+                    </uxap:ObjectPageSubSection>
+                </uxap:subSections>
+            </uxap:ObjectPageSection>
             <uxap:ObjectPageSection
                 titleUppercase="true"
                 title="Summary Details"
@@ -825,66 +900,7 @@
                     </uxap:ObjectPageSubSection>
                 </uxap:subSections>
             </uxap:ObjectPageSection>
-            <uxap:ObjectPageSection
-                titleUppercase="true"
-                title="Attachments"
-            >
-                <uxap:subSections>
-                    <uxap:ObjectPageSubSection
-                        title="Attachments"
-                        titleUppercase="true"
-                    >
-                        <uxap:blocks>
-                            <forms:Form
-                                id="idFormAttachment"
-                                editable="true"
-                            >
-                                <!-- <forms:title>
-										<core:Title text="Supplier" />
-									</forms:title> -->
-                                <forms:layout>
-                                    <forms:ColumnLayout
-                                        columnsM="2"
-                                        columnsL="3"
-                                        columnsXL="6"
-                                    />
-                                </forms:layout>
-                                <forms:formContainers>
-                                    <forms:FormContainer title="">
-                                        <forms:formElements>
-                                            <forms:FormElement
-                                                label="Attach Files"
-                                            >
-                                                <forms:fields>
-											                                                     <u:FileUploader
-                                                        id="fileUploader"
-														 
-                                                        name="myFileUpload"
-                                                        uploadUrl="upload/"
-                                                        multiple="true"
-                                                       
-                                                        uploadComplete="handleUploadComplete"
-                                                        style="Emphasized"
-                                                        fileType="txt,jpg, pdf"
-                                                    />
-													 
-                                                    <Button
-                                                        text="Upload File"
-                                                        press="handleUploadPress"
-                                                    />
-													 
-
-                                                </forms:fields>
-                                            </forms:FormElement>
-											
-                                        </forms:formElements>
-                                    </forms:FormContainer>
-                                </forms:formContainers>
-                            </forms:Form>
-                        </uxap:blocks>
-                    </uxap:ObjectPageSubSection>
-                </uxap:subSections>
-            </uxap:ObjectPageSection>
+     
         </uxap:sections>
 
         <uxap:footer>
