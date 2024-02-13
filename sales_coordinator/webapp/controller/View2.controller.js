@@ -11,8 +11,8 @@ sap.ui.define([
     'sap/m/Title',
     'sap/m/Popover',
     'sap/m/MessageBox',
-    'prj/salescoordinator/controller/View2/valueHelps',
-    'prj/salescoordinator/controller/View2/validation'
+    'prj/salescoordinator/utils/View2/valueHelps',
+    'prj/salescoordinator/utils/View2/validation'
 ],
     /**
      * @param {typeof sap.ui.core.mvc.Controller} Controller
@@ -130,6 +130,7 @@ sap.ui.define([
                     footer: oPopoverFooter
                 });
                 //Start: Santosh changes
+                // payload for OData service
                 var that = this;
                 var sPath = jQuery.sap.getModulePath("prj/salescoordinator", "/model/payload.json");
                 var oModelPayload = new JSONModel(sPath);
@@ -139,13 +140,25 @@ sap.ui.define([
                     that.oLocalJSONPayload.header.items.push(that.oLocalJSONPayload.item);
 
                     var oModelPayload = new JSONModel(that.oLocalJSONPayload.header);
-                    that.getView().setModel(oModelPayload, "JSONModel");
+                    that.getView().setModel(oModelPayload, "JSONModelPayload");
                     // var JSONStructureForItem = { "item": [that.oLocalJSONPayload.item] };
                     // debugger;
                     // that.oModelItemPayload = new JSONModel(JSONStructureForItem);
                     // that.getView().setModel(that.oModelItemPayload, "JSONModelForItems");
 
                 });
+
+                // local JSON models
+                var sPath = jQuery.sap.getModulePath("prj/salescoordinator", "/model/localJSONData.json");
+                var oLocalJSONModel = new JSONModel(sPath);
+                oLocalJSONModel.attachRequestCompleted(function (oEvent) {
+                    var oLocalModels = oEvent.getSource();
+                    var dataLocalModels = oLocalModels.getData();
+                    that.getView().setModel(new JSONModel(dataLocalModels), "LocalJSONModels");
+                     
+
+                });
+
                 // End: Santosh Changes
 
             },
@@ -373,10 +386,10 @@ sap.ui.define([
             onAddRow: function () {
 
 
-                var aData = this.getView().getModel("JSONModel").getData().items;
+                var aData = this.getView().getModel("JSONModelPayload").getData().items;
                 var itemValidationStatus = validation.itemsPayloadValidation(aData, this, "Adding new line");
                 if (itemValidationStatus === 1) {
-                    var JSONData = this.getView().getModel("JSONModel").getData();
+                    var JSONData = this.getView().getModel("JSONModelPayload").getData();
 
                     // JSONData.items.push(this.oLocalJSONPayload.item);
                     JSONData.items.push({
@@ -428,9 +441,9 @@ sap.ui.define([
                         "SBPRICE": "",
                         "SPART": ""
                     });
-                    this.getView().getModel("JSONModel").setData(JSON.parse(JSON.stringify(JSONData)));
+                    this.getView().getModel("JSONModelPayload").setData(JSON.parse(JSON.stringify(JSONData)));
                 }
-                // this.getView().getModel("JSONModel").refresh(true);
+                // this.getView().getModel("JSONModelPayload").refresh(true);
 
 
                 // var oTable = this.getView().byId("idTblProducts");
@@ -450,10 +463,10 @@ sap.ui.define([
                 // var oTable = oEvent.getSource().getParent().getParent();
                 // oTable.removeItem(oEvent.getSource().getParent());
                 var index = Number(oEvent.getSource().getId().split("-")[8]);
-                var JSONData = this.getView().getModel("JSONModel").getData();
+                var JSONData = this.getView().getModel("JSONModelPayload").getData();
 
                 JSONData.items.splice(index, 1);
-                this.getView().getModel("JSONModel").setData(JSON.parse(JSON.stringify(JSONData)));
+                this.getView().getModel("JSONModelPayload").setData(JSON.parse(JSON.stringify(JSONData)));
 
                 // this.getView().getModel("oRequestModel").getData().splice(index, 1);;
                 // this.getView().getModel("oRequestModel").refresh(true);
@@ -465,6 +478,26 @@ sap.ui.define([
             // Sales Office
             onSalesOfficeHelp: function () {
                 valueHelps.onSalesOfficeHelp(this);
+            },
+            // Material Freight Group
+            onMaterialFreightGroupsHelp: function () {
+                valueHelps.onMaterialFreightGroupsHelp(this);
+            },
+            // Sizes
+            onSizesHelp: function () {
+                valueHelps.onSizesHelp(this);
+            },
+            // Designs 
+            onDesignsHelp: function () {
+                valueHelps.onDesignsHelp(this);
+            },
+            // Supply Plant
+            onSupplyPlantHelp: function () {
+                valueHelps.onSupplyPlantHelp(this);
+            },
+            // Manufacturing Amount
+            onManufacturingAmtHelp: function () {
+                valueHelps.onManufacturingAmtHelp(this);
             },
 
             onValueHelpSearch: function (evt) {
@@ -492,15 +525,15 @@ sap.ui.define([
             },
 
             onSave: function () {
-
-                if (this.getView().getModel("JSONModel").getData().ACTION !== "Generated") {
-                    this.getView().getModel("JSONModel").getData().ACTION = "Save";
+debugger;
+                if (this.getView().getModel("JSONModelPayload").getData().ACTION !== "Generated") {
+                    this.getView().getModel("JSONModelPayload").getData().ACTION = "Save";
                 }
 
 
                 var headerValidationStatus = validation.headerPayloadValidation(this);
                 if (headerValidationStatus === 1) {
-                    var aData = this.getView().getModel("JSONModel").getData().items;
+                    var aData = this.getView().getModel("JSONModelPayload").getData().items;
                     var itemValidationStatus = validation.itemsPayloadValidation(aData, this, "Save");
                     if (itemValidationStatus === 1) {
                         MessageBox.success("Data is valid to send");
@@ -509,7 +542,7 @@ sap.ui.define([
                 // this.getView().getModel("JSONModelForItems").getData();
             },
             onGenerate: function () {
-                this.getView().getModel("JSONModel").getData().ACTION = "Generated";
+                this.getView().getModel("JSONModelPayload").getData().ACTION = "Generated";
             },
 
 
