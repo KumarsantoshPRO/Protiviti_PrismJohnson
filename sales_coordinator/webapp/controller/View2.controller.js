@@ -9,12 +9,15 @@ sap.ui.define([
     'sap/m/Button',
     'sap/m/Bar',
     'sap/m/Title',
-    'sap/m/Popover'
+    'sap/m/Popover',
+    'sap/m/MessageBox',
+    'prj/salescoordinator/controller/View2/valueHelps',
+    'prj/salescoordinator/controller/View2/validation'
 ],
     /**
      * @param {typeof sap.ui.core.mvc.Controller} Controller
      */
-    function (Controller, JSONModel, IconPool, Icon, Link, MessageItem, MessageView, Button, Bar, Title, Popover) {
+    function (Controller, JSONModel, IconPool, Icon, Link, MessageItem, MessageView, Button, Bar, Title, Popover, MessageBox, valueHelps, validation) {
         "use strict";
 
         return Controller.extend("prj.salescoordinator.controller.View2", {
@@ -126,7 +129,24 @@ sap.ui.define([
                     content: [this.oMessageView],
                     footer: oPopoverFooter
                 });
+                //Start: Santosh changes
+                var that = this;
+                var sPath = jQuery.sap.getModulePath("prj/salescoordinator", "/model/payload.json");
+                var oModelPayload = new JSONModel(sPath);
+                oModelPayload.attachRequestCompleted(function (oEvent) {
+                    var oModel = oEvent.getSource();
+                    that.oLocalJSONPayload = oModel.getData();
+                    that.oLocalJSONPayload.header.items.push(that.oLocalJSONPayload.item);
 
+                    var oModelPayload = new JSONModel(that.oLocalJSONPayload.header);
+                    that.getView().setModel(oModelPayload, "JSONModel");
+                    // var JSONStructureForItem = { "item": [that.oLocalJSONPayload.item] };
+                    // debugger;
+                    // that.oModelItemPayload = new JSONModel(JSONStructureForItem);
+                    // that.getView().setModel(that.oModelItemPayload, "JSONModelForItems");
+
+                });
+                // End: Santosh Changes
 
             },
 
@@ -197,35 +217,7 @@ sap.ui.define([
             onCancel: function () {
                 this.getView().getModel("GlobalModel").setProperty("/Editable", false);
             },
-            //Start: Santosh Changes(07, Feb 2024)
-            onAddRow: function () {
 
-                this.getView().getModel("oRequestModel").getData().push({});
-                this.getView().getModel("oRequestModel").refresh(true);
-
- 
-                // var oTable = this.getView().byId("idTblProducts");
-                // var cell = oTable.getAggregation("items")[0].getAggregation("cells");
-
-              
-                // debugger;
-                // var oItem = new sap.m.ColumnListItem({
-                //     cells:  cell 
-                // });
-            
-                // oTable.addItem(oItem);
-
-            },
-            onDelete: function (oEvent) {
-
-                var oTable = oEvent.getSource().getParent().getParent();
-                oTable.removeItem(oEvent.getSource().getParent());
-              
-                // var index = Number(oEvent.getSource().getId().split("-")[8]);
-                // this.getView().getModel("oRequestModel").getData().splice(index, 1);;
-                // this.getView().getModel("oRequestModel").refresh(true);
-            },
-            //End: Santosh Changes(07, Feb 2024)
             onBack: function () {
                 this.oRouter = this.getOwnerComponent().getRouter();
                 this.oRouter.navTo("page1", {});
@@ -375,6 +367,153 @@ sap.ui.define([
             handleMessages: function (oEvent) {
                 this.oMessageView.navigateBack();
                 this._oPopover.openBy(oEvent.getSource());
-            }
+            },
+
+            //Start: Santosh Changes
+            onAddRow: function () {
+
+
+                var aData = this.getView().getModel("JSONModel").getData().items;
+                var itemValidationStatus = validation.itemsPayloadValidation(aData, this, "Adding new line");
+                if (itemValidationStatus === 1) {
+                    var JSONData = this.getView().getModel("JSONModel").getData();
+
+                    // JSONData.items.push(this.oLocalJSONPayload.item);
+                    JSONData.items.push({
+                        "CURRENTV": "",
+                        "CURVOLFT": "",
+                        "KUNNR": "",
+                        "LANDEDP": "",
+                        "MFRGR": "",
+                        "NEF": "",
+                        "SZCM": "",
+                        "WERKS": "",
+                        "ZZPRODH4": "",
+                        "PRODH1": "",
+                        "VKBUR": "",
+                        "PAFVFRM": "",
+                        "PAFVTO": "",
+                        "ERNAM": "",
+                        "ERDAT": "",
+                        "ERZET": "",
+                        "LOEKZ": "",
+                        "ZDISP": "",
+                        "ISEXDEP": "",
+                        "ISMEGAL": "",
+                        "ZTERM": "",
+                        "VSART": "",
+                        "MVGR2": "",
+                        "MVGR5": "",
+                        "COVERAGE": "",
+                        "BOXES": "",
+                        "NOSQ": "",
+                        "EXFAC": "",
+                        "EXDEP": "",
+                        "MRP": "",
+                        "DISC": "",
+                        "DISCB": "",
+                        "GST": "",
+                        "FRGTBX": "",
+                        "TI": "",
+                        "GSTI": "",
+                        "LDDBOX": "",
+                        "LDDSFT": "",
+                        "AGENT": "",
+                        "COMMBO.": "",
+                        "COMPTRSFT": "",
+                        "DLCOMSFT": "",
+                        "NETEXB": "",
+                        "NETEXSQ": "",
+                        "COMMBO": "",
+                        "SBPRICE": "",
+                        "SPART": ""
+                    });
+                    this.getView().getModel("JSONModel").setData(JSON.parse(JSON.stringify(JSONData)));
+                }
+                // this.getView().getModel("JSONModel").refresh(true);
+
+
+                // var oTable = this.getView().byId("idTblProducts");
+                // var cell = oTable.getAggregation("items")[0].getAggregation("cells");
+
+
+                // debugger;
+                // var oItem = new sap.m.ColumnListItem({
+                //     cells:  cell 
+                // });
+
+                // oTable.addItem(oItem);
+
+            },
+            onDelete: function (oEvent) {
+
+                // var oTable = oEvent.getSource().getParent().getParent();
+                // oTable.removeItem(oEvent.getSource().getParent());
+                var index = Number(oEvent.getSource().getId().split("-")[8]);
+                var JSONData = this.getView().getModel("JSONModel").getData();
+
+                JSONData.items.splice(index, 1);
+                this.getView().getModel("JSONModel").setData(JSON.parse(JSON.stringify(JSONData)));
+
+                // this.getView().getModel("oRequestModel").getData().splice(index, 1);;
+                // this.getView().getModel("oRequestModel").refresh(true);
+            },
+            // Customer Code Plant
+            onCustomerCodeHelp: function () {
+                valueHelps.onCustomerCodeHelp(this);
+            },
+            // Sales Office
+            onSalesOfficeHelp: function () {
+                valueHelps.onSalesOfficeHelp(this);
+            },
+
+            onValueHelpSearch: function (evt) {
+                var aFilter = [];
+                var oFilter;
+
+                var sValue = evt.getParameter("value");
+                var sPath = "/ET_VALUE_HELPS";
+                var oSelectDialog = sap.ui.getCore().byId(evt.getParameter('id'));
+
+                if (evt.getParameter('id') === 'idSDCustomerCodeF4') {
+                    oFilter = new sap.ui.model.Filter([new sap.ui.model.Filter("WERKS", sap.ui.model.FilterOperator.EQ, sValue)], false);
+                } else if (evt.getParameter('id') === 'idSDSalesOfficeF4') {
+                    oFilter = new sap.ui.model.Filter([new sap.ui.model.Filter("TVKBZ", sap.ui.model.FilterOperator.EQ, sValue)], false);
+                }
+
+                aFilter.push(oFilter);
+                valueHelps.onCustomerCodeHelpSearch(oSelectDialog, aFilter, sPath, this);
+            },
+
+            onValueHelpConfirm: function (evt) {
+
+                var oSelectedItem = evt.getParameter("selectedItem");
+                valueHelps.valueHelpConfirm(oSelectedItem, this);
+            },
+
+            onSave: function () {
+
+                if (this.getView().getModel("JSONModel").getData().ACTION !== "Generated") {
+                    this.getView().getModel("JSONModel").getData().ACTION = "Save";
+                }
+
+
+                var headerValidationStatus = validation.headerPayloadValidation(this);
+                if (headerValidationStatus === 1) {
+                    var aData = this.getView().getModel("JSONModel").getData().items;
+                    var itemValidationStatus = validation.itemsPayloadValidation(aData, this, "Save");
+                    if (itemValidationStatus === 1) {
+                        MessageBox.success("Data is valid to send");
+                    }
+                }
+                // this.getView().getModel("JSONModelForItems").getData();
+            },
+            onGenerate: function () {
+                this.getView().getModel("JSONModel").getData().ACTION = "Generated";
+            },
+
+
+            //End: Santosh Changes
+
         });
     });

@@ -7,6 +7,7 @@
     xmlns:core="sap.ui.core"
     xmlns:f="sap.f"
     xmlns:forms="sap.ui.layout.form"
+    xmlns:form="sap.ui.layout.form"
     xmlns:uxap="sap.uxap"
     xmlns="sap.m"
     xmlns:upload="sap.m.upload"
@@ -54,264 +55,141 @@
                         titleUppercase="true"
                     >
                         <uxap:blocks>
-                            <forms:Form
-                                id="idChangeForm"
+                            <form:SimpleForm
                                 editable="true"
-                                visible="{GlobalModel>/Editable}"
+                                layout="ResponsiveGridLayout"
+                                labelSpanXL="4"
+                                labelSpanL="4"
+                                labelSpanM="4"
+                                labelSpanS="12"
+                                adjustLabelSpan="false"
+                                emptySpanXL="0"
+                                emptySpanL="0"
+                                emptySpanM="0"
+                                emptySpanS="0"
+                                columnsXL="3"
+                                columnsL="2"
+                                columnsM="2"
+                                singleContainerFullSize="false"
+                                
                             >
-                                <forms:title />
-                                <forms:layout>
-                                    <forms:ResponsiveGridLayout
-                                        labelSpanXL="4"
-                                        labelSpanL="4"
-                                        labelSpanM="4"
-                                        labelSpanS="12"
-                                        adjustLabelSpan="false"
-                                        emptySpanXL="0"
-                                        emptySpanL="0"
-                                        emptySpanM="0"
-                                        emptySpanS="0"
-                                        columnsXL="3"
-                                        columnsL="3"
-                                        columnsM="2"
-                                        singleContainerFullSize="false"
+                                <form:content>
+                                <core:Title/>
+                                    <Label text="Customer Code" required="true"/>
+                                    <Input
+                                    value="{JSONModel>/KUNNR}"
+                                        id="idInpCustCode"
+                                        showValueHelp="true"
+                                        valueHelpRequest="onCustomerCodeHelp"
+                                        class="sapUiSmallMarginEnd"
+                                        placeholder="Customer Code"
                                     />
-                                </forms:layout>
-                                <forms:formContainers>
-                                    <forms:FormContainer title="">
-                                        <forms:formElements>
-                                            <forms:FormElement
-                                                label="Customer Name"
-                                            >
-                                                <forms:fields>
-                                                    <Select
-                                                        visible="{GlobalModel>/Editable}"
-                                                    />
-                                                </forms:fields>
-                                            </forms:FormElement>
-                                            <forms:FormElement
-                                                label="Distribution Channel"
-                                            >
-                                                <forms:fields>
-                                                    <Select
-                                                        visible="{GlobalModel>/Editable}"
-                                                    />
-                                                </forms:fields>
-                                            </forms:FormElement>
-                                            <forms:FormElement
-                                                label="Order Type"
-                                            >
-                                                <forms:fields>
-                                                    <Select
-                                                        visible="{GlobalModel>/Editable}"
-                                                    />
-                                                </forms:fields>
-                                            </forms:FormElement>
-                                        </forms:formElements>
-                                    </forms:FormContainer>
-
-                                    <forms:FormContainer title="">
-                                        <forms:formElements>
-                                            <forms:FormElement
-                                                label="Customer ID"
-                                            >
-                                                <forms:fields>
-                                                    <Select
-                                                        visible="{GlobalModel>/Editable}"
-                                                    />
-                                                </forms:fields>
-                                            </forms:FormElement>
-                                            <forms:FormElement
-                                                label="Payment Term"
-                                            >
-                                                <forms:fields>
-                                                    <Select
-                                                        visible="{GlobalModel>/Editable}"
-                                                    />
-                                                </forms:fields>
-                                            </forms:FormElement>
-                                            <forms:FormElement
-                                                label="Validity (Days)"
-                                            >
-                                                <forms:fields>
-                                                    <Select
-                                                        visible="{GlobalModel>/Editable}"
-                                                    />
-                                                </forms:fields>
-                                            </forms:FormElement>
-                                        </forms:formElements>
-                                    </forms:FormContainer>
-
-                                    <forms:FormContainer title="">
-                                        <forms:formElements>
-                                            <forms:FormElement
-                                                label="Sales Office"
-                                            >
-                                                <forms:fields>
-                                                    <Select
-                                                        visible="{GlobalModel>/Editable}"
-                                                    />
-                                                </forms:fields>
-                                            </forms:FormElement>
-                                            <forms:FormElement
-                                                label="Order Number"
-                                            >
-                                                <forms:fields>
-                                                    <Select
-                                                        visible="{GlobalModel>/Editable}"
-                                                    />
-                                                </forms:fields>
-                                            </forms:FormElement>
-
-                                            <forms:FormElement label="Remarks">
-                                                <forms:fields>
-                                                    <TextArea
-                                                        id="TextArea"
-                                                        placeholder="Enter text"
-                                                        maxlength="20"
-                                                        change="handleChange"
-                                                        input="handleInput"
-                                                        showExceededText="true"
-                                                        rows="4"
-                                                        ariaLabelledBy="TextAreaLabel"
-                                                    />
-                                                </forms:fields>
-                                            </forms:FormElement>
-                                        </forms:formElements>
-                                    </forms:FormContainer>
-                                </forms:formContainers>
-                            </forms:Form>
-
-                            <forms:Form
-                                id="idDisplayForm"
-                                editable="true"
-                                visible="{=${GlobalModel>/Editable}===false? true:false}"
-                            >
-                                <forms:title>
-                                    <!-- <core:Title text="Supplier" /> -->
-                                </forms:title>
-                                <forms:layout>
-                                    <forms:ResponsiveGridLayout
-                                        labelSpanXL="4"
-                                        labelSpanL="4"
-                                        labelSpanM="4"
-                                        labelSpanS="12"
-                                        adjustLabelSpan="false"
-                                        emptySpanXL="0"
-                                        emptySpanL="0"
-                                        emptySpanM="0"
-                                        emptySpanS="0"
-                                        columnsXL="3"
-                                        columnsL="3"
-                                        columnsM="2"
-                                        singleContainerFullSize="false"
+                                    <Label text="Customer Name"/>
+                                    <Input
+                                     value="{JSONModel>/NAME}"
+                                        id="idInpCustName"
+                                        editable="false"
                                     />
-                                </forms:layout>
-                                <forms:formContainers>
-                                    <forms:FormContainer title="">
-                                        <forms:formElements>
-                                            <forms:FormElement
-                                                label="Customer Name"
-                                            >
-                                                <forms:fields>
-                                                    <Text
-                                                        text="{GlobalModel>/customer}"
-                                                        visible="{=${GlobalModel>/Editable}===false? true:false}"
-                                                    />
-                                                </forms:fields>
-                                            </forms:FormElement>
-                                            <forms:FormElement
-                                                label="Distribution Channel"
-                                            >
-                                                <forms:fields>
-                                                    <Text
-                                                        text="{GlobalModel>/disChanl}"
-                                                        visible="{=${GlobalModel>/Editable}===false? true:false}"
-                                                    />
-                                                </forms:fields>
-                                            </forms:FormElement>
-                                            <forms:FormElement
-                                                label="Order Type"
-                                            >
-                                                <forms:fields>
-                                                    <Text
-                                                        text="{GlobalModel>/orderType}"
-                                                        visible="{=${GlobalModel>/Editable}===false? true:false}"
-                                                    />
-                                                </forms:fields>
-                                            </forms:FormElement>
-                                        </forms:formElements>
-                                    </forms:FormContainer>
-
-                                    <forms:FormContainer title="">
-                                        <forms:formElements>
-                                            <forms:FormElement
-                                                label="Customer ID"
-                                            >
-                                                <forms:fields>
-                                                    <Text
-                                                        text="{GlobalModel>/custId}"
-                                                        visible="{=${GlobalModel>/Editable}===false? true:false}"
-                                                    />
-                                                </forms:fields>
-                                            </forms:FormElement>
-                                            <forms:FormElement
-                                                label="Payment Term"
-                                            >
-                                                <forms:fields>
-                                                    <Text
-                                                        text="{GlobalModel>/payterm}"
-                                                        visible="{=${GlobalModel>/Editable}===false? true:false}"
-                                                    />
-                                                </forms:fields>
-                                            </forms:FormElement>
-                                            <forms:FormElement
-                                                label="Validity (Days)"
-                                            >
-                                                <forms:fields>
-                                                    <Text
-                                                        text="{GlobalModel>/validity}"
-                                                        visible="{=${GlobalModel>/Editable}===false? true:false}"
-                                                    />
-                                                </forms:fields>
-                                            </forms:FormElement>
-                                        </forms:formElements>
-                                    </forms:FormContainer>
-
-                                    <forms:FormContainer title="">
-                                        <forms:formElements>
-                                            <forms:FormElement
-                                                label="Sales Office"
-                                            >
-                                                <forms:fields>
-                                                    <Text
-                                                        text="{GlobalModel>/SalesOfc}"
-                                                        visible="{=${GlobalModel>/Editable}===false? true:false}"
-                                                    />
-                                                </forms:fields>
-                                            </forms:FormElement>
-                                            <forms:FormElement
-                                                label="Order Number"
-                                            >
-                                                <forms:fields>
-                                                    <Text
-                                                        text="{GlobalModel>/orderNo}"
-                                                        visible="{=${GlobalModel>/Editable}===false? true:false}"
-                                                    />
-                                                </forms:fields>
-                                            </forms:FormElement>
-                                            <forms:FormElement label="Remarks">
-                                                <forms:fields>
-                                                    <Text
-                                                        text="{GlobalModel>/remarks}"
-                                                        visible="{=${GlobalModel>/Editable}===false? true:false}"
-                                                    />
-                                                </forms:fields>
-                                            </forms:FormElement>
-                                        </forms:formElements>
-                                    </forms:FormContainer>
-                                </forms:formContainers>
-                            </forms:Form>
+                                    <Label text="Payment Term" required="true"/>
+                                    <Select
+                                        id="idSLPaymentTerm"
+                                        forceSelection="false"
+                                          selectedKey="{JSONModel>/ZTERM}"
+                                    >
+                                    
+                                        <core:Item
+                                            key="HR01"
+                                            text="HR01"
+                                        />
+                                        <core:Item
+                                            key="HR07"
+                                            text="HR07"
+                                        />
+                                         <core:Item
+                                            key="HR10"
+                                            text="HR10"
+                                        />
+                                        <core:Item
+                                            key="HR25"
+                                            text="HR25"
+                                        />
+                                         <core:Item
+                                            key="HR30"
+                                            text="HR30"
+                                        />
+                                        <core:Item
+                                            key="HR45"
+                                            text="HR45"
+                                        />
+                                    </Select>
+                                    <Label text="Validity" required="true"/>
+                                    <Input id="idInptValidity" placeholder="Validity" maxLength="3" value="{JSONModel>/VALIDITY}"></Input>
+                                    
+                                    <Label text="Order No" required="true" />
+                                    <Input id="idInpOrderNo" placeholder="Order Number" value="{JSONModel>/AUFNR}"/>
+                                    <core:Title/>
+                                     <Label text="Distribution Channel" required="true"/>
+                                    <Select
+                                        id="idSLDistChannel"
+                                        forceSelection="false"
+                                        selectedKey="{JSONModel>/VTWEG}"
+                                    >
+                                    
+                                        <core:Item
+                                            key="11"
+                                            text="Project"
+                                        />
+                                        <core:Item
+                                            key="17"
+                                            text="National project"
+                                        />
+                                         <core:Item
+                                            key="19"
+                                            text="Dealer"
+                                        />
+                                     
+                                    </Select>
+                                    <Label text="Sales Office" required="true"/>
+                                      <Input
+                                        id="idInpSalesOffice"
+                                        showValueHelp="true"
+                                        valueHelpRequest="onSalesOfficeHelp"
+                                        class="sapUiSmallMarginEnd"
+                                        placeholder="Sales Office"
+                                        value="{JSONModel>/VKBUR}"
+                                    />
+                                    <Label text="Vertical" required="true"/>
+                    <Select
+                                        id="idSLVertical"
+                                        forceSelection="false"
+                                        selectedKey="{JSONModel>/SPART}"
+                                    >
+                                    
+                                        <core:Item
+                                            key="10"
+                                            text="Johnson"
+                                        />
+                                        <core:Item
+                                            key="20"
+                                            text="Porselan"
+                                        />
+                                         <core:Item
+                                            key="30"
+                                            text="Marbonite"
+                                        />
+                                         <core:Item
+                                            key="40"
+                                            text="Endura"
+                                        />
+                                     
+                                    </Select>
+                                    <Label text="Transit Insurance"/>
+                                    <Input id="idInpTransirInsurance"   editable="false" value="{JSONModel>/TI}"/>
+                                      <Label text="GST%"/>
+                                    <Input id="idInpGST"  editable="false" value="{JSONModel>/GST}"/>
+                                </form:content>
+                            </form:SimpleForm>
+               
                         </uxap:blocks>
                     </uxap:ObjectPageSubSection>
                 </uxap:subSections>
@@ -331,17 +209,21 @@
                                 vertical="true"
                                 focusable="true"
                             >
-                                <Table id="idTblProducts" items="{oRequestModel>/}">
+                                <Table
+                                    id="idTblProducts"
+                                    items="{JSONModel>/items}"
+                                >
                                     <headerToolbar>
                                         <Toolbar>
                                             <ToolbarSpacer />
                                             <Button
-                                                width="100%"
+                                                 
                                                 text="Add More Products"
                                                 icon="sap-icon://add"
                                                 visible="{GlobalModel>/Editable}"
                                                 press="onAddRow"
                                             />
+                                            <Button id="idBtnGenerate" text="Generate" press="onGenerate" type="Attention"/>
                                         </Toolbar>
                                     </headerToolbar>
                                     <columns>
@@ -510,45 +392,81 @@
                                         <ColumnListItem vAlign="Middle">
                                             <cells>
                                                 <VBox>
-                                                    <Select
+                                                    <!-- <Select
                                                         visible="{GlobalModel>/Editable}"
-                                                    />
+                                                    /> -->
+                                                       <Input
+                                       
+                                        showValueHelp="true"
+                                        valueHelpRequest="onMaterialFreightGroupsHelp"
+                                        class="sapUiSmallMarginEnd"
+                                        placeholder="Material Freight Groups"
+                                        value="{JSONModel>MFRGR}"
+                                    />
                                                     <Text
                                                         text="{oRequestModel>material}"
                                                         visible="{=${GlobalModel>/Editable}===false? true:false}"
                                                     />
                                                 </VBox>
                                                 <VBox>
-                                                    <Select
+                                                    <!-- <Select
                                                         visible="{GlobalModel>/Editable}"
-                                                    />
+                                                    /> -->
+                                                    <Input
+                                       
+                                        showValueHelp="true"
+                                        valueHelpRequest="onSizesHelp"
+                                        class="sapUiSmallMarginEnd"
+                                        placeholder="Sizes (FT)"
+                                    />
                                                     <Text
                                                         text="{oRequestModel>size}"
                                                         visible="{=${GlobalModel>/Editable}===false? true:false}"
                                                     />
                                                 </VBox>
                                                 <VBox>
-                                                    <Select
+                                                    <!-- <Select
                                                         visible="{GlobalModel>/Editable}"
-                                                    />
+                                                    /> -->
+                                                        <Input
+                                       
+                                        showValueHelp="true"
+                                        valueHelpRequest="onDesignsHelp"
+                                        class="sapUiSmallMarginEnd"
+                                        placeholder="Designs"
+                                    />
                                                     <Text
                                                         text="{oRequestModel>design}"
                                                         visible="{=${GlobalModel>/Editable}===false? true:false}"
                                                     />
                                                 </VBox>
                                                 <VBox>
-                                                    <Select
+                                                    <!-- <Select
                                                         visible="{GlobalModel>/Editable}"
-                                                    />
+                                                    /> -->
+                                                             <Input
+                                       
+                                        showValueHelp="true"
+                                        valueHelpRequest="onSupplyPlantHelp"
+                                        class="sapUiSmallMarginEnd"
+                                        placeholder="Supplying Plant"
+                                    />
                                                     <Text
                                                         text="{oRequestModel>supplyPlant}"
                                                         visible="{=${GlobalModel>/Editable}===false? true:false}"
                                                     />
                                                 </VBox>
                                                 <VBox>
-                                                    <Select
+                                                    <!-- <Select
                                                         visible="{GlobalModel>/Editable}"
-                                                    />
+                                                    /> -->
+                                                      <Input
+                                       
+                                        showValueHelp="true"
+                                        valueHelpRequest="onManufacturingAmtHelp"
+                                        class="sapUiSmallMarginEnd"
+                                        placeholder="Manufacturing Amount"
+                                    />
                                                     <Text
                                                         text="{oRequestModel>ManftPlant}"
                                                         visible="{=${GlobalModel>/Editable}===false? true:false}"
@@ -677,7 +595,7 @@
                     </uxap:ObjectPageSubSection>
                 </uxap:subSections>
             </uxap:ObjectPageSection>
-       <uxap:ObjectPageSection
+            <uxap:ObjectPageSection
                 titleUppercase="true"
                 title="Attachments"
             >
@@ -900,7 +818,6 @@
                     </uxap:ObjectPageSubSection>
                 </uxap:subSections>
             </uxap:ObjectPageSection>
-     
         </uxap:sections>
 
         <uxap:footer>
