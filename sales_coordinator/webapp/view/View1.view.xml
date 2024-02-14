@@ -12,7 +12,7 @@
 			showProductSwitcher="false">
 	</f:ShellBar>
 
-<Page enableScrolling="true" class="sapUiLargeMarginBottom">
+<Page id="idV1Page" enableScrolling="true" class="sapUiLargeMarginBottom">
     <content >
     <IconTabBar stretchContentHeight="true"
 		id="idIconTabBar"
