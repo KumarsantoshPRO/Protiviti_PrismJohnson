@@ -1,0 +1,131 @@
+<core:FragmentDefinition
+    xmlns="sap.m"
+    xmlns:core="sap.ui.core"
+    xmlns:forms="sap.ui.layout.form"
+>
+    <forms:Form
+        id="idSummaryDetails"
+        editable="true"
+    >
+        <!-- <forms:title>
+										<core:Title text="Supplier" />
+									</forms:title> -->
+        <forms:layout>
+            <forms:ColumnLayout
+                columnsM="2"
+                columnsL="3"
+                columnsXL="6"
+            />
+        </forms:layout>
+        <forms:formContainers>
+            <forms:FormContainer title="">
+                <forms:formElements>
+                    <forms:FormElement label="Invoice Discount (Volume %)">
+                        <forms:fields>
+                            <Input
+                                value=""
+                                visible="{GlobalModel>/Editable}"
+                            >
+                                <layoutData>
+                                    <forms:ColumnElementData
+                                        cellsSmall="6"
+                                        cellsLarge="2"
+                                    />
+                                </layoutData>
+                            </Input>
+                            <Text
+                                text="{GlobalModel>/invoiceDis}"
+                                visible="{=${GlobalModel>/Editable}===false? true:false}"
+                            />
+                            <Input
+                                value=""
+                                visible="{GlobalModel>/Editable}"
+                            />
+                            <Text
+                                text="{GlobalModel>/invoicePer}"
+                                visible="{=${GlobalModel>/Editable}===false? true:false}"
+                            />
+                        </forms:fields>
+                    </forms:FormElement>
+
+                    <forms:FormElement label="Fraight Cost">
+                        <forms:fields>
+                            <Input
+                                value=""
+                                visible="{GlobalModel>/Editable}"
+                            />
+                            <Text
+                                text="{GlobalModel>/fraightCost}"
+                                visible="{=${GlobalModel>/Editable}===false? true:false}"
+                            />
+                        </forms:fields>
+                    </forms:FormElement>
+                </forms:formElements>
+            </forms:FormContainer>
+
+            <forms:FormContainer title="">
+                <forms:formElements>
+                    <forms:FormElement label="Scheme Discount (Volume %)">
+                        <forms:fields>
+                            <Input
+                                value=""
+                                visible="{GlobalModel>/Editable}"
+                            >
+                                <layoutData>
+                                    <forms:ColumnElementData
+                                        cellsSmall="6"
+                                        cellsLarge="2"
+                                    />
+                                </layoutData>
+                            </Input>
+                            <Text
+                                text="{GlobalModel>/schemeVal}"
+                                visible="{=${GlobalModel>/Editable}===false? true:false}"
+                            />
+                            <Input
+                                value=""
+                                visible="{GlobalModel>/Editable}"
+                            />
+                            <Text
+                                text="{GlobalModel>/schemePer}"
+                                visible="{=${GlobalModel>/Editable}===false? true:false}"
+                            />
+                        </forms:fields>
+                    </forms:FormElement>
+                </forms:formElements>
+            </forms:FormContainer>
+
+            <forms:FormContainer title="">
+                <forms:formElements>
+                    <forms:FormElement label="Payment Term Discount (Volume %)">
+                        <forms:fields>
+                            <Input
+                                value=""
+                                visible="{GlobalModel>/Editable}"
+                            >
+                                <layoutData>
+                                    <forms:ColumnElementData
+                                        cellsSmall="6"
+                                        cellsLarge="2"
+                                    />
+                                </layoutData>
+                            </Input>
+                            <Text
+                                text="{GlobalModel>/payVal}"
+                                visible="{=${GlobalModel>/Editable}===false? true:false}"
+                            />
+                            <Input
+                                value=""
+                                visible="{GlobalModel>/Editable}"
+                            />
+                            <Text
+                                text="{GlobalModel>/payPer}"
+                                visible="{=${GlobalModel>/Editable}===false? true:false}"
+                            />
+                        </forms:fields>
+                    </forms:FormElement>
+                </forms:formElements>
+            </forms:FormContainer>
+        </forms:formContainers>
+    </forms:Form>
+</core:FragmentDefinition>

@@ -3,6 +3,5 @@
     xmlns:mvc="sap.ui.core.mvc" displayBlock="true"
     xmlns="sap.m">
     <App id="app">
-    <!-- Changes for testing -->
     </App>
 </mvc:View>
