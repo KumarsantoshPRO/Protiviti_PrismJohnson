@@ -78,7 +78,7 @@ sap.ui.define(['sap/m/MessageBox'], function (MessageBox) {
             var headerValidation = 1;
             if (!oControl.getView().getModel("JSONModelPayload").getData().KUNNR) {
                 MessageBox.error("Please enter Customer Code");
-                oControl.getView().byId("idInpCustCode").setValueState("Error");
+                oControl.getView().byId("idV2InpCustCode").setValueState("Error");
                 headerValidation = 0;
             }
             // else if(!oControl.getView().getModel("JSONModelPayload").getData().TI){
@@ -94,42 +94,42 @@ sap.ui.define(['sap/m/MessageBox'], function (MessageBox) {
             // }
             else if (!oControl.getView().getModel("JSONModelPayload").getData().ZTERM) {
                 MessageBox.error("Please select Payment Term");
-                oControl.getView().byId("idSLPaymentTerm").setValueState("Error");
-                oControl.getView().byId("idInpCustCode").setValueState("None");
+                oControl.getView().byId("idV2SLPaymentTerm").setValueState("Error");
+                oControl.getView().byId("idV2InpCustCode").setValueState("None");
                 headerValidation = 0;
             } else if (!oControl.getView().getModel("JSONModelPayload").getData().VALIDITY) {
                 MessageBox.error("Please enter Validity");
-                oControl.getView().byId("idInptValidity").setValueState("Error");
-                oControl.getView().byId("idSLPaymentTerm").setValueState("None");
+                oControl.getView().byId("idV2InpValidity").setValueState("Error");
+                oControl.getView().byId("idV2SLPaymentTerm").setValueState("None");
                 headerValidation = 0;
             } else if (!oControl.getView().getModel("JSONModelPayload").getData().AUFNR) {
                 MessageBox.error("Please enter Order No");
-                oControl.getView().byId("idInpOrderNo").setValueState("Error");
-                oControl.getView().byId("idInptValidity").setValueState("None");
+                oControl.getView().byId("idV2InpOrderNo").setValueState("Error");
+                oControl.getView().byId("idV2InpValidity").setValueState("None");
                 headerValidation = 0;
             } else if (!oControl.getView().getModel("JSONModelPayload").getData().VTWEG) {
                 MessageBox.error("Please select Distribution Channel");
-                oControl.getView().byId("idSLDistChannel").setValueState("Error");
-                oControl.getView().byId("idInpOrderNo").setValueState("None");
+                oControl.getView().byId("idV2SLDistChannel").setValueState("Error");
+                oControl.getView().byId("idV2InpOrderNo").setValueState("None");
                 headerValidation = 0;
             } else if (!oControl.getView().getModel("JSONModelPayload").getData().VKBUR) {
                 MessageBox.error("Please enter Sales Office");
-                oControl.getView().byId("idInpSalesOffice").setValueState("Error");
-                oControl.getView().byId("idSLDistChannel").setValueState("None");
+                oControl.getView().byId("idV2InpSalesOffice").setValueState("Error");
+                oControl.getView().byId("idV2SLDistChannel").setValueState("None");
                 headerValidation = 0;
             } else if (!oControl.getView().getModel("JSONModelPayload").getData().SPART) {
                 MessageBox.error("Please select Vertical");
-                oControl.getView().byId("idSLVertical").setValueState("Error");
-                oControl.getView().byId("idInpSalesOffice").setValueState("None");
+                oControl.getView().byId("idV2SLVertical").setValueState("Error");
+                oControl.getView().byId("idV2InpSalesOffice").setValueState("None");
                 headerValidation = 0;
             } else {
-                oControl.getView().byId("idInpCustCode").setValueState("None");
-                oControl.getView().byId("idSLPaymentTerm").setValueState("None");
-                oControl.getView().byId("idInptValidity").setValueState("None");
-                oControl.getView().byId("idInpOrderNo").setValueState("None");
-                oControl.getView().byId("idSLDistChannel").setValueState("None");
-                oControl.getView().byId("idInpSalesOffice").setValueState("None");
-                oControl.getView().byId("idSLVertical").setValueState("None");
+                oControl.getView().byId("idV2InpCustCode").setValueState("None");
+                oControl.getView().byId("idV2SLPaymentTerm").setValueState("None");
+                oControl.getView().byId("idV2InpValidity").setValueState("None");
+                oControl.getView().byId("idV2InpOrderNo").setValueState("None");
+                oControl.getView().byId("idV2SLDistChannel").setValueState("None");
+                oControl.getView().byId("idV2InpSalesOffice").setValueState("None");
+                oControl.getView().byId("idV2SLVertical").setValueState("None");
                 headerValidation = 1;
             }
 
