@@ -31,16 +31,16 @@
     ],
     "distributonChannel":[
         {
-            "key":"11",
-            "text":"Project"
+            "key":"10",
+            "text":"10"
         },
         {
             "key":"17",
-            "text":"National project"
+            "text":"17"
         },
         {
             "key":"19",
-            "text":"Dealer"
+            "text":"19"
         } 
     ],
     "vertical":[
@@ -50,7 +50,7 @@
         },
         {
             "key":"20",
-            "text":"Porselan"
+            "text":"Porselano"
         },
         {
             "key":"30",

@@ -21,7 +21,8 @@
         "LANDEDP": "",
         "MFRGR": "",
         "NEF": "",
-        "SZCM": "",
+        "SZMM": "Temp",
+        "MATIN": "",
         "WERKS": "",
         "ZZPRODH4": "",
         "PRODH1": "",
@@ -60,6 +61,8 @@
         "NETEXSQ": "",
         "COMMBO": "",
         "SBPRICE": "",
-        "SPART": ""
+        "SPART": "",
+        "orcEntity":"",
+        "orcPercent":""
     }
 }

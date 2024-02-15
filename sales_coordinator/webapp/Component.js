@@ -5,11 +5,12 @@
 sap.ui.define([
         "sap/ui/core/UIComponent",
         "sap/ui/Device",
-        "prj/salescoordinator/model/models"
+        "prj/salescoordinator/model/models",
+        "prj/salescoordinator/model/formatter"
     ],
-    function (UIComponent, Device, models) {
+    function (UIComponent, Device, models, formatter) {
         "use strict";
-
+      
         return UIComponent.extend("prj.salescoordinator.Component", {
             metadata: {
                 manifest: "json"

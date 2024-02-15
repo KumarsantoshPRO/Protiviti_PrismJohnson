@@ -1,74 +1,90 @@
 sap.ui.define(['sap/m/MessageBox'], function (MessageBox) {
     "use strict";
+    var aColumnNames = {
+        "MFRGR": "Material Freight Groups",
+        "SZMM": "Sizes",
+        "MATIN": "Designs",
+        "WERKS": "Supplying Plant",
+        "PRODH1":"Manufacturing Plant",
+        "":"Current Volume (Sqft)",
+        "":"Total Volume (Sqft)",
+        "":"Ex Factory (SqFt)",
+        "":"On-Invoice discount per SqFt",
+        "":"Schemes discount per SqFt(If Applicable)",
+        "":"Schemes %",
+        "":"ORC Entity",
+        "":"ORC %",
+        "":"Freight SqFt",
+        "":"Competitor Name",
+        "":"Competitor landed price",
+        "":"Competitor receipt",
+        "":"Quality",
+        "":"Part A/B",
+        "":"Landed",
+        "":"Net Ex factory(NEF)",
+        "":"",
+        "":"",
+        "":""
+    }
     return {
+
+        itemsErrorMessage: function (vColumnKey, vLine, sAction) {
+            MessageBox.error('Please enter "' + aColumnNames[vColumnKey] + '" at line number:' + vLine + ' ,before ' + sAction + '');
+            return 0;
+        },
 
         itemsPayloadValidation: function (aData, oControl, sAction) {
 
+            var vColumnNo = 0;
+            debugger;
             for (var i = 0; i < aData.length; i++) {
 
                 var vLine = i + 1;
-                var oRow = oControl.getView().byId("idTblProducts").getAggregation("items")[i];
-                if (aData[i].MFRGR === '') {
-
-                    oRow.getAggregation("cells")[0].getAggregation("items")[0].setValueState("Error");
-                    MessageBox.error('Please enter Material Freight Groups at line number:' + vLine + ' ,before ' + sAction + '');
-                    return 0;
-
-                } else if (aData[i].CURRENTV === '') {
-
-                    MessageBox.error('Please enter all the values before ' + sAction + '')
-                    oRow.getAggregation("cells")[0].getAggregation("items")[0].setValueState("None");
-                    return 0;
-                }
-                else if (aData[i].CURVOLFT === '') {
-
-                    MessageBox.error('Please enter all the values before ' + sAction + ''); return 0;
-                }
-                else if (aData[i].KUNNR === '') { MessageBox.error('Please enter all the values before ' + sAction + ''); return 0; }
-                else if (aData[i].LANDEDP === '') { MessageBox.error('Please enter all the values before ' + sAction + ''); return 0; }
-                else if (aData[i].NEF === '') { MessageBox.error('Please enter all the values before ' + sAction + ''); return 0; }
-                else if (aData[i].SZCM === '') { MessageBox.error('Please enter all the values before ' + sAction + ''); return 0; }
-                else if (aData[i].WERKS === '') { MessageBox.error('Please enter all the values before ' + sAction + ''); return 0; }
-                else if (aData[i].ZZPRODH4 === '') { MessageBox.error('Please enter all the values before ' + sAction + ''); return 0; }
-                else if (aData[i].PRODH1 === '') { MessageBox.error('Please enter all the values before ' + sAction + ''); return 0; }
-                else if (aData[i].VKBUR === '') { MessageBox.error('Please enter all the values before ' + sAction + ''); return 0; }
-                else if (aData[i].PAFVFRM === '') { MessageBox.error('Please enter all the values before ' + sAction + ''); return 0; }
-                else if (aData[i].PAFVTO === '') { MessageBox.error('Please enter all the values before ' + sAction + ''); return 0; }
-                else if (aData[i].ERNAM === '') { MessageBox.error('Please enter all the values before ' + sAction + ''); return 0; }
-                else if (aData[i].ERDAT === '') { MessageBox.error('Please enter all the values before ' + sAction + ''); return 0; }
-                else if (aData[i].ERZET === '') { MessageBox.error('Please enter all the values before ' + sAction + ''); return 0; }
-                else if (aData[i].LOEKZ === '') { MessageBox.error('Please enter all the values before ' + sAction + ''); return 0; }
-                else if (aData[i].ZDISP === '') { MessageBox.error('Please enter all the values before ' + sAction + ''); return 0; }
-                else if (aData[i].ISEXDEP === '') { MessageBox.error('Please enter all the values before ' + sAction + ''); return 0; }
-                else if (aData[i].ISMEGAL === '') { MessageBox.error('Please enter all the values before ' + sAction + ''); return 0; }
-                else if (aData[i].ZTERM === '') { MessageBox.error('Please enter all the values before ' + sAction + ''); return 0; }
-                else if (aData[i].VSART === '') { MessageBox.error('Please enter all the values before ' + sAction + ''); return 0; }
-                else if (aData[i].MVGR2 === '') { MessageBox.error('Please enter all the values before ' + sAction + ''); return 0; }
-                else if (aData[i].MVGR5 === '') { MessageBox.error('Please enter all the values before ' + sAction + ''); return 0; }
-                else if (aData[i].COVERAGE === '') { MessageBox.error('Please enter all the values before ' + sAction + ''); return 0; }
-                else if (aData[i].BOXES === '') { MessageBox.error('Please enter all the values before ' + sAction + ''); return 0; }
-                else if (aData[i].NOSQ === '') { MessageBox.error('Please enter all the values before ' + sAction + ''); return 0; }
-                else if (aData[i].EXFAC === '') { MessageBox.error('Please enter all the values before ' + sAction + ''); return 0; }
-                else if (aData[i].EXDEP === '') { MessageBox.error('Please enter all the values before ' + sAction + ''); return 0; }
-                else if (aData[i].MRP === '') { MessageBox.error('Please enter all the values before ' + sAction + ''); return 0; }
-                else if (aData[i].DISC === '') { MessageBox.error('Please enter all the values before ' + sAction + ''); return 0; }
-                else if (aData[i].DISCB === '') { MessageBox.error('Please enter all the values before ' + sAction + ''); return 0; }
-                else if (aData[i].GST === '') { MessageBox.error('Please enter all the values before ' + sAction + ''); return 0; }
-                else if (aData[i].FRGTBX === '') { MessageBox.error('Please enter all the values before ' + sAction + ''); return 0; }
-                else if (aData[i].TI === '') { MessageBox.error('Please enter all the values before ' + sAction + ''); return 0; }
-                else if (aData[i].GSTI === '') { MessageBox.error('Please enter all the values before ' + sAction + ''); return 0; }
-                else if (aData[i].LDDBOX === '') { MessageBox.error('Please enter all the values before ' + sAction + ''); return 0; }
-                else if (aData[i].LDDSFT === '') { MessageBox.error('Please enter all the values before ' + sAction + ''); return 0; }
-                else if (aData[i].AGENT === '') { MessageBox.error('Please enter all the values before ' + sAction + ''); return 0; }
-                else if (aData[i].COMPTRSFT === '') { MessageBox.error('Please enter all the values before ' + sAction + ''); return 0; }
-                else if (aData[i].DLCOMSFT === '') { MessageBox.error('Please enter all the values before ' + sAction + ''); return 0; }
-                else if (aData[i].NETEXB === '') { MessageBox.error('Please enter all the values before ' + sAction + ''); return 0; }
-                else if (aData[i].NETEXSQ === '') { MessageBox.error('Please enter all the values before ' + sAction + ''); return 0; }
-                else if (aData[i].COMMBO === '') { MessageBox.error('Please enter all the values before ' + sAction + ''); return 0; }
-                else if (aData[i].SBPRICE === '') { MessageBox.error('Please enter all the values before ' + sAction + ''); return 0; }
-                else if (aData[i].SPART === '') { MessageBox.error('Please enter all the values before ' + sAction + ''); return 0; } else {
-                    return 1;
-                }
+                // var oRow = oControl.getView().byId("idTblProducts").getAggregation("items")[i];
+                if (aData[i].MFRGR === '') {this.itemsErrorMessage('MFRGR', vLine, sAction);}
+                else if (aData[i].SZMM === '') {this.itemsErrorMessage('SZMM', vLine, sAction);}
+                else if (aData[i].CURVOLFT === ' '){this.itemsErrorMessage('CURVOLFT ', vLine, sAction); }
+                else if (aData[i].KUNNR === ' '){this.itemsErrorMessage('KUNNR ', vLine, sAction); }
+                 else if (aData[i].LANDEDP === ' '){this.itemsErrorMessage('LANDEDP ', vLine, sAction); }
+                 else if (aData[i].NEF === ' '){this.itemsErrorMessage('NEF ', vLine, sAction); }
+                 else if (aData[i].ZZPRODH4 === ' '){this.itemsErrorMessage('ZZPRODH4 ', vLine, sAction); }
+                 else if (aData[i].PRODH1 === ' '){this.itemsErrorMessage('PRODH1 ', vLine, sAction); }
+                 else if (aData[i].VKBUR === ' '){this.itemsErrorMessage('VKBUR ', vLine, sAction); }
+                 else if (aData[i].PAFVFRM === ' '){this.itemsErrorMessage('PAFVFRM ', vLine, sAction); }
+                 else if (aData[i].PAFVTO === ' '){this.itemsErrorMessage('PAFVTO ', vLine, sAction); }
+                 else if (aData[i].ERNAM === ' '){this.itemsErrorMessage('ERNAM ', vLine, sAction); }
+                 else if (aData[i].ERDAT === ' '){this.itemsErrorMessage('ERDAT ', vLine, sAction); }
+                 else if (aData[i].ERZET === ' '){this.itemsErrorMessage('ERZET ', vLine, sAction); }
+                 else if (aData[i].LOEKZ === ' '){this.itemsErrorMessage('LOEKZ ', vLine, sAction); }
+                 else if (aData[i].ZDISP === ' '){this.itemsErrorMessage('ZDISP ', vLine, sAction); }
+                 else if (aData[i].ISEXDEP === ' '){this.itemsErrorMessage('ISEXDEP ', vLine, sAction); }
+                 else if (aData[i].ISMEGAL === ' '){this.itemsErrorMessage('ISMEGAL ', vLine, sAction); }
+                 else if (aData[i].ZTERM === ' '){this.itemsErrorMessage('ZTERM ', vLine, sAction); }
+                 else if (aData[i].VSART === ' '){this.itemsErrorMessage('VSART ', vLine, sAction); }
+                 else if (aData[i].MVGR2 === ' '){this.itemsErrorMessage('MVGR2 ', vLine, sAction); }
+                 else if (aData[i].MVGR5 === ' '){this.itemsErrorMessage('MVGR5 ', vLine, sAction); }
+                 else if (aData[i].COVERAGE === ' '){this.itemsErrorMessage('COVERAGE ', vLine, sAction); }
+                 else if (aData[i].BOXES === ' '){this.itemsErrorMessage('BOXES ', vLine, sAction); }
+                 else if (aData[i].NOSQ === ' '){this.itemsErrorMessage('NOSQ ', vLine, sAction); }
+                 else if (aData[i].EXFAC === ' '){this.itemsErrorMessage('EXFAC ', vLine, sAction); }
+                 else if (aData[i].EXDEP === ' '){this.itemsErrorMessage('EXDEP ', vLine, sAction); }
+                 else if (aData[i].MRP === ' '){this.itemsErrorMessage('MRP ', vLine, sAction); }
+                 else if (aData[i].DISC === ' '){this.itemsErrorMessage('DISC ', vLine, sAction); }
+                 else if (aData[i].DISCB === ' '){this.itemsErrorMessage('DISCB ', vLine, sAction); }
+                 else if (aData[i].GST === ' '){this.itemsErrorMessage('GST ', vLine, sAction); }
+                 else if (aData[i].FRGTBX === ' '){this.itemsErrorMessage('FRGTBX ', vLine, sAction); }
+                 else if (aData[i].TI === ' '){this.itemsErrorMessage('TI ', vLine, sAction); }
+                 else if (aData[i].GSTI === ' '){this.itemsErrorMessage('GSTI ', vLine, sAction); }
+                 else if (aData[i].LDDBOX === ' '){this.itemsErrorMessage('LDDBOX ', vLine, sAction); }
+                 else if (aData[i].LDDSFT === ' '){this.itemsErrorMessage('LDDSFT ', vLine, sAction); }
+                 else if (aData[i].AGENT === ' '){this.itemsErrorMessage('AGENT ', vLine, sAction); }
+                 else if (aData[i].COMPTRSFT === ' '){this.itemsErrorMessage('COMPTRSFT ', vLine, sAction); }
+                 else if (aData[i].DLCOMSFT === ' '){this.itemsErrorMessage('DLCOMSFT ', vLine, sAction); }
+                 else if (aData[i].NETEXB === ' '){this.itemsErrorMessage('NETEXB ', vLine, sAction); }
+                 else if (aData[i].NETEXSQ === ' '){this.itemsErrorMessage('NETEXSQ ', vLine, sAction); }
+                 else if (aData[i].COMMBO === ' '){this.itemsErrorMessage('COMMBO ', vLine, sAction); }
+                 else if (aData[i].SBPRICE === ' '){this.itemsErrorMessage('SBPRICE ', vLine, sAction); }
+                else {return 1;}
             }
 
 

@@ -155,7 +155,7 @@ sap.ui.define([
                     var oLocalModels = oEvent.getSource();
                     var dataLocalModels = oLocalModels.getData();
                     that.getView().setModel(new JSONModel(dataLocalModels), "LocalJSONModels");
-                     
+
 
                 });
 
@@ -383,6 +383,26 @@ sap.ui.define([
             },
 
             //Start: Santosh Changes
+
+            getResourceBundle : function () {
+                return this.getOwnerComponent().getModel("i18n").getResourceBundle();
+            },
+
+            onNumberValidation: function (oEvent) {
+                var value = Number(oEvent.getSource().getValue());
+                if (isNaN(value)) {
+                    MessageBox.error("Only numeric values allowed");
+                    oEvent.getSource().setValue("");
+                } else if (value > 99) {
+                    MessageBox.error("Please enter value less than 100");
+                    oEvent.getSource().setValue("");
+                }
+
+            },
+            onDistributionChannelChange: function(oEvent){
+                debugger;
+// this.getResourceBundle().getText('view2.table.column.text.onIncDisount');
+            },
             onAddRow: function () {
 
 
@@ -525,7 +545,7 @@ sap.ui.define([
             },
 
             onSave: function () {
-debugger;
+                debugger;
                 if (this.getView().getModel("JSONModelPayload").getData().ACTION !== "Generated") {
                     this.getView().getModel("JSONModelPayload").getData().ACTION = "Save";
                 }
