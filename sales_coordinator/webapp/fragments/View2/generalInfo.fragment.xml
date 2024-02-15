@@ -77,13 +77,21 @@
             <Label
                 id="idV2LblOrdNo"
                 text="{i18n>view2.simpleForm.label.ordNo}"
-                required="true"
             />
             <Input
                 id="idV2InpOrderNo"
                 placeholder="Order Number"
                 value="{JSONModelPayload>/AUFNR}"
             />
+            <Label
+                id="idV2LblValidDay"
+                text="{i18n>view2.simpleForm.label.validDays}"
+            />
+            <Input
+                id="idV2InpValidDays"
+                placeholder="Validity Days"
+            />
+
             <core:Title id="idV2T2" />
             <Label
                 id="idV2LblDistChnl"
@@ -95,6 +103,7 @@
                 forceSelection="false"
                 items="{LocalJSONModels>/distributonChannel}"
                 selectedKey="{JSONModelPayload>/VTWEG}"
+                change="onDistributionChannelChange"
             >
                 <core:Item
                     id="idV2SLItemDistChannel"
@@ -150,6 +159,25 @@
                 editable="false"
                 value="{JSONModelPayload>/GST}"
             />
+            <Label
+                id="idV2LblEx"
+                text="{i18n>view2.simpleForm.label.ex}"
+            />
+            <RadioButtonGroup
+                id="idV2RBG"
+                columns="2"
+                valueState="None"
+                class="sapUiMediumMarginBottom"
+            >
+                <RadioButton
+                    id="idV2RBExFactory"
+                    text="Ex factory"
+                />
+                <RadioButton
+                    id="idV2RBExDepot"
+                    text="Ex depot"
+                />
+            </RadioButtonGroup>
         </form:content>
     </form:SimpleForm>
 </core:FragmentDefinition>

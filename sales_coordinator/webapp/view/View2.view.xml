@@ -80,8 +80,8 @@
                         titleUppercase="true"
                     >
                         <uxap:blocks>
-                            <core:Fragment
-                                id="idV2FragAddPrdDetail"
+                          <core:Fragment
+                                id="idV2FragAddPrdDetails"
                                 fragmentName="prj.salescoordinator.fragments.View2.additionalPrdDetails"
                                 type="XML"
                             />
