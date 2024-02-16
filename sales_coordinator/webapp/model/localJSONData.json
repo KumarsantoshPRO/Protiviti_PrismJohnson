@@ -60,6 +60,34 @@
             "key":"40",
             "text":"Endura"
         }
+    ],
+    "quality":[
+        {
+            "key":"P",
+            "text":"P"
+        },
+        {
+            "key":"C",
+            "text":"C"
+        },
+        {
+            "key":"E",
+            "text":"E"
+        },
+        {
+            "key":"U",
+            "text":"U"
+        }
+    ],
+    "part":[
+        {
+            "key":"A",
+            "text":"A"
+        },
+        {
+            "key":"B",
+            "text":"B"
+        }
     ]
 
 }

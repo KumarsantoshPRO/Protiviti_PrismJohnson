@@ -165,7 +165,7 @@
 							<tnt:InfoLabel text="{RequestModel>status}" renderMode="Loose" 
 										colorScheme="{ parts: [                                        
                                         				'RequestModel>status'], 
-                                						formatter: '.formatter.getStatusColor' }" />
+                                						formatter: 'sap.formatter.getStatusColor' }" />
                             <!-- <Text
 								text="{RequestModel>status}"/> -->
 

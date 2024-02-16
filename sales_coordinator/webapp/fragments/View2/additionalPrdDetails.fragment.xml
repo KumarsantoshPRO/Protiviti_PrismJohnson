@@ -3,535 +3,473 @@
     xmlns:core="sap.ui.core"
     xmlns:form="sap.ui.layout.form"
 >
+    <VBox id="idV2VB">
+        <FlexBox
+            id="idV2FB"
+            direction="RowReverse"
+            alignItems="Start"
+        >
+            <Button
+                icon="sap-icon://cause"
+                id="idV2BtnGenerate"
+                text="Generate"
+                press="onGenerate"
+                type="Attention"
+            />
+            <Button
+                id="idV2BtnAdd"
+                text="Add More Products"
+                icon="sap-icon://add"
+                press="onAddRow"
+            />
+        </FlexBox>
 
-     <VBox>
-                                <FlexBox
-                                    direction="RowReverse"
-                                    alignItems="Start"
-                                >
-                                    <Button
-                                        icon="sap-icon://cause"
-                                        id="idBtnGenerate"
-                                        text="Generate"
-                                        press="onGenerate"
-                                        type="Attention"
-                                    />
-                                    <Button
-                                        text="Add More Products"
-                                        icon="sap-icon://add"
-                                        visible="{GlobalModel>/Editable}"
-                                        press="onAddRow"
-                                    />
-                                </FlexBox>
-
-                                <ScrollContainer
-                                    width="100%"
-                                    vertical="true"
-                                    focusable="true"
-                                >
-                                    <Table
-                                        id="idTblProducts"
-                                        items="{JSONModelPayload>/items}"
-                                    >
-                                        <headerToolbar>
-                                            <Toolbar>
-                                                <ToolbarSpacer />
-                                            </Toolbar>
-                                        </headerToolbar>
-                                        <columns>
-                                            <Column
-                                                minScreenWidth="Tablet"
-                                                demandPopin="true"
-                                                hAlign="Center"
-                                                width="10rem"
-                                            >
-                                                <Text
-                                                    text="Material Freight Groups"
-                                                />
-                                            </Column>
-                                            <Column
-                                                minScreenWidth="Tablet"
-                                                demandPopin="true"
-                                                hAlign="Center"
-                                                width="10rem"
-                                            >
-                                                <Text text="Sizes (FT)" />
-                                            </Column>
-                                            <Column
-                                                minScreenWidth="Tablet"
-                                                demandPopin="true"
-                                                hAlign="Center"
-                                                width="10rem"
-                                            >
-                                                <Text text="Designs" />
-                                            </Column>
-                                            <Column
-                                                minScreenWidth="Tablet"
-                                                demandPopin="true"
-                                                hAlign="Center"
-                                                width="10rem"
-                                            >
-                                                <Text text="Supplying Plant" />
-                                            </Column>
-                                            <Column
-                                                minScreenWidth="Tablet"
-                                                demandPopin="true"
-                                                hAlign="Center"
-                                                width="10rem"
-                                            >
-                                                <Text
-                                                    text="Manufacturing Plant"
-                                                />
-                                            </Column>
-                                            <!-- <Column  minScreenWidth="Tablet" demandPopin="true" hAlign="Center" width="10rem">
-												<Text text="Source"/>
+        <ScrollContainer
+            id="idV2SC"
+            width="100%"
+            vertical="true"
+            focusable="true"
+        >
+            <Table
+                id="idV2TblProducts"
+                items="{JSONModelPayload>/items}"
+            >
+                <headerToolbar>
+                    <Toolbar id="idV2TB">
+                        <ToolbarSpacer id="idV2TBS" />
+                    </Toolbar>
+                </headerToolbar>
+                <columns>
+                    <Column
+                        id="idV2TblClmMatFreGrp"
+                        minScreenWidth="Tablet"
+                        demandPopin="true"
+                        hAlign="Center"
+                        width="10rem"
+                    >
+                        <Text
+                            id="idV2TblClmTxtMatFreGrp"
+                            text="Material Freight Groups"
+                        />
+                    </Column>
+                    <Column
+                        id="idV2TblClmSize"
+                        minScreenWidth="Tablet"
+                        demandPopin="true"
+                        hAlign="Center"
+                        width="10rem"
+                    >
+                        <Text
+                            id="idV2TblClmTxtSize"
+                            text="Sizes (FT)"
+                        />
+                    </Column>
+                    <Column
+                        id="idV2TblClmDesign"
+                        minScreenWidth="Tablet"
+                        demandPopin="true"
+                        hAlign="Center"
+                        width="10rem"
+                    >
+                        <Text
+                            id="idV2TxtTblClmDesign"
+                            text="Designs"
+                        />
+                    </Column>
+                    <Column
+                        id="idV2TblClmSupp"
+                        minScreenWidth="Tablet"
+                        demandPopin="true"
+                        hAlign="Center"
+                        width="10rem"
+                    >
+                        <Text
+                            id="idV2TxtTblClmSupp"
+                            text="Supplying Plant"
+                        />
+                    </Column>
+                    <Column
+                        id="idV2TblClmPlant"
+                        minScreenWidth="Tablet"
+                        demandPopin="true"
+                        hAlign="Center"
+                        width="10rem"
+                    >
+                        <Text
+                            id="idV2TxtTblClmPlant"
+                            text="Manufacturing Plant"
+                        />
+                    </Column>
+                    <!-- <Column id="idV2TblClm"  minScreenWidth="Tablet" demandPopin="true" hAlign="Center" width="10rem">
+												<Text id="idV2Txt" text="Source"/>
 											</Column> -->
-                                            <Column
-                                                minScreenWidth="Desktop"
-                                                demandPopin="true"
-                                                hAlign="Center"
-                                                width="10rem"
-                                            >
-                                                <Text
-                                                    text="Current Volume (Sqft)"
-                                                />
-                                            </Column>
-                                            <Column
-                                                minScreenWidth="Desktop"
-                                                demandPopin="true"
-                                                hAlign="Center"
-                                                width="10rem"
-                                            >
-                                                <Text
-                                                    text="Total Volume (Sqft)"
-                                                />
-                                            </Column>
-                                            <Column
-                                                minScreenWidth="Desktop"
-                                                demandPopin="true"
-                                                hAlign="Center"
-                                                width="10rem"
-                                            >
-                                                <Text
-                                                    text="Ex Factory (SqFt)"
-                                                />
-                                            </Column>
-                                            <Column
-                                                minScreenWidth="Desktop"
-                                                demandPopin="true"
-                                                hAlign="Center"
-                                                width="10rem"
-                                            >
-                                                <Text
-                                                    text="{=${JSONModelPayload>/VTWEG} === '19'? ${i18n>view2.table.column.text.onIncDisountPerentage}:${i18n>view2.table.column.text.onIncDisountAmount}}"
-                                                />
-                                                
-                                            </Column>
-                                            <Column
-                                                minScreenWidth="Desktop"
-                                                demandPopin="true"
-                                                hAlign="Center"
-                                                width="10rem"
-                                            >
-                                                <Text
-                                                    text="Schemes discount per SqFt(If Applicable)"
-                                                />
-                                            </Column>
-                                            <Column
-                                                minScreenWidth="Desktop"
-                                                demandPopin="true"
-                                                hAlign="Center"
-                                                width="10rem"
-                                            >
-                                                <Text text="Schemes %" />
-                                            </Column>
-                                            <Column
-                                                minScreenWidth="Desktop"
-                                                demandPopin="true"
-                                                hAlign="Center"
-                                                width="10rem"
-                                            >
-                                                <Text text="ORC Entity" />
-                                            </Column>
+                    <Column
+                        id="idV2TblClmCurVol"
+                        minScreenWidth="Desktop"
+                        demandPopin="true"
+                        hAlign="Center"
+                        width="10rem"
+                    >
+                        <Text
+                            id="idV2TxtTblClmCurVol"
+                            text="Current Volume (Sqft)"
+                        />
+                    </Column>
+                    <Column
+                        id="idV2TblClmTotVol"
+                        minScreenWidth="Desktop"
+                        demandPopin="true"
+                        hAlign="Center"
+                        width="10rem"
+                    >
+                        <Text
+                            id="idV2TxtTblClmTotVol"
+                            text="Total Volume (Sqft)"
+                        />
+                    </Column>
+                    <Column
+                        id="idV2TblClmExFac"
+                        minScreenWidth="Desktop"
+                        demandPopin="true"
+                        hAlign="Center"
+                        width="10rem"
+                    >
+                        <Text
+                            id="idV2TxtTblClmExFac"
+                            text="Ex Factory (SqFt)"
+                        />
+                    </Column>
+                    <Column
+                        id="idV2TblClmDisPer"
+                        minScreenWidth="Desktop"
+                        demandPopin="true"
+                        hAlign="Center"
+                        width="10rem"
+                    >
+                        <Text
+                            id="idV2TxtTblClmDisPer"
+                            text="{=${JSONModelPayload>/VTWEG} === '19'? ${i18n>view2.table.column.text.onIncDisountPerentage}:${i18n>view2.table.column.text.onIncDisountAmount}}"
+                        />
+                    </Column>
+                    <Column
+                        id="idV2TblClmSchDis"
+                        minScreenWidth="Desktop"
+                        demandPopin="true"
+                        hAlign="Center"
+                        width="10rem"
+                    >
+                        <Text
+                            id="idV2TxtTblClmSchDis"
+                            text="Schemes discount per SqFt(If Applicable)"
+                        />
+                    </Column>
+                    <Column
+                        id="idV2TblClmScm"
+                        minScreenWidth="Desktop"
+                        demandPopin="true"
+                        hAlign="Center"
+                        width="10rem"
+                    >
+                        <Text
+                            id="idV2TxtTblClmScm"
+                            text="Schemes %"
+                        />
+                    </Column>
+                    <Column
+                        id="idV2TblClmORCEnt"
+                        minScreenWidth="Desktop"
+                        demandPopin="true"
+                        hAlign="Center"
+                        width="10rem"
+                    >
+                        <Text
+                            id="idV2TxtTblClmORCEnt"
+                            text="ORC Entity"
+                        />
+                    </Column>
 
-                                            <Column
-                                                minScreenWidth="Desktop"
-                                                demandPopin="true"
-                                                hAlign="Center"
-                                                width="10rem"
-                                            >
-                                                <Text text="ORC %" />
-                                            </Column>
-                                            <Column
-                                                minScreenWidth="Desktop"
-                                                demandPopin="true"
-                                                hAlign="Center"
-                                                width="10rem"
-                                            >
-                                                <Text text="Freight SqFt" />
-                                            </Column>
-                                            <Column
-                                                minScreenWidth="Desktop"
-                                                demandPopin="true"
-                                                hAlign="Center"
-                                                width="10rem"
-                                            >
-                                                <Text text="Competitor Name" />
-                                            </Column>
-                                            <Column
-                                                minScreenWidth="Desktop"
-                                                demandPopin="true"
-                                                hAlign="Center"
-                                                width="10rem"
-                                            >
-                                                <Text
-                                                    text="Competitor landed price"
-                                                />
-                                            </Column>
+                    <Column
+                        id="idV2TblClmORCEntPer"
+                        minScreenWidth="Desktop"
+                        demandPopin="true"
+                        hAlign="Center"
+                        width="10rem"
+                    >
+                        <Text
+                            id="idV2TxtTblClmORCPer"
+                            text="ORC %"
+                        />
+                    </Column>
+                    <Column
+                        id="idV2TblClmFrei"
+                        minScreenWidth="Desktop"
+                        demandPopin="true"
+                        hAlign="Center"
+                        width="10rem"
+                    >
+                        <Text
+                            id="idV2TxtTblCLmFrei"
+                            text="Freight SqFt"
+                        />
+                    </Column>
+                    <Column
+                        id="idV2TblClmComp"
+                        minScreenWidth="Desktop"
+                        demandPopin="true"
+                        hAlign="Center"
+                        width="10rem"
+                    >
+                        <Text
+                            id="idV2TxtTblClmComp"
+                            text="Competitor Name"
+                        />
+                    </Column>
+                    <Column
+                        id="idV2TblClmCompLanPrice"
+                        minScreenWidth="Desktop"
+                        demandPopin="true"
+                        hAlign="Center"
+                        width="10rem"
+                    >
+                        <Text
+                            id="idV2TxtTblClmLanPrice"
+                            text="Competitor landed price"
+                        />
+                    </Column>
 
-                                            <Column
-                                                visible="false"
-                                                minScreenWidth="Desktop"
-                                                demandPopin="true"
-                                                hAlign="Center"
-                                                width="10rem"
-                                            >
-                                                <Text
-                                                    text="Competitor receipt"
-                                                />
-                                            </Column>
-                                            <Column
-                                                minScreenWidth="Desktop"
-                                                demandPopin="true"
-                                                hAlign="Center"
-                                                width="10rem"
-                                            >
-                                                <Text text="Quality" />
-                                            </Column>
-                                            <Column
-                                                minScreenWidth="Desktop"
-                                                demandPopin="true"
-                                                hAlign="Center"
-                                                width="10rem"
-                                            >
-                                                <Text text="Part A/B" />
-                                            </Column>
-                                            <Column
-                                                minScreenWidth="Desktop"
-                                                demandPopin="true"
-                                                hAlign="Center"
-                                                width="10rem"
-                                            >
-                                                <Text text="Landed" />
-                                            </Column>
-                                            <Column
-                                                minScreenWidth="Desktop"
-                                                demandPopin="true"
-                                                hAlign="Center"
-                                                width="10rem"
-                                            >
-                                                <Text
-                                                    text="Net Ex factory(NEF)"
-                                                />
-                                            </Column>
+                    <Column
+                        id="idV2TblClmCompRec"
+                        visible="false"
+                        minScreenWidth="Desktop"
+                        demandPopin="true"
+                        hAlign="Center"
+                        width="10rem"
+                    >
+                        <Text
+                            id="idV2TxtTblClmCompRec"
+                            text="Competitor receipt"
+                        />
+                    </Column>
+                    <Column
+                        id="idV2TblClmQlt"
+                        minScreenWidth="Desktop"
+                        demandPopin="true"
+                        hAlign="Center"
+                        width="10rem"
+                    >
+                        <Text
+                            id="idV2TxtTblClmQlt"
+                            text="Quality"
+                        />
+                    </Column>
+                    <Column
+                        id="idV2TblClmPart"
+                        minScreenWidth="Desktop"
+                        demandPopin="true"
+                        hAlign="Center"
+                        width="10rem"
+                    >
+                        <Text
+                            id="idV2TxtTblCLmPart"
+                            text="Part A/B"
+                        />
+                    </Column>
+                    <Column
+                        id="idV2TblClmLand"
+                        minScreenWidth="Desktop"
+                        demandPopin="true"
+                        hAlign="Center"
+                        width="10rem"
+                    >
+                        <Text
+                            id="idV2TxtTblClmLand"
+                            text="Landed"
+                        />
+                    </Column>
+                    <Column
+                        id="idV2TblClmNEF"
+                        minScreenWidth="Desktop"
+                        demandPopin="true"
+                        hAlign="Center"
+                        width="10rem"
+                    >
+                        <Text
+                            id="idV2TxtTblClmNEF"
+                            text="Net Ex factory(NEF)"
+                        />
+                    </Column>
 
-                                            <Column
-                                                minScreenWidth="Desktop"
-                                                demandPopin="true"
-                                                hAlign="Center"
-                                                width="5rem"
-                                            >
-                                                <Text text="Delete" />
-                                            </Column>
-                                        </columns>
-                                        <items>
-                                            <ColumnListItem vAlign="Middle">
-                                                <cells>
-                                                    <VBox>
-                                                        <!-- <Select
-                                                        visible="{GlobalModel>/Editable}"
-                                                    /> -->
-                                                        <Input
-                                                            showValueHelp="true"
-                                                            valueHelpRequest="onMaterialFreightGroupsHelp"
-                                                            class="sapUiSmallMarginEnd"
-                                                            placeholder="Material Freight Groups"
-                                                            value="{JSONModelPayload>MFRGR}"
-                                                        />
-                                                        <Text
-                                                            text="{oRequestModel>material}"
-                                                            visible="{=${GlobalModel>/Editable}===false? true:false}"
-                                                        />
-                                                    </VBox>
-                                                    <VBox>
-                                                        <!-- <Select
-                                                        visible="{GlobalModel>/Editable}"
-                                                    /> -->
-                                                        <Input
-                                                            class="sapUiSmallMarginEnd"
-                                                            editable="false"
-                                                            value="{path:'JSONModelPayload>SZMM'}"
-                                                        />
-                                                        <Text
-                                                            text="{oRequestModel>size}"
-                                                            visible="{=${GlobalModel>/Editable}===false? true:false}"
-                                                        />
-                                                    </VBox>
-                                                    <VBox>
-                                                        <!-- <Select
-                                                        visible="{GlobalModel>/Editable}"
-                                                    /> -->
-                                                        <Input
-                                                            showValueHelp="true"
-                                                            valueHelpRequest="onDesignsHelp"
-                                                            class="sapUiSmallMarginEnd"
-                                                            placeholder="Designs"
-                                                            value="{JSONModelPayload>MATIN}"
-                                                        />
-                                                        <Text
-                                                            text="{oRequestModel>design}"
-                                                            visible="{=${GlobalModel>/Editable}===false? true:false}"
-                                                        />
-                                                    </VBox>
-                                                    <VBox>
-                                                        <!-- <Select
-                                                        visible="{GlobalModel>/Editable}"
-                                                    /> -->
-                                                        <Input
-                                                            showValueHelp="true"
-                                                            valueHelpRequest="onSupplyPlantHelp"
-                                                            class="sapUiSmallMarginEnd"
-                                                            placeholder="Supplying Plant"
-                                                            value="{JSONModelPayload>WERKS}"
-                                                        />
-                                                        <Text
-                                                            text="{oRequestModel>supplyPlant}"
-                                                            visible="{=${GlobalModel>/Editable}===false? true:false}"
-                                                        />
-                                                    </VBox>
-                                                    
-                                                    <VBox>
-                                                        <!-- <Select
-                                                        visible="{GlobalModel>/Editable}"
-                                                    /> -->
-                                                        <Input
-                                                            showValueHelp="true"
-                                                            valueHelpRequest="onManufacturingAmtHelp"
-                                                            class="sapUiSmallMarginEnd"
-                                                            placeholder="Manufacturing Plant"
-                                                            value="{JSONModelPayload>PRODH1}"
-                                                        />
-                                                        <Text
-                                                            text="{oRequestModel>ManftPlant}"
-                                                            visible="{=${GlobalModel>/Editable}===false? true:false}"
-                                                        />
-                                                    </VBox>
-                                                    <!-- <VBox>
-													<Select visible="{GlobalModel>/Editable}"></Select>
-													<Text text="{oRequestModel>source1}" visible="{=${GlobalModel>/Editable}===false? true:false}" />
-												</VBox> -->
+                    <Column
+                        id="idV2TblClmDel"
+                        minScreenWidth="Desktop"
+                        demandPopin="true"
+                        hAlign="Center"
+                        width="5rem"
+                    >
+                        <Text
+                            id="idV2TxtTblClmDel"
+                            text="Delete"
+                        />
+                    </Column>
+                </columns>
+                <items>
+                    <ColumnListItem
+                        id="idV2TblCLI"
+                        vAlign="Middle"
+                    >
+                        <cells>
+                            <Input
+                                id="idV2TblCLIInpMatFreGrp"
+                                showValueHelp="true"
+                                valueHelpRequest="onMaterialFreightGroupsHelp"
+                                class="sapUiSmallMarginEnd"
+                                placeholder="Material Freight Groups"
+                                value="{JSONModelPayload>MFRGR}"
+                            />
 
-                                                    <VBox>
-                                                        <Input
-                                                            visible="{GlobalModel>/Editable}"
-                                                            maxLength="2"
-                                                            liveChange="onNumberValidation"
-                                                        />
-                                                        <Text
-                                                            text="{oRequestModel>curVol}"
-                                                            visible="{=${GlobalModel>/Editable}===false? true:false}"
-                                                        />
-                                                    </VBox>
-                                                    <VBox>
-                                                        <Input
-                                                            visible="{GlobalModel>/Editable}"
-                                                          
-                                                            liveChange="onNumberValidation"
-                                                        />
-                                                        <Text
-                                                            text="{oRequestModel>totalVol}"
-                                                            visible="{=${GlobalModel>/Editable}===false? true:false}"
-                                                        />
-                                                    </VBox>
-                                                    <VBox>
-                                                        <Input
-                                                            visible="{GlobalModel>/Editable}"
-                                                            editable="false"
-                                                            maxLength="2"
-                                                            liveChange="onNumberValidation"
-                                                        />
-                                                        <Text
-                                                            text="{oRequestModel>exFactory}"
-                                                            visible="{=${GlobalModel>/Editable}===false? true:false}"
-                                                        />
-                                                    </VBox>
-                                                    <VBox>
-                                                        <Input
-                                                            visible="{GlobalModel>/Editable}"
-                                                            maxLength="2"
-                                                            liveChange="onNumberValidation"
-                                                        />
-                                                        <Text
-                                                            text="{oRequestModel>onInvoice}"
-                                                            visible="{=${GlobalModel>/Editable}===false? true:false}"
-                                                        />
-                                                    </VBox>
-                                                    <VBox>
-                                                        <Input
-                                                            visible="{GlobalModel>/Editable}"
-                                                            maxLength="2"
-                                                            liveChange="onNumberValidation"
-                                                        />
-                                                        <Text
-                                                            text="{oRequestModel>scmDiscnt}"
-                                                            visible="{=${GlobalModel>/Editable}===false? true:false}"
-                                                        />
-                                                    </VBox>
-                                                    <VBox>
-                                                        <Input
-                                                            visible="{GlobalModel>/Editable}"
-                                                            maxLength="2"
-                                                            liveChange="onNumberValidation"
-                                                        />
-                                                        <Text
-                                                            text="{oRequestModel>scmPercent}"
-                                                            visible="{=${GlobalModel>/Editable}===false? true:false}"
-                                                        />
-                                                    </VBox>
-                                                    <VBox>
-                                                        <Input
-                                                            visible="{GlobalModel>/Editable}"
-                                                            value="{JSONModelPayload>orcEntity}"
-                                                            
-                                                        />
-                                                        <Text
-                                                            text="{GlobalModel>orcEntity}"
-                                                            visible="{=${GlobalModel>/orcEntity}===''? true:false}"
-                                                        />
-                                                    </VBox>
-                                                    <VBox>
-                                                        <Input
-                                                            visible="{GlobalModel>/Editable}"
-                                                            value="{JSONModelPayload>orcPercent}"
-                                                            maxLength="2"
-                                                            
-                                                        />
-                                                        <Text
-                                                            text="{oRequestModel>orcPercent}"
-                                                            visible="{=${GlobalModel>/Editable}===false? true:false}"
-                                                        />
-                                                    </VBox>
-                                                    <VBox>
-                                                        <Input
-                                                            visible="{GlobalModel>/Editable}"
-                                                            maxLength="2"
-                                                            liveChange="onNumberValidation"
-                                                        />
-                                                        <Text
-                                                            text="{oRequestModel>freightSqft}"
-                                                            visible="{=${GlobalModel>/Editable}===false? true:false}"
-                                                        />
-                                                    </VBox>
-                                                    <VBox>
-                                                        <Input
-                                                            visible="{GlobalModel>/Editable}"
-                                                        />
-                                                        <Text
-                                                            text="{oRequestModel>competatorName}"
-                                                            visible="{=${GlobalModel>/Editable}===false? true:false}"
-                                                        />
-                                                    </VBox>
-                                                    <VBox>
-                                                        <Input
-                                                            visible="{GlobalModel>/Editable}"
-                                                        />
-                                                        <Text
-                                                            text="{oRequestModel>competatorLandedPrice}"
-                                                            visible="{=${GlobalModel>/Editable}===false? true:false}"
-                                                        />
-                                                    </VBox>
-                                                    <Button
-                                                        visible="false"
-                                                        text="Upload"
-                                                        icon="sap-icon://upload"
-                                                    />
-                                                    <VBox>
-                                                        <Select
-                                                            forceSelection="false"
-                                                        >
-                                                            <core:Item
-                                                                key="P"
-                                                                text="P"
-                                                            />
-                                                            <core:Item
-                                                                key="C"
-                                                                text="C"
-                                                            />
-                                                            <core:Item
-                                                                key="E"
-                                                                text="E"
-                                                            />
-                                                            <core:Item
-                                                                key="U"
-                                                                text="U"
-                                                            />
-                                                        </Select>
-                                                        <!-- <Text
-                                    text="{oRequestModel>Quality}"
-                                    visible="{=${GlobalModel>/Quality}===false? true:false}"
-                                /> -->
-                                                    </VBox>
-                                            
-                                                    <VBox>
-                                                        <Select
-                                                            forceSelection="false"
-                                                        >
-                                                            <core:Item
-                                                                key="A"
-                                                                text="A"
-                                                            />
-                                                            <core:Item
-                                                                key="B"
-                                                                text="B"
-                                                            />
-                                                            
-                                                        </Select>
-                                                        </VBox>
-                                                         <VBox>
-                                                        <Input
-                                                             editable="false"
-                                                        />
-                                                        
-                                                        <!-- <Text
-                                                            text="{oRequestModel>competatorLandedPrice}"
-                                                            visible="{=${GlobalModel>/Editable}===false? true:false}"
-                                                        /> -->
-                                                    </VBox>
-                                                      <VBox>
-                                                        <Input
-                                                             editable="false"
-                                                        />
-                                                        
-                                                        <!-- <Text
-                                                            text="{oRequestModel>competatorLandedPrice}"
-                                                            visible="{=${GlobalModel>/Editable}===false? true:false}"
-                                                        /> -->
-                                                    </VBox>
-                                                        <!-- <Text
-                                    text="{oRequestModel>Quality}"
-                                    visible="{=${GlobalModel>/Quality}===false? true:false}"
-                                /> -->
-                                                    
-                                                    <Button
-                                                        icon="sap-icon://delete"
-                                                        visible="{GlobalModel>/Editable}"
-                                                        press="onDelete"
-                                                    />
-                                                </cells>
-                                            </ColumnListItem>
-                                        </items>
-                                    </Table>
-                                </ScrollContainer>
-                            </VBox>
-        
+                            <Input
+                                id="idV2TblCLIInpSize"
+                                class="sapUiSmallMarginEnd"
+                                editable="false"
+                                value="{path:'JSONModelPayload>SZMM'}"
+                            />
+
+                            <Input
+                                id="idV2TblCLIInpDesigns"
+                                showValueHelp="true"
+                                valueHelpRequest="onDesignsHelp"
+                                class="sapUiSmallMarginEnd"
+                                placeholder="Designs"
+                                value="{JSONModelPayload>MATIN}"
+                            />
+
+                            <Input
+                                id="idV2TblCLIInpSuppPlant"
+                                showValueHelp="true"
+                                valueHelpRequest="onSupplyPlantHelp"
+                                class="sapUiSmallMarginEnd"
+                                placeholder="Supplying Plant"
+                                value="{JSONModelPayload>WERKS}"
+                            />
+
+                            <Input
+                                id="idV2TblCLIInpManPlant"
+                                showValueHelp="true"
+                                valueHelpRequest="onManufacturingAmtHelp"
+                                class="sapUiSmallMarginEnd"
+                                placeholder="Manufacturing Plant"
+                                value="{JSONModelPayload>PRODH1}"
+                            />
+
+                            <Input
+                                id="idV2TblCLIInpCurVol"
+                                maxLength="2"
+                                liveChange="onNumberValidation"
+                            />
+
+                            <Input
+                                id="idV2TblCLIInpTotVol"
+                                liveChange="onNumberValidation"
+                            />
+
+                            <Input
+                                id="idV2TblCLIInpExFac"
+                                editable="false"
+                                maxLength="2"
+                                liveChange="onNumberValidation"
+                            />
+
+                            <Input
+                                id="idV2TblCLIInpDiscount"
+                                maxLength="2"
+                                liveChange="onNumberValidation"
+                            />
+
+                            <Input
+                                id="idV2TblCLIInpSchDis"
+                                maxLength="2"
+                                liveChange="onNumberValidation"
+                            />
+
+                            <Input
+                                id="idV2TblCLIInpSchPer"
+                                maxLength="2"
+                                liveChange="onNumberValidation"
+                            />
+
+                            <Input
+                                id="idV2TblCLIInpORCEnt"
+                                value="{JSONModelPayload>orcEntity}"
+                                change="onOrcEntityChange"
+                            />
+
+                            <Input
+                                id="idV2TblCLIInpORCPer"
+                                value="{JSONModelPayload>orcPercent}"
+                                maxLength="2"
+                                change="onOrcPercentageChange"
+                            />
+
+                            <Input
+                                id="idV2TblCLIInpFre"
+                                maxLength="2"
+                                liveChange="onNumberValidation"
+                            />
+
+                            <Input id="idV2TblCLIInpCompName" />
+
+                            <Input id="idV2TblCLIInpCompLanPrice" />
+
+                            <Button
+                                id="idV2TblCLIBtnUpload"
+                                visible="false"
+                                text="Upload"
+                                icon="sap-icon://upload"
+                            />
+
+                            <Select
+                                id="idV2TblCLISLQuality"
+                                forceSelection="false"
+                                items="{LocalJSONModels>/quality}"
+                            >
+                                <core:Item
+                                    id="idV2TblCLISLItemQuality"
+                                    key="{LocalJSONModels>key}"
+                                    text="{LocalJSONModels>text}"
+                                />
+                            </Select>
+
+                            <Select
+                                id="idV2TblCLISLPart"
+                                forceSelection="false"
+                                 items="{LocalJSONModels>/part}"
+                            >
+                               <core:Item
+                                    id="idV2TblCLISLItemPart"
+                                    key="{LocalJSONModels>key}"
+                                    text="{LocalJSONModels>text}"
+                                />
+                            </Select>
+
+                            <Input
+                                id="idV2TblCLIInpLanded"
+                                editable="false"
+                            />
+
+                            <Input
+                                id="idV2TblCLIInpNEF"
+                                editable="false"
+                            />
+
+                            <Button
+                                id="idV2TblBtnDel"
+                                icon="sap-icon://delete"
+                                press="onDelete"
+                            />
+                        </cells>
+                    </ColumnListItem>
+                </items>
+            </Table>
+        </ScrollContainer>
+    </VBox>
 </core:FragmentDefinition>
