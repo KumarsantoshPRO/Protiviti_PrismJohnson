@@ -549,12 +549,12 @@ sap.ui.define([
             },
 
             onSave: function () {
-                debugger;
+                
                 if (this.getView().getModel("JSONModelPayload").getData().ACTION !== "Generated") {
                     this.getView().getModel("JSONModelPayload").getData().ACTION = "Save";
                 }
 
-
+                debugger;
                 var headerValidationStatus = validation.headerPayloadValidation(this);
                 if (headerValidationStatus === 1) {
                     var aData = this.getView().getModel("JSONModelPayload").getData().items;
