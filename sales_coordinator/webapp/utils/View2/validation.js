@@ -40,7 +40,7 @@ sap.ui.define(['sap/m/MessageBox'], function (MessageBox) {
             for (var i = 0; i < aData.length; i++) {
 
                 var vLine = i + 1;
-                // var oRow = oControl.getView().byId("idTblProducts").getAggregation("items")[i];
+                // var oRow = oControl.byId(sap.ui.core.Fragment.createId("idV2FragGenInfo", "idTblProducts").getAggregation("items")[i];
                 if (aData[i].MFRGR === '') {this.itemsErrorMessage('MFRGR', vLine, sAction);}
                 else if (aData[i].SZMM === '') {this.itemsErrorMessage('SZMM', vLine, sAction);}
                 else if (aData[i].CURVOLFT === ' '){this.itemsErrorMessage('CURVOLFT ', vLine, sAction); }
@@ -94,7 +94,8 @@ sap.ui.define(['sap/m/MessageBox'], function (MessageBox) {
             var headerValidation = 1;
             if (!oControl.getView().getModel("JSONModelPayload").getData().KUNNR) {
                 MessageBox.error("Please enter Customer Code");
-                oControl.getView().byId("idV2InpCustCode").setValueState("Error");
+                // oControl.byId(sap.ui.core.Fragment.createId("idV2FragGenInfo", "idV2InpCustCode")).setValueState("Error");
+                oControl.byId(sap.ui.core.Fragment.createId("idV2FragGenInfo", "idV2InpCustCode")).setValueState("Error");
                 headerValidation = 0;
             }
             // else if(!oControl.getView().getModel("JSONModelPayload").getData().TI){
@@ -110,42 +111,42 @@ sap.ui.define(['sap/m/MessageBox'], function (MessageBox) {
             // }
             else if (!oControl.getView().getModel("JSONModelPayload").getData().ZTERM) {
                 MessageBox.error("Please select Payment Term");
-                oControl.getView().byId("idV2SLPaymentTerm").setValueState("Error");
-                oControl.getView().byId("idV2InpCustCode").setValueState("None");
+                oControl.byId(sap.ui.core.Fragment.createId("idV2FragGenInfo", "idV2SLPaymentTerm")).setValueState("Error");
+                oControl.byId(sap.ui.core.Fragment.createId("idV2FragGenInfo", "idV2InpCustCode")).setValueState("None");
                 headerValidation = 0;
             } else if (!oControl.getView().getModel("JSONModelPayload").getData().VALIDITY) {
                 MessageBox.error("Please enter Validity");
-                oControl.getView().byId("idV2InpValidity").setValueState("Error");
-                oControl.getView().byId("idV2SLPaymentTerm").setValueState("None");
+                oControl.byId(sap.ui.core.Fragment.createId("idV2FragGenInfo", "idV2InpValidity")).setValueState("Error");
+                oControl.byId(sap.ui.core.Fragment.createId("idV2FragGenInfo", "idV2SLPaymentTerm")).setValueState("None");
                 headerValidation = 0;
             } else if (!oControl.getView().getModel("JSONModelPayload").getData().AUFNR) {
                 MessageBox.error("Please enter Order No");
-                oControl.getView().byId("idV2InpOrderNo").setValueState("Error");
-                oControl.getView().byId("idV2InpValidity").setValueState("None");
+                oControl.byId(sap.ui.core.Fragment.createId("idV2FragGenInfo", "idV2InpOrderNo")).setValueState("Error");
+                oControl.byId(sap.ui.core.Fragment.createId("idV2FragGenInfo", "idV2InpValidity")).setValueState("None");
                 headerValidation = 0;
             } else if (!oControl.getView().getModel("JSONModelPayload").getData().VTWEG) {
                 MessageBox.error("Please select Distribution Channel");
-                oControl.getView().byId("idV2SLDistChannel").setValueState("Error");
-                oControl.getView().byId("idV2InpOrderNo").setValueState("None");
+                oControl.byId(sap.ui.core.Fragment.createId("idV2FragGenInfo", "idV2SLDistChannel")).setValueState("Error");
+                oControl.byId(sap.ui.core.Fragment.createId("idV2FragGenInfo", "idV2InpOrderNo")).setValueState("None");
                 headerValidation = 0;
             } else if (!oControl.getView().getModel("JSONModelPayload").getData().VKBUR) {
                 MessageBox.error("Please enter Sales Office");
-                oControl.getView().byId("idV2InpSalesOffice").setValueState("Error");
-                oControl.getView().byId("idV2SLDistChannel").setValueState("None");
+                oControl.byId(sap.ui.core.Fragment.createId("idV2FragGenInfo", "idV2InpSalesOffice")).setValueState("Error");
+                oControl.byId(sap.ui.core.Fragment.createId("idV2FragGenInfo", "idV2SLDistChannel")).setValueState("None");
                 headerValidation = 0;
             } else if (!oControl.getView().getModel("JSONModelPayload").getData().SPART) {
                 MessageBox.error("Please select Vertical");
-                oControl.getView().byId("idV2SLVertical").setValueState("Error");
-                oControl.getView().byId("idV2InpSalesOffice").setValueState("None");
+                oControl.byId(sap.ui.core.Fragment.createId("idV2FragGenInfo", "idV2SLVertical")).setValueState("Error");
+                oControl.byId(sap.ui.core.Fragment.createId("idV2FragGenInfo", "idV2InpSalesOffice")).setValueState("None");
                 headerValidation = 0;
             } else {
-                oControl.getView().byId("idV2InpCustCode").setValueState("None");
-                oControl.getView().byId("idV2SLPaymentTerm").setValueState("None");
-                oControl.getView().byId("idV2InpValidity").setValueState("None");
-                oControl.getView().byId("idV2InpOrderNo").setValueState("None");
-                oControl.getView().byId("idV2SLDistChannel").setValueState("None");
-                oControl.getView().byId("idV2InpSalesOffice").setValueState("None");
-                oControl.getView().byId("idV2SLVertical").setValueState("None");
+                oControl.byId(sap.ui.core.Fragment.createId("idV2FragGenInfo", "idV2InpCustCode")).setValueState("None");
+                oControl.byId(sap.ui.core.Fragment.createId("idV2FragGenInfo", "idV2SLPaymentTerm")).setValueState("None");
+                oControl.byId(sap.ui.core.Fragment.createId("idV2FragGenInfo", "idV2InpValidity")).setValueState("None");
+                oControl.byId(sap.ui.core.Fragment.createId("idV2FragGenInfo", "idV2InpOrderNo")).setValueState("None");
+                oControl.byId(sap.ui.core.Fragment.createId("idV2FragGenInfo", "idV2SLDistChannel")).setValueState("None");
+                oControl.byId(sap.ui.core.Fragment.createId("idV2FragGenInfo", "idV2InpSalesOffice")).setValueState("None");
+                oControl.byId(sap.ui.core.Fragment.createId("idV2FragGenInfo", "idV2SLVertical")).setValueState("None");
                 headerValidation = 1;
             }
 

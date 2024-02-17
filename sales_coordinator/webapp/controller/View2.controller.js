@@ -129,25 +129,8 @@ sap.ui.define([
                     content: [this.oMessageView],
                     footer: oPopoverFooter
                 });
+
                 //Start: Santosh changes
-                // payload for OData service
-                var that = this;
-                var sPath = jQuery.sap.getModulePath("prj/salescoordinator", "/model/payload.json");
-                var oModelPayload = new JSONModel(sPath);
-                oModelPayload.attachRequestCompleted(function (oEvent) {
-                    var oModel = oEvent.getSource();
-                    that.oLocalJSONPayload = oModel.getData();
-                    that.oLocalJSONPayload.header.items.push(that.oLocalJSONPayload.item);
-
-                    var oModelPayload = new JSONModel(that.oLocalJSONPayload.header);
-                    that.getView().setModel(oModelPayload, "JSONModelPayload");
-                    // var JSONStructureForItem = { "item": [that.oLocalJSONPayload.item] };
-                    // debugger;
-                    // that.oModelItemPayload = new JSONModel(JSONStructureForItem);
-                    // that.getView().setModel(that.oModelItemPayload, "JSONModelForItems");
-
-                });
-
                 // local JSON models
                 var sPath = jQuery.sap.getModulePath("prj/salescoordinator", "/model/localJSONData.json");
                 var oLocalJSONModel = new JSONModel(sPath);
@@ -155,8 +138,6 @@ sap.ui.define([
                     var oLocalModels = oEvent.getSource();
                     var dataLocalModels = oLocalModels.getData();
                     that.getView().setModel(new JSONModel(dataLocalModels), "LocalJSONModels");
-
-
                 });
 
                 // End: Santosh Changes
@@ -165,14 +146,27 @@ sap.ui.define([
 
             onRouteMatched: function (oEvent) {
                 var sID = oEvent.getParameter("arguments").ID;
-                console.log(sID);
+               debugger;
                 if (sID === "null" || sID === undefined) {
-                    var oGlobalModel = new JSONModel({
-                        Editable: true,
-                        create: true,
-                        ID: ""
+                    //Start: Santosh changes
+                    // payload for OData service
+                    var that = this;
+                    var sPath = jQuery.sap.getModulePath("prj/salescoordinator", "/model/payload.json");
+                    var oModelPayload = new JSONModel(sPath);
+                    oModelPayload.attachRequestCompleted(function (oEvent) {
+                        var oModel = oEvent.getSource();
+                        that.oLocalJSONPayload = oModel.getData();
+                        that.oLocalJSONPayload.header.items.push(that.oLocalJSONPayload.item);
+
+                        oModelPayload = new JSONModel(that.oLocalJSONPayload.header);
+                        that.getView().setModel(oModelPayload, "JSONModelPayload");
+                        // var JSONStructureForItem = { "item": [that.oLocalJSONPayload.item] };
+                        // debugger;
+                        // that.oModelItemPayload = new JSONModel(JSONStructureForItem);
+                        // that.getView().setModel(that.oModelItemPayload, "JSONModelForItems");
+
                     });
-                    this.getView().setModel(oGlobalModel, "GlobalModel");
+                    //End: Santosh changes
                     this.getView().byId("ObjectPageLayout").getHeaderTitle().setObjectTitle("Generate New Request");
                 } else {
                     var oGlobalModel = new JSONModel({
@@ -384,7 +378,7 @@ sap.ui.define([
 
             //Start: Santosh Changes
 
-            getResourceBundle : function () {
+            getResourceBundle: function () {
                 return this.getOwnerComponent().getModel("i18n").getResourceBundle();
             },
 
@@ -399,9 +393,19 @@ sap.ui.define([
                 }
 
             },
-            onDistributionChannelChange: function(oEvent){
-                debugger;
-// this.getResourceBundle().getText('view2.table.column.text.onIncDisount');
+            onOrcEntityChange: function (oEvent) {
+
+                // var sPath = oEvent.getSource().getParent().getParent().getBindingContextPath();
+                // this.getView().getModel("JSONModelPayload").getContext(sPath).getObject();
+                oEvent.getSource().getParent().getParent().getAggregation("cells")[12].getAggregation("items")[0].setValue("");
+                oEvent.getSource().getParent().getParent().getAggregation("cells")[12].getAggregation("items")[0].setEditable(false);
+            },
+            onOrcPercentageChange: function (oEvent) {
+
+                // var sPath = oEvent.getSource().getParent().getParent().getBindingContextPath();
+                // this.getView().getModel("JSONModelPayload").getContext(sPath).getObject();
+                oEvent.getSource().getParent().getParent().getAggregation("cells")[11].getAggregation("items")[0].setValue("");
+                oEvent.getSource().getParent().getParent().getAggregation("cells")[11].getAggregation("items")[0].setEditable(false);
             },
             onAddRow: function () {
 
@@ -545,12 +549,12 @@ sap.ui.define([
             },
 
             onSave: function () {
-                debugger;
+                
                 if (this.getView().getModel("JSONModelPayload").getData().ACTION !== "Generated") {
                     this.getView().getModel("JSONModelPayload").getData().ACTION = "Save";
                 }
 
-
+                debugger;
                 var headerValidationStatus = validation.headerPayloadValidation(this);
                 if (headerValidationStatus === 1) {
                     var aData = this.getView().getModel("JSONModelPayload").getData().items;
