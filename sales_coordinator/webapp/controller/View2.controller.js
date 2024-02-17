@@ -146,7 +146,7 @@ sap.ui.define([
 
             onRouteMatched: function (oEvent) {
                 var sID = oEvent.getParameter("arguments").ID;
-               debugger;
+               
                 if (sID === "null" || sID === undefined) {
                     //Start: Santosh changes
                     // payload for OData service
@@ -161,7 +161,7 @@ sap.ui.define([
                         oModelPayload = new JSONModel(that.oLocalJSONPayload.header);
                         that.getView().setModel(oModelPayload, "JSONModelPayload");
                         // var JSONStructureForItem = { "item": [that.oLocalJSONPayload.item] };
-                        // debugger;
+                        // 
                         // that.oModelItemPayload = new JSONModel(JSONStructureForItem);
                         // that.getView().setModel(that.oModelItemPayload, "JSONModelForItems");
 
@@ -474,7 +474,7 @@ sap.ui.define([
                 // var cell = oTable.getAggregation("items")[0].getAggregation("cells");
 
 
-                // debugger;
+                // 
                 // var oItem = new sap.m.ColumnListItem({
                 //     cells:  cell 
                 // });
@@ -554,7 +554,7 @@ sap.ui.define([
                     this.getView().getModel("JSONModelPayload").getData().ACTION = "Save";
                 }
 
-                debugger;
+                
                 var headerValidationStatus = validation.headerPayloadValidation(this);
                 if (headerValidationStatus === 1) {
                     var aData = this.getView().getModel("JSONModelPayload").getData().items;

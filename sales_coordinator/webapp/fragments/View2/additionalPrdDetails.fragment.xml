@@ -12,13 +12,13 @@
             <Button
                 icon="sap-icon://cause"
                 id="idV2BtnGenerate"
-                text="Generate"
+                text="{i18n>view2.flexBox.button.Generate}"
                 press="onGenerate"
                 type="Attention"
             />
             <Button
                 id="idV2BtnAdd"
-                text="Add More Products"
+                text="{i18n>view2.flexBox.button.AddMoreProducts}"
                 icon="sap-icon://add"
                 press="onAddRow"
             />
@@ -49,7 +49,7 @@
                     >
                         <Text
                             id="idV2TblClmTxtMatFreGrp"
-                            text="Material Freight Groups"
+                            text="{i18n>view2.table.column.text.matFreGrp}"
                         />
                     </Column>
                     <Column
@@ -61,7 +61,7 @@
                     >
                         <Text
                             id="idV2TblClmTxtSize"
-                            text="Sizes (FT)"
+                            text="{i18n>view2.table.column.text.size}"
                         />
                     </Column>
                     <Column
@@ -73,7 +73,7 @@
                     >
                         <Text
                             id="idV2TxtTblClmDesign"
-                            text="Designs"
+                            text="{i18n>view2.table.column.text.designs}"
                         />
                     </Column>
                     <Column
@@ -85,7 +85,7 @@
                     >
                         <Text
                             id="idV2TxtTblClmSupp"
-                            text="Supplying Plant"
+                            text="{i18n>view2.table.column.text.suppPlant}"
                         />
                     </Column>
                     <Column
@@ -97,12 +97,10 @@
                     >
                         <Text
                             id="idV2TxtTblClmPlant"
-                            text="Manufacturing Plant"
+                            text="{i18n>view2.table.column.text.manPlant}"
                         />
                     </Column>
-                    <!-- <Column id="idV2TblClm"  minScreenWidth="Tablet" demandPopin="true" hAlign="Center" width="10rem">
-												<Text id="idV2Txt" text="Source"/>
-											</Column> -->
+
                     <Column
                         id="idV2TblClmCurVol"
                         minScreenWidth="Desktop"
@@ -112,7 +110,7 @@
                     >
                         <Text
                             id="idV2TxtTblClmCurVol"
-                            text="Current Volume (Sqft)"
+                            text="{i18n>view2.table.column.text.currVol}"
                         />
                     </Column>
                     <Column
@@ -124,7 +122,7 @@
                     >
                         <Text
                             id="idV2TxtTblClmTotVol"
-                            text="Total Volume (Sqft)"
+                            text="{i18n>view2.table.column.text.totVol}"
                         />
                     </Column>
                     <Column
@@ -136,7 +134,7 @@
                     >
                         <Text
                             id="idV2TxtTblClmExFac"
-                            text="Ex Factory (SqFt)"
+                            text="{i18n>view2.table.column.text.exFac}"
                         />
                     </Column>
                     <Column
@@ -148,7 +146,7 @@
                     >
                         <Text
                             id="idV2TxtTblClmDisPer"
-                            text="{=${JSONModelPayload>/VTWEG} === '19'? ${i18n>view2.table.column.text.onIncDisountPerentage}:${i18n>view2.table.column.text.onIncDisountAmount}}"
+                            text="{=${JSONModelPayload>/VTWEG} === '19'? ${i18n>view2.table.column.text.onIncDisountPercentage}:${i18n>view2.table.column.text.onIncDisountAmount}}"
                         />
                     </Column>
                     <Column
@@ -160,7 +158,7 @@
                     >
                         <Text
                             id="idV2TxtTblClmSchDis"
-                            text="Schemes discount per SqFt(If Applicable)"
+                            text="{i18n>view2.table.column.text.schDisountAmount}"
                         />
                     </Column>
                     <Column
@@ -172,7 +170,7 @@
                     >
                         <Text
                             id="idV2TxtTblClmScm"
-                            text="Schemes %"
+                            text="{i18n>schDisountPercentage}"
                         />
                     </Column>
                     <Column
@@ -184,7 +182,7 @@
                     >
                         <Text
                             id="idV2TxtTblClmORCEnt"
-                            text="ORC Entity"
+                            text="{i18n>view2.table.column.text.orcEntity}"
                         />
                     </Column>
 
@@ -197,7 +195,7 @@
                     >
                         <Text
                             id="idV2TxtTblClmORCPer"
-                            text="ORC %"
+                            text="{i18n>view2.table.column.text.orcPercentage}"
                         />
                     </Column>
                     <Column
@@ -209,7 +207,7 @@
                     >
                         <Text
                             id="idV2TxtTblCLmFrei"
-                            text="Freight SqFt"
+                            text="{i18n>view2.table.column.text.freight}"
                         />
                     </Column>
                     <Column
@@ -221,7 +219,7 @@
                     >
                         <Text
                             id="idV2TxtTblClmComp"
-                            text="Competitor Name"
+                            text="{i18n>view2.table.column.text.compName}"
                         />
                     </Column>
                     <Column
@@ -233,23 +231,10 @@
                     >
                         <Text
                             id="idV2TxtTblClmLanPrice"
-                            text="Competitor landed price"
+                            text="{i18n>view2.table.column.text.compLandPrice}"
                         />
                     </Column>
 
-                    <Column
-                        id="idV2TblClmCompRec"
-                        visible="false"
-                        minScreenWidth="Desktop"
-                        demandPopin="true"
-                        hAlign="Center"
-                        width="10rem"
-                    >
-                        <Text
-                            id="idV2TxtTblClmCompRec"
-                            text="Competitor receipt"
-                        />
-                    </Column>
                     <Column
                         id="idV2TblClmQlt"
                         minScreenWidth="Desktop"
@@ -259,7 +244,7 @@
                     >
                         <Text
                             id="idV2TxtTblClmQlt"
-                            text="Quality"
+                            text="{i18n>view2.table.column.text.quality}"
                         />
                     </Column>
                     <Column
@@ -271,7 +256,7 @@
                     >
                         <Text
                             id="idV2TxtTblCLmPart"
-                            text="Part A/B"
+                            text="{i18n>view2.table.column.text.part}"
                         />
                     </Column>
                     <Column
@@ -283,7 +268,7 @@
                     >
                         <Text
                             id="idV2TxtTblClmLand"
-                            text="Landed"
+                            text="{i18n>view2.table.column.text.landed}"
                         />
                     </Column>
                     <Column
@@ -295,7 +280,7 @@
                     >
                         <Text
                             id="idV2TxtTblClmNEF"
-                            text="Net Ex factory(NEF)"
+                            text="{i18n>view2.table.column.text.netExFactory}"
                         />
                     </Column>
 
@@ -308,7 +293,7 @@
                     >
                         <Text
                             id="idV2TxtTblClmDel"
-                            text="Delete"
+                            text="{i18n>view2.table.column.text.delete}"
                         />
                     </Column>
                 </columns>
@@ -420,13 +405,6 @@
 
                             <Input id="idV2TblCLIInpCompLanPrice" />
 
-                            <Button
-                                id="idV2TblCLIBtnUpload"
-                                visible="false"
-                                text="Upload"
-                                icon="sap-icon://upload"
-                            />
-
                             <Select
                                 id="idV2TblCLISLQuality"
                                 forceSelection="false"
@@ -442,9 +420,9 @@
                             <Select
                                 id="idV2TblCLISLPart"
                                 forceSelection="false"
-                                 items="{LocalJSONModels>/part}"
+                                items="{LocalJSONModels>/part}"
                             >
-                               <core:Item
+                                <core:Item
                                     id="idV2TblCLISLItemPart"
                                     key="{LocalJSONModels>key}"
                                     text="{LocalJSONModels>text}"

@@ -31,10 +31,11 @@
             <Input
                 value="{JSONModelPayload>/KUNNR}"
                 id="idV2InpCustCode"
+                valueStateText="Enter {i18n>view2.simpleForm.label.custCode}"
                 showValueHelp="true"
                 valueHelpRequest="onCustomerCodeHelp"
                 class="sapUiSmallMarginEnd"
-                placeholder="Customer Code"
+                placeholder="{i18n>view2.simpleForm.label.custCode}"
             />
             <Label
                 id="idV2LblCustName"
@@ -55,6 +56,7 @@
                 forceSelection="false"
                 items="{LocalJSONModels>/paymentTerms}"
                 selectedKey="{JSONModelPayload>/ZTERM}"
+                valueStateText="Select {i18n>view2.simpleForm.label.payTerm}"
             >
                 <core:Item
                     id="idV2SLItemPayTerm"
@@ -69,7 +71,8 @@
             />
             <Input
                 id="idV2InpValidity"
-                placeholder="Validity"
+                placeholder="{i18n>view2.simpleForm.label.validity}"
+                valueStateText="Enter {i18n>view2.simpleForm.label.validity}"
                 maxLength="3"
                 value="{JSONModelPayload>/VALIDITY}"
             />
@@ -80,7 +83,8 @@
             />
             <Input
                 id="idV2InpOrderNo"
-                placeholder="Order Number"
+                placeholder="{i18n>view2.simpleForm.label.ordNo}"
+                valueStateText="Enter {i18n>view2.simpleForm.label.ordNo}"
                 value="{JSONModelPayload>/AUFNR}"
             />
             <Label
@@ -89,7 +93,9 @@
             />
             <Input
                 id="idV2InpValidDays"
-                placeholder="Validity Days"
+                placeholder="{i18n>view2.simpleForm.label.validDays}"
+                valueStateText="Enter {i18n>view2.simpleForm.label.validDays}"
+                value="{JSONModelPayload>/VALIDITY_DAYS}"
             />
 
             <core:Title id="idV2T2" />
@@ -104,6 +110,7 @@
                 items="{LocalJSONModels>/distributonChannel}"
                 selectedKey="{JSONModelPayload>/VTWEG}"
                 change="onDistributionChannelChange"
+                valueStateText="Select {i18n>view2.simpleForm.label.distChnl}"
             >
                 <core:Item
                     id="idV2SLItemDistChannel"
@@ -121,7 +128,8 @@
                 showValueHelp="true"
                 valueHelpRequest="onSalesOfficeHelp"
                 class="sapUiSmallMarginEnd"
-                placeholder="Sales Office"
+                placeholder="{i18n>view2.simpleForm.label.salOffice}"
+                valueStateText="Enter {i18n>view2.simpleForm.label.salOffice}"
                 value="{JSONModelPayload>/VKBUR}"
             />
             <Label
@@ -134,6 +142,7 @@
                 forceSelection="false"
                 items="{LocalJSONModels>/vertical}"
                 selectedKey="{JSONModelPayload>/SPART}"
+                valueStateText="Select {i18n>view2.simpleForm.label.vertical}"
             >
                 <core:Item
                     id="idV2SLItemVertical"
@@ -148,6 +157,7 @@
             <Input
                 id="idV2InpTransirInsurance"
                 editable="false"
+                valueStateText="Enter {i18n>view2.simpleForm.label.TranIns}"
                 value="{JSONModelPayload>/TI}"
             />
             <Label
