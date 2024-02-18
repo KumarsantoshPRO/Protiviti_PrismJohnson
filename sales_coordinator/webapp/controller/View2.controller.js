@@ -556,6 +556,7 @@ sap.ui.define([
 
                 
                 var headerValidationStatus = validation.headerPayloadValidation(this);
+                
                 if (headerValidationStatus === 1) {
                     var aData = this.getView().getModel("JSONModelPayload").getData().items;
                     var itemValidationStatus = validation.itemsPayloadValidation(aData, this, "Save");

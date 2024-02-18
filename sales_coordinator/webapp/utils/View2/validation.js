@@ -31,9 +31,10 @@ sap.ui.define(['sap/m/MessageBox'], function (MessageBox) {
         // Header, General Information(Simple form)- Validation
         headerPayloadValidation: function (oControl) {
 
-            var headerValidation = 1;
+
             if (!oControl.getView().getModel("JSONModelPayload").getData().KUNNR) {
                 this.headerPayloadState(oControl, 1);
+                return 0;
             }
             //else if(!oControl.getView().getModel("JSONModelPayload").getData().TI){
             //     MessageBox.error(" ");
@@ -48,28 +49,42 @@ sap.ui.define(['sap/m/MessageBox'], function (MessageBox) {
             // }
             else if (!oControl.getView().getModel("JSONModelPayload").getData().ZTERM) {
                 this.headerPayloadState(oControl, 2);
+                return 0;
             } else if (!oControl.getView().getModel("JSONModelPayload").getData().VALIDITY) {
                 this.headerPayloadState(oControl, 3);
+                return 0;
             } else if (!oControl.getView().getModel("JSONModelPayload").getData().AUFNR) {
                 this.headerPayloadState(oControl, 4);
+                return 0;
             } else if (!oControl.getView().getModel("JSONModelPayload").getData().VALIDITY_DAYS) {
                 this.headerPayloadState(oControl, 5);
-            } else if (!oControl.getView().getModel("JSONModelPayload").getData().VTWEG) {
+                return 0;
+            }
+            else if (!oControl.getView().getModel("JSONModelPayload").getData().VTWEG) {
                 this.headerPayloadState(oControl, 6);
+                return 0;
             } else if (!oControl.getView().getModel("JSONModelPayload").getData().VKBUR) {
+             
                 this.headerPayloadState(oControl, 7);
-            } else if (!oControl.getView().getModel("JSONModelPayload").getData().SPART) {
+                return 0;
+            } 
+             else if (!oControl.getView().getModel("JSONModelPayload").getData().SPART) {
+                 
                 this.headerPayloadState(oControl, 8);
+                return 0;
             } else {
                 this.headerPayloadState(oControl, 9);
+                return 1;
             }
 
         },
         headerPayloadState: function (oControl, nIndex) {
-
+            
+            var oResourceModel = oControl.getView().getModel("i18n").getResourceBundle();
+          
             switch (nIndex) {
                 case 1:
-                    MessageBox.error("Please enter Customer Code");
+                    MessageBox.error("Please enter " + oResourceModel.getText("view2.simpleForm.label.custCode"));
                     oControl.byId(sap.ui.core.Fragment.createId("idV2FragGenInfo", "idV2InpCustCode")).setValueState("Error");
                     oControl.byId(sap.ui.core.Fragment.createId("idV2FragGenInfo", "idV2SLPaymentTerm")).setValueState("None");
                     oControl.byId(sap.ui.core.Fragment.createId("idV2FragGenInfo", "idV2InpValidity")).setValueState("None");
@@ -78,10 +93,10 @@ sap.ui.define(['sap/m/MessageBox'], function (MessageBox) {
                     oControl.byId(sap.ui.core.Fragment.createId("idV2FragGenInfo", "idV2SLDistChannel")).setValueState("None");
                     oControl.byId(sap.ui.core.Fragment.createId("idV2FragGenInfo", "idV2InpSalesOffice")).setValueState("None");
                     oControl.byId(sap.ui.core.Fragment.createId("idV2FragGenInfo", "idV2SLVertical")).setValueState("None");
-                    headerValidation = 0;
+                    
                     break;
                 case 2:
-                    MessageBox.error("Please select Payment Term");
+                    MessageBox.error("Please select "+ oResourceModel.getText("view2.simpleForm.label.payTerm"));
                     oControl.byId(sap.ui.core.Fragment.createId("idV2FragGenInfo", "idV2SLPaymentTerm")).setValueState("Error");
                     oControl.byId(sap.ui.core.Fragment.createId("idV2FragGenInfo", "idV2InpCustCode")).setValueState("None");
                     oControl.byId(sap.ui.core.Fragment.createId("idV2FragGenInfo", "idV2InpValidity")).setValueState("None");
@@ -90,10 +105,10 @@ sap.ui.define(['sap/m/MessageBox'], function (MessageBox) {
                     oControl.byId(sap.ui.core.Fragment.createId("idV2FragGenInfo", "idV2SLDistChannel")).setValueState("None");
                     oControl.byId(sap.ui.core.Fragment.createId("idV2FragGenInfo", "idV2InpSalesOffice")).setValueState("None");
                     oControl.byId(sap.ui.core.Fragment.createId("idV2FragGenInfo", "idV2SLVertical")).setValueState("None");
-                    headerValidation = 0;
+                    
                     break;
                 case 3:
-                    MessageBox.error("Please enter Validity");
+                    MessageBox.error("Please enter "+ oResourceModel.getText("view2.simpleForm.label.validity"));
                     oControl.byId(sap.ui.core.Fragment.createId("idV2FragGenInfo", "idV2InpValidity")).setValueState("Error");
                     oControl.byId(sap.ui.core.Fragment.createId("idV2FragGenInfo", "idV2InpCustCode")).setValueState("None");
                     oControl.byId(sap.ui.core.Fragment.createId("idV2FragGenInfo", "idV2SLPaymentTerm")).setValueState("None");
@@ -102,10 +117,10 @@ sap.ui.define(['sap/m/MessageBox'], function (MessageBox) {
                     oControl.byId(sap.ui.core.Fragment.createId("idV2FragGenInfo", "idV2SLDistChannel")).setValueState("None");
                     oControl.byId(sap.ui.core.Fragment.createId("idV2FragGenInfo", "idV2InpSalesOffice")).setValueState("None");
                     oControl.byId(sap.ui.core.Fragment.createId("idV2FragGenInfo", "idV2SLVertical")).setValueState("None");
-                    headerValidation = 0;
+                    
                     break;
                 case 4:
-                    MessageBox.error("Please enter Order No");
+                    MessageBox.error("Please enter "+ oResourceModel.getText("view2.simpleForm.label.ordNo"));
                     oControl.byId(sap.ui.core.Fragment.createId("idV2FragGenInfo", "idV2InpOrderNo")).setValueState("Error");
                     oControl.byId(sap.ui.core.Fragment.createId("idV2FragGenInfo", "idV2InpCustCode")).setValueState("None");
                     oControl.byId(sap.ui.core.Fragment.createId("idV2FragGenInfo", "idV2SLPaymentTerm")).setValueState("None");
@@ -114,11 +129,11 @@ sap.ui.define(['sap/m/MessageBox'], function (MessageBox) {
                     oControl.byId(sap.ui.core.Fragment.createId("idV2FragGenInfo", "idV2SLDistChannel")).setValueState("None");
                     oControl.byId(sap.ui.core.Fragment.createId("idV2FragGenInfo", "idV2InpSalesOffice")).setValueState("None");
                     oControl.byId(sap.ui.core.Fragment.createId("idV2FragGenInfo", "idV2SLVertical")).setValueState("None");
-                    headerValidation = 0;
+                    
                     break;
                 case 5:
                     // {i18n>view2.simpleForm.label.validDays}
-                    MessageBox.error("Please select Validity(Days)");
+                    MessageBox.error("Please select "+ oResourceModel.getText("view2.simpleForm.label.validDays"));
                     oControl.byId(sap.ui.core.Fragment.createId("idV2FragGenInfo", "idV2InpValidDays")).setValueState("Error");
                     oControl.byId(sap.ui.core.Fragment.createId("idV2FragGenInfo", "idV2InpCustCode")).setValueState("None");
                     oControl.byId(sap.ui.core.Fragment.createId("idV2FragGenInfo", "idV2SLPaymentTerm")).setValueState("None");
@@ -127,10 +142,11 @@ sap.ui.define(['sap/m/MessageBox'], function (MessageBox) {
                     oControl.byId(sap.ui.core.Fragment.createId("idV2FragGenInfo", "idV2SLDistChannel")).setValueState("None");
                     oControl.byId(sap.ui.core.Fragment.createId("idV2FragGenInfo", "idV2InpSalesOffice")).setValueState("None");
                     oControl.byId(sap.ui.core.Fragment.createId("idV2FragGenInfo", "idV2SLVertical")).setValueState("None");
-                    headerValidation = 0;
+                    
                     break;
                 case 6:
-                    MessageBox.error("Please select Distribution Channel");
+                    
+                    MessageBox.error("Please select "+ oResourceModel.getText("view2.simpleForm.label.distChnl"));
                     oControl.byId(sap.ui.core.Fragment.createId("idV2FragGenInfo", "idV2SLDistChannel")).setValueState("Error");
                     oControl.byId(sap.ui.core.Fragment.createId("idV2FragGenInfo", "idV2InpCustCode")).setValueState("None");
                     oControl.byId(sap.ui.core.Fragment.createId("idV2FragGenInfo", "idV2SLPaymentTerm")).setValueState("None");
@@ -139,10 +155,11 @@ sap.ui.define(['sap/m/MessageBox'], function (MessageBox) {
                     oControl.byId(sap.ui.core.Fragment.createId("idV2FragGenInfo", "idV2InpValidDays")).setValueState("None");
                     oControl.byId(sap.ui.core.Fragment.createId("idV2FragGenInfo", "idV2InpSalesOffice")).setValueState("None");
                     oControl.byId(sap.ui.core.Fragment.createId("idV2FragGenInfo", "idV2SLVertical")).setValueState("None");
-                    headerValidation = 0;
+                    
                     break;
                 case 7:
-                    MessageBox.error("Please enter Sales Office");
+                    debugger;
+                    MessageBox.error("Please enter "+ oResourceModel.getText("view2.simpleForm.label.salOffice"));
                     oControl.byId(sap.ui.core.Fragment.createId("idV2FragGenInfo", "idV2InpSalesOffice")).setValueState("Error");
                     oControl.byId(sap.ui.core.Fragment.createId("idV2FragGenInfo", "idV2InpCustCode")).setValueState("None");
                     oControl.byId(sap.ui.core.Fragment.createId("idV2FragGenInfo", "idV2SLPaymentTerm")).setValueState("None");
@@ -151,9 +168,11 @@ sap.ui.define(['sap/m/MessageBox'], function (MessageBox) {
                     oControl.byId(sap.ui.core.Fragment.createId("idV2FragGenInfo", "idV2InpValidDays")).setValueState("None");
                     oControl.byId(sap.ui.core.Fragment.createId("idV2FragGenInfo", "idV2SLDistChannel")).setValueState("None");
                     oControl.byId(sap.ui.core.Fragment.createId("idV2FragGenInfo", "idV2SLVertical")).setValueState("None");
-                    headerValidation = 0;
+                    
+                    break;
                 case 8:
-                    MessageBox.error("Please select Vertical");
+                    debugger;
+                    MessageBox.error("Please select "+ oResourceModel.getText("view2.simpleForm.label.vertical"));
                     oControl.byId(sap.ui.core.Fragment.createId("idV2FragGenInfo", "idV2SLVertical")).setValueState("Error");
                     oControl.byId(sap.ui.core.Fragment.createId("idV2FragGenInfo", "idV2InpCustCode")).setValueState("None");
                     oControl.byId(sap.ui.core.Fragment.createId("idV2FragGenInfo", "idV2SLPaymentTerm")).setValueState("None");
@@ -162,7 +181,8 @@ sap.ui.define(['sap/m/MessageBox'], function (MessageBox) {
                     oControl.byId(sap.ui.core.Fragment.createId("idV2FragGenInfo", "idV2InpValidDays")).setValueState("None");
                     oControl.byId(sap.ui.core.Fragment.createId("idV2FragGenInfo", "idV2SLDistChannel")).setValueState("None");
                     oControl.byId(sap.ui.core.Fragment.createId("idV2FragGenInfo", "idV2InpSalesOffice")).setValueState("None");
-                    headerValidation = 0;
+                    
+                    break;
                 case 9:
                     oControl.byId(sap.ui.core.Fragment.createId("idV2FragGenInfo", "idV2InpCustCode")).setValueState("None");
                     oControl.byId(sap.ui.core.Fragment.createId("idV2FragGenInfo", "idV2SLPaymentTerm")).setValueState("None");
@@ -172,14 +192,12 @@ sap.ui.define(['sap/m/MessageBox'], function (MessageBox) {
                     oControl.byId(sap.ui.core.Fragment.createId("idV2FragGenInfo", "idV2SLDistChannel")).setValueState("None");
                     oControl.byId(sap.ui.core.Fragment.createId("idV2FragGenInfo", "idV2InpSalesOffice")).setValueState("None");
                     oControl.byId(sap.ui.core.Fragment.createId("idV2FragGenInfo", "idV2SLVertical")).setValueState("None");
-                    headerValidation = 1;
+                     
 
                     break;
                 default:
                     break;
             }
-
-            return headerValidation;
         },
         // Items, Additional Product Details(Table) - Validation
         itemsPayloadValidation: function (aData, oControl, sAction) {
