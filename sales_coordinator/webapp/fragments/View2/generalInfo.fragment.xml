@@ -25,21 +25,21 @@
             <core:Title id="idV2T1" />
             <Label
                 id="idV2LblCustCode"
-                text="{i18n>view2.simpleForm.label.custCode}"
+                text="{i18nV2>view2.simpleForm.label.custCode}"
                 required="true"
             />
             <Input
                 value="{JSONModelPayload>/KUNNR}"
                 id="idV2InpCustCode"
-                valueStateText="Enter {i18n>view2.simpleForm.label.custCode}"
+                valueStateText="Enter {i18nV2>view2.simpleForm.label.custCode}"
                 showValueHelp="true"
                 valueHelpRequest="onCustomerCodeHelp"
                 class="sapUiSmallMarginEnd"
-                placeholder="{i18n>view2.simpleForm.label.custCode}"
+                placeholder="{i18nV2>view2.simpleForm.label.custCode}"
             />
             <Label
                 id="idV2LblCustName"
-                text="{i18n>view2.simpleForm.label.custName}"
+                text="{i18nV2>view2.simpleForm.label.custName}"
             />
             <Input
                 value="{JSONModelPayload>/NAME}"
@@ -48,7 +48,7 @@
             />
             <Label
                 id="idV2LblPayTerm"
-                text="{i18n>view2.simpleForm.label.payTerm}"
+                text="{i18nV2>view2.simpleForm.label.payTerm}"
                 required="true"
             />
             <Select
@@ -56,7 +56,7 @@
                 forceSelection="false"
                 items="{LocalJSONModels>/paymentTerms}"
                 selectedKey="{JSONModelPayload>/ZTERM}"
-                valueStateText="Select {i18n>view2.simpleForm.label.payTerm}"
+                valueStateText="Select {i18nV2>view2.simpleForm.label.payTerm}"
             >
                 <core:Item
                     id="idV2SLItemPayTerm"
@@ -66,42 +66,42 @@
             </Select>
             <Label
                 id="idV2LblValidity"
-                text="{i18n>view2.simpleForm.label.validity}"
+                text="{i18nV2>view2.simpleForm.label.validity}"
                 required="true"
             />
             <Input
                 id="idV2InpValidity"
-                placeholder="{i18n>view2.simpleForm.label.validity}"
-                valueStateText="Enter {i18n>view2.simpleForm.label.validity}"
+                placeholder="{i18nV2>view2.simpleForm.label.validity}"
+                valueStateText="Enter {i18nV2>view2.simpleForm.label.validity}"
                 maxLength="3"
                 value="{JSONModelPayload>/VALIDITY}"
             />
 
             <Label
                 id="idV2LblOrdNo"
-                text="{i18n>view2.simpleForm.label.ordNo}"
+                text="{i18nV2>view2.simpleForm.label.ordNo}"
             />
             <Input
                 id="idV2InpOrderNo"
-                placeholder="{i18n>view2.simpleForm.label.ordNo}"
-                valueStateText="Enter {i18n>view2.simpleForm.label.ordNo}"
+                placeholder="{i18nV2>view2.simpleForm.label.ordNo}"
+                valueStateText="Enter {i18nV2>view2.simpleForm.label.ordNo}"
                 value="{JSONModelPayload>/AUFNR}"
             />
             <Label
                 id="idV2LblValidDay"
-                text="{i18n>view2.simpleForm.label.validDays}"
+                text="{i18nV2>view2.simpleForm.label.validDays}"
             />
             <Input
                 id="idV2InpValidDays"
-                placeholder="{i18n>view2.simpleForm.label.validDays}"
-                valueStateText="Enter {i18n>view2.simpleForm.label.validDays}"
+                placeholder="{i18nV2>view2.simpleForm.label.validDays}"
+                valueStateText="Enter {i18nV2>view2.simpleForm.label.validDays}"
                 value="{JSONModelPayload>/VALIDITY_DAYS}"
             />
 
             <core:Title id="idV2T2" />
             <Label
                 id="idV2LblDistChnl"
-                text="{i18n>view2.simpleForm.label.distChnl}"
+                text="{i18nV2>view2.simpleForm.label.distChnl}"
                 required="true"
             />
             <Select
@@ -110,7 +110,7 @@
                 items="{LocalJSONModels>/distributonChannel}"
                 selectedKey="{JSONModelPayload>/VTWEG}"
                 change="onDistributionChannelChange"
-                valueStateText="Select {i18n>view2.simpleForm.label.distChnl}"
+                valueStateText="Select {i18nV2>view2.simpleForm.label.distChnl}"
             >
                 <core:Item
                     id="idV2SLItemDistChannel"
@@ -120,7 +120,7 @@
             </Select>
             <Label
                 id="idV2LblSalOffice"
-                text="{i18n>view2.simpleForm.label.salOffice}"
+                text="{i18nV2>view2.simpleForm.label.salOffice}"
                 required="true"
             />
             <Input
@@ -128,13 +128,13 @@
                 showValueHelp="true"
                 valueHelpRequest="onSalesOfficeHelp"
                 class="sapUiSmallMarginEnd"
-                placeholder="{i18n>view2.simpleForm.label.salOffice}"
-                valueStateText="Enter {i18n>view2.simpleForm.label.salOffice}"
+                placeholder="{i18nV2>view2.simpleForm.label.salOffice}"
+                valueStateText="Enter {i18nV2>view2.simpleForm.label.salOffice}"
                 value="{JSONModelPayload>/VKBUR}"
             />
             <Label
                 id="idV2LblVertical"
-                text="{i18n>view2.simpleForm.label.vertical}"
+                text="{i18nV2>view2.simpleForm.label.vertical}"
                 required="true"
             />
             <Select
@@ -142,7 +142,7 @@
                 forceSelection="false"
                 items="{LocalJSONModels>/vertical}"
                 selectedKey="{JSONModelPayload>/SPART}"
-                valueStateText="Select {i18n>view2.simpleForm.label.vertical}"
+                valueStateText="Select {i18nV2>view2.simpleForm.label.vertical}"
             >
                 <core:Item
                     id="idV2SLItemVertical"
@@ -152,17 +152,17 @@
             </Select>
             <Label
                 id="idV2LblTranIns"
-                text="{i18n>view2.simpleForm.label.TranIns}"
+                text="{i18nV2>view2.simpleForm.label.TranIns}"
             />
             <Input
                 id="idV2InpTransirInsurance"
                 editable="false"
-                valueStateText="Enter {i18n>view2.simpleForm.label.TranIns}"
+                valueStateText="Enter {i18nV2>view2.simpleForm.label.TranIns}"
                 value="{JSONModelPayload>/TI}"
             />
             <Label
                 id="idV2LblGST"
-                text="{i18n>view2.simpleForm.label.gst}"
+                text="{i18nV2>view2.simpleForm.label.gst}"
             />
             <Input
                 id="idV2InpGST"
@@ -171,7 +171,7 @@
             />
             <Label
                 id="idV2LblEx"
-                text="{i18n>view2.simpleForm.label.ex}"
+                text="{i18nV2>view2.simpleForm.label.ex}"
             />
             <RadioButtonGroup
                 id="idV2RBG"

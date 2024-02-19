@@ -25,41 +25,41 @@
             <core:Title id="idV2T3" />
             <Label
                 id="idV2LblInvcDis"
-                text="{i18n>view2.simpleForm.label.InvcDis}"
+                text="{i18nV2>view2.simpleForm.label.InvcDis}"
                 required="true"
             />
             <Input
                 id="idV2InpInvcDis"
-                placeholder="{i18n>view2.simpleForm.label.InvcDis}"
+                placeholder="{i18nV2>view2.simpleForm.label.InvcDis}"
             />
 
             <Label
                 id="idV2LblSchDis"
-                text="{i18n>view2.simpleForm.label.SchDis}"
+                text="{i18nV2>view2.simpleForm.label.SchDis}"
                 required="true"
             />
             <Input
                 id="idV2InpSchDis"
-                placeholder="{i18n>view2.simpleForm.label.SchDis}"
+                placeholder="{i18nV2>view2.simpleForm.label.SchDis}"
             />
             <core:Title id="idV2T4" />
             <Label
                 id="idV2LblfraightCost"
-                text="{i18n>view2.simpleForm.label.fraightCost}"
+                text="{i18nV2>view2.simpleForm.label.fraightCost}"
                 required="true"
             />
             <Input
                 id="idV2InpfraightCost"
-                placeholder="{i18n>view2.simpleForm.label.fraightCost}"
+                placeholder="{i18nV2>view2.simpleForm.label.fraightCost}"
             />
             <Label
                 id="idV2LblPayTermDis"
-                text="{i18n>view2.simpleForm.label.PayTermDis}"
+                text="{i18nV2>view2.simpleForm.label.PayTermDis}"
                 required="true"
             />
             <Input
                 id="idV2InpPayTermDis"
-                placeholder="{i18n>view2.simpleForm.label.PayTermDis}"
+                placeholder="{i18nV2>view2.simpleForm.label.PayTermDis}"
             />
         </form:content>
     </form:SimpleForm>

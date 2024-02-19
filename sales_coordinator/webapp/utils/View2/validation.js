@@ -158,7 +158,7 @@ sap.ui.define(['sap/m/MessageBox'], function (MessageBox) {
                     
                     break;
                 case 7:
-                    debugger;
+                    
                     MessageBox.error("Please enter "+ oResourceModel.getText("view2.simpleForm.label.salOffice"));
                     oControl.byId(sap.ui.core.Fragment.createId("idV2FragGenInfo", "idV2InpSalesOffice")).setValueState("Error");
                     oControl.byId(sap.ui.core.Fragment.createId("idV2FragGenInfo", "idV2InpCustCode")).setValueState("None");
@@ -171,7 +171,7 @@ sap.ui.define(['sap/m/MessageBox'], function (MessageBox) {
                     
                     break;
                 case 8:
-                    debugger;
+                    
                     MessageBox.error("Please select "+ oResourceModel.getText("view2.simpleForm.label.vertical"));
                     oControl.byId(sap.ui.core.Fragment.createId("idV2FragGenInfo", "idV2SLVertical")).setValueState("Error");
                     oControl.byId(sap.ui.core.Fragment.createId("idV2FragGenInfo", "idV2InpCustCode")).setValueState("None");
@@ -229,7 +229,7 @@ sap.ui.define(['sap/m/MessageBox'], function (MessageBox) {
             }
 
             for (var i = 0; i < aData.length; i++) {
-                debugger;
+                
                 var vLine = i + 1;
 
                 if (aData[i].MFRGR === '') { this.itemsErrorMessage('MFRGR', vLine, sAction); }

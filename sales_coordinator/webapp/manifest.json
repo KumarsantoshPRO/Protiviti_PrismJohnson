@@ -57,6 +57,18 @@
         "settings": {
           "bundleName": "prj.salescoordinator.i18n.i18n"
         }
+      },
+      "i18nV1": {
+        "type": "sap.ui.model.resource.ResourceModel",
+        "settings": {
+          "bundleName": "prj.salescoordinator.i18n.i18nV1"
+        }
+      },
+      "i18nV2": {
+        "type": "sap.ui.model.resource.ResourceModel",
+        "settings": {
+          "bundleName": "prj.salescoordinator.i18n.i18nV2"
+        }
       }
     },
     "resources": {
@@ -88,14 +100,14 @@
           "name": "page2",
           "pattern": "Page2/{ID}",
           "target": [
-              "page2"
+            "page2"
           ]
         },
         {
           "name": "page1",
           "pattern": "Page1",
           "target": [
-              "page1"
+            "page1"
           ]
         }
       ],
@@ -113,8 +125,9 @@
           "viewName": "View2"
         },
         "page1": {
-            "viewType": "XML",
-            "viewName": "View1"
+          "viewId": "View1",
+          "viewType": "XML",
+          "viewName": "View1"
         }
       }
     },

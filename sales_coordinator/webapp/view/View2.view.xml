@@ -17,7 +17,7 @@
 >
     <!-- <f:ShellBar
             id="idV2SBLogoImg"
-			title="{i18n>view2.shellBar.title}"
+			title="{i18nV2>view2.shellBar.title}"
 			homeIcon="/css/johnson_img.png"
 			showCopilot="false"
 			showSearch="false"
@@ -34,14 +34,14 @@
             <uxap:ObjectPageHeader id="idV2OPH">
                 <Button
                     id="idV2BtnEdit"
-                    text="{i18n>view2.objectPageLayout.button.edit}"
+                    text="{i18nV2>view2.objectPageLayout.button.edit}"
                     type="Emphasized"
                     press="onEdit"
                     visible="{=${GlobalModel>/Editable}===false? true:false}"
                 />
                 <Button
                     id="idV2BtnBack"
-                    text="{i18n>view2.objectPageLayout.button.back}"
+                    text="{i18nV2>view2.objectPageLayout.button.back}"
                     press="onBack"
                 />
             </uxap:ObjectPageHeader>
@@ -50,12 +50,12 @@
             <uxap:ObjectPageSection
                 id="idV2OPSGenInfo"
                 titleUppercase="true"
-                title="{i18n>view2.sections.generalInfo.title}"
+                title="{i18nV2>view2.sections.generalInfo.title}"
             >
                 <uxap:subSections>
                     <uxap:ObjectPageSubSection
                         id="idV2OPSubGenInfo"
-                        title="{i18n>view2.sections.generalInfo.title}"
+                        title="{i18nV2>view2.sections.generalInfo.title}"
                         titleUppercase="true"
                     >
                         <uxap:blocks>
@@ -71,12 +71,12 @@
             <uxap:ObjectPageSection
                 id="idV2OPSPrdDetail"
                 titleUppercase="true"
-                title="{i18n>view2.sections.addPrdDetails.title}"
+                title="{i18nV2>view2.sections.addPrdDetails.title}"
             >
                 <uxap:subSections>
                     <uxap:ObjectPageSubSection
                         id="idV2OPSubPrdDetail"
-                        title="{i18n>view2.sections.addPrdDetails.title}"
+                        title="{i18nV2>view2.sections.addPrdDetails.title}"
                         titleUppercase="true"
                     >
                         <uxap:blocks>
@@ -92,12 +92,12 @@
             <uxap:ObjectPageSection
                 id="idV2OPSAttach"
                 titleUppercase="true"
-                title="{i18n>view2.sections.attachments.title}"
+                title="{i18nV2>view2.sections.attachments.title}"
             >
                 <uxap:subSections>
                     <uxap:ObjectPageSubSection
                         id="idV2OPSubAttach"
-                        title="{i18n>view2.sections.attachments.title}"
+                        title="{i18nV2>view2.sections.attachments.title}"
                         titleUppercase="true"
                     >
                         <uxap:blocks>
@@ -113,12 +113,12 @@
             <uxap:ObjectPageSection
                 id="idV2OPSSumDetail"
                 titleUppercase="true"
-                title="{i18n>view2.sections.sumDetails.title}"
+                title="{i18nV2>view2.sections.sumDetails.title}"
             >
                 <uxap:subSections>
                     <uxap:ObjectPageSubSection
                         id="idV2OPSubSumDetail"
-                        title="{i18n>view2.sections.sumDetails.title}"
+                        title="{i18nV2>view2.sections.sumDetails.title}"
                         titleUppercase="true"
                     >
                         <uxap:blocks>
@@ -144,7 +144,7 @@
                         class="sapUiTinyMarginBeginEnd"
                         icon="sap-icon://SAP-icons-TNT/message-start-event"
                         type="Attention"
-                        text="{i18n>view2.footer.button.message}"
+                        text="{i18nV2>view2.footer.button.message}"
                         press="handleMessages"
                     >
                         <!-- <customData>
@@ -158,13 +158,13 @@
                 <contentRight>
                     <Button
                         id="idV2BtnSave"
-                        text="{i18n>view2.footer.button.save}"
+                        text="{i18nV2>view2.footer.button.save}"
                         press="onSave"
                         type="Success"
                     />
                     <Button
                         id="idV2BtnCancel"
-                        text="{i18n>view2.footer.button.cancel}"
+                        text="{i18nV2>view2.footer.button.cancel}"
                         press="onCancel"
                         type="Reject"
                     />

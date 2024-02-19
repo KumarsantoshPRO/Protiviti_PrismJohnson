@@ -12,13 +12,13 @@
             <Button
                 icon="sap-icon://cause"
                 id="idV2BtnGenerate"
-                text="{i18n>view2.flexBox.button.Generate}"
+                text="{i18nV2>view2.flexBox.button.Generate}"
                 press="onGenerate"
                 type="Attention"
             />
             <Button
                 id="idV2BtnAdd"
-                text="{i18n>view2.flexBox.button.AddMoreProducts}"
+                text="{i18nV2>view2.flexBox.button.AddMoreProducts}"
                 icon="sap-icon://add"
                 press="onAddRow"
             />
@@ -49,7 +49,7 @@
                     >
                         <Text
                             id="idV2TblClmTxtMatFreGrp"
-                            text="{i18n>view2.table.column.text.matFreGrp}"
+                            text="{i18nV2>view2.table.column.text.matFreGrp}"
                         />
                     </Column>
                     <Column
@@ -61,7 +61,7 @@
                     >
                         <Text
                             id="idV2TblClmTxtSize"
-                            text="{i18n>view2.table.column.text.size}"
+                            text="{i18nV2>view2.table.column.text.size}"
                         />
                     </Column>
                     <Column
@@ -73,7 +73,7 @@
                     >
                         <Text
                             id="idV2TxtTblClmDesign"
-                            text="{i18n>view2.table.column.text.designs}"
+                            text="{i18nV2>view2.table.column.text.designs}"
                         />
                     </Column>
                     <Column
@@ -85,7 +85,7 @@
                     >
                         <Text
                             id="idV2TxtTblClmSupp"
-                            text="{i18n>view2.table.column.text.suppPlant}"
+                            text="{i18nV2>view2.table.column.text.suppPlant}"
                         />
                     </Column>
                     <Column
@@ -97,7 +97,7 @@
                     >
                         <Text
                             id="idV2TxtTblClmPlant"
-                            text="{i18n>view2.table.column.text.manPlant}"
+                            text="{i18nV2>view2.table.column.text.manPlant}"
                         />
                     </Column>
 
@@ -110,7 +110,7 @@
                     >
                         <Text
                             id="idV2TxtTblClmCurVol"
-                            text="{i18n>view2.table.column.text.currVol}"
+                            text="{i18nV2>view2.table.column.text.currVol}"
                         />
                     </Column>
                     <Column
@@ -122,7 +122,7 @@
                     >
                         <Text
                             id="idV2TxtTblClmTotVol"
-                            text="{i18n>view2.table.column.text.totVol}"
+                            text="{i18nV2>view2.table.column.text.totVol}"
                         />
                     </Column>
                     <Column
@@ -134,7 +134,7 @@
                     >
                         <Text
                             id="idV2TxtTblClmExFac"
-                            text="{i18n>view2.table.column.text.exFac}"
+                            text="{i18nV2>view2.table.column.text.exFac}"
                         />
                     </Column>
                     <Column
@@ -146,7 +146,7 @@
                     >
                         <Text
                             id="idV2TxtTblClmDisPer"
-                            text="{=${JSONModelPayload>/VTWEG} === '19'? ${i18n>view2.table.column.text.onIncDisountPercentage}:${i18n>view2.table.column.text.onIncDisountAmount}}"
+                            text="{=${JSONModelPayload>/VTWEG} === '19'? ${i18nV2>view2.table.column.text.onIncDisountPercentage}:${i18nV2>view2.table.column.text.onIncDisountAmount}}"
                         />
                     </Column>
                     <Column
@@ -158,7 +158,7 @@
                     >
                         <Text
                             id="idV2TxtTblClmSchDis"
-                            text="{i18n>view2.table.column.text.schDisountAmount}"
+                            text="{i18nV2>view2.table.column.text.schDisountAmount}"
                         />
                     </Column>
                     <Column
@@ -170,7 +170,7 @@
                     >
                         <Text
                             id="idV2TxtTblClmScm"
-                            text="{i18n>schDisountPercentage}"
+                            text="{i18nV2>schDisountPercentage}"
                         />
                     </Column>
                     <Column
@@ -182,7 +182,7 @@
                     >
                         <Text
                             id="idV2TxtTblClmORCEnt"
-                            text="{i18n>view2.table.column.text.orcEntity}"
+                            text="{i18nV2>view2.table.column.text.orcEntity}"
                         />
                     </Column>
 
@@ -195,7 +195,7 @@
                     >
                         <Text
                             id="idV2TxtTblClmORCPer"
-                            text="{i18n>view2.table.column.text.orcPercentage}"
+                            text="{i18nV2>view2.table.column.text.orcPercentage}"
                         />
                     </Column>
                     <Column
@@ -207,7 +207,7 @@
                     >
                         <Text
                             id="idV2TxtTblCLmFrei"
-                            text="{i18n>view2.table.column.text.freight}"
+                            text="{i18nV2>view2.table.column.text.freight}"
                         />
                     </Column>
                     <Column
@@ -219,7 +219,7 @@
                     >
                         <Text
                             id="idV2TxtTblClmComp"
-                            text="{i18n>view2.table.column.text.compName}"
+                            text="{i18nV2>view2.table.column.text.compName}"
                         />
                     </Column>
                     <Column
@@ -231,7 +231,7 @@
                     >
                         <Text
                             id="idV2TxtTblClmLanPrice"
-                            text="{i18n>view2.table.column.text.compLandPrice}"
+                            text="{i18nV2>view2.table.column.text.compLandPrice}"
                         />
                     </Column>
 
@@ -244,7 +244,7 @@
                     >
                         <Text
                             id="idV2TxtTblClmQlt"
-                            text="{i18n>view2.table.column.text.quality}"
+                            text="{i18nV2>view2.table.column.text.quality}"
                         />
                     </Column>
                     <Column
@@ -256,7 +256,7 @@
                     >
                         <Text
                             id="idV2TxtTblCLmPart"
-                            text="{i18n>view2.table.column.text.part}"
+                            text="{i18nV2>view2.table.column.text.part}"
                         />
                     </Column>
                     <Column
@@ -268,7 +268,7 @@
                     >
                         <Text
                             id="idV2TxtTblClmLand"
-                            text="{i18n>view2.table.column.text.landed}"
+                            text="{i18nV2>view2.table.column.text.landed}"
                         />
                     </Column>
                     <Column
@@ -280,7 +280,7 @@
                     >
                         <Text
                             id="idV2TxtTblClmNEF"
-                            text="{i18n>view2.table.column.text.netExFactory}"
+                            text="{i18nV2>view2.table.column.text.netExFactory}"
                         />
                     </Column>
 
@@ -293,7 +293,7 @@
                     >
                         <Text
                             id="idV2TxtTblClmDel"
-                            text="{i18n>view2.table.column.text.delete}"
+                            text="{i18nV2>view2.table.column.text.delete}"
                         />
                     </Column>
                 </columns>

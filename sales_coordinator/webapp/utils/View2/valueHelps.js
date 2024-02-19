@@ -57,8 +57,10 @@ sap.ui.define([], function () {
 
         // Material Freight Group
         onMaterialFreightGroupsHelp: function(oControl){
+            var oResourceModel = oControl.getView().getModel("i18nV2").getResourceBundle();
             if (!oControl.oFragment) {
                 oControl.oFragment = sap.ui.xmlfragment("prj.salescoordinator.fragments.View2.F4s.materialFreightGroupsF4", oControl);
+                oControl.oFragment.setTitle(oResourceModel.getText("view2.F4.title.materialFreightGroups"));
                 oControl.getView().addDependent(oControl.SalesOfficerag);
                 oControl._SalesOfficeTemp = sap.ui.getCore().byId("idSLMaterialFreightGroupsValueHelp").clone();
             }
@@ -74,8 +76,10 @@ sap.ui.define([], function () {
         },
         // Sizes
         onSizesHelp: function(oControl){
+            var oResourceModel = oControl.getView().getModel("i18nV2").getResourceBundle();
             if (!oControl.oFragmentSizes) {
                 oControl.oFragmentSizes = sap.ui.xmlfragment("prj.salescoordinator.fragments.View2.F4s.sizesF4", oControl);
+                oControl.oFragmentSizes.setTitle(oResourceModel.getText("view2.F4.title.sizes"));
                 oControl.getView().addDependent(oControl.SalesOfficerag);
                 oControl._SalesOfficeTemp = sap.ui.getCore().byId("idSLSizesValueHelp").clone();
             }
@@ -91,8 +95,10 @@ sap.ui.define([], function () {
         },
 // Designs 
         onDesignsHelp: function(oControl){
+            var oResourceModel = oControl.getView().getModel("i18nV2").getResourceBundle();
             if (!oControl.oFragmentDesign) {
                 oControl.oFragmentDesign = sap.ui.xmlfragment("prj.salescoordinator.fragments.View2.F4s.designsF4", oControl);
+                oControl.oFragmentDesign.setTitle(oResourceModel.getText("view2.F4.title.designs"));
                 oControl.getView().addDependent(oControl.SalesOfficerag);
                 oControl._SalesOfficeTemp = sap.ui.getCore().byId("idSLDesignsValueHelp").clone();
             }
@@ -108,8 +114,10 @@ sap.ui.define([], function () {
         },
         // Supply Plant
         onSupplyPlantHelp: function(oControl){
+            var oResourceModel = oControl.getView().getModel("i18nV2").getResourceBundle();
             if (!oControl.oFragmentSupply) {
                 oControl.oFragmentSupply = sap.ui.xmlfragment("prj.salescoordinator.fragments.View2.F4s.supplyingPlantF4", oControl);
+                oControl.oFragmentSupply.setTitle(oResourceModel.getText("view2.F4.title.supplyingPlant"));
                 oControl.getView().addDependent(oControl.SalesOfficerag);
                 oControl._SalesOfficeTemp = sap.ui.getCore().byId("idSLSupplyingPlantValueHelp").clone();
             }
@@ -126,8 +134,10 @@ sap.ui.define([], function () {
 
         // Manufacturing Amount
         onManufacturingAmtHelp: function (oControl) {
+            var oResourceModel = oControl.getView().getModel("i18nV2").getResourceBundle();
             if (!oControl.oFragmentMan) {
                 oControl.oFragmentMan = sap.ui.xmlfragment("prj.salescoordinator.fragments.View2.F4s.manufacturingAmountF4", oControl);
+                oControl.oFragmentMan.setTitle(oResourceModel.getText("view2.F4.title.manufacturingAmount"));
                 oControl.getView().addDependent(oControl.SalesOfficerag);
                 oControl._SalesOfficeTemp = sap.ui.getCore().byId("idSLManufacturingAmountValueHelp").clone();
             }
