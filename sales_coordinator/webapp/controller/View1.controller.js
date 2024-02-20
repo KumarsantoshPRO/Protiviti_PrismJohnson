@@ -13,639 +13,71 @@ sap.ui.define([
 
             formatter: formatter,
             onInit: function () {
-                this.getAllRequestData();
+                this.mapLocalJSONDataToTable("AllRequestData");
             },
 
-            onNewPress: function() {
+            onNewPress: function () {
                 this.oRouter = this.getOwnerComponent().getRouter();
                 this.oRouter.navTo("page2",
-                {
-                    "ID": "null"
-                });
+                    {
+                        "ID": "null"
+                    });
             },
 
-            onBack: function(){
+            onBack: function () {
                 this.getOwnerComponent().getRouter().navTo("RouteView1", {
                 });
             },
 
-            onClickofItem: function(oEvent){
+            onClickofItem: function (oEvent) {
                 this.oRouter = this.getOwnerComponent().getRouter();
                 this.oRouter.navTo("page2",
-                {
-                    ID: oEvent.getSource().getCells()[0].getText()
-                });
-                
+                    {
+                        ID: oEvent.getSource().getCells()[0].getText()
+                    });
+
             },
-
-
-
 
             onFilterSelect: function (oEvent) {
                 var sKey = oEvent.getParameter("key");
                 if (sKey === "All") {
-                    this.getAllRequestData();
+                    this.mapLocalJSONDataToTable("AllRequestData");
                 } else if (sKey === "OnGoing") {
-                    this.getOnGoingData();
+                    this.mapLocalJSONDataToTable("OnGoingData");
                 } else if (sKey === "Approved") {
-                    this.getApprovedData();
+                    this.mapLocalJSONDataToTable("ApprovedData");
                 } else if (sKey === "Rejected") {
-                    this.getRejectedData();
+                    this.mapLocalJSONDataToTable("RejectedData");
                 } else if (sKey === "Delay") {
-                    this.getDelayData();
+                    this.mapLocalJSONDataToTable("DelayData");
                 }
 
             },
+            mapLocalJSONDataToTable: function (DataFor) {
+                var dataModel = this.getOwnerComponent().getModel("tableData").getData();
+                var dataLocalModels;
+                switch (DataFor) {
+                    case "AllRequestData":
+                        dataLocalModels = dataModel.AllRequestData;
+                        break;
+                    case "OnGoingData":
+                        dataLocalModels = dataModel.OnGoingData;
+                        break;
+                    case "ApprovedData":
+                        dataLocalModels = dataModel.ApprovedData;
+                        break;
+                    case "RejectedData":
+                        dataLocalModels = dataModel.RejectedData;
+                        break;
+                    case "DelayData":
+                        dataLocalModels = dataModel.DelayData;
+                        break;
 
+                    default:
+                        break;
+                }
 
-
-
-            getAllRequestData: function() {
-                var oRequestModel = new JSONModel([
-                    {
-                        "orderNo" : "RN123456801",
-                        "region" : "NI-Chandigarh",
-                        "customer" : "Aman Sharma",
-                        "custId" : "TN0S0117",
-                        "orderType" : "Retail",
-                        "orderTotal" : "45,000",
-                        "orderCur" : "20,000",
-                        "reqDate" : "10 Oct 2023",
-                        "discountPer" : "9%",
-                        "status" : "On Going"
-                    },
-                    {
-                        "orderNo" : "RN123456802",
-                        "region" : "NI-Chandigarh",
-                        "customer" : "Kunal Kapoor",
-                        "custId" : "TN0S0117",
-                        "orderType" : "Retail",
-                        "orderTotal" : "45,000",
-                        "orderCur" : "20,000",
-                        "reqDate" : "10 Oct 2023",
-                        "discountPer" : "9%",
-                        "status" : "On Going"
-                    },
-                    {
-                        "orderNo" : "RN123456803",
-                        "region" : "NI-Chandigarh",
-                        "customer" : "Rahul Sharma",
-                        "custId" : "TN0S0117",
-                        "orderType" : "Retail",
-                        "orderTotal" : "45,000",
-                        "orderCur" : "20,000",
-                        "reqDate" : "10 Oct 2023",
-                        "discountPer" : "9%",
-                        "status" : "On Going"
-                    },
-                    {
-                        "orderNo" : "RN123456804",
-                        "region" : "NI-Chandigarh",
-                        "customer" : "Mohit Rajput",
-                        "custId" : "TN0S0117",
-                        "orderType" : "Retail",
-                        "orderTotal" : "45,000",
-                        "orderCur" : "20,000",
-                        "reqDate" : "10 Oct 2023",
-                        "discountPer" : "9%",
-                        "status" : "Approved"
-                    },
-                    {
-                        "orderNo" : "RN123456805",
-                        "region" : "NI-Chandigarh",
-                        "customer" : "Rajash Gupta",
-                        "custId" : "TN0S0117",
-                        "orderType" : "Retail",
-                        "orderTotal" : "45,000",
-                        "orderCur" : "20,000",
-                        "reqDate" : "10 Oct 2023",
-                        "discountPer" : "9%",
-                        "status" : "Rejected"
-                    },
-                    {
-                        "orderNo" : "RN123456806",
-                        "region" : "NI-Chandigarh",
-                        "customer" : "Rahul Sharma",
-                        "custId" : "TN0S0117",
-                        "orderType" : "Retail",
-                        "orderTotal" : "45,000",
-                        "orderCur" : "20,000",
-                        "reqDate" : "10 Oct 2023",
-                        "discountPer" : "9%",
-                        "status" : "Approved"
-                    },
-                    {
-                        "orderNo" : "RN123456807",
-                        "region" : "NI-Chandigarh",
-                        "customer" : "Aman Sharma",
-                        "custId" : "TN0S0117",
-                        "orderType" : "Retail",
-                        "orderTotal" : "45,000",
-                        "orderCur" : "20,000",
-                        "reqDate" : "10 Oct 2023",
-                        "discountPer" : "9%",
-                        "status" : "Rejected"
-                    },
-                    {
-                        "orderNo" : "RN123456808",
-                        "region" : "NI-Chandigarh",
-                        "customer" : "Kunal Kapoor",
-                        "custId" : "TN0S0117",
-                        "orderType" : "Retail",
-                        "orderTotal" : "45,000",
-                        "orderCur" : "20,000",
-                        "reqDate" : "10 Oct 2023",
-                        "discountPer" : "9%",
-                        "status" : "Rejected"
-                    },
-                    {
-                        "orderNo" : "RN123456809",
-                        "region" : "NI-Chandigarh",
-                        "customer" : "Rahul Sharma",
-                        "custId" : "TN0S0117",
-                        "orderType" : "Retail",
-                        "orderTotal" : "45,000",
-                        "orderCur" : "20,000",
-                        "reqDate" : "10 Oct 2023",
-                        "discountPer" : "9%",
-                        "status" : "Delay"
-                    },
-                    {
-                        "orderNo" : "RN1234568010",
-                        "region" : "NI-Chandigarh",
-                        "customer" : "Aman Sharma",
-                        "custId" : "TN0S0117",
-                        "orderType" : "Retail",
-                        "orderTotal" : "45,000",
-                        "orderCur" : "20,000",
-                        "reqDate" : "10 Oct 2023",
-                        "discountPer" : "9%",
-                        "status" : "Approved"
-                    },
-                    {
-                        "orderNo" : "RN123456809",
-                        "region" : "NI-Chandigarh",
-                        "customer" : "Rahul Sharma",
-                        "custId" : "TN0S0117",
-                        "orderType" : "Retail",
-                        "orderTotal" : "45,000",
-                        "orderCur" : "20,000",
-                        "reqDate" : "10 Oct 2023",
-                        "discountPer" : "9%",
-                        "status" : "Approved"
-                    },
-                    {
-                        "orderNo" : "RN1234568010",
-                        "region" : "NI-Chandigarh",
-                        "customer" : "Aman Sharma",
-                        "custId" : "TN0S0117",
-                        "orderType" : "Retail",
-                        "orderTotal" : "45,000",
-                        "orderCur" : "20,000",
-                        "reqDate" : "10 Oct 2023",
-                        "discountPer" : "9%",
-                        "status" : "Delay"
-                    },
-                    {
-                        "orderNo" : "RN123456801",
-                        "region" : "NI-Chandigarh",
-                        "customer" : "Aman Sharma",
-                        "custId" : "TN0S0117",
-                        "orderType" : "Retail",
-                        "orderTotal" : "45,000",
-                        "orderCur" : "20,000",
-                        "reqDate" : "10 Oct 2023",
-                        "discountPer" : "9%",
-                        "status" : "Delay"
-                    },
-                    {
-                        "orderNo" : "RN123456802",
-                        "region" : "NI-Chandigarh",
-                        "customer" : "Kunal Kapoor",
-                        "custId" : "TN0S0117",
-                        "orderType" : "Retail",
-                        "orderTotal" : "45,000",
-                        "orderCur" : "20,000",
-                        "reqDate" : "10 Oct 2023",
-                        "discountPer" : "9%",
-                        "status" : "On Going"
-                    },
-                    {
-                        "orderNo" : "RN123456803",
-                        "region" : "NI-Chandigarh",
-                        "customer" : "Rahul Sharma",
-                        "custId" : "TN0S0117",
-                        "orderType" : "Retail",
-                        "orderTotal" : "45,000",
-                        "orderCur" : "20,000",
-                        "reqDate" : "10 Oct 2023",
-                        "discountPer" : "9%",
-                        "status" : "On Going"
-                    },
-                    {
-                        "orderNo" : "RN123456804",
-                        "region" : "NI-Chandigarh",
-                        "customer" : "Mohit Rajput",
-                        "custId" : "TN0S0117",
-                        "orderType" : "Retail",
-                        "orderTotal" : "45,000",
-                        "orderCur" : "20,000",
-                        "reqDate" : "10 Oct 2023",
-                        "discountPer" : "9%",
-                        "status" : "On Going"
-                    },
-                    {
-                        "orderNo" : "RN123456805",
-                        "region" : "NI-Chandigarh",
-                        "customer" : "Rajash Gupta",
-                        "custId" : "TN0S0117",
-                        "orderType" : "Retail",
-                        "orderTotal" : "45,000",
-                        "orderCur" : "20,000",
-                        "reqDate" : "10 Oct 2023",
-                        "discountPer" : "9%",
-                        "status" : "On Going"
-                    },
-                    {
-                        "orderNo" : "RN123456806",
-                        "region" : "NI-Chandigarh",
-                        "customer" : "Rahul Sharma",
-                        "custId" : "TN0S0117",
-                        "orderType" : "Retail",
-                        "orderTotal" : "45,000",
-                        "orderCur" : "20,000",
-                        "reqDate" : "10 Oct 2023",
-                        "discountPer" : "9%",
-                        "status" : "On Going"
-                    },
-                    {
-                        "orderNo" : "RN123456807",
-                        "region" : "NI-Chandigarh",
-                        "customer" : "Aman Sharma",
-                        "custId" : "TN0S0117",
-                        "orderType" : "Retail",
-                        "orderTotal" : "45,000",
-                        "orderCur" : "20,000",
-                        "reqDate" : "10 Oct 2023",
-                        "discountPer" : "9%",
-                        "status" : "On Going"
-                    },
-                    {
-                        "orderNo" : "RN123456808",
-                        "region" : "NI-Chandigarh",
-                        "customer" : "Kunal Kapoor",
-                        "custId" : "TN0S0117",
-                        "orderType" : "Retail",
-                        "orderTotal" : "45,000",
-                        "orderCur" : "20,000",
-                        "reqDate" : "10 Oct 2023",
-                        "discountPer" : "9%",
-                        "status" : "On Going"
-                    },
-                    {
-                        "orderNo" : "RN123456809",
-                        "region" : "NI-Chandigarh",
-                        "customer" : "Rahul Sharma",
-                        "custId" : "TN0S0117",
-                        "orderType" : "Retail",
-                        "orderTotal" : "45,000",
-                        "orderCur" : "20,000",
-                        "reqDate" : "10 Oct 2023",
-                        "discountPer" : "9%",
-                        "status" : "Delay"
-                    },
-                    {
-                        "orderNo" : "RN1234568010",
-                        "region" : "NI-Chandigarh",
-                        "customer" : "Aman Sharma",
-                        "custId" : "TN0S0117",
-                        "orderType" : "Retail",
-                        "orderTotal" : "45,000",
-                        "orderCur" : "20,000",
-                        "reqDate" : "10 Oct 2023",
-                        "discountPer" : "9%",
-                        "status" : "Delay"
-                    },
-                    {
-                        "orderNo" : "RN123456809",
-                        "region" : "NI-Chandigarh",
-                        "customer" : "Rahul Sharma",
-                        "custId" : "TN0S0117",
-                        "orderType" : "Retail",
-                        "orderTotal" : "45,000",
-                        "orderCur" : "20,000",
-                        "reqDate" : "10 Oct 2023",
-                        "discountPer" : "9%",
-                        "status" : "Delay"
-                    }
-                ]);
-                this.getView().setModel(oRequestModel, "RequestModel");
-
-            },
-
-            getOnGoingData: function() {
-
-                var oDelayModel = new JSONModel([
-                    {
-                        "orderNo" : "RN123456803",
-                        "region" : "NI-Chandigarh",
-                        "customer" : "Rahul Sharma",
-                        "custId" : "TN0S0117",
-                        "orderType" : "Retail",
-                        "orderTotal" : "45,000",
-                        "orderCur" : "20,000",
-                        "reqDate" : "10 Oct 2023",
-                        "discountPer" : "9%",
-                        "status" : "On Going"
-                    },
-                    {
-                        "orderNo" : "RN123456806",
-                        "region" : "NI-Chandigarh",
-                        "customer" : "Rahul Sharma",
-                        "custId" : "TN0S0117",
-                        "orderType" : "Retail",
-                        "orderTotal" : "45,000",
-                        "orderCur" : "20,000",
-                        "reqDate" : "10 Oct 2023",
-                        "discountPer" : "9%",
-                        "status" : "On Going"
-                    },
-                    {
-                        "orderNo" : "RN123456807",
-                        "region" : "NI-Chandigarh",
-                        "customer" : "Aman Sharma",
-                        "custId" : "TN0S0117",
-                        "orderType" : "Retail",
-                        "orderTotal" : "45,000",
-                        "orderCur" : "20,000",
-                        "reqDate" : "10 Oct 2023",
-                        "discountPer" : "9%",
-                        "status" : "On Going"
-                    },
-                    {
-                        "orderNo" : "RN123456808",
-                        "region" : "NI-Chandigarh",
-                        "customer" : "Kunal Kapoor",
-                        "custId" : "TN0S0117",
-                        "orderType" : "Retail",
-                        "orderTotal" : "45,000",
-                        "orderCur" : "20,000",
-                        "reqDate" : "10 Oct 2023",
-                        "discountPer" : "9%",
-                        "status" : "On Going"
-                    },            
-                    {
-                        "orderNo" : "RN123456807",
-                        "region" : "NI-Chandigarh",
-                        "customer" : "Aman Sharma",
-                        "custId" : "TN0S0117",
-                        "orderType" : "Retail",
-                        "orderTotal" : "45,000",
-                        "orderCur" : "20,000",
-                        "reqDate" : "10 Oct 2023",
-                        "discountPer" : "9%",
-                        "status" : "On Going"
-                    },
-                    {
-                        "orderNo" : "RN123456808",
-                        "region" : "NI-Chandigarh",
-                        "customer" : "Kunal Kapoor",
-                        "custId" : "TN0S0117",
-                        "orderType" : "Retail",
-                        "orderTotal" : "45,000",
-                        "orderCur" : "20,000",
-                        "reqDate" : "10 Oct 2023",
-                        "discountPer" : "9%",
-                        "status" : "On Going"
-                    },
-                    {
-                        "orderNo" : "RN123456809",
-                        "region" : "NI-Chandigarh",
-                        "customer" : "Rahul Sharma",
-                        "custId" : "TN0S0117",
-                        "orderType" : "Retail",
-                        "orderTotal" : "45,000",
-                        "orderCur" : "20,000",
-                        "reqDate" : "10 Oct 2023",
-                        "discountPer" : "9%",
-                        "status" : "On Going"
-                    },
-                    {
-                        "orderNo" : "RN1234568010",
-                        "region" : "NI-Chandigarh",
-                        "customer" : "Aman Sharma",
-                        "custId" : "TN0S0117",
-                        "orderType" : "Retail",
-                        "orderTotal" : "45,000",
-                        "orderCur" : "20,000",
-                        "reqDate" : "10 Oct 2023",
-                        "discountPer" : "9%",
-                        "status" : "On Going"
-                    },
-                    {
-                        "orderNo" : "RN123456809",
-                        "region" : "NI-Chandigarh",
-                        "customer" : "Rahul Sharma",
-                        "custId" : "TN0S0117",
-                        "orderType" : "Retail",
-                        "orderTotal" : "45,000",
-                        "orderCur" : "20,000",
-                        "reqDate" : "10 Oct 2023",
-                        "discountPer" : "9%",
-                        "status" : "On Going"
-                    },
-                    {
-                        "orderNo" : "RN1234568010",
-                        "region" : "NI-Chandigarh",
-                        "customer" : "Aman Sharma",
-                        "custId" : "TN0S0117",
-                        "orderType" : "Retail",
-                        "orderTotal" : "45,000",
-                        "orderCur" : "20,000",
-                        "reqDate" : "10 Oct 2023",
-                        "discountPer" : "9%",
-                        "status" : "On Going"
-                    }
-                ]);
-                this.getView().setModel(oDelayModel, "RequestModel");
-            },
-
-            getApprovedData: function() {
-
-                var oApprovedModel = new JSONModel([
-                    {
-                        "orderNo" : "RN123456803",
-                        "region" : "NI-Chandigarh",
-                        "customer" : "Rahul Sharma",
-                        "custId" : "TN0S0117",
-                        "orderType" : "Retail",
-                        "orderTotal" : "45,000",
-                        "orderCur" : "20,000",
-                        "reqDate" : "10 Oct 2023",
-                        "discountPer" : "9%",
-                        "status" : "Approved"
-                    },
-                    {
-                        "orderNo" : "RN123456804",
-                        "region" : "NI-Chandigarh",
-                        "customer" : "Mohit Rajput",
-                        "custId" : "TN0S0117",
-                        "orderType" : "Retail",
-                        "orderTotal" : "45,000",
-                        "orderCur" : "20,000",
-                        "reqDate" : "10 Oct 2023",
-                        "discountPer" : "9%",
-                        "status" : "Approved"
-                    },
-                    {
-                        "orderNo" : "RN123456805",
-                        "region" : "NI-Chandigarh",
-                        "customer" : "Rajash Gupta",
-                        "custId" : "TN0S0117",
-                        "orderType" : "Retail",
-                        "orderTotal" : "45,000",
-                        "orderCur" : "20,000",
-                        "reqDate" : "10 Oct 2023",
-                        "discountPer" : "9%",
-                        "status" : "Approved"
-                    },
-                    {
-                        "orderNo" : "RN123456806",
-                        "region" : "NI-Chandigarh",
-                        "customer" : "Rahul Sharma",
-                        "custId" : "TN0S0117",
-                        "orderType" : "Retail",
-                        "orderTotal" : "45,000",
-                        "orderCur" : "20,000",
-                        "reqDate" : "10 Oct 2023",
-                        "discountPer" : "9%",
-                        "status" : "Approved"
-                    }
-                ]);
-                this.getView().setModel(oApprovedModel, "RequestModel");
-            },
-
-            getRejectedData: function() {
-
-                var oRejectedModel = new JSONModel([
-                    {
-                        "orderNo" : "RN123456804",
-                        "region" : "NI-Chandigarh",
-                        "customer" : "Mohit Rajput",
-                        "custId" : "TN0S0117",
-                        "orderType" : "Retail",
-                        "orderTotal" : "45,000",
-                        "orderCur" : "20,000",
-                        "reqDate" : "10 Oct 2023",
-                        "discountPer" : "9%",
-                        "status" : "Rejected"
-                    },
-                    {
-                        "orderNo" : "RN123456805",
-                        "region" : "NI-Chandigarh",
-                        "customer" : "Rajash Gupta",
-                        "custId" : "TN0S0117",
-                        "orderType" : "Retail",
-                        "orderTotal" : "45,000",
-                        "orderCur" : "20,000",
-                        "reqDate" : "10 Oct 2023",
-                        "discountPer" : "9%",
-                        "status" : "Rejected"
-                    },
-                    {
-                        "orderNo" : "RN123456806",
-                        "region" : "NI-Chandigarh",
-                        "customer" : "Rahul Sharma",
-                        "custId" : "TN0S0117",
-                        "orderType" : "Retail",
-                        "orderTotal" : "45,000",
-                        "orderCur" : "20,000",
-                        "reqDate" : "10 Oct 2023",
-                        "discountPer" : "9%",
-                        "status" : "Rejected"
-                    }
-                ]);
-                this.getView().setModel(oRejectedModel, "RequestModel");
-            },
-
-            getDelayData: function() {
-
-                var oDelayModel = new JSONModel([
-                    {
-                        "orderNo" : "RN123456803",
-                        "region" : "NI-Chandigarh",
-                        "customer" : "Rahul Sharma",
-                        "custId" : "TN0S0117",
-                        "orderType" : "Retail",
-                        "orderTotal" : "45,000",
-                        "orderCur" : "20,000",
-                        "reqDate" : "10 Oct 2023",
-                        "discountPer" : "9%",
-                        "status" : "Delay"
-                    },
-                    {
-                        "orderNo" : "RN123456804",
-                        "region" : "NI-Chandigarh",
-                        "customer" : "Mohit Rajput",
-                        "custId" : "TN0S0117",
-                        "orderType" : "Retail",
-                        "orderTotal" : "45,000",
-                        "orderCur" : "20,000",
-                        "reqDate" : "10 Oct 2023",
-                        "discountPer" : "9%",
-                        "status" : "Delay"
-                    },
-                    {
-                        "orderNo" : "RN123456805",
-                        "region" : "NI-Chandigarh",
-                        "customer" : "Rajash Gupta",
-                        "custId" : "TN0S0117",
-                        "orderType" : "Retail",
-                        "orderTotal" : "45,000",
-                        "orderCur" : "20,000",
-                        "reqDate" : "10 Oct 2023",
-                        "discountPer" : "9%",
-                        "status" : "Delay"
-                    },
-                    {
-                        "orderNo" : "RN123456806",
-                        "region" : "NI-Chandigarh",
-                        "customer" : "Rahul Sharma",
-                        "custId" : "TN0S0117",
-                        "orderType" : "Retail",
-                        "orderTotal" : "45,000",
-                        "orderCur" : "20,000",
-                        "reqDate" : "10 Oct 2023",
-                        "discountPer" : "9%",
-                        "status" : "Delay"
-                    },
-                    {
-                        "orderNo" : "RN123456807",
-                        "region" : "NI-Chandigarh",
-                        "customer" : "Aman Sharma",
-                        "custId" : "TN0S0117",
-                        "orderType" : "Retail",
-                        "orderTotal" : "45,000",
-                        "orderCur" : "20,000",
-                        "reqDate" : "10 Oct 2023",
-                        "discountPer" : "9%",
-                        "status" : "Delay"
-                    },
-                    {
-                        "orderNo" : "RN123456808",
-                        "region" : "NI-Chandigarh",
-                        "customer" : "Kunal Kapoor",
-                        "custId" : "TN0S0117",
-                        "orderType" : "Retail",
-                        "orderTotal" : "45,000",
-                        "orderCur" : "20,000",
-                        "reqDate" : "10 Oct 2023",
-                        "discountPer" : "9%",
-                        "status" : "Delay"
-                    }
-                ]);
-                this.getView().setModel(oDelayModel, "RequestModel");
-
+                this.getView().setModel(new JSONModel(dataLocalModels), "RequestModel");
             }
         });
     });

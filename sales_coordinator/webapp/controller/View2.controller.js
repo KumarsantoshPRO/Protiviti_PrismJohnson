@@ -132,14 +132,9 @@ sap.ui.define([
 
                 //Start: Santosh changes
                 // local JSON models
-                var sPath = jQuery.sap.getModulePath("prj/salescoordinator", "/model/localJSONData.json");
-                var oLocalJSONModel = new JSONModel(sPath);
-                oLocalJSONModel.attachRequestCompleted(function (oEvent) {
-                    var oLocalModels = oEvent.getSource();
-                    var dataLocalModels = oLocalModels.getData();
-                    that.getView().setModel(new JSONModel(dataLocalModels), "LocalJSONModels");
-                });
-
+                
+                var dataModelValueHelp = this.getOwnerComponent().getModel("valueHelp").getData();
+                this.getView().setModel(new JSONModel(dataModelValueHelp), "LocalJSONModels");
                 // End: Santosh Changes
 
             },
@@ -150,22 +145,22 @@ sap.ui.define([
                 if (sID === "null" || sID === undefined) {
                     //Start: Santosh changes
                     // payload for OData service
-                    var that = this;
-                    var sPath = jQuery.sap.getModulePath("prj/salescoordinator", "/model/payload.json");
-                    var oModelPayload = new JSONModel(sPath);
-                    oModelPayload.attachRequestCompleted(function (oEvent) {
-                        var oModel = oEvent.getSource();
-                        that.oLocalJSONPayload = oModel.getData();
-                        that.oLocalJSONPayload.header.items.push(that.oLocalJSONPayload.item);
+                    var dataModelPayload = this.getOwnerComponent().getModel("payload").getData();
+                    dataModelPayload.header.items.push(dataModelPayload.item);
+                    this.getView().setModel(new JSONModel(dataModelPayload.header), "JSONModelPayload");
 
-                        oModelPayload = new JSONModel(that.oLocalJSONPayload.header);
-                        that.getView().setModel(oModelPayload, "JSONModelPayload");
-                        // var JSONStructureForItem = { "item": [that.oLocalJSONPayload.item] };
-                        // 
-                        // that.oModelItemPayload = new JSONModel(JSONStructureForItem);
-                        // that.getView().setModel(that.oModelItemPayload, "JSONModelForItems");
+                    // var that = this;
+                    // var sPath = jQuery.sap.getModulePath("prj/salescoordinator", "/model/payload.json");
+                    // var oModelPayload = new JSONModel(sPath);
+                    // oModelPayload.attachRequestCompleted(function (oEvent) {
+                    //     var oModel = oEvent.getSource();
+                    //     that.oLocalJSONPayload = oModel.getData();
+                    //     that.oLocalJSONPayload.header.items.push(that.oLocalJSONPayload.item);
 
-                    });
+                    //     oModelPayload = new JSONModel(that.oLocalJSONPayload.header);
+                    //     that.getView().setModel(oModelPayload, "JSONModelPayload");
+
+                    // });
                     //End: Santosh changes
                     this.getView().byId("ObjectPageLayout").getHeaderTitle().setObjectTitle("Generate New Request");
                 } else {

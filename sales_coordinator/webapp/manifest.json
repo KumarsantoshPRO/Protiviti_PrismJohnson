@@ -10,6 +10,20 @@
     "title": "{{appTitle}}",
     "description": "{{appDescription}}",
     "resources": "resources.json",
+    "dataSources": {
+			"tableData_alias": {
+				"uri": "model/tableJSONData.json",
+				"type": "JSON"
+			},
+      "valueHelp_alias":{
+        "uri": "model/valueHelpJSONData.json",
+				"type": "JSON"
+      },
+      "payload_alias":{
+        "uri": "model/payload.json",
+				"type": "JSON"
+      }
+		},
     "sourceTemplate": {
       "id": "@sap/generator-fiori:basic",
       "version": "1.11.3",
@@ -69,6 +83,19 @@
         "settings": {
           "bundleName": "prj.salescoordinator.i18n.i18nV2"
         }
+      },
+      
+			"tableData": {
+				"type": "sap.ui.model.json.JSONModel",
+				"dataSource": "tableData_alias"
+			},
+      "valueHelp":{
+        "type": "sap.ui.model.json.JSONModel",
+        "dataSource": "valueHelp_alias"
+      },
+      "payload":{
+        "type": "sap.ui.model.json.JSONModel",
+        "dataSource": "payload_alias"
       }
     },
     "resources": {
