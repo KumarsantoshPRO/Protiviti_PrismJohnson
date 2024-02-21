@@ -181,11 +181,11 @@
             >
                 <RadioButton
                     id="idV2RBExFactory"
-                    text="Ex factory"
+                    text="{i18nV2>view2.simpleForm.radioButton.exFactory}"
                 />
                 <RadioButton
                     id="idV2RBExDepot"
-                    text="Ex depot"
+                    text="{i18nV2>view2.simpleForm.radioButton.exDepot}"
                 />
             </RadioButtonGroup>
         </form:content>

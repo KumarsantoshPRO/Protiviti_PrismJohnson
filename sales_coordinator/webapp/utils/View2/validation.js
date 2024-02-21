@@ -1,6 +1,6 @@
 sap.ui.define(['sap/m/MessageBox'], function (MessageBox) {
     "use strict";
-    var aColumnNames = {
+    var oItemFieldsNColumnHeaders = {
         "MFRGR": "Material Freight Groups",
         "SZMM": "Sizes",
         "MATIN": "Designs",
@@ -25,15 +25,28 @@ sap.ui.define(['sap/m/MessageBox'], function (MessageBox) {
         "": "",
         "": "",
         "": ""
-    }
+    };
+    var oHeadeFieldsNIds = {
+        "KUNNR": "idV2InpCustCode",
+        "ZTERM": "idV2SLPaymentTerm",
+        "VALIDITY": "idV2InpValidity",
+        "AUFNR": "idV2InpOrderNo",
+        "VALIDITY_DAYS": "idV2InpValidDays",
+        "VTWEG": "idV2SLDistChannel",
+        "VKBUR": "idV2InpSalesOffice",
+        "SPART": "idV2SLVertical"
+    };
+
     return {
 
         // Header, General Information(Simple form)- Validation
         headerPayloadValidation: function (oControl) {
 
-
+            var oResourceModel = oControl.getView().getModel("i18nV2").getResourceBundle();
+            debugger;
             if (!oControl.getView().getModel("JSONModelPayload").getData().KUNNR) {
-                this.headerPayloadState(oControl, 1);
+                MessageBox.error("Please enter " + oResourceModel.getText("view2.simpleForm.label.custCode"));
+                this.headerPayloadState(oControl, "KUNNR");
                 return 0;
             }
             //else if(!oControl.getView().getModel("JSONModelPayload").getData().TI){
@@ -48,155 +61,53 @@ sap.ui.define(['sap/m/MessageBox'], function (MessageBox) {
             //     MessageBox.error(" ");
             // }
             else if (!oControl.getView().getModel("JSONModelPayload").getData().ZTERM) {
-                this.headerPayloadState(oControl, 2);
+                MessageBox.error("Please select " + oResourceModel.getText("view2.simpleForm.label.payTerm"));
+                this.headerPayloadState(oControl, "ZTERM");
                 return 0;
             } else if (!oControl.getView().getModel("JSONModelPayload").getData().VALIDITY) {
-                this.headerPayloadState(oControl, 3);
+                MessageBox.error("Please enter " + oResourceModel.getText("view2.simpleForm.label.validity"));
+                this.headerPayloadState(oControl, "VALIDITY");
                 return 0;
             } else if (!oControl.getView().getModel("JSONModelPayload").getData().AUFNR) {
-                this.headerPayloadState(oControl, 4);
+                MessageBox.error("Please enter " + oResourceModel.getText("view2.simpleForm.label.ordNo"));
+                this.headerPayloadState(oControl, "AUFNR");
                 return 0;
             } else if (!oControl.getView().getModel("JSONModelPayload").getData().VALIDITY_DAYS) {
-                this.headerPayloadState(oControl, 5);
+                MessageBox.error("Please select " + oResourceModel.getText("view2.simpleForm.label.validDays"));
+                this.headerPayloadState(oControl, "VALIDITY_DAYS");
                 return 0;
             }
             else if (!oControl.getView().getModel("JSONModelPayload").getData().VTWEG) {
-                this.headerPayloadState(oControl, 6);
+                MessageBox.error("Please select " + oResourceModel.getText("view2.simpleForm.label.distChnl"));
+                this.headerPayloadState(oControl, "VTWEG");
+
                 return 0;
             } else if (!oControl.getView().getModel("JSONModelPayload").getData().VKBUR) {
-             
-                this.headerPayloadState(oControl, 7);
+                MessageBox.error("Please enter " + oResourceModel.getText("view2.simpleForm.label.salOffice"));
+                this.headerPayloadState(oControl, "VKBUR");
                 return 0;
-            } 
-             else if (!oControl.getView().getModel("JSONModelPayload").getData().SPART) {
-                 
-                this.headerPayloadState(oControl, 8);
+            }
+            else if (!oControl.getView().getModel("JSONModelPayload").getData().SPART) {
+                MessageBox.error("Please select " + oResourceModel.getText("view2.simpleForm.label.vertical"));
+                this.headerPayloadState(oControl, "SPART");
                 return 0;
             } else {
-                this.headerPayloadState(oControl, 9);
+
                 return 1;
             }
 
         },
-        headerPayloadState: function (oControl, nIndex) {
-            
-            var oResourceModel = oControl.getView().getModel("i18n").getResourceBundle();
-          
-            switch (nIndex) {
-                case 1:
-                    MessageBox.error("Please enter " + oResourceModel.getText("view2.simpleForm.label.custCode"));
-                    oControl.byId(sap.ui.core.Fragment.createId("idV2FragGenInfo", "idV2InpCustCode")).setValueState("Error");
-                    oControl.byId(sap.ui.core.Fragment.createId("idV2FragGenInfo", "idV2SLPaymentTerm")).setValueState("None");
-                    oControl.byId(sap.ui.core.Fragment.createId("idV2FragGenInfo", "idV2InpValidity")).setValueState("None");
-                    oControl.byId(sap.ui.core.Fragment.createId("idV2FragGenInfo", "idV2InpOrderNo")).setValueState("None");
-                    oControl.byId(sap.ui.core.Fragment.createId("idV2FragGenInfo", "idV2InpValidDays")).setValueState("None");
-                    oControl.byId(sap.ui.core.Fragment.createId("idV2FragGenInfo", "idV2SLDistChannel")).setValueState("None");
-                    oControl.byId(sap.ui.core.Fragment.createId("idV2FragGenInfo", "idV2InpSalesOffice")).setValueState("None");
-                    oControl.byId(sap.ui.core.Fragment.createId("idV2FragGenInfo", "idV2SLVertical")).setValueState("None");
-                    
-                    break;
-                case 2:
-                    MessageBox.error("Please select "+ oResourceModel.getText("view2.simpleForm.label.payTerm"));
-                    oControl.byId(sap.ui.core.Fragment.createId("idV2FragGenInfo", "idV2SLPaymentTerm")).setValueState("Error");
-                    oControl.byId(sap.ui.core.Fragment.createId("idV2FragGenInfo", "idV2InpCustCode")).setValueState("None");
-                    oControl.byId(sap.ui.core.Fragment.createId("idV2FragGenInfo", "idV2InpValidity")).setValueState("None");
-                    oControl.byId(sap.ui.core.Fragment.createId("idV2FragGenInfo", "idV2InpOrderNo")).setValueState("None");
-                    oControl.byId(sap.ui.core.Fragment.createId("idV2FragGenInfo", "idV2InpValidDays")).setValueState("None");
-                    oControl.byId(sap.ui.core.Fragment.createId("idV2FragGenInfo", "idV2SLDistChannel")).setValueState("None");
-                    oControl.byId(sap.ui.core.Fragment.createId("idV2FragGenInfo", "idV2InpSalesOffice")).setValueState("None");
-                    oControl.byId(sap.ui.core.Fragment.createId("idV2FragGenInfo", "idV2SLVertical")).setValueState("None");
-                    
-                    break;
-                case 3:
-                    MessageBox.error("Please enter "+ oResourceModel.getText("view2.simpleForm.label.validity"));
-                    oControl.byId(sap.ui.core.Fragment.createId("idV2FragGenInfo", "idV2InpValidity")).setValueState("Error");
-                    oControl.byId(sap.ui.core.Fragment.createId("idV2FragGenInfo", "idV2InpCustCode")).setValueState("None");
-                    oControl.byId(sap.ui.core.Fragment.createId("idV2FragGenInfo", "idV2SLPaymentTerm")).setValueState("None");
-                    oControl.byId(sap.ui.core.Fragment.createId("idV2FragGenInfo", "idV2InpOrderNo")).setValueState("None");
-                    oControl.byId(sap.ui.core.Fragment.createId("idV2FragGenInfo", "idV2InpValidDays")).setValueState("None");
-                    oControl.byId(sap.ui.core.Fragment.createId("idV2FragGenInfo", "idV2SLDistChannel")).setValueState("None");
-                    oControl.byId(sap.ui.core.Fragment.createId("idV2FragGenInfo", "idV2InpSalesOffice")).setValueState("None");
-                    oControl.byId(sap.ui.core.Fragment.createId("idV2FragGenInfo", "idV2SLVertical")).setValueState("None");
-                    
-                    break;
-                case 4:
-                    MessageBox.error("Please enter "+ oResourceModel.getText("view2.simpleForm.label.ordNo"));
-                    oControl.byId(sap.ui.core.Fragment.createId("idV2FragGenInfo", "idV2InpOrderNo")).setValueState("Error");
-                    oControl.byId(sap.ui.core.Fragment.createId("idV2FragGenInfo", "idV2InpCustCode")).setValueState("None");
-                    oControl.byId(sap.ui.core.Fragment.createId("idV2FragGenInfo", "idV2SLPaymentTerm")).setValueState("None");
-                    oControl.byId(sap.ui.core.Fragment.createId("idV2FragGenInfo", "idV2InpValidity")).setValueState("None");
-                    oControl.byId(sap.ui.core.Fragment.createId("idV2FragGenInfo", "idV2InpValidDays")).setValueState("None");
-                    oControl.byId(sap.ui.core.Fragment.createId("idV2FragGenInfo", "idV2SLDistChannel")).setValueState("None");
-                    oControl.byId(sap.ui.core.Fragment.createId("idV2FragGenInfo", "idV2InpSalesOffice")).setValueState("None");
-                    oControl.byId(sap.ui.core.Fragment.createId("idV2FragGenInfo", "idV2SLVertical")).setValueState("None");
-                    
-                    break;
-                case 5:
-                    // {i18n>view2.simpleForm.label.validDays}
-                    MessageBox.error("Please select "+ oResourceModel.getText("view2.simpleForm.label.validDays"));
-                    oControl.byId(sap.ui.core.Fragment.createId("idV2FragGenInfo", "idV2InpValidDays")).setValueState("Error");
-                    oControl.byId(sap.ui.core.Fragment.createId("idV2FragGenInfo", "idV2InpCustCode")).setValueState("None");
-                    oControl.byId(sap.ui.core.Fragment.createId("idV2FragGenInfo", "idV2SLPaymentTerm")).setValueState("None");
-                    oControl.byId(sap.ui.core.Fragment.createId("idV2FragGenInfo", "idV2InpValidity")).setValueState("None");
-                    oControl.byId(sap.ui.core.Fragment.createId("idV2FragGenInfo", "idV2InpOrderNo")).setValueState("None");
-                    oControl.byId(sap.ui.core.Fragment.createId("idV2FragGenInfo", "idV2SLDistChannel")).setValueState("None");
-                    oControl.byId(sap.ui.core.Fragment.createId("idV2FragGenInfo", "idV2InpSalesOffice")).setValueState("None");
-                    oControl.byId(sap.ui.core.Fragment.createId("idV2FragGenInfo", "idV2SLVertical")).setValueState("None");
-                    
-                    break;
-                case 6:
-                    
-                    MessageBox.error("Please select "+ oResourceModel.getText("view2.simpleForm.label.distChnl"));
-                    oControl.byId(sap.ui.core.Fragment.createId("idV2FragGenInfo", "idV2SLDistChannel")).setValueState("Error");
-                    oControl.byId(sap.ui.core.Fragment.createId("idV2FragGenInfo", "idV2InpCustCode")).setValueState("None");
-                    oControl.byId(sap.ui.core.Fragment.createId("idV2FragGenInfo", "idV2SLPaymentTerm")).setValueState("None");
-                    oControl.byId(sap.ui.core.Fragment.createId("idV2FragGenInfo", "idV2InpValidity")).setValueState("None");
-                    oControl.byId(sap.ui.core.Fragment.createId("idV2FragGenInfo", "idV2InpOrderNo")).setValueState("None");
-                    oControl.byId(sap.ui.core.Fragment.createId("idV2FragGenInfo", "idV2InpValidDays")).setValueState("None");
-                    oControl.byId(sap.ui.core.Fragment.createId("idV2FragGenInfo", "idV2InpSalesOffice")).setValueState("None");
-                    oControl.byId(sap.ui.core.Fragment.createId("idV2FragGenInfo", "idV2SLVertical")).setValueState("None");
-                    
-                    break;
-                case 7:
-                    
-                    MessageBox.error("Please enter "+ oResourceModel.getText("view2.simpleForm.label.salOffice"));
-                    oControl.byId(sap.ui.core.Fragment.createId("idV2FragGenInfo", "idV2InpSalesOffice")).setValueState("Error");
-                    oControl.byId(sap.ui.core.Fragment.createId("idV2FragGenInfo", "idV2InpCustCode")).setValueState("None");
-                    oControl.byId(sap.ui.core.Fragment.createId("idV2FragGenInfo", "idV2SLPaymentTerm")).setValueState("None");
-                    oControl.byId(sap.ui.core.Fragment.createId("idV2FragGenInfo", "idV2InpValidity")).setValueState("None");
-                    oControl.byId(sap.ui.core.Fragment.createId("idV2FragGenInfo", "idV2InpOrderNo")).setValueState("None");
-                    oControl.byId(sap.ui.core.Fragment.createId("idV2FragGenInfo", "idV2InpValidDays")).setValueState("None");
-                    oControl.byId(sap.ui.core.Fragment.createId("idV2FragGenInfo", "idV2SLDistChannel")).setValueState("None");
-                    oControl.byId(sap.ui.core.Fragment.createId("idV2FragGenInfo", "idV2SLVertical")).setValueState("None");
-                    
-                    break;
-                case 8:
-                    
-                    MessageBox.error("Please select "+ oResourceModel.getText("view2.simpleForm.label.vertical"));
-                    oControl.byId(sap.ui.core.Fragment.createId("idV2FragGenInfo", "idV2SLVertical")).setValueState("Error");
-                    oControl.byId(sap.ui.core.Fragment.createId("idV2FragGenInfo", "idV2InpCustCode")).setValueState("None");
-                    oControl.byId(sap.ui.core.Fragment.createId("idV2FragGenInfo", "idV2SLPaymentTerm")).setValueState("None");
-                    oControl.byId(sap.ui.core.Fragment.createId("idV2FragGenInfo", "idV2InpValidity")).setValueState("None");
-                    oControl.byId(sap.ui.core.Fragment.createId("idV2FragGenInfo", "idV2InpOrderNo")).setValueState("None");
-                    oControl.byId(sap.ui.core.Fragment.createId("idV2FragGenInfo", "idV2InpValidDays")).setValueState("None");
-                    oControl.byId(sap.ui.core.Fragment.createId("idV2FragGenInfo", "idV2SLDistChannel")).setValueState("None");
-                    oControl.byId(sap.ui.core.Fragment.createId("idV2FragGenInfo", "idV2InpSalesOffice")).setValueState("None");
-                    
-                    break;
-                case 9:
-                    oControl.byId(sap.ui.core.Fragment.createId("idV2FragGenInfo", "idV2InpCustCode")).setValueState("None");
-                    oControl.byId(sap.ui.core.Fragment.createId("idV2FragGenInfo", "idV2SLPaymentTerm")).setValueState("None");
-                    oControl.byId(sap.ui.core.Fragment.createId("idV2FragGenInfo", "idV2InpValidity")).setValueState("None");
-                    oControl.byId(sap.ui.core.Fragment.createId("idV2FragGenInfo", "idV2InpOrderNo")).setValueState("None");
-                    oControl.byId(sap.ui.core.Fragment.createId("idV2FragGenInfo", "idV2InpValidDays")).setValueState("None");
-                    oControl.byId(sap.ui.core.Fragment.createId("idV2FragGenInfo", "idV2SLDistChannel")).setValueState("None");
-                    oControl.byId(sap.ui.core.Fragment.createId("idV2FragGenInfo", "idV2InpSalesOffice")).setValueState("None");
-                    oControl.byId(sap.ui.core.Fragment.createId("idV2FragGenInfo", "idV2SLVertical")).setValueState("None");
-                     
+        headerPayloadState: function (oControl, sOdataProperty) {
+            for (const key in oHeadeFieldsNIds) {
+                if (oHeadeFieldsNIds.hasOwnProperty.call(oHeadeFieldsNIds, key)) {
+                    const element = oHeadeFieldsNIds[key];
+                    if (key !== sOdataProperty) {
+                        oControl.byId(sap.ui.core.Fragment.createId("idV2FragGenInfo", oHeadeFieldsNIds[key])).setValueState("None");
+                    } else {
+                        oControl.byId(sap.ui.core.Fragment.createId("idV2FragGenInfo", oHeadeFieldsNIds[key])).setValueState("Error");
+                    }
 
-                    break;
-                default:
-                    break;
+                }
             }
         },
         // Items, Additional Product Details(Table) - Validation
@@ -229,7 +140,7 @@ sap.ui.define(['sap/m/MessageBox'], function (MessageBox) {
             }
 
             for (var i = 0; i < aData.length; i++) {
-                
+
                 var vLine = i + 1;
 
                 if (aData[i].MFRGR === '') { this.itemsErrorMessage('MFRGR', vLine, sAction); }
@@ -283,7 +194,7 @@ sap.ui.define(['sap/m/MessageBox'], function (MessageBox) {
 
         },
         itemsErrorMessage: function (vColumnKey, vLine, sAction) {
-            MessageBox.error('Please enter "' + aColumnNames[vColumnKey] + '" at line number:' + vLine + ' ,before ' + sAction + '');
+            MessageBox.error('Please enter "' + oItemFieldsNColumnHeaders[vColumnKey] + '" at line number:' + vLine + ' ,before ' + sAction + '');
             return 0;
         },
 
