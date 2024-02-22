@@ -1,0 +1,7 @@
+<core:FragmentDefinition xmlns="sap.m" xmlns:core="sap.ui.core">
+	<SelectDialog id="idSDSizesF4"  noDataText="{i18nV2>view2.F4.NoValueFound}" search="onValueHelpSearch" confirm="onValueHelpConfirm">
+		<items>
+			<StandardListItem id="idSLSizesValueHelp" title="{WERKS}" description="{NAME1}"/>
+		</items>
+	</SelectDialog>
+</core:FragmentDefinition>

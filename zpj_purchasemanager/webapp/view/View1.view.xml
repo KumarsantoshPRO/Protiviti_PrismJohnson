@@ -1,0 +1,152 @@
+<mvc:View controllerName="pj.zpurchasemanager.controller.View1"
+    xmlns:mvc="sap.ui.core.mvc" xmlns:f="sap.f" displayBlock="true"
+    xmlns="sap.m" xmlns:tnt="sap.tnt">
+
+    <f:ShellBar
+			title="Purchase Manager"
+			secondTitle=""
+			homeIcon="/css/johnson_img.png"
+			showCopilot="false"
+			showSearch="false"
+			showNotifications="false"
+			showProductSwitcher="false">
+	</f:ShellBar>
+
+<Page enableScrolling="true">
+        <content>
+        <IconTabBar
+		id="idIconTabBar"
+		select=".onFilterSelect"
+		class="sapUiResponsiveContentPadding sapUiLargeMarginBottom">
+		<items>
+			<IconTabFilter
+				showAll="true"
+				count="13"
+				text="Requests"
+				key="All" />
+			<IconTabSeparator />
+			<IconTabFilter
+				icon="sap-icon://lateness"
+				iconColor="Tile"
+				count="13"
+				text="Pending Request"
+				key="Pending" />
+			<IconTabFilter
+				icon="sap-icon://accept"
+				iconColor="Positive"
+				count="0"
+				text="Approved Request"
+				key="Approved" />
+            <IconTabFilter
+				icon="sap-icon://media-forward"
+				iconColor="Neutral"
+				count="0"
+				text="Forwarded Request"
+				key="" />			
+            <IconTabFilter
+				icon="sap-icon://message-popup"
+				iconColor="Contrast"
+				count="0"
+				text="BP Renegotiation"
+				key="" />
+                <IconTabFilter
+				icon="sap-icon://decline"
+				iconColor="Critical"
+				count="0"
+				text="Rejected Request"
+				key="" />
+                <IconTabFilter
+				icon="sap-icon://delete"
+				iconColor="Negative"
+				count="0"
+				text="Delayed Request"
+				key="" />
+		</items>
+		<content>
+			<Table mode="SingleSelectLeft" alternateRowColors="true" class="sapUiResponsiveContentPadding sapUiLargeMarginBottom"
+				id="productsTable" growing="true"
+				inset="false"
+				headerText="Products"
+				items="{RequestModel>/}"
+                itemPress="onOrderClicked">
+                <headerToolbar>
+                    <OverflowToolbar>
+                        <content>
+                            <Title text="Requests"/>
+                            <ToolbarSpacer />
+						</content>
+                    </OverflowToolbar>
+                </headerToolbar>
+				<columns>
+					<Column
+						width="10em">
+						<Text text="Order No" />
+					</Column>
+					<Column
+						minScreenWidth="Tablet"
+						demandPopin="true">
+						<Text text="Region" />
+					</Column>
+					<Column
+						minScreenWidth="Tablet"
+						demandPopin="true">
+						<Text text="Customer" />
+					</Column>
+					<Column
+						minScreenWidth="Desktop"
+						demandPopin="true">
+						<Text text="Customer ID" />
+					</Column>
+                    <Column
+						minScreenWidth="Desktop"
+						demandPopin="true"
+                        hAlign="Center">
+						<Text text="Total Order" />
+					</Column>
+                    <Column
+						minScreenWidth="Desktop"
+						demandPopin="true"
+						hAlign="Center">
+						<Text text="Current Order" />
+					</Column>
+                    <Column
+						minScreenWidth="Desktop"
+						demandPopin="true"
+						hAlign="Center">
+						<Text text="Requested Date" />
+					</Column>
+					<Column
+						hAlign="Center">
+						<Text text="Status" />
+					</Column>
+				</columns>
+				<items>
+					<ColumnListItem vAlign="Middle" type="Navigation">
+						<cells>
+							<Text
+								text="{RequestModel>orderNo}"/>
+							<Text
+								text="{RequestModel>region}"/>
+                            <Text
+								text="{RequestModel>customer}"/>
+                            <Text
+								text="{RequestModel>custId}"/>
+                            <Text
+								text="{RequestModel>orderTotal}"/>
+                            <Text
+								text="{RequestModel>orderCur}"/>
+                            <Text
+								text="{RequestModel>reqDate}"/>
+							<tnt:InfoLabel text="{RequestModel>status}" renderMode="Loose" 
+										colorScheme="{ parts: [                                        
+                                        				'RequestModel>status'], 
+                                						formatter: '.formatter.getStatusColor' }" />
+						</cells>
+					</ColumnListItem>
+				</items>
+			</Table>
+		</content>
+	</IconTabBar>
+        </content>
+    </Page>
+</mvc:View>
