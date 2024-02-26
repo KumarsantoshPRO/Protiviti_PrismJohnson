@@ -1,0 +1,14 @@
+{
+    "name": "ux-test-flp",
+    "private": true,
+    "description": "Portal content",
+    "engines": {
+        "node": "^12"
+    },
+    "scripts": {
+        "start": "node --harmony node_modules/@sap/portal-cf-content-deployer/src/index.js"
+    },
+    "dependencies": {
+        "@sap/portal-cf-content-deployer": "^4.4.0-20200518074942"
+    }
+}

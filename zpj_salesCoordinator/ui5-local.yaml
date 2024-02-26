@@ -29,6 +29,10 @@ server:
       afterMiddleware: compression
       configuration:
         ignoreCertError: false # If set to true, certificate errors will be ignored. E.g. self-signed certificates will be accepted
+        backend:
+          - path: /sap
+            url: http://192.168.14.195:8000
+            client: '500'
     - name: fiori-tools-preview
       afterMiddleware: fiori-tools-appreload
       configuration:

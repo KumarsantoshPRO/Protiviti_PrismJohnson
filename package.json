@@ -1,0 +1,5 @@
+{
+  "dependencies": {
+    "@sap/generator-fiori": "^1.12.4"
+  }
+}

@@ -1,0 +1,13 @@
+{
+    "<%- name %>": {
+        "press": "<%- typeof eventHandler !== 'undefined' ? eventHandler : '' %>",
+        "visible": <%- settings.visible -%>,
+        "enabled": <%- settings.enabled -%><%if (settings.requiresSelection !== undefined) {%>,
+        "requiresSelection": <%- settings.requiresSelection -%><% } %>,
+        "text": "<%- settings.text %>"<%if (settings.position) {%>,
+        "position": {
+            "placement": "<%- settings.position.placement %>"<%if (settings.position.anchor !== undefined) {%>,
+            "anchor": "<%- settings.position.anchor %>"<% } %>
+        }<% } %>
+    }
+}

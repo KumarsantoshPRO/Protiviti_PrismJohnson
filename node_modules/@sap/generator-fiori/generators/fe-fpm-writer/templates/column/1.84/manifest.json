@@ -1,0 +1,28 @@
+{
+    "sap.ui5": {
+        "routing": {
+            "targets": {
+                "<%- target %>": {
+                    "options": {
+                        "settings": {
+                            "controlConfiguration": {
+                                "<%- targetEntity %>": {
+                                    "columns": {
+                                        "<%- name %>": {
+                                            "header": "<%- header %>",
+                                            <% if (locals.width)  { %> 
+                                                "width": "<%- width %>",  
+                                            <% } %>
+                                            "position": <%- JSON.stringify(position) %>,
+                                            "template": "<%- ns %>.<%- name %>"
+                                        }
+                                    }
+                                }
+                            }
+                        }
+                    }
+                }
+            }
+        }
+    }
+}
