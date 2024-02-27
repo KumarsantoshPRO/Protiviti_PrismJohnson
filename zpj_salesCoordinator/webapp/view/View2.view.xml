@@ -1,19 +1,11 @@
 <mvc:View
-    xmlns:unified="sap.ui.unified"
     height="100%"
     controllerName="prj.salescoordinator.controller.View2"
     xmlns:mvc="sap.ui.core.mvc"
-    xmlns:l="sap.ui.layout"
     xmlns:core="sap.ui.core"
     xmlns:f="sap.f"
-    xmlns:forms="sap.ui.layout.form"
-    xmlns:form="sap.ui.layout.form"
     xmlns:uxap="sap.uxap"
     xmlns="sap.m"
-    xmlns:upload="sap.m.upload"
-    xmlns:t="sap.ui.table"
-    xmlns:rowmodes="sap.ui.table.rowmodes"
-    xmlns:u="sap.ui.unified"
 >
     <!-- <f:ShellBar
             id="idV2SBLogoImg"
@@ -80,7 +72,7 @@
                         titleUppercase="true"
                     >
                         <uxap:blocks>
-                          <core:Fragment
+                            <core:Fragment
                                 id="idV2FragAddPrdDetails"
                                 fragmentName="prj.salescoordinator.fragments.View2.additionalPrdDetails"
                                 type="XML"
