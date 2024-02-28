@@ -6,6 +6,7 @@
     xmlns:f="sap.f"
     xmlns:uxap="sap.uxap"
     xmlns="sap.m"
+    xmlns:upload="sap.m.upload"
 >
     <!-- <f:ShellBar
             id="idV2SBLogoImg"

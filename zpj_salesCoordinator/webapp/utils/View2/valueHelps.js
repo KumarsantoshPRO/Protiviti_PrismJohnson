@@ -5,7 +5,7 @@ sap.ui.define([], function () {
 
         onCustomerCodeHelpSearch: function (oSelectDialog, aFilter, sPath, oControl) {
 
-            aFilter.push(oFilterCustomerCode);
+           
             oSelectDialog.bindAggregation("items", {
                 path: sPath,
                 filters: aFilter,
@@ -14,8 +14,17 @@ sap.ui.define([], function () {
         },
 
         valueHelpConfirm: function (oSelectedItem, oControl) {
+            var sSelectedValue = oSelectedItem.getProperty("title");
+            debugger;
 
-
+        if(oSelectedItem.sId.includes("idSLCustomerCodeValueHelp")){
+            oControl.getView().getModel("JSONModelPayload").setProperty("/KUNNR",sSelectedValue);
+        }else if(oSelectedItem.sId.includes("idSLSalesOfficeValueHelp")){
+            oControl.getView().getModel("JSONModelPayload").setProperty("/VKBUR",sSelectedValue);
+        }else if(oSelectedItem.sId.includes("idSLMaterialFreightGroupsValueHelp")){
+            oControl.getView().getModel("JSONModelPayload").setProperty("/KUNNR",sSelectedValue);
+        }
+            
         },
         // Customer Code Plant
         onCustomerCodeHelp: function (oControl) {
@@ -26,13 +35,18 @@ sap.ui.define([], function () {
                 oControl._CustomerCodeTemp = sap.ui.getCore().byId("idSLCustomerCodeValueHelp").clone();
             }
             var aFilter = [];
-            var oFilterCustomerCode = new sap.ui.model.Filter([new sap.ui.model.Filter("DOM", sap.ui.model.FilterOperator.EQ, "KNA1")], false);
-            aFilter.push(oFilterCustomerCode);
+            var oFilterDomname = new sap.ui.model.Filter([new sap.ui.model.Filter("Domname", sap.ui.model.FilterOperator.EQ, "KNA1")], false);
+            var oFilterDomname1 = new sap.ui.model.Filter([new sap.ui.model.Filter("Domname1", sap.ui.model.FilterOperator.EQ, "LARS")], false);
+            // var oFilterDomname2 = new sap.ui.model.Filter([new sap.ui.model.Filter("Domname2", sap.ui.model.FilterOperator.EQ, "")], false);
+            aFilter.push(oFilterDomname);
+            aFilter.push(oFilterDomname1);
+            // aFilter.push(oFilterDomname2);
             sap.ui.getCore().byId("idSDCustomerCodeF4").bindAggregation("items", {
-                path: "/ET_VALUE_HELPS",
+                path: "/ET_VALUE_HELPSSet",
                 filters: aFilter,
                 template: oControl._CustomerCodeTemp
             });
+
             oControl.CustomerCodeFrag.open();
         },
 
@@ -45,10 +59,16 @@ sap.ui.define([], function () {
                 oControl._SalesOfficeTemp = sap.ui.getCore().byId("idSLSalesOfficeValueHelp").clone();
             }
             var aFilter = [];
-            var oFilterCustomerCode = new sap.ui.model.Filter([new sap.ui.model.Filter("DOM", sap.ui.model.FilterOperator.EQ, "TVKBZ")], false);
-            aFilter.push(oFilterCustomerCode);
+
+            var oFilterDomname = new sap.ui.model.Filter([new sap.ui.model.Filter("Domname", sap.ui.model.FilterOperator.EQ, "TVKBZ")], false);
+            var oFilterDomname1 = new sap.ui.model.Filter([new sap.ui.model.Filter("Domname1", sap.ui.model.FilterOperator.EQ, "")], false);
+            var oFilterDomname2 = new sap.ui.model.Filter([new sap.ui.model.Filter("Domname2", sap.ui.model.FilterOperator.EQ, "")], false);
+            aFilter.push(oFilterDomname);
+            aFilter.push(oFilterDomname1);
+            aFilter.push(oFilterDomname2);
+
             sap.ui.getCore().byId("idSDSalesOfficeF4").bindAggregation("items", {
-                path: "/ET_VALUE_HELPS",
+                path: "/ET_VALUE_HELPSSet",
                 filters: aFilter,
                 template: oControl._SalesOfficeTemp
             });
@@ -56,7 +76,7 @@ sap.ui.define([], function () {
         },
 
         // Material Freight Group
-        onMaterialFreightGroupsHelp: function(oControl){
+        onMaterialFreightGroupsHelp: function (oControl) {
             var oResourceModel = oControl.getView().getModel("i18nV2").getResourceBundle();
             if (!oControl.oFragment) {
                 oControl.oFragment = sap.ui.xmlfragment("prj.salescoordinator.fragments.View2.F4s.materialFreightGroupsF4", oControl);
@@ -65,17 +85,23 @@ sap.ui.define([], function () {
                 oControl._SalesOfficeTemp = sap.ui.getCore().byId("idSLMaterialFreightGroupsValueHelp").clone();
             }
             var aFilter = [];
-            var oFilterCustomerCode = new sap.ui.model.Filter([new sap.ui.model.Filter("DOM", sap.ui.model.FilterOperator.EQ, "ZPRICECAT")], false);
-            aFilter.push(oFilterCustomerCode);
+            var oFilterDomname = new sap.ui.model.Filter([new sap.ui.model.Filter("Domname", sap.ui.model.FilterOperator.EQ, "ZPRICECAT")], false);
+            var oFilterDomname1 = new sap.ui.model.Filter([new sap.ui.model.Filter("Domname1", sap.ui.model.FilterOperator.EQ, "")], false);
+            var oFilterDomname2 = new sap.ui.model.Filter([new sap.ui.model.Filter("Domname2", sap.ui.model.FilterOperator.EQ, "")], false);
+            aFilter.push(oFilterDomname);
+            aFilter.push(oFilterDomname1);
+            aFilter.push(oFilterDomname2);
+
+            oControl.oFragment.setModel(oControl.getView().getModel());
             sap.ui.getCore().byId("idSDMaterialFreightGroupsF4").bindAggregation("items", {
-                path: "/ET_VALUE_HELPS",
+                path: "/ET_VALUE_HELPSSet",
                 filters: aFilter,
                 template: oControl._SalesOfficeTemp
             });
             oControl.oFragment.open();
         },
         // Sizes
-        onSizesHelp: function(oControl){
+        onSizesHelp: function (oControl) {
             var oResourceModel = oControl.getView().getModel("i18nV2").getResourceBundle();
             if (!oControl.oFragmentSizes) {
                 oControl.oFragmentSizes = sap.ui.xmlfragment("prj.salescoordinator.fragments.View2.F4s.sizesF4", oControl);
@@ -84,17 +110,22 @@ sap.ui.define([], function () {
                 oControl._SalesOfficeTemp = sap.ui.getCore().byId("idSLSizesValueHelp").clone();
             }
             var aFilter = [];
-            var oFilterCustomerCode = new sap.ui.model.Filter([new sap.ui.model.Filter("DOM", sap.ui.model.FilterOperator.EQ, "ZPRICECAT")], false);
-            aFilter.push(oFilterCustomerCode);
+            var oFilterDomname = new sap.ui.model.Filter([new sap.ui.model.Filter("Domname", sap.ui.model.FilterOperator.EQ, "ZPRICECAT")], false);
+            var oFilterDomname1 = new sap.ui.model.Filter([new sap.ui.model.Filter("Domname1", sap.ui.model.FilterOperator.EQ, "")], false);
+            var oFilterDomname2 = new sap.ui.model.Filter([new sap.ui.model.Filter("Domname2", sap.ui.model.FilterOperator.EQ, "")], false);
+            aFilter.push(oFilterDomname);
+            aFilter.push(oFilterDomname1);
+            aFilter.push(oFilterDomname2);
+            oControl.oFragment.setModel(oControl.getView().getModel());
             sap.ui.getCore().byId("idSDSizesF4").bindAggregation("items", {
-                path: "/ET_VALUE_HELPS",
+                path: "/ET_VALUE_HELPSSet",
                 filters: aFilter,
                 template: oControl._SalesOfficeTemp
             });
             oControl.oFragmentSizes.open();
         },
-// Designs 
-        onDesignsHelp: function(oControl){
+        // Designs 
+        onDesignsHelp: function (oControl) {
             var oResourceModel = oControl.getView().getModel("i18nV2").getResourceBundle();
             if (!oControl.oFragmentDesign) {
                 oControl.oFragmentDesign = sap.ui.xmlfragment("prj.salescoordinator.fragments.View2.F4s.designsF4", oControl);
@@ -103,17 +134,22 @@ sap.ui.define([], function () {
                 oControl._SalesOfficeTemp = sap.ui.getCore().byId("idSLDesignsValueHelp").clone();
             }
             var aFilter = [];
-            var oFilterCustomerCode = new sap.ui.model.Filter([new sap.ui.model.Filter("DOM", sap.ui.model.FilterOperator.EQ, "ZPRICECAT")], false);
-            aFilter.push(oFilterCustomerCode);
+            var oFilterDomname = new sap.ui.model.Filter([new sap.ui.model.Filter("Domname", sap.ui.model.FilterOperator.EQ, "ZMATSOURCE")], false);
+            var oFilterDomname1 = new sap.ui.model.Filter([new sap.ui.model.Filter("Domname1", sap.ui.model.FilterOperator.EQ, "")], false);
+            var oFilterDomname2 = new sap.ui.model.Filter([new sap.ui.model.Filter("Domname2", sap.ui.model.FilterOperator.EQ, "DIEE04AS")], false);
+            aFilter.push(oFilterDomname);
+            aFilter.push(oFilterDomname1);
+            aFilter.push(oFilterDomname2);
+            oControl.oFragmentDesign.setModel(oControl.getView().getModel());
             sap.ui.getCore().byId("idSDDesignsF4").bindAggregation("items", {
-                path: "/ET_VALUE_HELPS",
+                path: "/ET_VALUE_HELPSSet",
                 filters: aFilter,
                 template: oControl._SalesOfficeTemp
             });
             oControl.oFragmentDesign.open();
         },
         // Supply Plant
-        onSupplyPlantHelp: function(oControl){
+        onSupplyPlantHelp: function (oControl) {
             var oResourceModel = oControl.getView().getModel("i18nV2").getResourceBundle();
             if (!oControl.oFragmentSupply) {
                 oControl.oFragmentSupply = sap.ui.xmlfragment("prj.salescoordinator.fragments.View2.F4s.supplyingPlantF4", oControl);
@@ -122,10 +158,15 @@ sap.ui.define([], function () {
                 oControl._SalesOfficeTemp = sap.ui.getCore().byId("idSLSupplyingPlantValueHelp").clone();
             }
             var aFilter = [];
-            var oFilterCustomerCode = new sap.ui.model.Filter([new sap.ui.model.Filter("DOM", sap.ui.model.FilterOperator.EQ, "ZPRICECAT")], false);
-            aFilter.push(oFilterCustomerCode);
+            var oFilterDomname = new sap.ui.model.Filter([new sap.ui.model.Filter("Domname", sap.ui.model.FilterOperator.EQ, "T001W")], false);
+            var oFilterDomname1 = new sap.ui.model.Filter([new sap.ui.model.Filter("Domname1", sap.ui.model.FilterOperator.EQ, "")], false);
+            var oFilterDomname2 = new sap.ui.model.Filter([new sap.ui.model.Filter("Domname2", sap.ui.model.FilterOperator.EQ, "")], false);
+            aFilter.push(oFilterDomname);
+            aFilter.push(oFilterDomname1);
+            aFilter.push(oFilterDomname2);
+            oControl.oFragmentSupply.setModel(oControl.getView().getModel());
             sap.ui.getCore().byId("idSDSupplyingPlantF4").bindAggregation("items", {
-                path: "/ET_VALUE_HELPS",
+                path: "/ET_VALUE_HELPSSet",
                 filters: aFilter,
                 template: oControl._SalesOfficeTemp
             });
@@ -142,10 +183,15 @@ sap.ui.define([], function () {
                 oControl._SalesOfficeTemp = sap.ui.getCore().byId("idSLManufacturingAmountValueHelp").clone();
             }
             var aFilter = [];
-            var oFilterCustomerCode = new sap.ui.model.Filter([new sap.ui.model.Filter("DOM", sap.ui.model.FilterOperator.EQ, "ZPRICECAT")], false);
-            aFilter.push(oFilterCustomerCode);
+            var oFilterDomname = new sap.ui.model.Filter([new sap.ui.model.Filter("Domname", sap.ui.model.FilterOperator.EQ, "T179")], false);
+            var oFilterDomname1 = new sap.ui.model.Filter([new sap.ui.model.Filter("Domname1", sap.ui.model.FilterOperator.EQ, "")], false);
+            var oFilterDomname2 = new sap.ui.model.Filter([new sap.ui.model.Filter("Domname2", sap.ui.model.FilterOperator.EQ, "")], false);
+            aFilter.push(oFilterDomname);
+            aFilter.push(oFilterDomname1);
+            aFilter.push(oFilterDomname2);
+            oControl.oFragmentMan.setModel(oControl.getView().getModel());
             sap.ui.getCore().byId("idSDManufacturingAmountF4").bindAggregation("items", {
-                path: "/ET_VALUE_HELPS",
+                path: "/ET_VALUE_HELPSSet",
                 filters: aFilter,
                 template: oControl._SalesOfficeTemp
             });

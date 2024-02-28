@@ -23,7 +23,7 @@
             <OverflowToolbar id="idV2OFT">
                 <ToolbarSpacer id="idV2TBS" />
 
-                <upload:UploadSetToolbarPlaceholder id="idV2USTP" />
+                <!-- <upload:UploadSetToolbarPlaceholder id="idV2USTP" /> -->
             </OverflowToolbar>
         </upload:toolbar>
         <upload:items>

@@ -524,16 +524,19 @@ sap.ui.define([
                 var oFilter;
 
                 var sValue = evt.getParameter("value");
-                var sPath = "/ET_VALUE_HELPS";
+                var sPath = "/ET_VALUE_HELPSSet";
                 var oSelectDialog = sap.ui.getCore().byId(evt.getParameter('id'));
 
                 if (evt.getParameter('id') === 'idSDCustomerCodeF4') {
-                    oFilter = new sap.ui.model.Filter([new sap.ui.model.Filter("WERKS", sap.ui.model.FilterOperator.EQ, sValue)], false);
+                    var oFilterDomname = new sap.ui.model.Filter([new sap.ui.model.Filter("Domname", sap.ui.model.FilterOperator.EQ, "KNA1")], false);
+                    
                 } else if (evt.getParameter('id') === 'idSDSalesOfficeF4') {
-                    oFilter = new sap.ui.model.Filter([new sap.ui.model.Filter("TVKBZ", sap.ui.model.FilterOperator.EQ, sValue)], false);
+                    var oFilterDomname = new sap.ui.model.Filter([new sap.ui.model.Filter("Domname", sap.ui.model.FilterOperator.EQ, "TVKBZ")], false);
                 }
-
-                aFilter.push(oFilter);
+                
+                oFilterDomname1 = new sap.ui.model.Filter([new sap.ui.model.Filter("Domname1", sap.ui.model.FilterOperator.EQ, sValue)], false);
+                aFilter.push(oFilterDomname1);
+                aFilter.push(oFilterDomname);
                 valueHelps.onCustomerCodeHelpSearch(oSelectDialog, aFilter, sPath, this);
             },
 

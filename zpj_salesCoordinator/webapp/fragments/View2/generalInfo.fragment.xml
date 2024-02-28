@@ -29,7 +29,7 @@
                 required="true"
             />
             <Input
-                value="{JSONModelPayload>/KUNNR}"
+                value="{JSONModelPayload>/Kunnr}"
                 id="idV2InpCustCode"
                 valueStateText="Enter {i18nV2>view2.simpleForm.label.custCode}"
                 showValueHelp="true"
@@ -42,7 +42,7 @@
                 text="{i18nV2>view2.simpleForm.label.custName}"
             />
             <Input
-                value="{JSONModelPayload>/NAME}"
+                value="{JSONModelPayload>/Name}"
                 id="idV2InpCustName"
                 editable="false"
             />
@@ -55,7 +55,7 @@
                 id="idV2SLPaymentTerm"
                 forceSelection="false"
                 items="{LocalJSONModels>/paymentTerms}"
-                selectedKey="{JSONModelPayload>/ZTERM}"
+                selectedKey="{JSONModelPayload>/Zterm}"
                 valueStateText="Select {i18nV2>view2.simpleForm.label.payTerm}"
             >
                 <core:Item
@@ -74,7 +74,7 @@
                 placeholder="{i18nV2>view2.simpleForm.label.validity}"
                 valueStateText="Enter {i18nV2>view2.simpleForm.label.validity}"
                 maxLength="3"
-                value="{JSONModelPayload>/VALIDITY}"
+                value="{JSONModelPayload>/Validity}"
             />
 
             <Label

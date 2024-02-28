@@ -106,16 +106,17 @@
                 "dataSource": "payload_alias"
             },
             "": {
-                "preload": true,
-                "dataSource": "ZCUSTOMER_AUTOMATIONDISCOUNT_SRV",
+
+                "type": "sap.ui.model.odata.v2.ODataModel",
                 "settings": {
-                    "defaultBindingMode": "TwoWay",
-                    "defaultCountMode": "Inline",
-                    "refreshAfterChange": false,
-                    "metadataUrlParams": {
-                        "sap-value-list": "none"
-                    }
-                }
+                    "defaultOperationMode": "Server",
+                    "defaultBindingMode": "OneWay",
+                    "defaultCountMode": "Request",
+                    "useBatch": false
+                },
+                "dataSource": "ZCUSTOMER_AUTOMATIONDISCOUNT_SRV",
+                "preload": true
+                
             }
         },
         "resources": {
