@@ -26,7 +26,7 @@
         <content>
             <core:Fragment
                 id="idV1FragTablePrdDetails"
-                fragmentName="prj.salescoordinator.fragments.View1.tableProductDetails"
+                fragmentName="prj.salescoordinator.view.fragments.View1.tableProductDetails"
                 type="XML"
             />
         </content>

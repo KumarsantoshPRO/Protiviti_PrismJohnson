@@ -54,7 +54,7 @@
                         <uxap:blocks>
                             <core:Fragment
                                 id="idV2FragGenInfo"
-                                fragmentName="prj.salescoordinator.fragments.View2.generalInfo"
+                                fragmentName="prj.salescoordinator.view.fragments.View2.generalInfo"
                                 type="XML"
                             />
                         </uxap:blocks>
@@ -75,7 +75,7 @@
                         <uxap:blocks>
                             <core:Fragment
                                 id="idV2FragAddPrdDetails"
-                                fragmentName="prj.salescoordinator.fragments.View2.additionalPrdDetails"
+                                fragmentName="prj.salescoordinator.view.fragments.View2.additionalPrdDetails"
                                 type="XML"
                             />
                         </uxap:blocks>
@@ -96,7 +96,7 @@
                         <uxap:blocks>
                             <core:Fragment
                                 id="idV2FragAttach"
-                                fragmentName="prj.salescoordinator.fragments.View2.attachments"
+                                fragmentName="prj.salescoordinator.view.fragments.View2.attachments"
                                 type="XML"
                             />
                         </uxap:blocks>
@@ -117,7 +117,7 @@
                         <uxap:blocks>
                             <core:Fragment
                                 id="idV2FragSumDeatil"
-                                fragmentName="prj.salescoordinator.fragments.View2.summaryDetails"
+                                fragmentName="prj.salescoordinator.view.fragments.View2.summaryDetails"
                                 type="XML"
                             />
                         </uxap:blocks>
@@ -137,6 +137,7 @@
                         class="sapUiTinyMarginBeginEnd"
                         icon="sap-icon://SAP-icons-TNT/message-start-event"
                         type="Attention"
+                        
                         text="{i18nV2>view2.footer.button.message}"
                         press="handleMessages"
                     >
@@ -153,6 +154,7 @@
                         id="idV2BtnSave"
                         text="{i18nV2>view2.footer.button.save}"
                         press="onSave"
+                        visible="false"
                         type="Success"
                     />
                     <Button

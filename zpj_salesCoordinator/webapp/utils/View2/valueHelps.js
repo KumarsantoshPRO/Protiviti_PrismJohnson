@@ -2,37 +2,67 @@
 sap.ui.define([], function () {
     "use strict";
     return {
-
         onCustomerCodeHelpSearch: function (oSelectDialog, aFilter, sPath, oControl) {
-
-           
+            debugger;
             oSelectDialog.bindAggregation("items", {
                 path: sPath,
                 filters: aFilter,
-                template: oControl._CustomerCodeTemp
+                template: oControl._oTemp
             });
         },
 
-        valueHelpConfirm: function (oSelectedItem, oControl) {
-            var sSelectedValue = oSelectedItem.getProperty("title");
+        valueHelpConfirm: function (oSelectedItem, oControl, bindingContextPath) {
             debugger;
+            var sSelectedValue = oSelectedItem.getProperty("title");
+           
+            if (oSelectedItem.sId.includes("idSLCustomerCodeValueHelp")) {
+                oControl.getView().getModel("JSONModelPayload").setProperty("/Kunnr", sSelectedValue);
+                oControl.getView().getModel("JSONModelPayload").setProperty("/Name", oSelectedItem.getProperty("description"));
+            } else if (oSelectedItem.sId.includes("idSLSalesOfficeValueHelp")) {
+                oControl.getView().getModel("JSONModelPayload").setProperty("/Vkbur", sSelectedValue);
+            } 
+            else if (oSelectedItem.sId.includes("idSLMaterialFreightGroupsValueHelp")) {
+                var bindingContextPathMFG = bindingContextPath + "/Mfrgr";
+                var bindingContextPathSize= bindingContextPath +  "/Szmm";
+                oControl.getView().getModel("JSONModelPayload").setProperty(bindingContextPathMFG, sSelectedValue);
+                var aFilter = [];
+                var oFilterDomname = new sap.ui.model.Filter([new sap.ui.model.Filter("Domname", sap.ui.model.FilterOperator.EQ, "SIZE")], false);
+                var oFilterDomname2 = new sap.ui.model.Filter([new sap.ui.model.Filter("Domname2", sap.ui.model.FilterOperator.EQ, sSelectedValue)], false);
+                aFilter.push(oFilterDomname);
+                aFilter.push(oFilterDomname2);
+                var sPath = "/ET_VALUE_HELPSSet"
+                var that = oControl;
+               
+                oControl.getView().getModel().read(sPath, {
+                    filters: aFilter,
+                    // urlParameters: {
+                    //     "$expand": ""
+                    // },
+                    success: function (Data) {
+                       
+                        oControl.getView().getModel("JSONModelPayload").setProperty(bindingContextPathSize, Data.results[0].Ddtext);
+                    },
+                    error: function (sError) {
 
-        if(oSelectedItem.sId.includes("idSLCustomerCodeValueHelp")){
-            oControl.getView().getModel("JSONModelPayload").setProperty("/KUNNR",sSelectedValue);
-        }else if(oSelectedItem.sId.includes("idSLSalesOfficeValueHelp")){
-            oControl.getView().getModel("JSONModelPayload").setProperty("/VKBUR",sSelectedValue);
-        }else if(oSelectedItem.sId.includes("idSLMaterialFreightGroupsValueHelp")){
-            oControl.getView().getModel("JSONModelPayload").setProperty("/KUNNR",sSelectedValue);
-        }
-            
+                    }
+                });
+       
+            }else if (oSelectedItem.sId.includes("idSLDesignsValueHelp")) {
+                oControl.getView().getModel("JSONModelPayload").setProperty(bindingContextPath, sSelectedValue);
+            } else if (oSelectedItem.sId.includes("idSLSupplyingPlantValueHelp")) {
+                oControl.getView().getModel("JSONModelPayload").setProperty(bindingContextPath, sSelectedValue);
+            } else if (oSelectedItem.sId.includes("idSLManufacturingAmountValueHelp")) {
+                oControl.getView().getModel("JSONModelPayload").setProperty(bindingContextPath, sSelectedValue);
+            }
+
         },
         // Customer Code Plant
         onCustomerCodeHelp: function (oControl) {
-
             if (!oControl.CustomerCodeFrag) {
-                oControl.CustomerCodeFrag = sap.ui.xmlfragment("prj.salescoordinator.fragments.View2.F4s.customerCodF4", oControl);
+                oControl.CustomerCodeFrag = sap.ui.xmlfragment("prj.salescoordinator.view.fragments.View2.F4s.customerCodF4", oControl);
                 oControl.getView().addDependent(oControl.CustomerCodeFrag);
                 oControl._CustomerCodeTemp = sap.ui.getCore().byId("idSLCustomerCodeValueHelp").clone();
+                oControl._oTemp= sap.ui.getCore().byId("idSLCustomerCodeValueHelp").clone();
             }
             var aFilter = [];
             var oFilterDomname = new sap.ui.model.Filter([new sap.ui.model.Filter("Domname", sap.ui.model.FilterOperator.EQ, "KNA1")], false);
@@ -49,14 +79,14 @@ sap.ui.define([], function () {
 
             oControl.CustomerCodeFrag.open();
         },
-
         // Sales Office
         onSalesOfficeHelp: function (oControl) {
 
             if (!oControl.SalesOfficerag) {
-                oControl.SalesOfficerag = sap.ui.xmlfragment("prj.salescoordinator.fragments.View2.F4s.salesOfficeF4", oControl);
+                oControl.SalesOfficerag = sap.ui.xmlfragment("prj.salescoordinator.view.fragments.View2.F4s.salesOfficeF4", oControl);
                 oControl.getView().addDependent(oControl.SalesOfficerag);
                 oControl._SalesOfficeTemp = sap.ui.getCore().byId("idSLSalesOfficeValueHelp").clone();
+                oControl._oTemp = sap.ui.getCore().byId("idSLSalesOfficeValueHelp").clone();
             }
             var aFilter = [];
 
@@ -74,15 +104,17 @@ sap.ui.define([], function () {
             });
             oControl.SalesOfficerag.open();
         },
-
         // Material Freight Group
         onMaterialFreightGroupsHelp: function (oControl) {
             var oResourceModel = oControl.getView().getModel("i18nV2").getResourceBundle();
+           
             if (!oControl.oFragment) {
-                oControl.oFragment = sap.ui.xmlfragment("prj.salescoordinator.fragments.View2.F4s.materialFreightGroupsF4", oControl);
+                oControl.oFragment = sap.ui.xmlfragment("prj.salescoordinator.view.fragments.View2.F4s.materialFreightGroupsF4", oControl);
                 oControl.oFragment.setTitle(oResourceModel.getText("view2.F4.title.materialFreightGroups"));
                 oControl.getView().addDependent(oControl.SalesOfficerag);
                 oControl._SalesOfficeTemp = sap.ui.getCore().byId("idSLMaterialFreightGroupsValueHelp").clone();
+                 
+                oControl._oTemp = sap.ui.getCore().byId("idSLMaterialFreightGroupsValueHelp").clone();
             }
             var aFilter = [];
             var oFilterDomname = new sap.ui.model.Filter([new sap.ui.model.Filter("Domname", sap.ui.model.FilterOperator.EQ, "ZPRICECAT")], false);
@@ -104,10 +136,11 @@ sap.ui.define([], function () {
         onSizesHelp: function (oControl) {
             var oResourceModel = oControl.getView().getModel("i18nV2").getResourceBundle();
             if (!oControl.oFragmentSizes) {
-                oControl.oFragmentSizes = sap.ui.xmlfragment("prj.salescoordinator.fragments.View2.F4s.sizesF4", oControl);
+                oControl.oFragmentSizes = sap.ui.xmlfragment("prj.salescoordinator.view.fragments.View2.F4s.sizesF4", oControl);
                 oControl.oFragmentSizes.setTitle(oResourceModel.getText("view2.F4.title.sizes"));
                 oControl.getView().addDependent(oControl.SalesOfficerag);
                 oControl._SalesOfficeTemp = sap.ui.getCore().byId("idSLSizesValueHelp").clone();
+                oControl._oTemp = sap.ui.getCore().byId("idSLSizesValueHelp").clone();
             }
             var aFilter = [];
             var oFilterDomname = new sap.ui.model.Filter([new sap.ui.model.Filter("Domname", sap.ui.model.FilterOperator.EQ, "ZPRICECAT")], false);
@@ -128,10 +161,11 @@ sap.ui.define([], function () {
         onDesignsHelp: function (oControl) {
             var oResourceModel = oControl.getView().getModel("i18nV2").getResourceBundle();
             if (!oControl.oFragmentDesign) {
-                oControl.oFragmentDesign = sap.ui.xmlfragment("prj.salescoordinator.fragments.View2.F4s.designsF4", oControl);
+                oControl.oFragmentDesign = sap.ui.xmlfragment("prj.salescoordinator.view.fragments.View2.F4s.designsF4", oControl);
                 oControl.oFragmentDesign.setTitle(oResourceModel.getText("view2.F4.title.designs"));
                 oControl.getView().addDependent(oControl.SalesOfficerag);
-                oControl._SalesOfficeTemp = sap.ui.getCore().byId("idSLDesignsValueHelp").clone();
+                oControl._DesignsTemp = sap.ui.getCore().byId("idSLDesignsValueHelp").clone();
+                oControl._oTemp = sap.ui.getCore().byId("idSLDesignsValueHelp").clone();
             }
             var aFilter = [];
             var oFilterDomname = new sap.ui.model.Filter([new sap.ui.model.Filter("Domname", sap.ui.model.FilterOperator.EQ, "ZMATSOURCE")], false);
@@ -144,7 +178,7 @@ sap.ui.define([], function () {
             sap.ui.getCore().byId("idSDDesignsF4").bindAggregation("items", {
                 path: "/ET_VALUE_HELPSSet",
                 filters: aFilter,
-                template: oControl._SalesOfficeTemp
+                template: oControl._DesignsTemp
             });
             oControl.oFragmentDesign.open();
         },
@@ -152,10 +186,11 @@ sap.ui.define([], function () {
         onSupplyPlantHelp: function (oControl) {
             var oResourceModel = oControl.getView().getModel("i18nV2").getResourceBundle();
             if (!oControl.oFragmentSupply) {
-                oControl.oFragmentSupply = sap.ui.xmlfragment("prj.salescoordinator.fragments.View2.F4s.supplyingPlantF4", oControl);
+                oControl.oFragmentSupply = sap.ui.xmlfragment("prj.salescoordinator.view.fragments.View2.F4s.supplyingPlantF4", oControl);
                 oControl.oFragmentSupply.setTitle(oResourceModel.getText("view2.F4.title.supplyingPlant"));
                 oControl.getView().addDependent(oControl.SalesOfficerag);
                 oControl._SalesOfficeTemp = sap.ui.getCore().byId("idSLSupplyingPlantValueHelp").clone();
+                oControl._oTemp = sap.ui.getCore().byId("idSLSupplyingPlantValueHelp").clone();
             }
             var aFilter = [];
             var oFilterDomname = new sap.ui.model.Filter([new sap.ui.model.Filter("Domname", sap.ui.model.FilterOperator.EQ, "T001W")], false);
@@ -172,15 +207,15 @@ sap.ui.define([], function () {
             });
             oControl.oFragmentSupply.open();
         },
-
         // Manufacturing Amount
         onManufacturingAmtHelp: function (oControl) {
             var oResourceModel = oControl.getView().getModel("i18nV2").getResourceBundle();
             if (!oControl.oFragmentMan) {
-                oControl.oFragmentMan = sap.ui.xmlfragment("prj.salescoordinator.fragments.View2.F4s.manufacturingAmountF4", oControl);
+                oControl.oFragmentMan = sap.ui.xmlfragment("prj.salescoordinator.view.fragments.View2.F4s.manufacturingAmountF4", oControl);
                 oControl.oFragmentMan.setTitle(oResourceModel.getText("view2.F4.title.manufacturingAmount"));
                 oControl.getView().addDependent(oControl.SalesOfficerag);
                 oControl._SalesOfficeTemp = sap.ui.getCore().byId("idSLManufacturingAmountValueHelp").clone();
+                oControl._oTemp = sap.ui.getCore().byId("idSLManufacturingAmountValueHelp").clone();
             }
             var aFilter = [];
             var oFilterDomname = new sap.ui.model.Filter([new sap.ui.model.Filter("Domname", sap.ui.model.FilterOperator.EQ, "T179")], false);
@@ -197,7 +232,5 @@ sap.ui.define([], function () {
             });
             oControl.oFragmentMan.open();
         }
-
-
     }
 });

@@ -132,21 +132,22 @@ sap.ui.define([
 
                 //Start: Santosh changes
                 // local JSON models
-                
+
                 var dataModelValueHelp = this.getOwnerComponent().getModel("valueHelp").getData();
                 this.getView().setModel(new JSONModel(dataModelValueHelp), "LocalJSONModels");
+                this.bindingContextPath;
                 // End: Santosh Changes
 
             },
 
             onRouteMatched: function (oEvent) {
                 var sID = oEvent.getParameter("arguments").ID;
-               
+
                 if (sID === "null" || sID === undefined) {
                     //Start: Santosh changes
                     // payload for OData service
                     var dataModelPayload = this.getOwnerComponent().getModel("payload").getData();
-                    dataModelPayload.header.items.push(dataModelPayload.item);
+                    dataModelPayload.header.ET_SALES_COORD_ISet.results.push(dataModelPayload.item);
                     this.getView().setModel(new JSONModel(dataModelPayload.header), "JSONModelPayload");
 
                     // var that = this;
@@ -155,7 +156,7 @@ sap.ui.define([
                     // oModelPayload.attachRequestCompleted(function (oEvent) {
                     //     var oModel = oEvent.getSource();
                     //     that.oLocalJSONPayload = oModel.getData();
-                    //     that.oLocalJSONPayload.header.items.push(that.oLocalJSONPayload.item);
+                    //     that.oLocalJSONPayload.header.ET_SALES_COORD_ISet.push(that.oLocalJSONPayload.item);
 
                     //     oModelPayload = new JSONModel(that.oLocalJSONPayload.header);
                     //     that.getView().setModel(oModelPayload, "JSONModelPayload");
@@ -217,7 +218,26 @@ sap.ui.define([
             },
 
             onCancel: function () {
-                this.getView().getModel("GlobalModel").setProperty("/Editable", false);
+                debugger;
+                var that = this;
+                // this.getView().getModel("GlobalModel").setProperty("/Editable", false);
+                MessageBox.confirm("Are you sure you want to cancel?", {
+                    actions: ["Yes", "No"],
+                    onClose: function (oAction) {
+                        if (oAction === "Yes") {
+                            // var navigator = sap.ushell.Container.getService("CrossApplicationNavigation");
+                            // navigator.toExternal({
+                            //     target: {
+                            //         semanticObject: "#"
+                            //     }
+                            // });
+                            var oRouter = that.getOwnerComponent().getRouter();
+                            oRouter.navTo("page1", {});
+                        } else {
+
+                        }
+                    }
+                });
             },
 
             onBack: function () {
@@ -404,63 +424,34 @@ sap.ui.define([
             },
             onAddRow: function () {
 
+                var headerValidationStatus = validation.headerPayloadValidation(this);
+                if (headerValidationStatus === 1) {
+                    var aData = this.getView().getModel("JSONModelPayload").getData().ET_SALES_COORD_ISet.results;
+                    var itemValidationStatus = validation.itemsPayloadValidation(aData, this, "Adding new line");
+                    if (itemValidationStatus === 1) {
+                        var JSONData = this.getView().getModel("JSONModelPayload").getData();
 
-                var aData = this.getView().getModel("JSONModelPayload").getData().items;
-                var itemValidationStatus = validation.itemsPayloadValidation(aData, this, "Adding new line");
-                if (itemValidationStatus === 1) {
-                    var JSONData = this.getView().getModel("JSONModelPayload").getData();
-
-                    // JSONData.items.push(this.oLocalJSONPayload.item);
-                    JSONData.items.push({
-                        "CURRENTV": "",
-                        "CURVOLFT": "",
-                        "KUNNR": "",
-                        "LANDEDP": "",
-                        "MFRGR": "",
-                        "NEF": "",
-                        "SZCM": "",
-                        "WERKS": "",
-                        "ZZPRODH4": "",
-                        "PRODH1": "",
-                        "VKBUR": "",
-                        "PAFVFRM": "",
-                        "PAFVTO": "",
-                        "ERNAM": "",
-                        "ERDAT": "",
-                        "ERZET": "",
-                        "LOEKZ": "",
-                        "ZDISP": "",
-                        "ISEXDEP": "",
-                        "ISMEGAL": "",
-                        "ZTERM": "",
-                        "VSART": "",
-                        "MVGR2": "",
-                        "MVGR5": "",
-                        "COVERAGE": "",
-                        "BOXES": "",
-                        "NOSQ": "",
-                        "EXFAC": "",
-                        "EXDEP": "",
-                        "MRP": "",
-                        "DISC": "",
-                        "DISCB": "",
-                        "GST": "",
-                        "FRGTBX": "",
-                        "TI": "",
-                        "GSTI": "",
-                        "LDDBOX": "",
-                        "LDDSFT": "",
-                        "AGENT": "",
-                        "COMMBO.": "",
-                        "COMPTRSFT": "",
-                        "DLCOMSFT": "",
-                        "NETEXB": "",
-                        "NETEXSQ": "",
-                        "COMMBO": "",
-                        "SBPRICE": "",
-                        "SPART": ""
-                    });
-                    this.getView().getModel("JSONModelPayload").setData(JSON.parse(JSON.stringify(JSONData)));
+                        // JSONData.items.push(this.oLocalJSONPayload.item);
+                        JSONData.ET_SALES_COORD_ISet.results.push({
+                            "Mfrgr": "",
+                            "Szmm": "",
+                            "Mvgr2": "",
+                            "Werks": "",
+                            "Prodh1": "",
+                            "CurrentVol": "10",
+                            "TotalVol": "10",
+                            "Disc": "10",
+                            "Schemedisc": "10",
+                            "Commbox": "10",
+                            "Commboxp": "10",
+                            "Frgtbx": "10",
+                            "Compname": "ABC",
+                            "Complanprice": "10",
+                            "Zzprodh4": "",
+                            "Mvgr5": ""
+                        });
+                        this.getView().getModel("JSONModelPayload").setData(JSON.parse(JSON.stringify(JSONData)));
+                    }
                 }
                 // this.getView().getModel("JSONModelPayload").refresh(true);
 
@@ -499,23 +490,27 @@ sap.ui.define([
                 valueHelps.onSalesOfficeHelp(this);
             },
             // Material Freight Group
-            onMaterialFreightGroupsHelp: function () {
+            onMaterialFreightGroupsHelp: function (oEvent) {
+                this.bindingContextPath = oEvent.getSource().getParent().getBindingContextPath();
                 valueHelps.onMaterialFreightGroupsHelp(this);
             },
             // Sizes
-            onSizesHelp: function () {
+            onSizesHelp: function (oEvent) {
                 valueHelps.onSizesHelp(this);
             },
             // Designs 
-            onDesignsHelp: function () {
+            onDesignsHelp: function (oEvent) {
+                this.bindingContextPath = oEvent.getSource().getParent().getBindingContextPath() + "/Mvgr2";
                 valueHelps.onDesignsHelp(this);
             },
             // Supply Plant
-            onSupplyPlantHelp: function () {
+            onSupplyPlantHelp: function (oEvent) {
+                this.bindingContextPath = oEvent.getSource().getParent().getBindingContextPath() + "/Werks";
                 valueHelps.onSupplyPlantHelp(this);
             },
             // Manufacturing Amount
-            onManufacturingAmtHelp: function () {
+            onManufacturingAmtHelp: function (oEvent) {
+                this.bindingContextPath = oEvent.getSource().getParent().getBindingContextPath() + "/Prodh1";
                 valueHelps.onManufacturingAmtHelp(this);
             },
 
@@ -529,12 +524,22 @@ sap.ui.define([
 
                 if (evt.getParameter('id') === 'idSDCustomerCodeF4') {
                     var oFilterDomname = new sap.ui.model.Filter([new sap.ui.model.Filter("Domname", sap.ui.model.FilterOperator.EQ, "KNA1")], false);
-                    
                 } else if (evt.getParameter('id') === 'idSDSalesOfficeF4') {
                     var oFilterDomname = new sap.ui.model.Filter([new sap.ui.model.Filter("Domname", sap.ui.model.FilterOperator.EQ, "TVKBZ")], false);
                 }
-                
-                oFilterDomname1 = new sap.ui.model.Filter([new sap.ui.model.Filter("Domname1", sap.ui.model.FilterOperator.EQ, sValue)], false);
+                else if (evt.getParameter('id') === 'idSDMaterialFreightGroupsF4') {
+                    var oFilterDomname = new sap.ui.model.Filter([new sap.ui.model.Filter("Domname", sap.ui.model.FilterOperator.EQ, "ZPRICECAT")], false);
+                }
+                else if (evt.getParameter('id') === 'idSDDesignsF4') {
+                    var oFilterDomname = new sap.ui.model.Filter([new sap.ui.model.Filter("Domname", sap.ui.model.FilterOperator.EQ, "ZMATSOURCE")], false);
+                } else if (evt.getParameter('id') === 'idSDSupplyingPlantF4') {
+                    var oFilterDomname = new sap.ui.model.Filter([new sap.ui.model.Filter("Domname", sap.ui.model.FilterOperator.EQ, "T001W")], false);
+                } else if (evt.getParameter('id') === 'idSDManufacturingAmountF4') {
+                    var oFilterDomname = new sap.ui.model.Filter([new sap.ui.model.Filter("Domname", sap.ui.model.FilterOperator.EQ, "T001W")], false);
+                }
+
+
+                var oFilterDomname1 = new sap.ui.model.Filter([new sap.ui.model.Filter("Domname1", sap.ui.model.FilterOperator.EQ, sValue)], false);
                 aFilter.push(oFilterDomname1);
                 aFilter.push(oFilterDomname);
                 valueHelps.onCustomerCodeHelpSearch(oSelectDialog, aFilter, sPath, this);
@@ -543,29 +548,156 @@ sap.ui.define([
             onValueHelpConfirm: function (evt) {
 
                 var oSelectedItem = evt.getParameter("selectedItem");
-                valueHelps.valueHelpConfirm(oSelectedItem, this);
+                valueHelps.valueHelpConfirm(oSelectedItem, this, this.bindingContextPath);
             },
 
-            onSave: function () {
-                
-                if (this.getView().getModel("JSONModelPayload").getData().ACTION !== "Generated") {
-                    this.getView().getModel("JSONModelPayload").getData().ACTION = "Save";
-                }
+            onMaterialFreightGroupsHelpConfirm: function (oEvent) {
+                var oSelectedItem = oEvent.getParameter("selectedItem");
+                var sSelectedValue = oSelectedItem.getProperty("title");
+                var bindingContextPathMFG = this.bindingContextPath + "/Mfrgr";
+                var bindingContextPathSize = this.bindingContextPath + "/Szmm";
+                this.getView().getModel("JSONModelPayload").setProperty(bindingContextPathMFG, sSelectedValue);
+                var aFilter = [];
+                var oFilterDomname = new sap.ui.model.Filter([new sap.ui.model.Filter("Domname", sap.ui.model.FilterOperator.EQ, "SIZE")], false);
+                var oFilterDomname2 = new sap.ui.model.Filter([new sap.ui.model.Filter("Domname2", sap.ui.model.FilterOperator.EQ, sSelectedValue)], false);
+                aFilter.push(oFilterDomname);
+                aFilter.push(oFilterDomname2);
+                var sPath = "/ET_VALUE_HELPSSet"
+                var that = this;
 
-                
+                this.getView().getModel().read(sPath, {
+                    filters: aFilter,
+                    // urlParameters: {
+                    //     "$expand": ""
+                    // },
+                    success: function (Data) {
+                        that.getView().getModel("JSONModelPayload").setProperty(bindingContextPathSize, Data.results[0].Ddtext);
+                    },
+                    error: function (sError) {
+
+                    }
+                });
+            },
+
+            onDesignsHelpConfirm: function (oEvent) {
+                var oSelectedItem = oEvent.getParameter("selectedItem");
+                var sSelectedValue = oSelectedItem.getProperty("title");
+                this.getView().getModel("JSONModelPayload").setProperty(this.bindingContextPath, sSelectedValue);
+            },
+
+            onSupplyPlantHelpConfirm(oEvent) {
+                var oSelectedItem = oEvent.getParameter("selectedItem");
+                var sSelectedValue = oSelectedItem.getProperty("title");
+                this.getView().getModel("JSONModelPayload").setProperty(this.bindingContextPath, sSelectedValue);
+            },
+            onManufacturingAmtHelpConfirm: function (oEvent) {
+                var oSelectedItem = oEvent.getParameter("selectedItem");
+                var sSelectedValue = oSelectedItem.getProperty("title");
+                this.getView().getModel("JSONModelPayload").setProperty(this.bindingContextPath, sSelectedValue);
+            },
+
+
+
+            onRadioButtonGroupSelect: function (oEvent) {
+                // selectedIndex
+
+
+                if (oEvent.getSource().getSelectedIndex() === 0) {
+                    this.getView().getModel("JSONModelPayload").getData().Isexdep = "X";
+                } else {
+                    this.getView().getModel("JSONModelPayload").getData().Isexdep = "X";
+
+                }
+            },
+            onSave: function () {
+                debugger;
+
                 var headerValidationStatus = validation.headerPayloadValidation(this);
-                
+
                 if (headerValidationStatus === 1) {
-                    var aData = this.getView().getModel("JSONModelPayload").getData().items;
+                    var aData = this.getView().getModel("JSONModelPayload").getData().ET_SALES_COORD_ISet.results;
                     var itemValidationStatus = validation.itemsPayloadValidation(aData, this, "Save");
                     if (itemValidationStatus === 1) {
-                        MessageBox.success("Data is valid to send");
+                        if (this.getView().getModel("JSONModelPayload").getData().Action !== "GENERATE") {
+                            this.getView().getModel("JSONModelPayload").getData().Action = "SAVE";
+                        }
+                        var sPath = "/ET_SALES_COORD_HEADERSet";
+                        this.getView().getModel().create(sPath, this.getView().getModel("JSONModelPayload").getData(), {
+                            async: false,
+                            success: function (oData) {
+                                MessageBox.success("Request saved successfully with PAF Number:" + oData.Pafno + "", {
+                                    actions: [sap.m.MessageBox.Action.OK],
+                                    onClose: function (oAction) {
+
+                                        // var navigator = sap.ushell.Container.getService("CrossApplicationNavigation");
+                                        // navigator.toExternal({
+                                        //     target: {
+                                        //         semanticObject: "#"
+                                        //     }
+                                        // });
+                                        window.location.reload();
+                                    }
+                                });
+                            },
+                            error: function (sError) {
+                                MessageBox.error("Request creation failed", {
+                                    actions: [sap.m.MessageBox.Action.OK],
+                                    onClose: function (oAction) {
+                                        // var navigator = sap.ushell.Container.getService("CrossApplicationNavigation");
+                                        // navigator.toExternal({
+                                        //     target: {
+                                        //         semanticObject: "#"
+                                        //     }
+                                        // });
+
+                                        window.location.reload()
+                                    }
+                                });
+                            }
+                        });
                     }
                 }
                 // this.getView().getModel("JSONModelForItems").getData();
             },
             onGenerate: function () {
-                this.getView().getModel("JSONModelPayload").getData().ACTION = "Generated";
+
+                this.getView().getModel("JSONModelPayload").getData().Action = "GENERATE";
+                // var oGeneratePostHeader = JSON.parse(JSON.stringify(this.getView().getModel("JSONModelPayload").getData()));
+                // oGeneratePostHeader.ET_SALES_COORD_ISet = [];
+                // var oGenratePostItems = {
+                //     "Kunnr": "",
+                //     "Mfrgr": "",
+                //     "Szcm": "",
+                //     "Werks": "",
+                //     "Zzprodh4": "",
+                //     "Prodh1": "",
+                //     "CurrentVol": "",
+                //     "Exdep": "",
+                //     "Commbox": "",
+                //     "Commboxp": ""
+                // };
+                // oGeneratePostHeader.ET_SALES_COORD_ISet.push(oGenratePostItems);
+
+                var that = this;
+                var sPath = "/ET_SALES_COORD_HEADERSet";
+                this.getView().getModel().create(sPath, this.getView().getModel("JSONModelPayload").getData(), {
+                    async: false,
+                    success: function (oData) {
+
+                        that.getView().getModel("JSONModelPayload").setData(oData)
+                        // that.getView().getModel("JSONModelPayload").getData().ET_SALES_COORD_ISet = [];
+                        // that.getView().getModel("JSONModelPayload").getData().ET_SALES_COORD_ISet = oData.ET_SALES_COORD_ISet.results;
+
+                        that.getView().getModel("JSONModelPayload").refresh(true);
+                        that.getView().byId("idV2BtnSave").setVisible(true);
+                    },
+                    error: function (sError) {
+
+                        that.getView().byId("idV2BtnSave").setVisible(true);
+                    }
+                });
+
+
             },
 
 
