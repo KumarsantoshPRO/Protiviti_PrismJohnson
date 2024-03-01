@@ -7,7 +7,7 @@ sap.ui.define([
 
 	Opa5.extendConfig({
 		arrangements: new Startup(),
-		viewNamespace: "project1.view.",
+		viewNamespace: "prj.salescoordinator.view.",
 		autoWait: true
 	});
 });

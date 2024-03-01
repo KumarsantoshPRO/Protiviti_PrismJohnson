@@ -1,0 +1,7 @@
+<core:FragmentDefinition xmlns="sap.m" xmlns:core="sap.ui.core">
+	<SelectDialog id="idSDMaterialFreightGroupsF4"  noDataText="{i18nV2>view2.F4.NoValueFound}" search="onValueHelpSearch" confirm="onMaterialFreightGroupsHelpConfirm">
+		<items>
+			<StandardListItem id="idSLMaterialFreightGroupsValueHelp" title="{DomvalueL}" description="{Ddtext}"/>
+		</items>
+	</SelectDialog>
+</core:FragmentDefinition>

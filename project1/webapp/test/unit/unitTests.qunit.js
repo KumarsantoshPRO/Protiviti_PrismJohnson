@@ -5,7 +5,7 @@ sap.ui.getCore().attachInit(function () {
 	"use strict";
 
 	sap.ui.require([
-		"project1/test/unit/AllTests"
+		"prj/sales_coordinator/test/unit/AllTests"
 	], function () {
 		QUnit.start();
 	});

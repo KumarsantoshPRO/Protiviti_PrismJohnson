@@ -39,8 +39,8 @@ sap.ui.define([
 							"tiles": [{
 								"tileType": "sap.ushell.ui.tile.StaticTile",
 								"properties": {
-									"title": "App Title",
-									"targetURL": "#project1-display"
+									"title": "sales_coordinator",
+									"targetURL": "#prjsalescoordinator-display"
 								}
 							}]
 						}]
@@ -51,18 +51,18 @@ sap.ui.define([
 				"adapter": {
 					"config": {
 						"inbounds": {
-							"project1-display": {
-								"semanticObject": "project1",
+							"prjsalescoordinator-display": {
+								"semanticObject": "prjsalescoordinator",
 								"action": "display",
-								"description": "An SAP Fiori application.",
-								"title": "App Title",
+								"description": "A Fiori application.",
+								"title": "sales_coordinator",
 								"signature": {
 									"parameters": {}
 								},
 								"resolutionResult": {
 									"applicationType": "SAPUI5",
-									"additionalInformation": "SAPUI5.Component=project1",
-									"url": sap.ui.require.toUrl("project1")
+									"additionalInformation": "SAPUI5.Component=prj.salescoordinator",
+									"url": sap.ui.require.toUrl("prj/salescoordinator")
 								}
 							}
 						}

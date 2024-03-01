@@ -5,12 +5,14 @@
 sap.ui.define([
         "sap/ui/core/UIComponent",
         "sap/ui/Device",
-        "project1/model/models"
+        "prj/salescoordinator/model/models",
+        "prj/salescoordinator/model/formatter",
+        "sap/ui/model/json/JSONModel"
     ],
-    function (UIComponent, Device, models) {
+    function (UIComponent, Device, models, formatter, JSONModel) {
         "use strict";
-
-        return UIComponent.extend("project1.Component", {
+      
+        return UIComponent.extend("prj.salescoordinator.Component", {
             metadata: {
                 manifest: "json"
             },
@@ -21,6 +23,10 @@ sap.ui.define([
              * @override
              */
             init: function () {
+
+                var oModel = new JSONModel("./model/tableJSONData.json");
+                     oModel.setDefaultBindingMode("OneWay");
+
                 // call the base component's init function
                 UIComponent.prototype.init.apply(this, arguments);
 
