@@ -23,20 +23,39 @@ sap.formatter = {
     },
 
     getStatusColor: function (status) {
+         
         var colorCode = "";
-        if (status === 'On Going') {
-            colorCode = 6;
-        } else if (status === 'Approved') {
-            colorCode = 8;
-        } else if (status === 'Rejected') {
-            colorCode = 2;
-        } else if (status === 'Delay') {
-            colorCode = 1;
+        if (status === 'P') {
+            colorCode = "Default";
+        } else if (status === 'A') {
+            colorCode = "Accept";
+        } else if (status === 'R') {
+            colorCode = "Reject";
+        } else if (status === 'D') {
+            colorCode = "Attention";
         } else {
-            colorCode = 9;
+            colorCode = "Default";
         }
 
         return colorCode;
+
+    },
+    getStatus: function (status) {
+         
+        var statusText = "";
+        if (status === 'P') {
+            statusText = "On Going";
+        } else if (status === 'A') {
+            statusText = "Approves";
+        } else if (status === 'R') {
+            colorCode = "Rejected";
+        } else if (status === 'D') {
+            statusText = "Delayed";
+        } else {
+            statusText = "";
+        }
+
+        return statusText;
 
     },
 

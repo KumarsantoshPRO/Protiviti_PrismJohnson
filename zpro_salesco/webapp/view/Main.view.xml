@@ -1,0 +1,20 @@
+<mvc:View
+    controllerName="zpj.pro.sk.sd.salescoordinator.zprosalesco.controller.Main"
+    xmlns:mvc="sap.ui.core.mvc"
+    displayBlock="true"
+    xmlns="sap.m"
+    xmlns:core="sap.ui.core"
+>
+    <Page
+        id="id.Page.MainPage"
+        class="sapUiLargeMarginBottom"
+    >
+        <content>
+            <core:Fragment
+                id="id.tableProductDetails.Fragment"
+                fragmentName="zpj.pro.sk.sd.salescoordinator.zprosalesco.view.fragments.main.tableProductDetails"
+                type="XML"
+            />
+        </content>
+    </Page>
+</mvc:View>

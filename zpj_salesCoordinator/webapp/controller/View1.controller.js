@@ -14,7 +14,10 @@ sap.ui.define([
             formatter: formatter,
             onInit: function () {
                 this.mapLocalJSONDataToTable("AllRequestData");
+            
             },
+
+   
 
             onNewPress: function () {
                 this.oRouter = this.getOwnerComponent().getRouter();

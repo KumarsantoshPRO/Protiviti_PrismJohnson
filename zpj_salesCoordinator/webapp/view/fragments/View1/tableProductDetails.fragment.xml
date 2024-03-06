@@ -2,7 +2,6 @@
     xmlns="sap.m"
     xmlns:core="sap.ui.core"
     xmlns:form="sap.ui.layout.form"
-    xmlns:tnt="sap.tnt"
 >
     <IconTabBar
         stretchContentHeight="true"
@@ -63,14 +62,14 @@
         </items>
         <content>
             <Table
-                mode="SingleSelectLeft"
                 alternateRowColors="true"
                 class="sapUiLargeMarginBottom"
                 id="idV1TblProducts"
                 growing="true"
                 inset="false"
                 headerText="{i18nV1>view1.table.headerText}"
-                items="{RequestModel>/}"
+                items="{/ET_ZDI_TP_BILLSet}"
+                growingScrollToLoad="true"
             >
                 <headerToolbar>
                     <OverflowToolbar id="idV1TblOT">
@@ -99,7 +98,7 @@
                         </content>
                     </OverflowToolbar>
                 </headerToolbar>
-            
+
                 <columns>
                     <Column
                         id="idV1TblClmOrderNo"
@@ -213,47 +212,46 @@
                         <cells>
                             <Text
                                 id="idV1TblCLITxtOrdNo"
-                                text="{RequestModel>orderNo}"
+                                text="{Pafno}"
                             />
                             <Text
                                 id="idV1TblCLITxtRegion"
-                                text="{RequestModel>region}"
+                                text="{Vkbur}"
                             />
                             <Text
                                 id="idV1TblCLITtCustomer"
-                                text="{RequestModel>customer}"
+                                text="{Name}"
                             />
                             <Text
                                 id="idV1TblCLITxtCustId"
-                                text="{RequestModel>custId}"
+                                text="{Kunnr}"
                             />
                             <Text
                                 id="idV1TblCLITxtOrdType"
-                                text="{RequestModel>orderType}"
+                                text="{ parts: ['Vtweg'], formatter: 'sap.formatter.getOrderType' }"
                             />
                             <Text
                                 id="idV1TblCLITxtOrdTot"
-                                text="{RequestModel>orderTotal}"
+                                text="{TotalVolume}"
                             />
                             <Text
                                 id="idV1TblCLITxtOrdCur"
-                                text="{RequestModel>orderCur}"
+                                text="{CurrentVol}"
                             />
                             <Text
                                 id="idV1TblCLITxtReqDate"
-                                text="{RequestModel>reqDate}"
+                                text="{ parts: ['Erdat'], formatter: 'sap.formatter.getFormattedDate' }"
                             />
                             <Text
                                 id="idV1TblCLITxtDisPer"
-                                text="{RequestModel>discountPer}"
+                                text="{Disc}"
                             />
-                            <tnt:InfoLabel
+                            <Button
                                 id="idV1TblCLIILStatus"
-                                text="{RequestModel>status}"
-                                renderMode="Loose"
-                                colorScheme="{ parts: [                                        
-                                        				'RequestModel>status'], 
-                                						formatter: 'sap.formatter.getStatusColor' }"
+                                text="{ path: 'Status',formatter: 'sap.formatter.getStatus' }"
+                                enabled="false"
+                                iconFirst="false"
+                                type="{ path: 'Status',formatter: 'sap.formatter.getStatusColor' }"
                             />
                         </cells>
                     </ColumnListItem>

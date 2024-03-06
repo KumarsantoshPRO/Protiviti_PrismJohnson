@@ -1,0 +1,49 @@
+{
+    "header": {
+        "Isexdep": "",
+        "Pafvto": null,
+        "Kunnr": "",
+        "Pafvfrm": null,
+        "Ti": "1",
+        "Gst": "18",
+        "Name": "",
+        "Action": "",
+        "Zterm": "",
+        "Validity": "",
+        "Aufnr": "",
+        "Vtweg": "",
+        "Vkbur": "",
+        "Spart": "",
+        "ET_SALES_COORD_ISet": {
+            "results": []
+        }
+    },
+    "item": {
+        "Mfrgr": "",
+        "Szmm": "",
+        "Mvgr2": "",
+        "Werks": "",
+        "Prodh1": "",
+        "CurrentVol": "",
+        "TotalVol": "",
+        "Disc": "",
+        "Schemedisc": "",
+        "Commbox": "",
+        "Commboxp": "",
+        "Frgtbx": "",
+        "Compname": "ABC",
+        "Complanprice": "",
+        "Zzprodh4": "",
+        "Mvgr5": ""
+    },
+    "attachments": {
+        "results": []
+    },
+    "count":{
+        "Total": "",
+        "onGoing": "",
+        "Approved": "",
+        "Rejected" : "",
+        "Delayed":""
+    }
+}

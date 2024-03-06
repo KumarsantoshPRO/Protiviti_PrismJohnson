@@ -1,0 +1,7 @@
+<mvc:View controllerName="zpj.pro.sk.sd.salescoordinator.zprosalesco.controller.App"
+    
+    xmlns:mvc="sap.ui.core.mvc" displayBlock="true"
+    xmlns="sap.m">
+    <App id="id.App">
+    </App>
+</mvc:View>

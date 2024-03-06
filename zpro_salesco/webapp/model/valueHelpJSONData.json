@@ -1,0 +1,93 @@
+ 
+{
+    
+    "paymentTerms":[
+        {
+            "key": "HR01",
+            "text": "HR01"
+        },
+        {
+            "key": "HR07",
+            "text": "HR07"
+        },
+        {
+            "key": "HR10",
+            "text": "HR10"
+        },
+        {
+            "key": "HR25",
+            "text": "HR25"
+        }
+        ,
+        {
+            "key": "HR30",
+            "text": "HR30"
+        }
+        ,
+        {
+            "key": "HR45",
+            "text": "HR45"
+        }
+    ],
+    "distributonChannel":[
+        {
+            "key":"10",
+            "text":"10"
+        },
+        {
+            "key":"17",
+            "text":"17"
+        },
+        {
+            "key":"19",
+            "text":"19"
+        } 
+    ],
+    "vertical":[
+        {
+            "key":"10",
+            "text":"Johnson"
+        },
+        {
+            "key":"20",
+            "text":"Porselano"
+        },
+        {
+            "key":"30",
+            "text":"Marbonite"
+        },
+        {
+            "key":"40",
+            "text":"Endura"
+        }
+    ],
+    "quality":[
+        {
+            "key":"P",
+            "text":"P"
+        },
+        {
+            "key":"C",
+            "text":"C"
+        },
+        {
+            "key":"E",
+            "text":"E"
+        },
+        {
+            "key":"U",
+            "text":"U"
+        }
+    ],
+    "part":[
+        {
+            "key":"A",
+            "text":"A"
+        },
+        {
+            "key":"B",
+            "text":"B"
+        }
+    ]
+
+}
