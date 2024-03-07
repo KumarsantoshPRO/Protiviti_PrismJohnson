@@ -42,7 +42,7 @@
                 }" -->
             <Table
                 id="idV2TblProducts"
-                items="{JSONModelPayload>/ET_SALES_COORD_ISet/results}"
+                items="{JSONModelPayload>/ET_SALES_COORD_ISET/results}"
             >
                 <headerToolbar>
                     <Toolbar id="idV2TB">
@@ -144,8 +144,10 @@
                     >
                         <Text
                             id="idV2TxtTblClmExFac"
-                            text="{i18nV2>view2.table.column.text.exFac}"
+                            text='{=${JSONModelPayload>/Exdepsqft} === "0.00"?${i18nV2>view2.table.column.text.exFac}:${i18nV2>view2.table.column.text.exDep}}'
+                           
                         />
+                         <!-- text="{i18nV2>view2.table.column.text.exFac}" -->
                     </Column>
                     <Column
                         id="idV2TblClmDisPer"
@@ -165,6 +167,7 @@
                         demandPopin="true"
                         hAlign="Center"
                         width="10rem"
+                        visible="false"
                     >
                         <Text
                             id="idV2TxtTblClmSchDis"
@@ -177,6 +180,7 @@
                         demandPopin="true"
                         hAlign="Center"
                         width="10rem"
+                         visible="false"
                     >
                         <Text
                             id="idV2TxtTblClmScm"
@@ -381,9 +385,13 @@
                                 editable="false"
                                 maxLength="2"
                                 liveChange="onNumberValidation"
-                                value="{JSONModelPayload>Exfac}"
+                            
+                               value=  '{=${JSONModelPayload>Exdepsqft} === "0.00" ?${JSONModelPayload>Exfacsqft}:${JSONModelPayload>Exdepsqft}}'
+                              
                                
                             />
+                            <!-- value=  '{=${JSONModelPayload>/Exdepsqft} === "0.00" ?${JSONModelPayload>Exfacsqft}:${JSONModelPayload>/Exdepsqft}}' -->
+                              <!-- value="{JSONModelPayload>Exfac}" -->
 
                             <Input
                                 id="idV2TblCLIInpDiscount"
@@ -399,6 +407,7 @@
                                 liveChange="onNumberValidation"
                                  value="{JSONModelPayload>SchemeDisc}"
                                  editable="{GlobalModel>/Editable}"
+                                  visible="false"
                             />
 
                             <Input
@@ -407,6 +416,7 @@
                                 liveChange="onNumberValidation"
                                 value="{JSONModelPayload>Schemedisc}"
                                 editable="{GlobalModel>/Editable}"
+                                 visible="false"
                             />
 
                             <Input

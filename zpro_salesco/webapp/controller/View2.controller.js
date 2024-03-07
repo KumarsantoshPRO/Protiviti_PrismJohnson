@@ -25,120 +25,21 @@ sap.ui.define([
             onInit: function () {
 
                 this.getOwnerComponent().getRouter().attachRoutePatternMatched(this.onRouteMatched, this);
-                this.getData();
 
 
 
-                var that = this;
-                var oLink = new Link({
-                    text: "Show more information",
-                    href: "http://sap.com",
-                    target: "_blank"
-                });
-
-                var oMessageTemplate = new MessageItem({
-                    type: '{type}',
-                    title: '{title}',
-                    description: '{description}',
-                    subtitle: '{subtitle}',
-                    counter: '{counter}',
-                    markupDescription: "{markupDescription}",
-                    link: oLink
-                });
-
-                var aMockMessages = [{
-                    type: 'Error',
-                    title: 'Error message',
-                    description: 'First Error message description. \n' +
-                        'Lorem ipsum dolor sit amet, consectetur adipisicing elit, sed do eiusmod',
-                    subtitle: 'Example of subtitle',
-                    counter: 1
-                }, {
-                    type: 'Warning',
-                    title: 'Warning without description',
-                    description: ''
-                }, {
-                    type: 'Success',
-                    title: 'Success message',
-                    description: 'First Success message description',
-                    subtitle: 'Example of subtitle',
-                    counter: 1
-                }, {
-                    type: 'Error',
-                    title: 'Error message',
-                    description: 'Second Error message description',
-                    subtitle: 'Example of subtitle',
-                    counter: 2
-                }, {
-                    type: 'Information',
-                    title: 'Information message',
-                    description: 'First Information message description',
-                    subtitle: 'Example of subtitle',
-                    counter: 1
-                }];
-
-                var oModel = new JSONModel(),
-                    that = this;
-
-                oModel.setData(aMockMessages);
-
-                this.oMessageView = new MessageView({
-                    showDetailsPageHeader: false,
-                    itemSelect: function () {
-                        oBackButton.setVisible(true);
-                    },
-                    items: {
-                        path: "/",
-                        template: oMessageTemplate
-                    }
-                });
-                var oBackButton = new Button({
-                    icon: IconPool.getIconURI("nav-back"),
-                    visible: false,
-                    press: function () {
-                        that.oMessageView.navigateBack();
-                        that._oPopover.focus();
-                        this.setVisible(false);
-                    }
-                });
-
-                this.oMessageView.setModel(oModel);
-
-                var oCloseButton = new Button({
-                    text: "Close",
-                    press: function () {
-                        that._oPopover.close();
-                    }
-                }).addStyleClass("sapUiTinyMarginEnd"),
-                    oPopoverFooter = new Bar({
-                        contentRight: oCloseButton
-                    }),
-                    oPopoverBar = new Bar({
-                        contentLeft: [oBackButton],
-                        contentMiddle: [
-                            new Title({ text: "Messages" })
-                        ]
-                    });
-
-                this._oPopover = new Popover({
-                    customHeader: oPopoverBar,
-                    contentWidth: "440px",
-                    contentHeight: "440px",
-                    verticalScrolling: false,
-                    modal: true,
-                    content: [this.oMessageView],
-                    footer: oPopoverFooter
-                });
 
                 //Start: Santosh changes
                 // local JSON models
-                this.fileDetails;
+                this._fileDetail;
                 this.Pafno;
+                this._allAttachment = [];
+                this._attachmentPayload;
                 var dataModelValueHelp = this.getOwnerComponent().getModel("valueHelp").getData();
                 this.getView().setModel(new JSONModel(dataModelValueHelp), "LocalJSONModels");
                 this.bindingContextPath;
 
-            
+
                 // End: Santosh Changes
 
             },
@@ -148,16 +49,18 @@ sap.ui.define([
                     "Editable": false
                 }
                 var oModelGlobalModel = new JSONModel(oGlobalModel);
-                this.getView().setModel(oModelGlobalModel,"GlobalModel");
-                
+                this.getView().setModel(oModelGlobalModel, "GlobalModel");
+
                 var sID = oEvent.getParameter("arguments").ID;
 
                 if (sID === "null" || sID === undefined) {
                     //Start: Santosh changes
                     // payload for OData service
+
                     this.getView().getModel("GlobalModel").setProperty("/Editable", true);
                     var dataModelPayload = this.getOwnerComponent().getModel("payload").getData();
-                    dataModelPayload.header.ET_SALES_COORD_ISet.results.push(dataModelPayload.item);
+                    dataModelPayload.header.ET_SALES_COORD_ISET.results = [];
+                    dataModelPayload.header.ET_SALES_COORD_ISET.results.push(dataModelPayload.item);
                     this.getView().setModel(new JSONModel(dataModelPayload.header), "JSONModelPayload");
 
                     //End: Santosh changes
@@ -167,7 +70,7 @@ sap.ui.define([
                     var aFilter = [];
                     var oFilter = new sap.ui.model.Filter([new sap.ui.model.Filter("Pafno", sap.ui.model.FilterOperator.EQ, sID)], false);
                     aFilter.push(oFilter);
-                    var sPath = "/ET_SALES_COORD_HEADERSet('"+sID+"')";
+                    var sPath = "/ET_SALES_COORD_HEADERSet('" + sID + "')";
                     var that = this;
                     this.getView().setBusy(true);
                     this.getView().getModel().read(sPath, {
@@ -176,18 +79,18 @@ sap.ui.define([
                             "$expand": "ET_SALES_COORD_ISET"
                         },
                         success: function (Data) {
-                            
+
                             that.getView().setModel(new JSONModel(Data), "JSONModelPayload");
 
                             //Start: logic working 
-                            var dataForTable = {
-                                "ET_SALES_COORD_ISet": {
-                                    "results": Data.ET_SALES_COORD_ISET.results
-                                }
-                            }
-                            that.getView().setModel(new JSONModel(Data), "JSONModelPayload");
-                            that.byId(sap.ui.core.Fragment.createId("idV2FragAddPrdDetails", "idV2TblProducts")).setModel(new JSONModel(dataForTable),"JSONModelPayload");
-                            that.getView().getModel("JSONModelPayload").refresh(true);
+                            // var dataForTable = {
+                            //     "ET_SALES_COORD_ISET": {
+                            //         "results": Data.ET_SALES_COORD_ISET.results
+                            //     }
+                            // }
+                            // that.getView().setModel(new JSONModel(Data), "JSONModelPayload");
+                            // that.byId(sap.ui.core.Fragment.createId("idV2FragAddPrdDetails", "idV2TblProducts")).setModel(new JSONModel(dataForTable),"JSONModelPayload");
+                            // that.getView().getModel("JSONModelPayload").refresh(true);
                             that.getView().setBusy(false);
                             //End: logic working 
 
@@ -203,13 +106,13 @@ sap.ui.define([
                             // delete Data.results[0]['ET_SALES_COORD_ISET'];
 
 
-                            
+
                             // that.byId(sap.ui.core.Fragment.createId("idV2FragAddPrdDetails", "idV2TblProducts")).setModel(new JSONModel(Data.results[0].ET_SALES_COORD_ISET.results),"JSONModelPayload")
                             // that.byId(sap.ui.core.Fragment.createId("idV2FragAddPrdDetails", "idV2TblProducts")).getModel("JSONModelPayload").setData(Data.results[0].ET_SALES_COORD_ISET.results);
                             // that.byId(sap.ui.core.Fragment.createId("idV2FragAddPrdDetails", "idV2TblProducts")).getModel("JSONModelPayload").refresh(true);
 
 
-                           
+
 
                         },
                         error: function (sError) {
@@ -236,7 +139,7 @@ sap.ui.define([
             },
 
             onCancel: function () {
-             
+
                 var that = this;
                 // this.getView().getModel("GlobalModel").setProperty("/Editable", false);
                 MessageBox.confirm("Are you sure you want to cancel?", {
@@ -263,146 +166,7 @@ sap.ui.define([
                 this.oRouter.navTo("page1", {});
             },
 
-            getData: function () {
 
-                var oGetDataModel = new JSONModel([
-                    {
-                        "customer": "Aman Sharma",
-                        "custId": "TN0S0117",
-                        "source": "Online",
-                        "payterm": "Cash",
-                        "validity": "1",
-                        "orderNo": "RN123456801",
-                        "orderType": "Retail",
-                        "remark": "Cash 4%",
-                        "material": "OFJA3045",
-                        "size": "300x300",
-                        "design": "CARGO FLOOR MATT REC",
-                        "curVol": "2000",
-                        "totalVol": "200",
-                        "exFactory": "200",
-                        "onInvoice": "22%",
-                        "crcEntry": "202.5",
-                        "crcPer": "280",
-                        "invoiceDis": "70",
-                        "invoicePer": "25%",
-                        "fraightCost": "1000",
-                        "schemeVal": "-",
-                        "schemePer": "-",
-                        "payVal": "10",
-                        "payPer": "4%",
-                        "scmDiscnt": "1.4",
-                        "scmPercent": "12%",
-                        "orcEntity": "1.2",
-                        "orcPercent": "32",
-                        "freightSqft": "Yes",
-                        "competatorName": "First Competator",
-                        "competatorLandedPrice": "223",
-                    },
-                    {
-                        "customer": "Aman Sharma",
-                        "custId": "TN0S0117",
-                        "source": "Online",
-                        "payterm": "Cash",
-                        "validity": "1",
-                        "orderNo": "RN123456801",
-                        "orderType": "Retail",
-                        "remark": "Cash 4%",
-                        "material": "OFJA3045",
-                        "size": "300x300",
-                        "design": "CARGO FLOOR MATT REC",
-                        "curVol": "2000",
-                        "totalVol": "200",
-                        "exFactory": "200",
-                        "onInvoice": "22%",
-                        "crcEntry": "202.5",
-                        "crcPer": "280",
-                        "invoiceDis": "70",
-                        "invoicePer": "25%",
-                        "fraightCost": "1000",
-                        "schemeVal": "-",
-                        "schemePer": "-",
-                        "payVal": "10",
-                        "payPer": "4%",
-                        "scmDiscnt": "1.4",
-                        "scmPercent": "12%",
-                        "orcEntity": "1.2",
-                        "orcPercent": "32",
-                        "freightSqft": "Yes",
-                        "competatorName": "First Competator",
-                        "competatorLandedPrice": "223",
-                    },
-                    {
-                        "customer": "Aman Sharma",
-                        "custId": "TN0S0117",
-                        "source": "Online",
-                        "payterm": "Cash",
-                        "validity": "1",
-                        "orderNo": "RN123456801",
-                        "orderType": "Retail",
-                        "remark": "Cash 4%",
-                        "material": "OFJA3045",
-                        "size": "300x300",
-                        "design": "CARGO FLOOR MATT REC",
-                        "curVol": "2000",
-                        "totalVol": "200",
-                        "exFactory": "200",
-                        "onInvoice": "22%",
-                        "crcEntry": "202.5",
-                        "crcPer": "280",
-                        "invoiceDis": "70",
-                        "invoicePer": "25%",
-                        "fraightCost": "1000",
-                        "schemeVal": "-",
-                        "schemePer": "-",
-                        "payVal": "10",
-                        "payPer": "4%",
-                        "scmDiscnt": "1.4",
-                        "scmPercent": "12%",
-                        "orcEntity": "1.2",
-                        "orcPercent": "32",
-                        "freightSqft": "Yes",
-                        "competatorName": "First Competator",
-                        "competatorLandedPrice": "223",
-
-                    },
-                    {
-                        "customer": "Aman Sharma",
-                        "custId": "TN0S0117",
-                        "source": "Online",
-                        "payterm": "Cash",
-                        "validity": "1",
-                        "orderNo": "RN123456801",
-                        "orderType": "Retail",
-                        "remark": "Cash 4%",
-                        "material": "OFJA3045",
-                        "size": "300x300",
-                        "design": "CARGO FLOOR MATT REC",
-                        "curVol": "2000",
-                        "totalVol": "200",
-                        "exFactory": "200",
-                        "onInvoice": "22%",
-                        "crcEntry": "202.5",
-                        "crcPer": "280",
-                        "invoiceDis": "70",
-                        "invoicePer": "25%",
-                        "fraightCost": "1000",
-                        "schemeVal": "-",
-                        "schemePer": "-",
-                        "payVal": "10",
-                        "payPer": "4%",
-                        "scmDiscnt": "1.4",
-                        "scmPercent": "12%",
-                        "orcEntity": "1.2",
-                        "orcPercent": "32",
-                        "freightSqft": "Yes",
-                        "competatorName": "First Competator",
-                        "competatorLandedPrice": "223",
-
-                    }
-                ]);
-                this.getView().setModel(oGetDataModel, "oRequestModel");
-            },
 
             handleMessages: function (oEvent) {
                 this.oMessageView.navigateBack();
@@ -411,8 +175,8 @@ sap.ui.define([
 
             //Start: Santosh Changes
 
-            getResourceBundle: function () {
-                return this.getOwnerComponent().getModel("i18n").getResourceBundle();
+            _getResourceBundle: function () {
+                return this.getOwnerComponent().getModel("i18nV2").getResourceBundle();
             },
 
             onNumberValidation: function (oEvent) {
@@ -444,27 +208,29 @@ sap.ui.define([
 
                 var headerValidationStatus = validation.headerPayloadValidation(this);
                 if (headerValidationStatus === 1) {
-                    var aData = this.getView().getModel("JSONModelPayload").getData().ET_SALES_COORD_ISet.results;
+                    var aData = this.getView().getModel("JSONModelPayload").getData().ET_SALES_COORD_ISET.results;
                     var itemValidationStatus = validation.itemsPayloadValidation(aData, this, "Adding new line");
                     if (itemValidationStatus === 1) {
                         var JSONData = this.getView().getModel("JSONModelPayload").getData();
 
                         // JSONData.items.push(this.oLocalJSONPayload.item);
-                        JSONData.ET_SALES_COORD_ISet.results.push({
+                        JSONData.ET_SALES_COORD_ISET.results.push({
                             "Mfrgr": "",
                             "Szmm": "",
                             "Mvgr2": "",
                             "Werks": "",
                             "Prodh1": "",
-                            "CurrentVol": "10",
-                            "TotalVol": "10",
-                            "Disc": "10",
-                            "Schemedisc": "10",
-                            "Commbox": "10",
-                            "Commboxp": "10",
-                            "Frgtbx": "10",
-                            "Compname": "ABC",
-                            "Complanprice": "10",
+                            "CurrentVol": "",
+                            "TotalVol": "",
+                            "Disc": "",
+                            "Schemedisc": "",
+                            "Commbox": "",
+                            "Exfacsqft": null,
+                            "Exdepsqft": null,
+                            "Commboxp": "",
+                            "Frgtbx": "",
+                            "Compname": "",
+                            "Complanprice": "",
                             "Zzprodh4": "",
                             "Mvgr5": ""
                         });
@@ -622,11 +388,12 @@ sap.ui.define([
 
 
                 if (oEvent.getSource().getSelectedIndex() === 0) {
-                    this.getView().getModel("JSONModelPayload").getData().Isexdep = "X";
+                    this.getView().getModel("JSONModelPayload").getData().Isexdep = "";
                 } else {
                     this.getView().getModel("JSONModelPayload").getData().Isexdep = "X";
 
                 }
+                this.getView().getModel("JSONModelPayload").getData().refresh(true);
             },
             onSave: function () {
 
@@ -634,7 +401,7 @@ sap.ui.define([
                 var headerValidationStatus = validation.headerPayloadValidation(this);
 
                 if (headerValidationStatus === 1) {
-                    var aData = this.getView().getModel("JSONModelPayload").getData().ET_SALES_COORD_ISet.results;
+                    var aData = this.getView().getModel("JSONModelPayload").getData().ET_SALES_COORD_ISET.results;
                     var itemValidationStatus = validation.itemsPayloadValidation(aData, this, "Save");
                     if (itemValidationStatus === 1) {
 
@@ -659,11 +426,16 @@ sap.ui.define([
                                 // for (let index = 0; index < payloadAttachment.length; index++) {
                                 //     payloadAttachment[index].Pafno = oData.Pafno;
                                 // }
-
-                                that.fileDetails.Pafno = oData.Pafno;
-
-                                var sPathUpload = "/ETFILE_UPLOADSet"
-                                that.getView().getModel().create(sPathUpload, that.fileDetails, {
+                                for(var i=0;i<that._allAttachment.length;i++){
+                                    that._allAttachment[i].Pafno = oData.Pafno
+                                }
+                                that._attachmentPayload = {
+                                    Pafno: oData.Pafno,
+                                    Nav_File_Upload:that._allAttachment
+                                };
+                                debugger;
+                                var sPathUpload = "/ETFILE_UPLOAD_HSet"
+                                that.getView().getModel("ZFILE_UPLOAD_SRV").create(sPathUpload, that._attachmentPayload, {
                                     async: false,
                                     success: function (oData) {
                                         MessageBox.success("Request saved successfully with PAF Number:" + oData.Pafno + "", {
@@ -712,7 +484,10 @@ sap.ui.define([
                 // this.getView().getModel("JSONModelForItems").getData();
             },
             onGenerate: function () {
-                this.getView().getModel("GlobalModel").setProperty("/Editable", true);
+                var headerValidationStatus = validation.headerPayloadValidation(this);
+
+                if (headerValidationStatus === 1) {
+                this.getView().byId("idV2OPSAttach").setVisible(true);
                 this.getView().getModel("JSONModelPayload").getData().Action = "GENERATE";
                 var that = this;
                 var sPath = "/ET_SALES_COORD_HEADERSet";
@@ -721,12 +496,23 @@ sap.ui.define([
                     async: false,
                     success: function (oData) {
 
-                        that.getView().getModel("JSONModelPayload").setData(oData)
-                        // that.getView().getModel("JSONModelPayload").getData().ET_SALES_COORD_ISet = [];
-                        // that.getView().getModel("JSONModelPayload").getData().ET_SALES_COORD_ISet = oData.ET_SALES_COORD_ISet.results;
+                        debugger;
+                        // that._getResourceBundle().aPropertyFiles[0].setProperty('view2.table.column.text.exFac', 'Ex Depot(SqFt)');
 
+                        that.getView().getModel("JSONModelPayload").setData(oData)
                         that.getView().getModel("JSONModelPayload").refresh(true);
+                        // that.getView().getModel("JSONModelPayload").getData().ET_SALES_COORD_ISET = [];
+                        // that.getView().getModel("JSONModelPayload").getData().ET_SALES_COORD_ISET = oData.ET_SALES_COORD_ISET.results;
+
+
+
+                        that.getView().getModel("GlobalModel").setProperty("/Editable", false);
+                        that.getView().getModel("GlobalModel").refresh(true);
+
+                        that.getView().byId("idV2Bar").setVisible(true);
                         that.getView().byId("idV2BtnSave").setVisible(true);
+
+
                         that.getView().setBusy(false);
                     },
                     error: function (sError) {
@@ -735,16 +521,17 @@ sap.ui.define([
                     }
                 });
 
-                this.displaySummaryDetails();
+                this._displaySummaryDetails();
+            }
 
             },
 
-            displaySummaryDetails: function () {
+            _displaySummaryDetails: function () {
                 var vInvoiceDiscount = 0;
                 var vSchemeDiscount = 0;
                 var vFreightDiscount = 0;
                 var vPayTermDiscount = this.getView().getModel("JSONModelPayload").getData().Zterm;
-                var aItemsData = this.getView().getModel("JSONModelPayload").getData().ET_SALES_COORD_ISet.results;
+                var aItemsData = this.getView().getModel("JSONModelPayload").getData().ET_SALES_COORD_ISET.results;
                 for (let index = 0; index < aItemsData.length; index++) {
                     vInvoiceDiscount = vInvoiceDiscount + Number(aItemsData[index].Disc);
                     vSchemeDiscount = vSchemeDiscount + Number(aItemsData[index].Schemedisc);
@@ -780,18 +567,19 @@ sap.ui.define([
             updateFile: function (fileName, fileType, vContent) {
 
 
-                this.fileDetails = {
+                this._fileDetail = {
                     Filename: fileName,
                     Attachment: vContent,
                     Pafno: this.Pafno
                 }
+                this._allAttachment.push(this._fileDetail);
+
+
+                
 
 
 
             }
-
-
-
             //End: Santosh Changes
 
         });

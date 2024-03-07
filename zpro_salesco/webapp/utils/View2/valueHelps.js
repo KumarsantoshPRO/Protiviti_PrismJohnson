@@ -3,7 +3,7 @@ sap.ui.define([], function () {
     "use strict";
     return {
         onCustomerCodeHelpSearch: function (oSelectDialog, aFilter, sPath, oControl) {
-            debugger;
+            
             oSelectDialog.bindAggregation("items", {
                 path: sPath,
                 filters: aFilter,
@@ -12,7 +12,7 @@ sap.ui.define([], function () {
         },
 
         valueHelpConfirm: function (oSelectedItem, oControl, bindingContextPath) {
-            debugger;
+            
             var sSelectedValue = oSelectedItem.getProperty("title");
            
             if (oSelectedItem.sId.includes("idSLCustomerCodeValueHelp")) {

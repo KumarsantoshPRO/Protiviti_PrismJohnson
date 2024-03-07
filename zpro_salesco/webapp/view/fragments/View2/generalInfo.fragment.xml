@@ -183,6 +183,7 @@
             <Label
                 id="idV2LblEx"
                 text="{i18nV2>view2.simpleForm.label.ex}"
+                required="true"
             />
             <RadioButtonGroup
                 id="idV2RBG"

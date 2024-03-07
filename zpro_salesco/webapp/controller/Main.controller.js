@@ -1,11 +1,14 @@
 sap.ui.define([
     "sap/ui/core/mvc/Controller",
-    "sap/ui/model/json/JSONModel"
+    "sap/ui/model/json/JSONModel",
+    'sap/m/MessageBox'
 ],
     /**
      * @param {typeof sap.ui.core.mvc.Controller} Controller
      */
-    function (Controller, JSONModel) {
+    function (Controller,
+        JSONModel,
+        MessageBox) {
         "use strict";
 
         return Controller.extend("zpj.pro.sk.sd.salescoordinator.zprosalesco.controller.Main", {
@@ -27,7 +30,7 @@ sap.ui.define([
                     this._getRequestData("R", "count");
                     this._getRequestData("D", "count");
                     this._getRequestData("", "tableData");
-                    
+
 
                 }
             },
@@ -43,31 +46,31 @@ sap.ui.define([
                     filters: aFilter,
                     success: function (Data) {
                         that.getView().setBusy(false);
-                        if(sForWhat === "count"){
-                        switch (sStatusText) {
-                            case "":
-                                that.getView().getModel("count").getData().Total = Data.results.length;
-                                break;
-                            case "P":
-                                that.getView().getModel("count").getData().onGoing = Data.results.length;
-                                break;
-                            case "A":
-                                that.getView().getModel("count").getData().Approved = Data.results.length;
-                                break;
-                            case "R":
-                                that.getView().getModel("count").getData().Rejected = Data.results.length;
-                                break;
-                            case "D":
-                                that.getView().getModel("count").getData().Delayed = Data.results.length;
-                                break;
-                            default:
+                        if (sForWhat === "count") {
+                            switch (sStatusText) {
+                                case "":
+                                    that.getView().getModel("count").getData().Total = Data.results.length;
+                                    break;
+                                case "P":
+                                    that.getView().getModel("count").getData().onGoing = Data.results.length;
+                                    break;
+                                case "A":
+                                    that.getView().getModel("count").getData().Approved = Data.results.length;
+                                    break;
+                                case "R":
+                                    that.getView().getModel("count").getData().Rejected = Data.results.length;
+                                    break;
+                                case "D":
+                                    that.getView().getModel("count").getData().Delayed = Data.results.length;
+                                    break;
+                                default:
 
-                                break;
+                                    break;
+                            }
+                        } else {
+                            var dataTableModel = Data.results;
+                            that.getView().setModel(new JSONModel(dataTableModel), "ModelForTable");
                         }
-                    }else{
-                        var dataTableModel = Data.results;
-                        that.getView().setModel(new JSONModel(dataTableModel), "ModelForTable");
-                    }
                         that.getView().getModel("count").refresh(true);
 
 
@@ -79,7 +82,7 @@ sap.ui.define([
                 });
 
             },
-        
+
             onNewPress: function () {
                 this.oRouter = this.getOwnerComponent().getRouter();
                 this.oRouter.navTo("page2",
@@ -117,6 +120,59 @@ sap.ui.define([
                 }
 
             },
+
+            _onDelete: function (oEvent) {
+
+
+                var oTable = this.byId(sap.ui.core.Fragment.createId("id.tableProductDetails.Fragment", "id.main.Products.Table"));
+                var oSelectedItem = oTable.getSelectedItems();
+
+
+                if (oSelectedItem.length > 0) {
+                    var sContextPath = oTable.getSelectedItem().oBindingContexts.ModelForTable.sPath;
+                  
+                    var oOrderNumber = this.getView().getModel("ModelForTable").getContext(sContextPath).getProperty("Pafno");
+                    var sPath = "/ET_ZDI_TP_BILLSet('" + oOrderNumber + "')";
+                    var that = this;
+                    MessageBox.confirm("Are you sure you want to delete Order No:'" + oOrderNumber + "' ?", {
+                        actions: ["Yes", "No"],
+                        onClose: function (oAction) {
+                            if (oAction === "Yes") {
+                                that.getView().getModel().read(sPath, {
+                                    success: function (Data) {
+                                        MessageBox.success("Order No:'" + oOrderNumber + "' Deleted", {
+                                            actions: ["Ok"],
+                                            onClose: function (oAction) {
+                                                window.location.reload();
+                                            }
+                                        });
+                                     
+                                    },
+                                    error: function (sError) {
+                                        MessageBox.error("Operation failed, Please contact your IT team",{
+                                            actions: ["Close"],
+                                            onClose: function (oAction) {
+                                            if (oAction === "Close") {
+                                                window.location.reload();
+                                            }
+                                        }
+
+                                        });
+                                        
+                                       
+                                    }
+                                });
+                            } else {
+
+                            }
+
+                        }
+                    });
+                } else {
+                    MessageBox.error("Please Select a Row to Delete");
+                }
+
+            }
 
         });
     });

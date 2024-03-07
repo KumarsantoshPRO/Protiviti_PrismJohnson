@@ -75,6 +75,7 @@
                 id="idV2OPSAttach"
                 titleUppercase="true"
                 title="{i18nV2>view2.sections.attachments.title}"
+                visible="false"
             >
                 <uxap:subSections>
                     <uxap:ObjectPageSubSection
@@ -128,6 +129,7 @@
                         type="Attention"
                         text="{i18nV2>view2.footer.button.message}"
                         press="handleMessages"
+                        visible="false"
                     >
                         <!-- <customData>
 									<BadgeCustomData

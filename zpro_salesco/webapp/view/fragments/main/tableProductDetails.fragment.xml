@@ -1,9 +1,7 @@
 <core:FragmentDefinition
     xmlns="sap.m"
     xmlns:core="sap.ui.core"
-    
 >
- 
     <IconTabBar
         stretchContentHeight="true"
         id="id.main.IconTabBar"
@@ -13,8 +11,7 @@
         <items>
             <IconTabFilter
                 id="id.main.IconTabFilter"
-                showAll="true"  
-                
+                showAll="true"
                 count="{count>/Total}"
                 text="{i18n.main>main.IconTabFilter.requests}"
                 key="All"
@@ -55,9 +52,10 @@
         </items>
         <content>
             <Table
+                id="id.main.Products.Table"
                 alternateRowColors="true"
                 class="sapUiLargeMarginBottom"
-                id="id.main.TblProducts"
+                 mode="SingleSelectLeft"
                 growing="true"
                 inset="false"
                 headerText="{i18n.main>main.table.headerText}"
@@ -80,12 +78,12 @@
                             <Button
                                 id="id.main.TblBtnDelet"
                                 icon="sap-icon://delete"
-                                press="onDeletePress"
+                                press="_onDelete"
                             />
                         </content>
                     </OverflowToolbar>
                 </headerToolbar>
-            
+
                 <columns>
                     <Column
                         id="id.main.TblClmOrderNo"
@@ -196,7 +194,7 @@
                         press="onClickofItem"
                         type="Navigation"
                     >
-                          <cells>
+                        <cells>
                             <Text
                                 id="idV1TblCLITxtOrdNo"
                                 text="{ModelForTable>Pafno}"

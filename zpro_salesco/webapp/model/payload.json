@@ -14,7 +14,7 @@
         "Vtweg": "",
         "Vkbur": "",
         "Spart": "",
-        "ET_SALES_COORD_ISet": {
+        "ET_SALES_COORD_ISET": {
             "results": []
         }
     },
@@ -27,11 +27,12 @@
         "CurrentVol": "",
         "TotalVol": "",
         "Disc": "",
-        "Schemedisc": "",
         "Commbox": "",
+        "Exfacsqft": null,
+        "Exdepsqft":null,
         "Commboxp": "",
         "Frgtbx": "",
-        "Compname": "ABC",
+        "Compname": "",
         "Complanprice": "",
         "Zzprodh4": "",
         "Mvgr5": ""
