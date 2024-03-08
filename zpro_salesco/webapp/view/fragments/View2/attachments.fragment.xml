@@ -13,7 +13,7 @@
         maxFileNameLength="30"
         maxFileSize="200"
         uploadUrl="../../../../upload"
-        items="{path: 'JSONModelPayloadAttachment>/results', templateShareable: false}"
+        items="{path: 'LocalJSONModelForAttachment>/attachments/Nav_File_Upload/results', templateShareable: false}"
         selectionChanged="onUploadSelectionChange"
         beforeUploadStarts="onBeforeUploadStarts"
     >
@@ -26,34 +26,30 @@
                     press="onUploadSelectedButton"
                 /> -->
                 <!-- <upload:UploadSetToolbarPlaceholder id="idV2USTP" /> -->
-            </OverflowToolbar>  
+            </OverflowToolbar>
         </upload:toolbar>
         <upload:items>
             <upload:UploadSetItem
                 id="idV2USI"
-                fileName="{fileName}"
-                mediaType="{mediaType}"
-                url="{url}"
-                thumbnailUrl="{thumbnailUrl}"
-                markers="{path: 'markers', templateShareable: false}"
-                statuses="{path: 'statuses', templateShareable: false}"
-                uploadState="{uploadState}"
+                fileName="{LocalJSONModelForAttachment>Filename}"
+                mediaType="{LocalJSONModelForAttachment>mediaType}"
+                url="{LocalJSONModelForAttachment>Url}"
+                thumbnailUrl="{LocalJSONModelForAttachment>Attachment}"
             >
-                <upload:markers>
+                <!-- <upload:markers>
                     <ObjectMarker
                         id="idV2OM"
-                        type="{type}"
-                        visibility="{visibility}"
+                     
                     />
-                </upload:markers>
+                </upload:markers> -->
                 <upload:statuses>
                     <ObjectStatus
                         id="idV2OS"
-                        title="{fileName}"
-                        text="{text}"
-                        state="{state}"
-                        icon="{icon}"
-                        active="{active}"
+                        title="{LocalJSONModelForAttachment>Pafno}"
+                        text="View attachment"
+                        press="onViewAttachmentObjectStatusPress"
+                        icon=""
+                        active="true"
                     />
                 </upload:statuses>
             </upload:UploadSetItem>

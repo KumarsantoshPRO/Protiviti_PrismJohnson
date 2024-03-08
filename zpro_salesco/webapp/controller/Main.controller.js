@@ -77,7 +77,19 @@ sap.ui.define([
                     },
                     error: function (sError) {
                         that.getView().setBusy(false);
-                        return "Error";
+                        MessageBox.error(JSON.parse(oError.responseText).error.message.value, {
+                            actions: [sap.m.MessageBox.Action.OK],
+                            onClose: function (oAction) {
+                                // var navigator = sap.ushell.Container.getService("CrossApplicationNavigation");
+                                // navigator.toExternal({
+                                //     target: {
+                                //         semanticObject: "#"
+                                //     }
+                                // });
+
+                                window.location.reload()
+                            }
+                        });
                     }
                 });
 
@@ -149,14 +161,18 @@ sap.ui.define([
                                      
                                     },
                                     error: function (sError) {
-                                        MessageBox.error("Operation failed, Please contact your IT team",{
-                                            actions: ["Close"],
+                                        MessageBox.error(JSON.parse(oError.responseText).error.message.value, {
+                                            actions: [sap.m.MessageBox.Action.OK],
                                             onClose: function (oAction) {
-                                            if (oAction === "Close") {
-                                                window.location.reload();
-                                            }
-                                        }
+                                                // var navigator = sap.ushell.Container.getService("CrossApplicationNavigation");
+                                                // navigator.toExternal({
+                                                //     target: {
+                                                //         semanticObject: "#"
+                                                //     }
+                                                // });
 
+                                                window.location.reload()
+                                            }
                                         });
                                         
                                        

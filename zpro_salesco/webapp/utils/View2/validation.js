@@ -41,7 +41,7 @@ sap.ui.define(['sap/m/MessageBox'], function (MessageBox) {
         headerPayloadValidation: function (oControl) {
 
             var oResourceModel = oControl.getView().getModel("i18nV2").getResourceBundle();
-          debugger;
+          
             if (!oControl.getView().getModel("JSONModelPayload").getData().Kunnr) {
                 MessageBox.error("Please enter " + oResourceModel.getText("view2.simpleForm.label.custCode"));
                 this.headerPayloadState(oControl, "Kunnr");

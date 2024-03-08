@@ -20,8 +20,8 @@
           "odataVersion": "2.0"
         }
       },
-      "ZFILE_UPLOAD_SRV": {
-        "uri": "/sap/opu/odata/sap/ZFILE_UPLOAD_SRV/",
+      "ZFILE_UPLOAD_SRV_01": {
+        "uri": "/sap/opu/odata/sap/ZFILE_UPLOAD_SRV_01/",
         "type": "OData",
         "settings": {
           "annotations": [],
@@ -40,6 +40,10 @@
       },
       "payload_alias": {
         "uri": "model/payload.json",
+        "type": "JSON"
+      },
+      "attachments_alias": {
+        "uri": "model/attachments.json",
         "type": "JSON"
       }
     },
@@ -96,7 +100,7 @@
         "dataSource": "ZCUSTOMER_AUTOMATIONDISCOUNT_SRV",
         "preload": true
       },
-      "ZFILE_UPLOAD_SRV": {
+      "ZFILE_UPLOAD_SRV_01": {
         "type": "sap.ui.model.odata.v2.ODataModel",
         "settings": {
           "defaultOperationMode": "Server",
@@ -104,7 +108,7 @@
           "defaultCountMode": "Request",
           "useBatch": false
         },
-        "dataSource": "ZFILE_UPLOAD_SRV",
+        "dataSource": "ZFILE_UPLOAD_SRV_01",
         "preload": true
       },
       
@@ -119,6 +123,10 @@
       "payload": {
         "type": "sap.ui.model.json.JSONModel",
         "dataSource": "payload_alias"
+      },
+      "attachments": {
+        "type": "sap.ui.model.json.JSONModel",
+        "dataSource": "attachments_alias"
       },
       "i18n": {
         "type": "sap.ui.model.resource.ResourceModel",

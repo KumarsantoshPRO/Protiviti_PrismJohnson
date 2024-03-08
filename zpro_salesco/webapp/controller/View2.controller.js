@@ -39,7 +39,21 @@ sap.ui.define([
                 this.getView().setModel(new JSONModel(dataModelValueHelp), "LocalJSONModels");
                 this.bindingContextPath;
 
+                //Start: Attachment
+                var dataModelForAttachments = this.getOwnerComponent().getModel("attachments").getData();
+                this.getView().setModel(new JSONModel(dataModelForAttachments), "LocalJSONModelForAttachment");
+                var oUploadSet = this.byId(sap.ui.core.Fragment.createId("idV2FragAttach", "idV2UploadSet"))
+                // this.getView().byId("idV2UploadSet");
 
+
+
+                // Modify "add file" button
+                oUploadSet.getDefaultFileUploader().setButtonOnly(false);
+                oUploadSet.getDefaultFileUploader().setTooltip("");
+                oUploadSet.getDefaultFileUploader().setIconOnly(true);
+                oUploadSet.getDefaultFileUploader().setIcon("sap-icon://attachment");
+                // oUploadSet.attachUploadCompleted(this.onUploadCompleted.bind(this));
+                //End: Attachment
                 // End: Santosh Changes
 
             },
@@ -118,10 +132,41 @@ sap.ui.define([
                         error: function (sError) {
 
                             that.getView().setBusy(false);
+                            MessageBox.error(JSON.parse(oError.responseText).error.message.value, {
+                                actions: [sap.m.MessageBox.Action.OK],
+                                onClose: function (oAction) {
+                                    // var navigator = sap.ushell.Container.getService("CrossApplicationNavigation");
+                                    // navigator.toExternal({
+                                    //     target: {
+                                    //         semanticObject: "#"
+                                    //     }
+                                    // });
+
+                                    window.location.reload()
+                                }
+                            });
 
                         }
                     });
+                    var sPathUpload = "/ETFILE_UPLOAD_HSet('" + sID + "')";
+                    that.getView().getModel("ZFILE_UPLOAD_SRV_01").read(sPathUpload, {
+                        urlParameters: {
+                            "$expand": "Nav_File_Upload"
+                        },
+                        async: false,
+                        success: function (Data) {
+                            // that.byId(sap.ui.core.Fragment.createId("idV2FragAttach", "idV2UploadSet")).getModel("LocalJSONModelForAttachment").setData(Data);
+                            that.getView().byId("idV2OPSAttach").setVisible(true);
+                            var attachments = Data;
+                            that.getView().getModel("LocalJSONModelForAttachment").setData({"attachments":attachments});
+                            that.getView().getModel("LocalJSONModelForAttachment").refresh(true);
+                            debugger;
+                            // that.byId(sap.ui.core.Fragment.createId("idV2FragAttach", "idV2UploadSet")).getModel("LocalJSONModelForAttachment")
+                        },
+                        error: function(sError){
 
+                        }
+                    });
                     // this.getView().getModel("oCusModel").setProperty("/Editable", false);
                     this.getView().byId("ObjectPageLayout").getHeaderTitle().setObjectTitle("Display Request Details");
 
@@ -360,6 +405,19 @@ sap.ui.define([
                     },
                     error: function (sError) {
                         that.getView().setBusy(false);
+                        MessageBox.error(JSON.parse(oError.responseText).error.message.value, {
+                            actions: [sap.m.MessageBox.Action.OK],
+                            onClose: function (oAction) {
+                                // var navigator = sap.ushell.Container.getService("CrossApplicationNavigation");
+                                // navigator.toExternal({
+                                //     target: {
+                                //         semanticObject: "#"
+                                //     }
+                                // });
+
+                                window.location.reload()
+                            }
+                        });
                     }
                 });
             },
@@ -393,7 +451,6 @@ sap.ui.define([
                     this.getView().getModel("JSONModelPayload").getData().Isexdep = "X";
 
                 }
-                this.getView().getModel("JSONModelPayload").getData().refresh(true);
             },
             onSave: function () {
 
@@ -426,18 +483,18 @@ sap.ui.define([
                                 // for (let index = 0; index < payloadAttachment.length; index++) {
                                 //     payloadAttachment[index].Pafno = oData.Pafno;
                                 // }
-                                for(var i=0;i<that._allAttachment.length;i++){
-                                    that._allAttachment[i].Pafno = oData.Pafno
-                                }
-                                that._attachmentPayload = {
-                                    Pafno: oData.Pafno,
-                                    Nav_File_Upload:that._allAttachment
-                                };
+                                that.getView().getModel("LocalJSONModelForAttachment").getData().attachments.Pafno = oData.Pafno;
                                 debugger;
+                                var aAttachmentsItems = that.getView().getModel("LocalJSONModelForAttachment").getData().attachments.Nav_File_Upload.results;
+                                for (var i = 0; i < aAttachmentsItems.length; i++) {
+                                    aAttachmentsItems[i].Pafno = oData.Pafno
+                                }
+                                var _attachmentPayload = that.getView().getModel("LocalJSONModelForAttachment").getData().attachments
+                                
                                 var sPathUpload = "/ETFILE_UPLOAD_HSet"
-                                that.getView().getModel("ZFILE_UPLOAD_SRV").create(sPathUpload, that._attachmentPayload, {
+                                that.getView().getModel("ZFILE_UPLOAD_SRV_01").create(sPathUpload, _attachmentPayload, {
                                     async: false,
-                                    success: function (oData) {
+                                    success: function (Data) {
                                         MessageBox.success("Request saved successfully with PAF Number:" + oData.Pafno + "", {
                                             actions: [sap.m.MessageBox.Action.OK],
                                             onClose: function (oAction) {
@@ -446,7 +503,7 @@ sap.ui.define([
                                         });
                                     },
                                     error: function (sError) {
-                                        MessageBox.error("Request creation failed", {
+                                        MessageBox.error(JSON.parse(oError.responseText).error.message.value, {
                                             actions: [sap.m.MessageBox.Action.OK],
                                             onClose: function (oAction) {
                                                 // var navigator = sap.ushell.Container.getService("CrossApplicationNavigation");
@@ -464,7 +521,7 @@ sap.ui.define([
 
                             },
                             error: function (sError) {
-                                MessageBox.error("Request creation failed", {
+                                MessageBox.error(JSON.parse(oError.responseText).error.message.value, {
                                     actions: [sap.m.MessageBox.Action.OK],
                                     onClose: function (oAction) {
                                         // var navigator = sap.ushell.Container.getService("CrossApplicationNavigation");
@@ -487,42 +544,59 @@ sap.ui.define([
                 var headerValidationStatus = validation.headerPayloadValidation(this);
 
                 if (headerValidationStatus === 1) {
-                this.getView().byId("idV2OPSAttach").setVisible(true);
-                this.getView().getModel("JSONModelPayload").getData().Action = "GENERATE";
-                var that = this;
-                var sPath = "/ET_SALES_COORD_HEADERSet";
-                this.getView().setBusy(true);
-                this.getView().getModel().create(sPath, this.getView().getModel("JSONModelPayload").getData(), {
-                    async: false,
-                    success: function (oData) {
+                    var aData = this.getView().getModel("JSONModelPayload").getData().ET_SALES_COORD_ISET.results;
+                    var itemValidationStatus = validation.itemsPayloadValidation(aData, this, "Generate");
+                    if (itemValidationStatus === 1) {
+                        this.getView().byId("idV2OPSAttach").setVisible(true);
+                        this.getView().getModel("JSONModelPayload").getData().Action = "GENERATE";
+                        var that = this;
+                        var sPath = "/ET_SALES_COORD_HEADERSet";
+                        this.getView().setBusy(true);
+                        this.getView().getModel().create(sPath, this.getView().getModel("JSONModelPayload").getData(), {
+                            async: false,
+                            success: function (oData) {
 
-                        debugger;
-                        // that._getResourceBundle().aPropertyFiles[0].setProperty('view2.table.column.text.exFac', 'Ex Depot(SqFt)');
+                                
+                                // that._getResourceBundle().aPropertyFiles[0].setProperty('view2.table.column.text.exFac', 'Ex Depot(SqFt)');
 
-                        that.getView().getModel("JSONModelPayload").setData(oData)
-                        that.getView().getModel("JSONModelPayload").refresh(true);
-                        // that.getView().getModel("JSONModelPayload").getData().ET_SALES_COORD_ISET = [];
-                        // that.getView().getModel("JSONModelPayload").getData().ET_SALES_COORD_ISET = oData.ET_SALES_COORD_ISET.results;
-
-
-
-                        that.getView().getModel("GlobalModel").setProperty("/Editable", false);
-                        that.getView().getModel("GlobalModel").refresh(true);
-
-                        that.getView().byId("idV2Bar").setVisible(true);
-                        that.getView().byId("idV2BtnSave").setVisible(true);
+                                that.getView().getModel("JSONModelPayload").setData(oData)
+                                that.getView().getModel("JSONModelPayload").refresh(true);
+                                // that.getView().getModel("JSONModelPayload").getData().ET_SALES_COORD_ISET = [];
+                                // that.getView().getModel("JSONModelPayload").getData().ET_SALES_COORD_ISET = oData.ET_SALES_COORD_ISET.results;
 
 
-                        that.getView().setBusy(false);
-                    },
-                    error: function (sError) {
-                        that.getView().setBusy(false);
-                        that.getView().byId("idV2BtnSave").setVisible(false);
+
+                                that.getView().getModel("GlobalModel").setProperty("/Editable", false);
+                                that.getView().getModel("GlobalModel").refresh(true);
+
+                                that.getView().byId("idV2Bar").setVisible(true);
+                                that.getView().byId("idV2BtnSave").setVisible(true);
+
+
+                                that.getView().setBusy(false);
+                            },
+                            error: function (sError) {
+                                that.getView().setBusy(false);
+                                that.getView().byId("idV2BtnSave").setVisible(false);
+                                MessageBox.error(JSON.parse(oError.responseText).error.message.value, {
+                                    actions: [sap.m.MessageBox.Action.OK],
+                                    onClose: function (oAction) {
+                                        // var navigator = sap.ushell.Container.getService("CrossApplicationNavigation");
+                                        // navigator.toExternal({
+                                        //     target: {
+                                        //         semanticObject: "#"
+                                        //     }
+                                        // });
+
+                                        window.location.reload()
+                                    }
+                                });
+                            }
+                        });
+
+                        this._displaySummaryDetails();
                     }
-                });
-
-                this._displaySummaryDetails();
-            }
+                }
 
             },
 
@@ -565,20 +639,60 @@ sap.ui.define([
                 reader.readAsDataURL(file);
             },
             updateFile: function (fileName, fileType, vContent) {
+                
+                var decodedPdfContent
+                var blob
+                if (fileType === 'image/jpeg') {
+                    decodedPdfContent = atob(vContent.split('data:image/jpeg;base64,')[1]);
+                }
+
+                else if (fileType === 'image/png') {
+                    decodedPdfContent = atob(vContent.split('data:image/png;base64,')[1]);
+                }
+                else if (fileType === 'application/pdf') {
+                    decodedPdfContent = atob(vContent.split('data:application/pdf;base64,')[1]);
+                }
 
 
+                var byteArray = new Uint8Array(decodedPdfContent.length)
+                for (var i = 0; i < decodedPdfContent.length; i++) {
+                    byteArray[i] = decodedPdfContent.charCodeAt(i);
+                }
+                if (fileType === 'image/jpeg') {
+                    blob = new Blob([byteArray.buffer], {
+                        type: 'image/jpeg'
+                    });
+                }
+
+                else if (fileType === 'image/png') {
+                    blob = new Blob([byteArray.buffer], {
+                        type: 'image/png'
+                    });
+                }
+                else if (fileType === 'application/pdf') {
+                    blob = new Blob([byteArray.buffer], {
+                        type: 'application/pdf'
+                    });
+                }
+
+                var _url = URL.createObjectURL(blob);
+                jQuery.sap.addUrlWhitelist("blob");
+               
+                // var lAttachment = URL.createObjectURL(new Blob([vContent] , {type:'text/plain'}));
+                // this.byId(sap.ui.core.Fragment.createId("idV2FragAttach", "idV2USI")).setUrl(encodeURI(_url));
                 this._fileDetail = {
                     Filename: fileName,
                     Attachment: vContent,
-                    Pafno: this.Pafno
+                    Pafno: ""
                 }
-                this._allAttachment.push(this._fileDetail);
-
-
+               
+                // this._allAttachment.push(this._fileDetail);
                 
+                this.getView().getModel("LocalJSONModelForAttachment").getData().attachments.Nav_File_Upload.results.push(this._fileDetail)
 
-
-
+            },
+            onViewAttachmentObjectStatusPress: function(oEvent){
+                debugger;
             }
             //End: Santosh Changes
 
