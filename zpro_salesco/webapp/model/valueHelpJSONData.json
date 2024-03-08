@@ -4,43 +4,43 @@
     "paymentTerms":[
         {
             "key": "HR01",
-            "text": "HR01"
+            "text": "CD-4%-25 (Advance) - HR01"
         },
         {
             "key": "HR07",
-            "text": "HR07"
+            "text": "CD-3%-07 Days Payment - HR07"
         },
         {
             "key": "HR10",
-            "text": "HR10"
+            "text": "CD-3%-10 Days Payment - HR10"
         },
         {
             "key": "HR25",
-            "text": "HR25"
+            "text": "CD-2%-25 Days Payment - HR25"
         }
         ,
         {
             "key": "HR30",
-            "text": "HR30"
+            "text": "30 Days Payment - HR30"
         }
         ,
         {
             "key": "HR45",
-            "text": "HR45"
+            "text": "45 Days Payment - HR45"
         }
     ],
     "distributonChannel":[
         {
-            "key":"10",
-            "text":"10"
+            "key":"11",
+            "text":"Project - 11"
         },
         {
             "key":"17",
-            "text":"17"
+            "text":"National Project - 17"
         },
         {
             "key":"19",
-            "text":"19"
+            "text":"Dealer - 19"
         } 
     ],
     "vertical":[

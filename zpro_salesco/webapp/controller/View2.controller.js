@@ -129,7 +129,7 @@ sap.ui.define([
 
 
                         },
-                        error: function (sError) {
+                        error: function (oError) {
 
                             that.getView().setBusy(false);
                             MessageBox.error(JSON.parse(oError.responseText).error.message.value, {
@@ -142,7 +142,7 @@ sap.ui.define([
                                     //     }
                                     // });
 
-                                    window.location.reload()
+                                    // window.location.reload()
                                 }
                             });
 
@@ -158,12 +158,12 @@ sap.ui.define([
                             // that.byId(sap.ui.core.Fragment.createId("idV2FragAttach", "idV2UploadSet")).getModel("LocalJSONModelForAttachment").setData(Data);
                             that.getView().byId("idV2OPSAttach").setVisible(true);
                             var attachments = Data;
-                            that.getView().getModel("LocalJSONModelForAttachment").setData({"attachments":attachments});
+                            that.getView().getModel("LocalJSONModelForAttachment").setData({ "attachments": attachments });
                             that.getView().getModel("LocalJSONModelForAttachment").refresh(true);
                             debugger;
                             // that.byId(sap.ui.core.Fragment.createId("idV2FragAttach", "idV2UploadSet")).getModel("LocalJSONModelForAttachment")
                         },
-                        error: function(sError){
+                        error: function (oError) {
 
                         }
                     });
@@ -229,10 +229,11 @@ sap.ui.define([
                 if (isNaN(value)) {
                     MessageBox.error("Only numeric values allowed");
                     oEvent.getSource().setValue("");
-                } else if (value > 99) {
-                    MessageBox.error("Please enter value less than 100");
-                    oEvent.getSource().setValue("");
                 }
+                // else if (value > 99) {
+                //     MessageBox.error("Please enter value less than 100");
+                //     oEvent.getSource().setValue("");
+                // }
 
             },
             onOrcEntityChange: function (oEvent) {
@@ -329,8 +330,11 @@ sap.ui.define([
             },
             // Designs 
             onDesignsHelp: function (oEvent) {
+
+                var sPath = oEvent.getSource().getParent().getBindingContextPath();
+                var Mfrgr = this.getView().getModel("JSONModelPayload").getContext(sPath).getProperty("Mfrgr");
                 this.bindingContextPath = oEvent.getSource().getParent().getBindingContextPath() + "/Mvgr2";
-                valueHelps.onDesignsHelp(this);
+                valueHelps.onDesignsHelp(this, Mfrgr);
             },
             // Supply Plant
             onSupplyPlantHelp: function (oEvent) {
@@ -403,7 +407,7 @@ sap.ui.define([
                         that.getView().setBusy(false);
                         that.getView().getModel("JSONModelPayload").setProperty(bindingContextPathSize, Data.results[0].Ddtext);
                     },
-                    error: function (sError) {
+                    error: function (oError) {
                         that.getView().setBusy(false);
                         MessageBox.error(JSON.parse(oError.responseText).error.message.value, {
                             actions: [sap.m.MessageBox.Action.OK],
@@ -415,7 +419,7 @@ sap.ui.define([
                                 //     }
                                 // });
 
-                                window.location.reload()
+                                // window.location.reload()
                             }
                         });
                     }
@@ -446,9 +450,9 @@ sap.ui.define([
 
 
                 if (oEvent.getSource().getSelectedIndex() === 0) {
-                    this.getView().getModel("JSONModelPayload").getData().Isexdep = "";
+                    this.getView().getModel("JSONModelPayload").getData().Isexdep = "F";
                 } else {
-                    this.getView().getModel("JSONModelPayload").getData().Isexdep = "X";
+                    this.getView().getModel("JSONModelPayload").getData().Isexdep = "D";
 
                 }
             },
@@ -483,44 +487,54 @@ sap.ui.define([
                                 // for (let index = 0; index < payloadAttachment.length; index++) {
                                 //     payloadAttachment[index].Pafno = oData.Pafno;
                                 // }
-                                that.getView().getModel("LocalJSONModelForAttachment").getData().attachments.Pafno = oData.Pafno;
-                                debugger;
-                                var aAttachmentsItems = that.getView().getModel("LocalJSONModelForAttachment").getData().attachments.Nav_File_Upload.results;
-                                for (var i = 0; i < aAttachmentsItems.length; i++) {
-                                    aAttachmentsItems[i].Pafno = oData.Pafno
-                                }
-                                var _attachmentPayload = that.getView().getModel("LocalJSONModelForAttachment").getData().attachments
-                                
-                                var sPathUpload = "/ETFILE_UPLOAD_HSet"
-                                that.getView().getModel("ZFILE_UPLOAD_SRV_01").create(sPathUpload, _attachmentPayload, {
-                                    async: false,
-                                    success: function (Data) {
-                                        MessageBox.success("Request saved successfully with PAF Number:" + oData.Pafno + "", {
-                                            actions: [sap.m.MessageBox.Action.OK],
-                                            onClose: function (oAction) {
-                                                window.location.reload();
-                                            }
-                                        });
-                                    },
-                                    error: function (sError) {
-                                        MessageBox.error(JSON.parse(oError.responseText).error.message.value, {
-                                            actions: [sap.m.MessageBox.Action.OK],
-                                            onClose: function (oAction) {
-                                                // var navigator = sap.ushell.Container.getService("CrossApplicationNavigation");
-                                                // navigator.toExternal({
-                                                //     target: {
-                                                //         semanticObject: "#"
-                                                //     }
-                                                // });
 
-                                                window.location.reload()
-                                            }
-                                        });
+
+                                var aAttachmentsItems = that.getView().getModel("LocalJSONModelForAttachment").getData().attachments.Nav_File_Upload.results;
+                                if (aAttachmentsItems.length > 0) {
+                                    that.getView().getModel("LocalJSONModelForAttachment").getData().attachments.Pafno = oData.Pafno;
+                                    for (var i = 0; i < aAttachmentsItems.length; i++) {
+                                        aAttachmentsItems[i].Pafno = oData.Pafno
                                     }
-                                });
+                                    var _attachmentPayload = that.getView().getModel("LocalJSONModelForAttachment").getData().attachments
+
+                                    var sPathUpload = "/ETFILE_UPLOAD_HSet"
+                                    that.getView().getModel("ZFILE_UPLOAD_SRV_01").create(sPathUpload, _attachmentPayload, {
+                                        async: false,
+                                        success: function (Data) {
+                                            MessageBox.success("Request saved successfully with PAF Number:" + oData.Pafno + "", {
+                                                actions: [sap.m.MessageBox.Action.OK],
+                                                onClose: function (oAction) {
+                                                    window.location.reload();
+                                                }
+                                            });
+                                        },
+                                        error: function (oError) {
+                                            MessageBox.error(JSON.parse(oError.responseText).error.message.value, {
+                                                actions: [sap.m.MessageBox.Action.OK],
+                                                onClose: function (oAction) {
+                                                    // var navigator = sap.ushell.Container.getService("CrossApplicationNavigation");
+                                                    // navigator.toExternal({
+                                                    //     target: {
+                                                    //         semanticObject: "#"
+                                                    //     }
+                                                    // });
+
+                                                    // window.location.reload()
+                                                }
+                                            });
+                                        }
+                                    });
+                                } else {
+                                    MessageBox.success("Request saved successfully with PAF Number:" + oData.Pafno + "", {
+                                        actions: [sap.m.MessageBox.Action.OK],
+                                        onClose: function (oAction) {
+                                            window.location.reload();
+                                        }
+                                    });
+                                }
 
                             },
-                            error: function (sError) {
+                            error: function (oError) {
                                 MessageBox.error(JSON.parse(oError.responseText).error.message.value, {
                                     actions: [sap.m.MessageBox.Action.OK],
                                     onClose: function (oAction) {
@@ -531,7 +545,7 @@ sap.ui.define([
                                         //     }
                                         // });
 
-                                        window.location.reload()
+                                        // window.location.reload()
                                     }
                                 });
                             }
@@ -556,7 +570,7 @@ sap.ui.define([
                             async: false,
                             success: function (oData) {
 
-                                
+
                                 // that._getResourceBundle().aPropertyFiles[0].setProperty('view2.table.column.text.exFac', 'Ex Depot(SqFt)');
 
                                 that.getView().getModel("JSONModelPayload").setData(oData)
@@ -575,7 +589,7 @@ sap.ui.define([
 
                                 that.getView().setBusy(false);
                             },
-                            error: function (sError) {
+                            error: function (oError) {
                                 that.getView().setBusy(false);
                                 that.getView().byId("idV2BtnSave").setVisible(false);
                                 MessageBox.error(JSON.parse(oError.responseText).error.message.value, {
@@ -588,7 +602,7 @@ sap.ui.define([
                                         //     }
                                         // });
 
-                                        window.location.reload()
+                                        // window.location.reload()
                                     }
                                 });
                             }
@@ -639,7 +653,7 @@ sap.ui.define([
                 reader.readAsDataURL(file);
             },
             updateFile: function (fileName, fileType, vContent) {
-                
+
                 var decodedPdfContent
                 var blob
                 if (fileType === 'image/jpeg') {
@@ -677,7 +691,7 @@ sap.ui.define([
 
                 var _url = URL.createObjectURL(blob);
                 jQuery.sap.addUrlWhitelist("blob");
-               
+
                 // var lAttachment = URL.createObjectURL(new Blob([vContent] , {type:'text/plain'}));
                 // this.byId(sap.ui.core.Fragment.createId("idV2FragAttach", "idV2USI")).setUrl(encodeURI(_url));
                 this._fileDetail = {
@@ -685,13 +699,13 @@ sap.ui.define([
                     Attachment: vContent,
                     Pafno: ""
                 }
-               
+
                 // this._allAttachment.push(this._fileDetail);
-                
+
                 this.getView().getModel("LocalJSONModelForAttachment").getData().attachments.Nav_File_Upload.results.push(this._fileDetail)
 
             },
-            onViewAttachmentObjectStatusPress: function(oEvent){
+            onViewAttachmentObjectStatusPress: function (oEvent) {
                 debugger;
             }
             //End: Santosh Changes

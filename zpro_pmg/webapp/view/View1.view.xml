@@ -1,0 +1,186 @@
+<mvc:View
+    controllerName="pj.zpmg.controller.View1"
+    xmlns:core="sap.ui.core"
+    xmlns:mvc="sap.ui.core.mvc"
+    displayBlock="true"
+    xmlns:f="sap.f"
+    xmlns="sap.m"
+    xmlns:tnt="sap.tnt"
+>
+    <f:ShellBar
+        title="PMG"
+        homeIcon="/css/johnson_img.png"
+        showCopilot="false"
+        showSearch="false"
+        showNotifications="false"
+        showProductSwitcher="false"
+    />
+    <!-- xmlns:custom="http://schemas.sap.com/sapui5/extension/sap.ui.core.CustomData/1" -->
+    <Page
+        enableScrolling="true"
+        title=""
+    >
+        <content>
+            <IconTabBar
+                id="idIconTabBar"
+                headerMode="Inline"
+                select="_onFilterSelect"
+                class="sapUiResponsiveContentPadding sapUiLargeMarginBottom"
+            >
+                <items>
+                    <IconTabFilter
+                        showAll="false"
+                      count="{count>/Total}"
+                        text="Requests"
+                        key="All"
+                    />
+                    <IconTabSeparator />
+                    <IconTabFilter
+                        icon="sap-icon://lateness"
+                        iconColor="Tile"
+                        text="Pending"
+                        key="Pending"
+						count="{count>/Pending}"
+                    />
+                    <IconTabFilter
+                        icon="sap-icon://fob-watch"
+                        iconColor="Critical"
+                        text="Delayed"
+                        key="Delayed"
+						count="{count>/Delayed}"
+                    />
+                    <IconTabFilter
+                        icon="sap-icon://accept"
+                        iconColor="Positive"
+                        text="Approved"
+                        key="Approved"
+						count="{count>/Approved}"
+                    />
+
+                    <!-- <IconTabFilter
+                        icon="sap-icon://media-forward"
+                        iconColor="Neutral"
+                        text="Forwarded"
+                        key="Forwarded"
+                    />
+                    <IconTabFilter
+                        icon="sap-icon://message-popup"
+                        iconColor="Contrast"
+                        text="BP Renegotiation"
+                        key="BP"
+                    />
+                    <IconTabFilter
+                        icon="sap-icon://message-information"
+                        iconColor="Marker"
+                        text=" Frieght Renegotiation"
+                        key="Frieght"
+                    /> -->
+                    <IconTabFilter
+                        icon="sap-icon://decline"
+                        iconColor="Critical"
+                        text="Rejected"
+                        key="Rejected"
+						count="{count>/Rejected}"
+                    />
+                    <IconTabFilter
+                        icon="sap-icon://delete"
+                        iconColor="Negative"
+                        text="Deleted"
+                        key="Deleted"
+							count="{count>/Deleted}"
+                    />
+                </items>
+                <content>
+                    <Table
+                        alternateRowColors="true"
+                        id="productsTable"
+                        growing="true"
+                        inset="false"
+                        headerText="Products"
+                        items="{JSONModelForTable>/}"
+                        itemPress=""
+                    >
+                        <headerToolbar>
+                            <OverflowToolbar>
+                                <content>
+                                    <Title text="Requests" />
+                                    <ToolbarSpacer />
+                                </content>
+                            </OverflowToolbar>
+                        </headerToolbar>
+                        <columns>
+                            <Column width="10em">
+                                <Text text="Order No" />
+                            </Column>
+                            <Column demandPopin="true">
+                                <Text text="Region" />
+                            </Column>
+                            <Column demandPopin="true">
+                                <Text text="Customer" />
+                            </Column>
+                            <Column demandPopin="true">
+                                <Text text="Customer ID" />
+                            </Column>
+                            <Column demandPopin="true">
+                                <Text text="Order type" />
+                            </Column>
+                            <Column demandPopin="true">
+                                <Text text="Total Order" />
+                            </Column>
+                            <Column demandPopin="true">
+                                <Text text="Current Order" />
+                            </Column>
+                            <Column demandPopin="true">
+                                <Text text="Request Date" />
+                            </Column>
+                            <Column demandPopin="true">
+                                <Text text="Validity" />
+                            </Column>
+                            <Column demandPopin="true">
+                                <Text text="GM%" />
+                            </Column>
+                            <Column>
+                                <Text text="Status" />
+                            </Column>
+                        </columns>
+                        <items>
+                            <ColumnListItem
+                                vAlign="Middle"
+                                type="Navigation"
+                                press="onClickofItem"
+                            >
+                                <cells>
+                                    <Text text="{JSONModelForTable>Pafno}" />
+                                    <Text text="{JSONModelForTable>Vkbur}" />
+                                    <Text text="{JSONModelForTable>Name}" />
+                                    <Text text="{JSONModelForTable>Kunnr}" />
+                                    <Text
+                                        text="{ parts: ['JSONModelForTable>Vtweg'], formatter: '.formatter.getOrderType' }"
+                                    />
+                                    <Text text="{JSONModelForTable>TotalVolume}" />
+                                    <Text text="{JSONModelForTable>CurrentVol}" />
+                                    <Text
+                                        text="{ parts: ['JSONModelForTable>Erdat'], formatter: '.formatter.getFormattedDate' }"
+                                    />
+                                    <Text text="{RequestModel>validityDays}" />
+                                    <tnt:InfoLabel
+                                        text="{RequestModel>GM} %"
+                                        renderMode="Loose"
+                                        colorScheme="{ parts: [                                        
+													'RequestModel>GM'], 
+													formatter: '.formatter.getGMColor' }"
+                                    />
+                                    <tnt:InfoLabel
+                                        text="{ parts: ['JSONModelForTable>Status'], formatter: '.formatter.getStatus' }"
+                                        renderMode="Loose"
+                                        colorScheme="{ parts: ['JSONModelForTable>Status'], formatter: '.formatter.getStatusColor' }"
+                                    />
+                                </cells>
+                            </ColumnListItem>
+                        </items>
+                    </Table>
+                </content>
+            </IconTabBar>
+        </content>
+    </Page>
+</mvc:View>

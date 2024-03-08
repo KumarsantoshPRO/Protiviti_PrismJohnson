@@ -78,7 +78,7 @@
                 placeholder="{i18nV2>view2.simpleForm.label.validity}"
                 valueStateText="Enter {i18nV2>view2.simpleForm.label.validity}"
                 maxLength="3"
-                value="{JSONModelPayload>/Validity}"
+                value="{path:'JSONModelPayload>/Validity',  formatter:'sap.formatter.removeLeadingZeros'}"
                 editable="{GlobalModel>/Editable}"
             />
 

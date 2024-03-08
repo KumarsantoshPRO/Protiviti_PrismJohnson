@@ -21,6 +21,7 @@
                 text="{i18nV2>view2.flexBox.button.AddMoreProducts}"
                 icon="sap-icon://add"
                 press="onAddRow"
+                visible="{GlobalModel>/Editable}"
             />
         </FlexBox>
 
@@ -167,7 +168,7 @@
                         demandPopin="true"
                         hAlign="Center"
                         width="10rem"
-                        visible="false"
+                       
                     >
                         <Text
                             id="idV2TxtTblClmSchDis"
@@ -304,6 +305,7 @@
                         demandPopin="true"
                         hAlign="Center"
                         width="5rem"
+                        visible="{GlobalModel>/Editable}"
                     >
                         <Text
                             id="idV2TxtTblClmDel"
@@ -323,7 +325,7 @@
                                 valueHelpRequest="onMaterialFreightGroupsHelp"
                                 class="sapUiSmallMarginEnd"
                                 placeholder="Material Freight Groups"
-                                value="{JSONModelPayload>Mfrgr}"
+                                value="{path:'JSONModelPayload>Mfrgr'}"
                                 editable="{GlobalModel>/Editable}"
                             />
 
@@ -367,7 +369,7 @@
 
                             <Input
                                 id="idV2TblCLIInpCurVol"
-                                maxLength="2"
+                                maxLength="10"
                                 liveChange="onNumberValidation"
                                 value="{JSONModelPayload>CurrentVol}"
                                 editable="{GlobalModel>/Editable}"
@@ -375,6 +377,7 @@
 
                             <Input
                                 id="idV2TblCLIInpTotVol"
+                                maxLength="10"
                                 liveChange="onNumberValidation"
                                  value="{JSONModelPayload>TotalVol}"
                                  editable="{GlobalModel>/Editable}"
@@ -405,9 +408,9 @@
                                 id="idV2TblCLIInpSchDis"
                                 maxLength="2"
                                 liveChange="onNumberValidation"
-                                 value="{JSONModelPayload>SchemeDisc}"
+                                 value="{JSONModelPayload>Schemedisc}"
                                  editable="{GlobalModel>/Editable}"
-                                  visible="false"
+                                
                             />
 
                             <Input
@@ -500,6 +503,7 @@
                                 id="idV2TblBtnDel"
                                 icon="sap-icon://delete"
                                 press="onDelete"
+                                visible="{GlobalModel>/Editable}"
                             />
                         </cells>
                     </ColumnListItem>

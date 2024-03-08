@@ -158,7 +158,7 @@ sap.ui.define([], function () {
             oControl.oFragmentSizes.open();
         },
         // Designs 
-        onDesignsHelp: function (oControl) {
+        onDesignsHelp: function (oControl, Mfrgr) {
             var oResourceModel = oControl.getView().getModel("i18nV2").getResourceBundle();
             if (!oControl.oFragmentDesign) {
                 oControl.oFragmentDesign = sap.ui.xmlfragment("zpj.pro.sk.sd.salescoordinator.zprosalesco.view.fragments.View2.F4s.designsF4", oControl);
@@ -168,9 +168,11 @@ sap.ui.define([], function () {
                 oControl._oTemp = sap.ui.getCore().byId("idSLDesignsValueHelp").clone();
             }
             var aFilter = [];
+           
+            debugger;
             var oFilterDomname = new sap.ui.model.Filter([new sap.ui.model.Filter("Domname", sap.ui.model.FilterOperator.EQ, "ZMATSOURCE")], false);
             var oFilterDomname1 = new sap.ui.model.Filter([new sap.ui.model.Filter("Domname1", sap.ui.model.FilterOperator.EQ, "")], false);
-            var oFilterDomname2 = new sap.ui.model.Filter([new sap.ui.model.Filter("Domname2", sap.ui.model.FilterOperator.EQ, "DIEE04AS")], false);
+            var oFilterDomname2 = new sap.ui.model.Filter([new sap.ui.model.Filter("Domname2", sap.ui.model.FilterOperator.EQ, Mfrgr)], false);
             aFilter.push(oFilterDomname);
             aFilter.push(oFilterDomname1);
             aFilter.push(oFilterDomname2);

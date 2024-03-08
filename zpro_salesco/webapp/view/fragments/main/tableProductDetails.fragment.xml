@@ -3,15 +3,15 @@
     xmlns:core="sap.ui.core"
 >
     <IconTabBar
-        stretchContentHeight="true"
         id="id.main.IconTabBar"
+        headerMode="Inline"
+        stretchContentHeight="true"
         select=".onFilterSelect"
         class="sapUiResponsiveContentPadding sapUiLargeMarginBottom"
     >
         <items>
             <IconTabFilter
                 id="id.main.IconTabFilter"
-                showAll="true"
                 count="{count>/Total}"
                 text="{i18n.main>main.IconTabFilter.requests}"
                 key="All"
@@ -19,7 +19,7 @@
             <IconTabSeparator id="id.main.ICS" />
             <IconTabFilter
                 id="id.main.ITFOnGoing"
-                icon="sap-icon://request"
+                icon="sap-icon://lateness"
                 iconColor="Contrast"
                 count="{count>/onGoing}"
                 text="{i18n.main>main.IconTabFilter.onGoing}"
@@ -55,7 +55,7 @@
                 id="id.main.Products.Table"
                 alternateRowColors="true"
                 class="sapUiLargeMarginBottom"
-                 mode="SingleSelectLeft"
+                mode="SingleSelectLeft"
                 growing="true"
                 inset="false"
                 headerText="{i18n.main>main.table.headerText}"
@@ -79,6 +79,7 @@
                                 id="id.main.TblBtnDelet"
                                 icon="sap-icon://delete"
                                 press="_onDelete"
+                                visible="{modelEditFlag>/Editable}"
                             />
                         </content>
                     </OverflowToolbar>
@@ -166,7 +167,7 @@
                             text="{i18n.main>main.table.column.text.requestedDate}"
                         />
                     </Column>
-                    <Column
+                    <!-- <Column
                         id="id.main.TblClmDiscount"
                         minScreenWidth="Desktop"
                         demandPopin="true"
@@ -176,7 +177,7 @@
                             id="id.main.TblClmTxtDiscount"
                             text="{i18n.main>main.table.column.text.discount}"
                         />
-                    </Column>
+                    </Column> -->
                     <Column
                         id="id.main.TblClmStatus"
                         hAlign="Center"
@@ -197,7 +198,7 @@
                         <cells>
                             <Text
                                 id="idV1TblCLITxtOrdNo"
-                                text="{ModelForTable>Pafno}"
+                                text="{path:'ModelForTable>Pafno',  formatter:'sap.formatter.removeLeadingZeros'}"
                             />
                             <Text
                                 id="idV1TblCLITxtRegion"
@@ -227,10 +228,10 @@
                                 id="idV1TblCLITxtReqDate"
                                 text="{ parts: ['ModelForTable>Erdat'], formatter: 'sap.formatter.getFormattedDate' }"
                             />
-                            <Text
+                            <!-- <Text
                                 id="idV1TblCLITxtDisPer"
                                 text="{ModelForTable>Disc}"
-                            />
+                            /> -->
                             <Button
                                 id="idV1TblCLIILStatus"
                                 text="{ path: 'ModelForTable>Status',formatter: 'sap.formatter.getStatus' }"

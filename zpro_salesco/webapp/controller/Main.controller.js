@@ -19,8 +19,13 @@ sap.ui.define([
             },
             _onRouteMatched: function (oEvent) {
                 var sID = oEvent.getParameter("arguments").ID;
-
+                var oEditFlag = {
+                    "Editable": false
+                }
+                var oModelEditFlag = new JSONModel(oEditFlag);
+                this.getView().setModel(oModelEditFlag, "modelEditFlag");
                 if (sID === "null" || sID === undefined) {
+                    
                     var dataCount = this.getOwnerComponent().getModel("payload").getData().count;
                     this.getView().setModel(new JSONModel(dataCount), "count");
 
@@ -49,18 +54,23 @@ sap.ui.define([
                         if (sForWhat === "count") {
                             switch (sStatusText) {
                                 case "":
+                                    that.getView().getModel("modelEditFlag").setProperty("/Editable", false);
                                     that.getView().getModel("count").getData().Total = Data.results.length;
                                     break;
                                 case "P":
+                                    that.getView().getModel("modelEditFlag").setProperty("/Editable", true);
                                     that.getView().getModel("count").getData().onGoing = Data.results.length;
                                     break;
                                 case "A":
+                                    that.getView().getModel("modelEditFlag").setProperty("/Editable", false);
                                     that.getView().getModel("count").getData().Approved = Data.results.length;
                                     break;
                                 case "R":
+                                    that.getView().getModel("modelEditFlag").setProperty("/Editable", false);
                                     that.getView().getModel("count").getData().Rejected = Data.results.length;
                                     break;
                                 case "D":
+                                    that.getView().getModel("modelEditFlag").setProperty("/Editable", true);
                                     that.getView().getModel("count").getData().Delayed = Data.results.length;
                                     break;
                                 default:
@@ -121,14 +131,19 @@ sap.ui.define([
                 var sKey = oEvent.getParameter("key");
                 if (sKey === "All") {
                     this._getRequestData("", "tableData");
+                    this.getView().getModel("modelEditFlag").setProperty("/Editable", false);
                 } else if (sKey === "OnGoing") {
                     this._getRequestData("P", "tableData");
+                    this.getView().getModel("modelEditFlag").setProperty("/Editable", true);
                 } else if (sKey === "Approved") {
                     this._getRequestData("A", "tableData");
+                    this.getView().getModel("modelEditFlag").setProperty("/Editable", false);
                 } else if (sKey === "Rejected") {
                     this._getRequestData("R", "tableData");
+                    this.getView().getModel("modelEditFlag").setProperty("/Editable", false);
                 } else if (sKey === "Delay") {
                     this._getRequestData("D", "tableData");
+                    this.getView().getModel("modelEditFlag").setProperty("/Editable", true);
                 }
 
             },

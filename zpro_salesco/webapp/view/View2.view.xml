@@ -97,6 +97,7 @@
                 id="idV2OPSSumDetail"
                 titleUppercase="true"
                 title="{i18nV2>view2.sections.sumDetails.title}"
+                visible="{GlobalModel>/Editable}"
             >
                 <uxap:subSections>
                     <uxap:ObjectPageSubSection
