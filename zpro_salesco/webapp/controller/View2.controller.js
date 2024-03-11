@@ -430,55 +430,52 @@ sap.ui.define([
                 var bindingContextPathMFG = this.bindingContextPath + "/Mfrgr";
                 var bindingContextPathSize = this.bindingContextPath + "/Szmm";
                 for (var i = 0; i < aModelData.length; i++) {
+                    // var obj = aModelData[i];
+                    // for (var key in obj) {
+                    //     var value = obj[key];
+                    if (sSelectedValue === aModelData[i].Mfrgr && i != Number(this.bindingContextPath.split("/")[3])) {
+                        MessageBox.error(sSelectedValue + " this 'Material Freigth Group' already selected");
+                        this.getView().getModel("JSONModelPayload").setProperty(bindingContextPathMFG, "");
+                        this.getView().getModel("JSONModelPayload").setProperty(bindingContextPathSize, "");
+                        i = aModelData.length;
+                    } else {
+                        this.getView().getModel("JSONModelPayload").setProperty(bindingContextPathMFG, sSelectedValue);
+                        var aFilter = [];
+                        var oFilterDomname = new sap.ui.model.Filter([new sap.ui.model.Filter("Domname", sap.ui.model.FilterOperator.EQ, "SIZE")], false);
+                        var oFilterDomname2 = new sap.ui.model.Filter([new sap.ui.model.Filter("Domname2", sap.ui.model.FilterOperator.EQ, sSelectedValue)], false);
+                        aFilter.push(oFilterDomname);
+                        aFilter.push(oFilterDomname2);
+                        var sPath = "/ET_VALUE_HELPSSet"
+                        var that = this;
+                        this.getView().setBusy(true);
+                        this.getView().getModel().read(sPath, {
+                            filters: aFilter,
+                            // urlParameters: {
+                            //     "$expand": ""
+                            // },
+                            success: function (Data) {
+                                that.getView().setBusy(false);
+                                that.getView().getModel("JSONModelPayload").setProperty(bindingContextPathSize, Data.results[0].Ddtext);
+                            },
+                            error: function (oError) {
+                                that.getView().setBusy(false);
+                                MessageBox.error(JSON.parse(oError.responseText).error.message.value, {
+                                    actions: [sap.m.MessageBox.Action.OK],
+                                    onClose: function (oAction) {
+                                        // var navigator = sap.ushell.Container.getService("CrossApplicationNavigation");
+                                        // navigator.toExternal({
+                                        //     target: {
+                                        //         semanticObject: "#"
+                                        //     }
+                                        // });
 
-                    var obj = aModelData[i];
-                    for (var key in obj) {
-                        var value = obj[key];
-                        if (sSelectedValue === value) {
-                            if(value){
-                            MessageBox.error(sSelectedValue + " this 'Material Freigth Group' already selected");
-                            this.getView().getModel("JSONModelPayload").setProperty(bindingContextPathMFG, "");
+                                        // window.location.reload()
+                                    }
+                                });
                             }
-                        } else {
-
-
-                            this.getView().getModel("JSONModelPayload").setProperty(bindingContextPathMFG, sSelectedValue);
-                            var aFilter = [];
-                            var oFilterDomname = new sap.ui.model.Filter([new sap.ui.model.Filter("Domname", sap.ui.model.FilterOperator.EQ, "SIZE")], false);
-                            var oFilterDomname2 = new sap.ui.model.Filter([new sap.ui.model.Filter("Domname2", sap.ui.model.FilterOperator.EQ, sSelectedValue)], false);
-                            aFilter.push(oFilterDomname);
-                            aFilter.push(oFilterDomname2);
-                            var sPath = "/ET_VALUE_HELPSSet"
-                            var that = this;
-                            this.getView().setBusy(true);
-                            this.getView().getModel().read(sPath, {
-                                filters: aFilter,
-                                // urlParameters: {
-                                //     "$expand": ""
-                                // },
-                                success: function (Data) {
-                                    that.getView().setBusy(false);
-                                    that.getView().getModel("JSONModelPayload").setProperty(bindingContextPathSize, Data.results[0].Ddtext);
-                                },
-                                error: function (oError) {
-                                    that.getView().setBusy(false);
-                                    MessageBox.error(JSON.parse(oError.responseText).error.message.value, {
-                                        actions: [sap.m.MessageBox.Action.OK],
-                                        onClose: function (oAction) {
-                                            // var navigator = sap.ushell.Container.getService("CrossApplicationNavigation");
-                                            // navigator.toExternal({
-                                            //     target: {
-                                            //         semanticObject: "#"
-                                            //     }
-                                            // });
-
-                                            // window.location.reload()
-                                        }
-                                    });
-                                }
-                            });
-                        }
+                        });
                     }
+                    // }
                 }
 
 
