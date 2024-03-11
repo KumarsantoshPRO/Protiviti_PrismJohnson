@@ -23,13 +23,14 @@
         <content>
             <IconTabBar
                 id="idIconTabBar"
-                headerMode="Inline"
+                headerMode="Standard"
                 select="_onFilterSelect"
                 class="sapUiResponsiveContentPadding sapUiLargeMarginBottom"
             >
                 <items>
                     <IconTabFilter
                         showAll="false"
+                        icon="sap-icon://expand-all"
                       count="{count>/Total}"
                         text="Requests"
                         key="All"
