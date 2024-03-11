@@ -67,11 +67,12 @@ sap.ui.define(['sap/m/MessageBox'], function (MessageBox) {
                 MessageBox.error("Please enter " + oResourceModel.getText("view2.simpleForm.label.validity"));
                 this.headerPayloadState(oControl, "Validity");
                 return 0;
-            } else if (!oControl.getView().getModel("JSONModelPayload").getData().Aufnr) {
-                MessageBox.error("Please enter " + oResourceModel.getText("view2.simpleForm.label.ordNo"));
-                this.headerPayloadState(oControl, "Aufnr");
-                return 0;
-            }
+            } 
+            // else if (!oControl.getView().getModel("JSONModelPayload").getData().Aufnr) {
+            //     MessageBox.error("Please enter " + oResourceModel.getText("view2.simpleForm.label.ordNo"));
+            //     this.headerPayloadState(oControl, "Aufnr");
+            //     return 0;
+            // }
             // else if (!oControl.getView().getModel("JSONModelPayload").getData().VALIDITY_DAYS) {
             //     MessageBox.error("Please select " + oResourceModel.getText("view2.simpleForm.label.validDays"));
             //     this.headerPayloadState(oControl, "VALIDITY_DAYS");

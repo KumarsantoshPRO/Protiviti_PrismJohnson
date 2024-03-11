@@ -146,7 +146,7 @@
 											<Text text="{oRequestModel>/sd2}"/>
 											<Label text="Payment term discount(Value and %)" />
 											<Text text="{oRequestModel>/Zterm}" />
-											<Text text="{oRequestModel>/Wcashdisc}" />
+											<Text text="{path:'oRequestModel>/Wcashdisc', formatter:'.formatter.makeItPositive'}" />
 											<Label text="SVC/BP" />
 											<Text text="{oRequestModel>/Wbuyingprice}" />
 											<Label text="Freight Cost" />
@@ -212,7 +212,7 @@
 												<Text text="SVC/BP"/>
 											</Column>
 											<Column  minScreenWidth="Desktop" demandPopin="true" hAlign="Center" width="10rem">
-												<Text text="Gross Margin%"/>
+												<Text text="Gross Margin"/>
 											</Column>
 											<Column  minScreenWidth="Desktop" demandPopin="true" hAlign="Center" width="10rem">
 												<Text text="Volume(sq.ft)"/>
@@ -241,7 +241,7 @@
 												<Text text="{ProductModel>svc}" />
 												<Text text="{ProductModel>Grossmarg}" />
 												<Text text="{ProductModel>Zvolumepft}" />
-												<Text text="{ProductModel>Grossmarg}" />
+												<Text text="{path:'ProductModel>Grossmargper'}" />
 												</cells>
 											</ColumnListItem>
 										</items>
@@ -292,7 +292,7 @@
 					<uxap:footer>
 						<Bar>
 							<contentRight>
-								<Button text="Forward to NH" 	icon="sap-icon://forward" press=".onForward" ariaHasPopup="Dialog" />
+								<Button text="Forward to NH" enabled="false" 	icon="sap-icon://forward" press=".onForward" ariaHasPopup="Dialog" />
 								<Button text="BP Renegotiation" press=".bpRenegotiation"  ariaHasPopup="Dialog" type="Emphasized"/> 
 								<Button text="Freight Renegotiation" press=".freightRenegotiation"  ariaHasPopup="Dialog" type="Emphasized"/>
 								<Button text="Reject" press=".reject"  ariaHasPopup="Dialog" type="Reject"/>

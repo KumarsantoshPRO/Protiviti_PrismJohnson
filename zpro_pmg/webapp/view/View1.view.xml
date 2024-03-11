@@ -150,7 +150,7 @@
                                 press="onClickofItem"
                             >
                                 <cells>
-                                    <Text text="{JSONModelForTable>Pafno}" />
+                                    <Text text="{path:'JSONModelForTable>Pafno', formatter:'.formatter.removeLeadingZeros'}" />
                                     <Text text="{JSONModelForTable>Vkbur}" />
                                     <Text text="{JSONModelForTable>Name}" />
                                     <Text text="{JSONModelForTable>Kunnr}" />

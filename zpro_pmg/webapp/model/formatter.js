@@ -2,7 +2,25 @@
 sap.ui.define([], function () {
     "use strict";
     return {
+        makeItPositive: function (sString) {
+            debugger;
+            if (sString) {
+                if (Number(sString) < 0) {
+                    return (Number(sString) * -1).toString();
+                }else{
+                    return sString;
+                }
+            }else{
+                return sString;
+            }
+        },
+        removeLeadingZeros: function (sString) {
 
+            if (sString) {
+                return sString.replace(/^0+/, '');
+            }
+
+        },
         getStatus: function (status) {
             var temp = "";
             if (status === 'A' || status === 'a') {
@@ -18,12 +36,12 @@ sap.ui.define([], function () {
             } else {
                 temp = "";
             }
-    
+
             return temp;
-    
+
         },
-    
-        getOrderType: function(sType) {
+
+        getOrderType: function (sType) {
             var sOrderType = "";
             if (sType === '11' || sType === "17") {
                 sOrderType = "Project";
@@ -32,7 +50,7 @@ sap.ui.define([], function () {
             } else {
                 sOrderType = "";
             }
-    
+
             return sOrderType;
         },
         getStatus: function (status) {
@@ -50,16 +68,15 @@ sap.ui.define([], function () {
             } else {
                 temp = "";
             }
-    
-            return temp;
-    
-        },
-    
 
-        getStatusColor: function (status)
-        {
+            return temp;
+
+        },
+
+
+        getStatusColor: function (status) {
             var colorCode = "";
-            if(status === 'P') {
+            if (status === 'P') {
                 colorCode = 6;
             } else if (status === 'A') {
                 colorCode = 8;
@@ -67,7 +84,7 @@ sap.ui.define([], function () {
                 colorCode = 2;
             } else if (status === 'D') {
                 colorCode = 1;
-            } 
+            }
             // else if(status==='Forwarded')
             // {
             //     colorCode=9;
@@ -79,22 +96,21 @@ sap.ui.define([], function () {
             else {
                 colorCode = 10;
             }
-            
+
             return colorCode;
-            
+
         },
 
-        getGMColor: function (val)
-        {
+        getGMColor: function (val) {
             var colorCode = "";
-            if(parseInt(val) < 15) {
+            if (parseInt(val) < 15) {
                 colorCode = 2;
             } else if (parseInt(val) > 25) {
                 colorCode = 8;
             } else {
                 colorCode = 1;
             }
-            
+
             return colorCode;
         },
 
@@ -106,6 +122,6 @@ sap.ui.define([], function () {
                 return sDate;
             }
         },
-        
+
     }
 });
