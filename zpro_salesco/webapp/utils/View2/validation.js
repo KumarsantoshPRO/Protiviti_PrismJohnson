@@ -63,6 +63,7 @@ sap.ui.define(['sap/m/MessageBox'], function (MessageBox) {
                 this.headerPayloadState(oControl, "Zterm");
                 return 0;
             } else if (!oControl.getView().getModel("JSONModelPayload").getData().Validity) {
+                debugger;
                 MessageBox.error("Please enter " + oResourceModel.getText("view2.simpleForm.label.validity"));
                 this.headerPayloadState(oControl, "Validity");
                 return 0;
@@ -164,11 +165,13 @@ sap.ui.define(['sap/m/MessageBox'], function (MessageBox) {
                 else if (aData[i].Disc === '') { this.itemsErrorMessage('Disc', vLine, sAction); }
                 else if (aData[i].Schemedisc === '') { this.itemsErrorMessage('Schemedisc', vLine, sAction); }
                 else if (aData[i].SchemediscPer === '') { this.itemsErrorMessage('SchemediscPer', vLine, sAction); }
-                else if (aData[i].Commbox === '') { this.itemsErrorMessage('Commbox', vLine, sAction); }
-                else if (aData[i].Commboxp === '') { this.itemsErrorMessage('Commboxp', vLine, sAction); }
                 else if (aData[i].Frgtbx === '') { this.itemsErrorMessage('Frgtbx', vLine, sAction); }
-                else if (aData[i].Compname === '') { this.itemsErrorMessage('Compname', vLine, sAction); }
-                else if (aData[i].Complanprice === '') { this.itemsErrorMessage('Complanprice', vLine, sAction); }
+
+                // else if (aData[i].Commbox === '') { this.itemsErrorMessage('Commbox', vLine, sAction); }
+                // else if (aData[i].Commboxp === '') { this.itemsErrorMessage('Commboxp', vLine, sAction); }
+                // else if (aData[i].Compname === '') { this.itemsErrorMessage('Compname', vLine, sAction); }
+                // else if (aData[i].Complanprice === '') { this.itemsErrorMessage('Complanprice', vLine, sAction); }
+
                 else if (aData[i].Zzprodh4 === '') { this.itemsErrorMessage('Zzprodh4', vLine, sAction); }
                 else if (aData[i].Mvgr5 === '') { this.itemsErrorMessage('Mvgr5', vLine, sAction); }
                 else if (aData[i].LandedPrice === '') { this.itemsErrorMessage('LandedPrice', vLine, sAction); }

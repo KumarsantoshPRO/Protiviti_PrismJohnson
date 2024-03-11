@@ -1,10 +1,11 @@
 <core:FragmentDefinition
     xmlns="sap.m"
     xmlns:core="sap.ui.core"
+      xmlns:tnt="sap.tnt"
 >
     <IconTabBar
         id="id.main.IconTabBar"
-        headerMode="Inline"
+        headerMode="Standard"
         stretchContentHeight="true"
         select=".onFilterSelect"
         class="sapUiResponsiveContentPadding sapUiLargeMarginBottom"
@@ -12,6 +13,7 @@
         <items>
             <IconTabFilter
                 id="id.main.IconTabFilter"
+                icon="sap-icon://expand-all"
                 count="{count>/Total}"
                 text="{i18n.main>main.IconTabFilter.requests}"
                 key="All"
@@ -214,15 +216,15 @@
                             />
                             <Text
                                 id="idV1TblCLITxtOrdType"
-                                text="{ parts: ['ModelForTable>Vtweg'], formatter: 'sap.formatter.getOrderType' }"
+                                text="{ parts: ['ModelForTable>Vtweg']}"
                             />
                             <Text
                                 id="idV1TblCLITxtOrdTot"
-                                text="{ModelForTable>TotalVolume}"
+                                text="{ModelForTable>WtotalVol}"
                             />
                             <Text
                                 id="idV1TblCLITxtOrdCur"
-                                text="{ModelForTable>CurrentVol}"
+                                text="{ModelForTable>WcurVolFt}"
                             />
                             <Text
                                 id="idV1TblCLITxtReqDate"
@@ -232,13 +234,11 @@
                                 id="idV1TblCLITxtDisPer"
                                 text="{ModelForTable>Disc}"
                             /> -->
-                            <Button
-                                id="idV1TblCLIILStatus"
-                                text="{ path: 'ModelForTable>Status',formatter: 'sap.formatter.getStatus' }"
-                                enabled="false"
-                                iconFirst="false"
-                                type="{ path: 'Status',formatter: 'sap.formatter.getStatusColor' }"
-                            />
+                            <tnt:InfoLabel
+                                        text="{ parts: ['ModelForTable>Status', 'ModelForTable>Erdat'], formatter: 'sap.formatter.getStatus' }"
+                                        renderMode="Loose"
+                                        colorScheme="{ parts: ['ModelForTable>Status'], formatter: 'sap.formatter.getStatusColor' }"
+                                    />
                         </cells>
                     </ColumnListItem>
                 </items>

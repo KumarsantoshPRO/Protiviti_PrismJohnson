@@ -19,7 +19,8 @@
                     text="{i18nV2>view2.objectPageLayout.button.edit}"
                     type="Emphasized"
                     press="onEdit"
-                    visible="{=${GlobalModel>/Editable}===false? true:false}"
+                    
+                    visible="false"
                 />
                 <!-- <Button
                     id="idV2BtnBack"
@@ -37,7 +38,7 @@
                 <uxap:subSections>
                     <uxap:ObjectPageSubSection
                         id="idV2OPSubGenInfo"
-                        title="{i18nV2>view2.sections.generalInfo.title}"
+                        title="{i18nV2>view2.sections.generalInfo.title}"        
                         titleUppercase="true"
                     >
                         <uxap:blocks>
@@ -75,13 +76,14 @@
                 id="idV2OPSAttach"
                 titleUppercase="true"
                 title="{i18nV2>view2.sections.attachments.title}"
-                visible="false"
+           
             >
                 <uxap:subSections>
                     <uxap:ObjectPageSubSection
                         id="idV2OPSubAttach"
                         title="{i18nV2>view2.sections.attachments.title}"
                         titleUppercase="true"
+                        visible="{GlobalModel>/Editable}"
                     >
                         <uxap:blocks>
                             <core:Fragment

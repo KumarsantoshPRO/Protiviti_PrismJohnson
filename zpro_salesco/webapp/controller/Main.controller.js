@@ -15,7 +15,7 @@ sap.ui.define([
 
             onInit: function () {
                 this.getOwnerComponent().getRouter().attachRoutePatternMatched(this._onRouteMatched, this);
-
+              
             },
             _onRouteMatched: function (oEvent) {
                 var sID = oEvent.getParameter("arguments").ID;
@@ -25,7 +25,7 @@ sap.ui.define([
                 var oModelEditFlag = new JSONModel(oEditFlag);
                 this.getView().setModel(oModelEditFlag, "modelEditFlag");
                 if (sID === "null" || sID === undefined) {
-                    
+                    this.byId(sap.ui.core.Fragment.createId("id.tableProductDetails.Fragment", "id.main.IconTabBar")).setSelectedKey("All");
                     var dataCount = this.getOwnerComponent().getModel("payload").getData().count;
                     this.getView().setModel(new JSONModel(dataCount), "count");
 
@@ -33,14 +33,13 @@ sap.ui.define([
                     this._getRequestData("P", "count");
                     this._getRequestData("A", "count");
                     this._getRequestData("R", "count");
-                    this._getRequestData("D", "count");
+                    // this._getRequestData("D", "count");
                     this._getRequestData("", "tableData");
 
 
                 }
             },
             _getRequestData: function (sStatusText, sForWhat) {
-
                 var aFilter = [];
                 var oFilter = new sap.ui.model.Filter([new sap.ui.model.Filter("Status", sap.ui.model.FilterOperator.EQ, sStatusText)], false);
                 aFilter.push(oFilter);
@@ -52,6 +51,30 @@ sap.ui.define([
                     success: function (Data) {
                         that.getView().setBusy(false);
                         if (sForWhat === "count") {
+                            if (sStatusText === 'P') {
+                                that.aDelayedData = [];
+                                that.aPendingData = [];
+                                for (var i = 0; i < Data.results.length; i++) {
+                                    var obj = Data.results[i];
+                                    for (var key in obj) {
+                                        if(obj['Erdat']){
+                                        if (key === 'Status') {
+                                            if (obj['Status'] === 'P') {
+                                                var today = new Date();
+                                                if (Math.floor((today - obj['Erdat']) / (1000 * 3600 * 24)) > 10) {
+                                                    obj['Status'] = 'D';   
+                                                    that.aDelayedData.push(obj);
+                                                } else {   
+                                                    that.aPendingData.push(obj);
+                                                }
+
+                                            }
+                                        }
+                                    }
+                                    }
+                                }
+                            }
+                            
                             switch (sStatusText) {
                                 case "":
                                     that.getView().getModel("modelEditFlag").setProperty("/Editable", false);
@@ -59,7 +82,9 @@ sap.ui.define([
                                     break;
                                 case "P":
                                     that.getView().getModel("modelEditFlag").setProperty("/Editable", true);
-                                    that.getView().getModel("count").getData().onGoing = Data.results.length;
+                                    debugger;
+                                    that.getView().getModel("count").getData().onGoing = that.aPendingData.length;
+                                    that.getView().getModel("count").getData().Delayed = that.aDelayedData.length;
                                     break;
                                 case "A":
                                     that.getView().getModel("modelEditFlag").setProperty("/Editable", false);
@@ -70,15 +95,24 @@ sap.ui.define([
                                     that.getView().getModel("count").getData().Rejected = Data.results.length;
                                     break;
                                 case "D":
+                                    debugger;
                                     that.getView().getModel("modelEditFlag").setProperty("/Editable", true);
-                                    that.getView().getModel("count").getData().Delayed = Data.results.length;
+                                    that.getView().getModel("count").getData().Delayed = that.aDelayedData.length;
                                     break;
                                 default:
 
                                     break;
                             }
                         } else {
-                            var dataTableModel = Data.results;
+                            var dataTableModel;
+                            if(sForWhat === 'tableData' && sStatusText === 'P'){
+                                dataTableModel = that.aPendingData;
+                            }else if(sForWhat === 'tableData' && sStatusText === 'D'){
+                                dataTableModel = that.aDelayedData;
+                            }else{
+                                dataTableModel = Data.results;
+                            }
+                           
                             that.getView().setModel(new JSONModel(dataTableModel), "ModelForTable");
                         }
                         that.getView().getModel("count").refresh(true);
@@ -87,7 +121,7 @@ sap.ui.define([
                     },
                     error: function (sError) {
                         that.getView().setBusy(false);
-                        MessageBox.error(JSON.parse(oError.responseText).error.message.value, {
+                        MessageBox.error(JSON.parse(sError.responseText).error.message.value, {
                             actions: [sap.m.MessageBox.Action.OK],
                             onClose: function (oAction) {
                                 // var navigator = sap.ushell.Container.getService("CrossApplicationNavigation");
@@ -132,7 +166,11 @@ sap.ui.define([
                 if (sKey === "All") {
                     this._getRequestData("", "tableData");
                     this.getView().getModel("modelEditFlag").setProperty("/Editable", false);
-                } else if (sKey === "OnGoing") {
+                } 
+                else if (sKey === "Delay") {
+                    this._getRequestData("D", "tableData");
+                    this.getView().getModel("modelEditFlag").setProperty("/Editable", true);
+                }else if (sKey === "OnGoing") {
                     this._getRequestData("P", "tableData");
                     this.getView().getModel("modelEditFlag").setProperty("/Editable", true);
                 } else if (sKey === "Approved") {
@@ -141,10 +179,7 @@ sap.ui.define([
                 } else if (sKey === "Rejected") {
                     this._getRequestData("R", "tableData");
                     this.getView().getModel("modelEditFlag").setProperty("/Editable", false);
-                } else if (sKey === "Delay") {
-                    this._getRequestData("D", "tableData");
-                    this.getView().getModel("modelEditFlag").setProperty("/Editable", true);
-                }
+                } 
 
             },
 
@@ -157,7 +192,7 @@ sap.ui.define([
 
                 if (oSelectedItem.length > 0) {
                     var sContextPath = oTable.getSelectedItem().oBindingContexts.ModelForTable.sPath;
-                  
+
                     var oOrderNumber = this.getView().getModel("ModelForTable").getContext(sContextPath).getProperty("Pafno");
                     var sPath = "/ET_ZDI_TP_BILLSet('" + oOrderNumber + "')";
                     var that = this;
@@ -173,10 +208,10 @@ sap.ui.define([
                                                 window.location.reload();
                                             }
                                         });
-                                     
+
                                     },
                                     error: function (sError) {
-                                        MessageBox.error(JSON.parse(oError.responseText).error.message.value, {
+                                        MessageBox.error(JSON.parse(sError.responseText).error.message.value, {
                                             actions: [sap.m.MessageBox.Action.OK],
                                             onClose: function (oAction) {
                                                 // var navigator = sap.ushell.Container.getService("CrossApplicationNavigation");
@@ -189,8 +224,8 @@ sap.ui.define([
                                                 window.location.reload()
                                             }
                                         });
-                                        
-                                       
+
+
                                     }
                                 });
                             } else {

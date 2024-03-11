@@ -35,6 +35,26 @@ sap.ui.define([], function () {
     
             return sOrderType;
         },
+        getStatus: function (status) {
+            var temp = "";
+            if (status === 'A' || status === 'a') {
+                temp = "Approved";
+            } else if (status === 'R' || status === 'r') {
+                temp = "Rejected";
+            } else if (status === 'P' || status === 'p') {
+                temp = "Pending";
+            } else if (status === 'D' || status === 'd') {
+                temp = "Delayed";
+            } else if (status === 'DL' || status === 'dl') {
+                temp = "Deleted";
+            } else {
+                temp = "";
+            }
+    
+            return temp;
+    
+        },
+    
 
         getStatusColor: function (status)
         {

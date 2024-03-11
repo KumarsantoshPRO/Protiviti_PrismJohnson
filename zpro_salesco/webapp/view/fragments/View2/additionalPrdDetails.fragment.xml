@@ -386,7 +386,7 @@
                             <Input
                                 id="idV2TblCLIInpExFac"
                                 editable="false"
-                                maxLength="2"
+                                
                                 liveChange="onNumberValidation"
                             
                                value=  '{=${JSONModelPayload>Exdepsqft} === "0.00" ?${JSONModelPayload>Exfacsqft}:${JSONModelPayload>Exdepsqft}}'
@@ -398,7 +398,7 @@
 
                             <Input
                                 id="idV2TblCLIInpDiscount"
-                                maxLength="2"
+                                
                                 liveChange="onNumberValidation"
                                   value="{JSONModelPayload>Disc}"
                                   editable="{GlobalModel>/Editable}"
@@ -406,7 +406,7 @@
 
                             <Input
                                 id="idV2TblCLIInpSchDis"
-                                maxLength="2"
+                                
                                 liveChange="onNumberValidation"
                                  value="{JSONModelPayload>Schemedisc}"
                                  editable="{GlobalModel>/Editable}"
@@ -415,7 +415,7 @@
 
                             <Input
                                 id="idV2TblCLIInpSchPer"
-                                maxLength="2"
+                                
                                 liveChange="onNumberValidation"
                                 value="{JSONModelPayload>Schemedisc}"
                                 editable="{GlobalModel>/Editable}"
@@ -433,15 +433,15 @@
                             <Input
                                 id="idV2TblCLIInpORCPer"
                           
-                                maxLength="2"
-                                change="onOrcPercentageChange"
+                                
+                                
                                 value="{JSONModelPayload>Commboxp}"
                                 editable="{GlobalModel>/Editable}"
                             />
 
                             <Input
                                 id="idV2TblCLIInpFre"
-                                maxLength="2"
+                                
                                 liveChange="onNumberValidation"
                                 value="{JSONModelPayload>Frgtbx}"
                                 editable="{GlobalModel>/Editable}"

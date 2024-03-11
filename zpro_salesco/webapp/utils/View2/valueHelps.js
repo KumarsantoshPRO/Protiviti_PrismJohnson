@@ -105,7 +105,7 @@ sap.ui.define([], function () {
             oControl.SalesOfficerag.open();
         },
         // Material Freight Group
-        onMaterialFreightGroupsHelp: function (oControl) {
+        onMaterialFreightGroupsHelp: function (oControl, Division) {
             var oResourceModel = oControl.getView().getModel("i18nV2").getResourceBundle();
            
             if (!oControl.oFragment) {
@@ -119,10 +119,12 @@ sap.ui.define([], function () {
             var aFilter = [];
             var oFilterDomname = new sap.ui.model.Filter([new sap.ui.model.Filter("Domname", sap.ui.model.FilterOperator.EQ, "ZPRICECAT")], false);
             var oFilterDomname1 = new sap.ui.model.Filter([new sap.ui.model.Filter("Domname1", sap.ui.model.FilterOperator.EQ, "")], false);
-            var oFilterDomname2 = new sap.ui.model.Filter([new sap.ui.model.Filter("Domname2", sap.ui.model.FilterOperator.EQ, "")], false);
+            var oFilterDomname2 = new sap.ui.model.Filter([new sap.ui.model.Filter("Domname2", sap.ui.model.FilterOperator.EQ, Division)], false);
+            // var oFilterDomname3 = new sap.ui.model.Filter([new sap.ui.model.Filter("Domname3", sap.ui.model.FilterOperator.EQ, Division)], false);
             aFilter.push(oFilterDomname);
             aFilter.push(oFilterDomname1);
             aFilter.push(oFilterDomname2);
+            // aFilter.push(oFilterDomname3);
 
             oControl.oFragment.setModel(oControl.getView().getModel());
             sap.ui.getCore().byId("idSDMaterialFreightGroupsF4").bindAggregation("items", {

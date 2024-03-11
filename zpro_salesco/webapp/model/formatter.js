@@ -3,18 +3,15 @@ jQuery.sap.declare("sap.formatter");
 sap.formatter = {
 
     removeLeadingZeros: function (sString) {
-
+ 
         if (sString) {
             return sString.replace(/^0+/, '');
-        } else {
-            return sString;
         }
-
 
     },
 
     getFormattedDate: function (date) {
-        debugger
+       
         var dateFormat = sap.ui.core.format.DateFormat.getDateInstance({
             pattern: "MMM dd, yyyy"
         });
@@ -37,16 +34,19 @@ sap.formatter = {
 
     // To call formatter in XML view use below template
     // {path:<dataBindingPath>, formatter:'sap.formatter.<method name>'}
-    getStatus: function (status) {
+    getStatus: function (status, date) {
         var temp = "";
         if (status === 'A' || status === 'a') {
             temp = "Approved";
         } else if (status === 'R' || status === 'r') {
             temp = "Rejected";
         } else if (status === 'P' || status === 'p') {
-            temp = "In Progress";
+
+         temp = "Pending";
         } else if (status === 'D' || status === 'd') {
-            temp = "Draft";
+            temp = "Delayed";
+        } else if (status === 'DL' || status === 'dl') {
+            temp = "Deleted";
         } else {
             temp = "";
         }
@@ -55,49 +55,42 @@ sap.formatter = {
 
     },
 
-    getStatusColor: function (status) {
 
+    getStatusColor: function (status)
+    {
         var colorCode = "";
-        if (status === 'P') {
-            colorCode = "Default";
-        } else if (status === 'A') {
-            colorCode = "Accept";
-        } else if (status === 'R') {
-            colorCode = "Reject";
-        } else if (status === 'D') {
-            colorCode = "Attention";
-        } else {
-            colorCode = "Default";
+        if(status === 'P' || status === 'p') {
+            colorCode = 6;
+        } else if (status === 'A' || status === 'a') {
+            colorCode = 8;
+        } else if (status === 'R' || status === 'r') {
+            colorCode = 2;
+        } else if (status === 'D' || status === 'd') {
+            colorCode = 1;
+        } 
+        // else if(status==='Forwarded')
+        // {
+        //     colorCode=9;
+        // }
+        // else if(status==='Deleted')
+        // {
+        //     colorCode=2;
+        // }
+        else {
+            colorCode = 10;
         }
-
+        
         return colorCode;
-
+        
     },
-    getStatus: function (status) {
-
-        var statusText = "";
-        if (status === 'P') {
-            statusText = "Pending";
-        } else if (status === 'A') {
-            statusText = "Approved";
-        } else if (status === 'R') {
-            colorCode = "Rejected";
-        } else if (status === 'D') {
-            statusText = "Delayed";
-        } else {
-            statusText = "";
-        }
-
-        return statusText;
-
-    },
+   
 
     getFormattedDate: function (sDate) {
         if (sDate !== undefined && sDate !== null) {
             // var aMonths = ["Jan", "Feb", "Mar", "Apr", "May", "Jun", "July", "Aug", "Sep", "Oct", "Nov", "Dec"];
             // return aMonths[sDate.getMonth()] + " " + sDate.getDate() + ", " + sDate.getFullYear();
             var aMonths = ["01", "02", "03", "04", "05", "06", "07", "08", "09", "10", "11", "12"];
-             debugger;
+      
             if (sDate.getDate() < 10) {
                 var aDay = ["01", "02", "03", "04", "05", "06", "07", "08", "09"]
                 return aDay[sDate.getDate()] + "/" + aMonths[sDate.getMonth()] + "/" + sDate.getFullYear();
