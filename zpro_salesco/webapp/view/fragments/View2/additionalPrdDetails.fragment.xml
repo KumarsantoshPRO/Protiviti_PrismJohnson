@@ -9,12 +9,14 @@
             direction="RowReverse"
             alignItems="Start"
         >
+       
             <Button
                 icon="sap-icon://cause"
                 id="idV2BtnGenerate"
                 text="{i18nV2>view2.flexBox.button.Generate}"
                 press="onGenerate"
                 type="Attention"
+                visible="{GlobalModel>/Editable}"
             />
             <Button
                 id="idV2BtnAdd"
@@ -137,6 +139,20 @@
                         />
                     </Column>
                     <Column
+                        id="idV2TblClmQlt"
+                        minScreenWidth="Desktop"
+                        demandPopin="true"
+                        hAlign="Center"
+                        width="10rem"
+                    >
+                        <Text
+                            id="idV2TxtTblClmQlt"
+                            text="{i18nV2>view2.table.column.text.quality}"
+                        />
+                    </Column>
+
+
+                    <Column
                         id="idV2TblClmExFac"
                         minScreenWidth="Desktop"
                         demandPopin="true"
@@ -250,18 +266,7 @@
                         />
                     </Column>
 
-                    <Column
-                        id="idV2TblClmQlt"
-                        minScreenWidth="Desktop"
-                        demandPopin="true"
-                        hAlign="Center"
-                        width="10rem"
-                    >
-                        <Text
-                            id="idV2TxtTblClmQlt"
-                            text="{i18nV2>view2.table.column.text.quality}"
-                        />
-                    </Column>
+
                     <Column
                         id="idV2TblClmPart"
                         minScreenWidth="Desktop"
@@ -382,6 +387,20 @@
                                  value="{JSONModelPayload>TotalVol}"
                                  editable="{GlobalModel>/Editable}"
                             />
+                           
+                            <Select
+                               
+                                forceSelection="false"
+                                items="{LocalJSONModels>/quality}"
+                                selectedKey="{JSONModelPayload>Zzprodh4}"
+                                editable="{GlobalModel>/Editable}"
+                            >
+                                <core:Item
+                                    id="idV2TblCLISLItemQuality"
+                                    key="{LocalJSONModels>key}"
+                                    text="{LocalJSONModels>text}"
+                                />
+                            </Select>
 
                             <Input
                                 id="idV2TblCLIInpExFac"
@@ -456,19 +475,6 @@
                             value="{JSONModelPayload>Complanprice}"
                             editable="{GlobalModel>/Editable}"/>
 
-                            <Select
-                               
-                                forceSelection="false"
-                                items="{LocalJSONModels>/quality}"
-                                selectedKey="{JSONModelPayload>Zzprodh4}"
-                                editable="{GlobalModel>/Editable}"
-                            >
-                                <core:Item
-                                    id="idV2TblCLISLItemQuality"
-                                    key="{LocalJSONModels>key}"
-                                    text="{LocalJSONModels>text}"
-                                />
-                            </Select>
 
                             <Select
                                 
@@ -487,7 +493,7 @@
                             <Input
                                 id="idV2TblCLIInpLanded"
                                 editable="false"
-                                value="{JSONModelPayload>LandedPrice}"
+                                value="{JSONModelPayload>LandedPriceSqft}"
 
                                 
                             />

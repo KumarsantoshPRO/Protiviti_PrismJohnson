@@ -1,7 +1,7 @@
 <core:FragmentDefinition
     xmlns="sap.m"
     xmlns:core="sap.ui.core"
-      xmlns:tnt="sap.tnt"
+    xmlns:tnt="sap.tnt"
 >
     <IconTabBar
         id="id.main.IconTabBar"
@@ -53,6 +53,16 @@
             />
         </items>
         <content>
+         <HBox id="idHBox" alignContent="Center" alignItems="Center">
+            <Label id="idSearchOrderNumberLabel" design="Bold" text="Search Order Number: "/>
+                <Input
+                id="id.orderNumber.Input"
+                    placeholder="Enter Order Number"
+                    submit="onOrderNumber"
+                    liveChange="onOrderNumber"
+                   
+                />
+            </HBox>
             <Table
                 id="id.main.Products.Table"
                 alternateRowColors="true"
@@ -71,7 +81,9 @@
                                 text="{i18n.main>main.table.title}"
                                 level="H2"
                             />
+
                             <ToolbarSpacer id="id.main.TblTS" />
+
                             <Button
                                 id="id.main.TblBtnNew"
                                 icon="sap-icon://add"
@@ -235,10 +247,10 @@
                                 text="{ModelForTable>Disc}"
                             /> -->
                             <tnt:InfoLabel
-                                        text="{ parts: ['ModelForTable>Status', 'ModelForTable>Erdat'], formatter: 'sap.formatter.getStatus' }"
-                                        renderMode="Loose"
-                                        colorScheme="{ parts: ['ModelForTable>Status'], formatter: 'sap.formatter.getStatusColor' }"
-                                    />
+                                text="{ parts: ['ModelForTable>Status', 'ModelForTable>Erdat'], formatter: 'sap.formatter.getStatus' }"
+                                renderMode="Loose"
+                                colorScheme="{ parts: ['ModelForTable>Status'], formatter: 'sap.formatter.getStatusColor' }"
+                            />
                         </cells>
                     </ColumnListItem>
                 </items>

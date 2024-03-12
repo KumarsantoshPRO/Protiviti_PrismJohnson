@@ -15,7 +15,7 @@ sap.ui.define([
 
             onInit: function () {
                 this.getOwnerComponent().getRouter().attachRoutePatternMatched(this._onRouteMatched, this);
-              
+
             },
             _onRouteMatched: function (oEvent) {
                 var sID = oEvent.getParameter("arguments").ID;
@@ -57,24 +57,24 @@ sap.ui.define([
                                 for (var i = 0; i < Data.results.length; i++) {
                                     var obj = Data.results[i];
                                     for (var key in obj) {
-                                        if(obj['Erdat']){
-                                        if (key === 'Status') {
-                                            if (obj['Status'] === 'P') {
-                                                var today = new Date();
-                                                if (Math.floor((today - obj['Erdat']) / (1000 * 3600 * 24)) > 10) {
-                                                    obj['Status'] = 'D';   
-                                                    that.aDelayedData.push(obj);
-                                                } else {   
-                                                    that.aPendingData.push(obj);
-                                                }
+                                        if (obj['Erdat']) {
+                                            if (key === 'Status') {
+                                                if (obj['Status'] === 'P') {
+                                                    var today = new Date();
+                                                    if (Math.floor((today - obj['Erdat']) / (1000 * 3600 * 24)) > 10) {
+                                                        obj['Status'] = 'D';
+                                                        that.aDelayedData.push(obj);
+                                                    } else {
+                                                        that.aPendingData.push(obj);
+                                                    }
 
+                                                }
                                             }
                                         }
                                     }
-                                    }
                                 }
                             }
-                            
+
                             switch (sStatusText) {
                                 case "":
                                     that.getView().getModel("modelEditFlag").setProperty("/Editable", false);
@@ -82,7 +82,7 @@ sap.ui.define([
                                     break;
                                 case "P":
                                     that.getView().getModel("modelEditFlag").setProperty("/Editable", true);
-                                    debugger;
+                                    
                                     that.getView().getModel("count").getData().onGoing = that.aPendingData.length;
                                     that.getView().getModel("count").getData().Delayed = that.aDelayedData.length;
                                     break;
@@ -95,7 +95,7 @@ sap.ui.define([
                                     that.getView().getModel("count").getData().Rejected = Data.results.length;
                                     break;
                                 case "D":
-                                    debugger;
+                                    
                                     that.getView().getModel("modelEditFlag").setProperty("/Editable", true);
                                     that.getView().getModel("count").getData().Delayed = that.aDelayedData.length;
                                     break;
@@ -105,14 +105,14 @@ sap.ui.define([
                             }
                         } else {
                             var dataTableModel;
-                            if(sForWhat === 'tableData' && sStatusText === 'P'){
+                            if (sForWhat === 'tableData' && sStatusText === 'P') {
                                 dataTableModel = that.aPendingData;
-                            }else if(sForWhat === 'tableData' && sStatusText === 'D'){
+                            } else if (sForWhat === 'tableData' && sStatusText === 'D') {
                                 dataTableModel = that.aDelayedData;
-                            }else{
+                            } else {
                                 dataTableModel = Data.results;
                             }
-                           
+
                             that.getView().setModel(new JSONModel(dataTableModel), "ModelForTable");
                         }
                         that.getView().getModel("count").refresh(true);
@@ -139,6 +139,20 @@ sap.ui.define([
 
             },
 
+            onOrderNumber: function (oEvent) {       
+                var vValue = oEvent.getParameter('value');
+                var filter = new sap.ui.model.Filter({
+                    path: 'Pafno',
+                    operator: sap.ui.model.FilterOperator.Contains,
+                    value1: vValue
+                });
+                var oTable = this.byId(sap.ui.core.Fragment.createId("id.tableProductDetails.Fragment", "id.main.Products.Table"));
+
+                oTable.getBinding("items").filter(filter);
+                oTable.setShowOverlay(false);
+
+            },
+
             onNewPress: function () {
                 this.oRouter = this.getOwnerComponent().getRouter();
                 this.oRouter.navTo("page2",
@@ -162,15 +176,16 @@ sap.ui.define([
             },
 
             onFilterSelect: function (oEvent) {
+                this.byId(sap.ui.core.Fragment.createId("id.tableProductDetails.Fragment","id.orderNumber.Input")).setValue("");
                 var sKey = oEvent.getParameter("key");
                 if (sKey === "All") {
                     this._getRequestData("", "tableData");
                     this.getView().getModel("modelEditFlag").setProperty("/Editable", false);
-                } 
+                }
                 else if (sKey === "Delay") {
                     this._getRequestData("D", "tableData");
                     this.getView().getModel("modelEditFlag").setProperty("/Editable", true);
-                }else if (sKey === "OnGoing") {
+                } else if (sKey === "OnGoing") {
                     this._getRequestData("P", "tableData");
                     this.getView().getModel("modelEditFlag").setProperty("/Editable", true);
                 } else if (sKey === "Approved") {
@@ -179,7 +194,7 @@ sap.ui.define([
                 } else if (sKey === "Rejected") {
                     this._getRequestData("R", "tableData");
                     this.getView().getModel("modelEditFlag").setProperty("/Editable", false);
-                } 
+                }
 
             },
 

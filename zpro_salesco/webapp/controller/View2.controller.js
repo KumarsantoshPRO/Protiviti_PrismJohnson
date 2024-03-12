@@ -12,12 +12,14 @@ sap.ui.define([
     'sap/m/Popover',
     'sap/m/MessageBox',
     'zpj/pro/sk/sd/salescoordinator/zprosalesco/utils/View2/valueHelps',
-    'zpj/pro/sk/sd/salescoordinator/zprosalesco/utils/View2/validation'
+    'zpj/pro/sk/sd/salescoordinator/zprosalesco/utils/View2/validation',
+    "sap/m/PDFViewer",
+    'sap/ui/core/Fragment'
 ],
     /**
      * @param {typeof sap.ui.core.mvc.Controller} Controller
      */
-    function (Controller, JSONModel, IconPool, Icon, Link, MessageItem, MessageView, Button, Bar, Title, Popover, MessageBox, valueHelps, validation) {
+    function (Controller, JSONModel, IconPool, Icon, Link, MessageItem, MessageView, Button, Bar, Title, Popover, MessageBox, valueHelps, validation, PDFViewer, Fragment) {
         "use strict";
 
         return Controller.extend("zpj.pro.sk.sd.salescoordinator.zprosalesco.controller.View2", {
@@ -52,6 +54,9 @@ sap.ui.define([
                 oUploadSet.getDefaultFileUploader().setTooltip("");
                 oUploadSet.getDefaultFileUploader().setIconOnly(true);
                 oUploadSet.getDefaultFileUploader().setIcon("sap-icon://attachment");
+
+                this.opdfViewer = new PDFViewer();
+                this.getView().addDependent(this.opdfViewer);
                 // oUploadSet.attachUploadCompleted(this.onUploadCompleted.bind(this));
                 //End: Attachment
                 // End: Santosh Changes
@@ -69,7 +74,7 @@ sap.ui.define([
 
                 if (sID === "null" || sID === undefined) {
 
-                    this.getView().getModel("GlobalModel").setProperty("/Editable", false);
+                    this.getView().getModel("GlobalModel").setProperty("/Editable", true);
                     this.getView().byId("idV2OPSubAttach").setVisible(true);
                     //Start: Santosh changes
                     // payload for OData service
@@ -97,14 +102,14 @@ sap.ui.define([
                         },
                         success: function (Data) {
 
-                            that.byId(sap.ui.core.Fragment.createId("idV2FragGenInfo", "idV2InpValidity")).setValue(Data.Validity.replace(/^0+/, ''));
+                            // that.byId(sap.ui.core.Fragment.createId("idV2FragGenInfo", "idV2InpValidity")).setValue(Data.Validity.replace(/^0+/, ''));
                             if (Data.Status === 'P' || Data.Status === 'D') {
                                 that.getView().byId("idV2BtnEdit").setVisible(true);
                             } else {
                                 that.getView().byId("idV2BtnEdit").setVisible(false);
                             }
 
-
+                            Data.Validity = Data.Validity.replace(/^0+/, '');
                             that.getView().setModel(new JSONModel(Data), "JSONModelPayload");
 
                             //Start: logic working 
@@ -171,7 +176,7 @@ sap.ui.define([
                             var attachments = Data;
                             that.getView().getModel("LocalJSONModelForAttachment").setData({ "attachments": attachments });
                             that.getView().getModel("LocalJSONModelForAttachment").refresh(true);
-                            debugger;
+
                             // that.byId(sap.ui.core.Fragment.createId("idV2FragAttach", "idV2UploadSet")).getModel("LocalJSONModelForAttachment")
                         },
                         error: function (oError) {
@@ -395,7 +400,7 @@ sap.ui.define([
                     var oFilterDomname = new sap.ui.model.Filter([new sap.ui.model.Filter("Domname", sap.ui.model.FilterOperator.EQ, "TVKBZ")], false);
                 }
                 else if (evt.getParameter('id') === 'idSDMaterialFreightGroupsF4') {
-                    debugger;
+
                     var Division = this.getView().getModel("JSONModelPayload").getProperty("/Spart");
                     var oFilterDomname = new sap.ui.model.Filter([new sap.ui.model.Filter("Domname", sap.ui.model.FilterOperator.EQ, "ZPRICECAT")], false);
                     var oFilterDomname2 = new sap.ui.model.Filter([new sap.ui.model.Filter("Domname2", sap.ui.model.FilterOperator.EQ, Division)], false);
@@ -406,7 +411,7 @@ sap.ui.define([
                 } else if (evt.getParameter('id') === 'idSDSupplyingPlantF4') {
                     var oFilterDomname = new sap.ui.model.Filter([new sap.ui.model.Filter("Domname", sap.ui.model.FilterOperator.EQ, "T001W")], false);
                 } else if (evt.getParameter('id') === 'idSDManufacturingAmountF4') {
-                    var oFilterDomname = new sap.ui.model.Filter([new sap.ui.model.Filter("Domname", sap.ui.model.FilterOperator.EQ, "T001W")], false);
+                    var oFilterDomname = new sap.ui.model.Filter([new sap.ui.model.Filter("Domname", sap.ui.model.FilterOperator.EQ, "T179")], false);
                 }
 
 
@@ -425,7 +430,7 @@ sap.ui.define([
             onMaterialFreightGroupsHelpConfirm: function (oEvent) {
                 var oSelectedItem = oEvent.getParameter("selectedItem");
                 var sSelectedValue = oSelectedItem.getProperty("title");
-                debugger;
+
                 var aModelData = this.getView().getModel("JSONModelPayload").getProperty("/ET_SALES_COORD_ISET/results");
                 var bindingContextPathMFG = this.bindingContextPath + "/Mfrgr";
                 var bindingContextPathSize = this.bindingContextPath + "/Szmm";
@@ -558,7 +563,7 @@ sap.ui.define([
                                     that.getView().getModel("ZFILE_UPLOAD_SRV_01").create(sPathUpload, _attachmentPayload, {
                                         async: false,
                                         success: function (Data) {
-                                            MessageBox.success("Request saved successfully with PAF Number:" + oData.Pafno + "", {
+                                            MessageBox.success("Request saved successfully with PAF Number:" + oData.Pafno.replace(/^0+/, '') + "", {
                                                 actions: [sap.m.MessageBox.Action.OK],
                                                 onClose: function (oAction) {
                                                     window.location.reload();
@@ -711,17 +716,23 @@ sap.ui.define([
             },
             updateFile: function (fileName, fileType, vContent) {
 
-                var decodedPdfContent
-                var blob
+                var decodedPdfContent,
+                    blob,
+                    vStatus = 1;
+
                 if (fileType === 'image/jpeg') {
                     decodedPdfContent = atob(vContent.split('data:image/jpeg;base64,')[1]);
+                    vStatus = 1;
                 }
-
                 else if (fileType === 'image/png') {
                     decodedPdfContent = atob(vContent.split('data:image/png;base64,')[1]);
+                    vStatus = 1
                 }
                 else if (fileType === 'application/pdf') {
                     decodedPdfContent = atob(vContent.split('data:application/pdf;base64,')[1]);
+                    vStatus = 1
+                } else {
+                    vStatus = 0;
                 }
 
 
@@ -764,7 +775,78 @@ sap.ui.define([
             },
             onViewAttachmentObjectStatusPress: function (oEvent) {
                 debugger;
+                var sFile = oEvent.getSource().getParent().getProperty("thumbnailUrl"),
+                    sFileName = oEvent.getSource().getParent().getProperty("fileName"),
+                    oButton = oEvent.getSource();
+
+                var _imageSrc = { "ZRFILE": sFile, "ZRFNAME": sFileName };
+                var oModelForImage = new sap.ui.model.json.JSONModel(_imageSrc);
+                this.getView().setModel(oModelForImage, "oModelForImage");
+
+                if (sFile.includes('PDF') || sFile.includes('pdf')) {
+                    var fileName = sFileName
+
+                    var decodedPdfContent = atob(sFile.split('data:application/pdf;base64,')[1]);
+                    var byteArray = new Uint8Array(decodedPdfContent.length)
+                    for (var i = 0; i < decodedPdfContent.length; i++) {
+                        byteArray[i] = decodedPdfContent.charCodeAt(i);
+                    }
+                    var blob = new Blob([byteArray.buffer], {
+                        type: 'application/pdf'
+                    });
+                    var _pdfurl = URL.createObjectURL(blob);
+                    jQuery.sap.addUrlWhitelist("blob");
+                    this.opdfViewer.setSource(_pdfurl);
+                    this.opdfViewer.setTitle(fileName);
+                    this.opdfViewer.open();
+                } else {
+                    if (this.oPopover) {
+                        this.oPopover.destroy();
+                        delete this._pPopover;
+                    }
+
+                    // create popover for image
+                    if (!this._pPopover) {
+                        this._pPopover = Fragment.load({
+                            id: this.getView().getId(),
+                            name: "zpj.pro.sk.sd.salescoordinator.zprosalesco.view.fragments.View2.imagePopover",
+                            controller: this
+                        }).then(function (oPopover) {
+                            return oPopover;
+                            oPopover.setModel(oModelForImage);
+                        });
+                    }
+                    this._pPopover.then(function (oPopover) {
+                        oPopover.openBy(oButton);
+
+                        oPopover.getAggregation("content")[0].setSrc(_imageSrc.ZRFILE);
+                        this.oPopover = oPopover;
+                    }.bind(this));
+                }
+
+            },
+            handleClose: function (oEvent) {
+                oEvent.getSource().getParent().getParent().destroy();
+            },
+            imageDownload: function (oEvent) {
+                const sURL = this.getView().getModel("oModelForImage").getData().ZRFILE;
+                const imageName = this.getView().getModel("oModelForImage").getData().ZRFNAME;
+                // const imageName = "this.vImageName";
+                fetch(sURL)
+                    .then((oResponse) => oResponse.blob())
+                    .then((oBlob) => {
+                        const sBlobURL = URL.createObjectURL(oBlob);
+                        const oLink = document.createElement('a');
+                        oLink.href = sBlobURL;
+                        oLink.download = imageName;
+                        oLink.target = '_blank';
+                        document.body.appendChild(oLink);
+                        oLink.click();
+                        document.body.removeChild(oLink);
+                    });
+                oEvent.getSource().getParent().getParent().destroy()
             }
+
             //End: Santosh Changes
 
         });

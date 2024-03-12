@@ -78,12 +78,12 @@
                 title="{i18nV2>view2.sections.attachments.title}"
            
             >
+                  <!-- Attachment -->
                 <uxap:subSections>
                     <uxap:ObjectPageSubSection
                         id="idV2OPSubAttach"
                         title="{i18nV2>view2.sections.attachments.title}"
                         titleUppercase="true"
-                        visible="{GlobalModel>/Editable}"
                     >
                         <uxap:blocks>
                             <core:Fragment
@@ -101,6 +101,7 @@
                 title="{i18nV2>view2.sections.sumDetails.title}"
                 visible="{GlobalModel>/Editable}"
             >
+            <!-- Summary Detail -->
                 <uxap:subSections>
                     <uxap:ObjectPageSubSection
                         id="idV2OPSubSumDetail"
