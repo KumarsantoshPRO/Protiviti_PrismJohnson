@@ -6,7 +6,7 @@ sap.ui.define(['sap/m/MessageBox'], function (MessageBox) {
         "Mvgr2": "Designs",
         "Werks": "Supplying Plant",
         "Prodh1": "Manufacturing Plant",
-        "CurrentVol": "Current Volume (Sqft)",
+        "CurVolFt": "Current Volume (Sqft)",
         "TotalVol": "Total Volume (Sqft)",
         "Exfac": "Ex Factory (SqFt)",
         "Disc": "On-Invoice discount per SqFt",
@@ -20,7 +20,7 @@ sap.ui.define(['sap/m/MessageBox'], function (MessageBox) {
         // "": "Competitor receipt",
         "Zzprodh4": "Quality",
         "Mvgr5": "Part A/B",
-        "LandedPrice": "Landed",
+        "LandedPriceSqft": "Landed",
         "Nef": "Net Ex factory(NEF)"
     };
     var oHeadeFieldsNIds = {
@@ -126,7 +126,7 @@ sap.ui.define(['sap/m/MessageBox'], function (MessageBox) {
             for (var j = 0; j < oTable.getAggregation("items").length; j++) {
                 for (let k = 0; k < oTable.getAggregation("items")[0].getAggregation("cells").length; k++) {
 
-                    if (k === 16 || k === 17) {
+                    if (k === 7 || k === 17) {
                         if (oTable.getAggregation("items")[j].getAggregation("cells")[k].getSelectedKey() === '') {
                             oTable.getAggregation("items")[j].getAggregation("cells")[k].setValueState("Error")
                         }else {
@@ -160,7 +160,7 @@ sap.ui.define(['sap/m/MessageBox'], function (MessageBox) {
                     this.itemsErrorMessage('Mvgr2', vLine, sAction); }
                 else if (aData[i].Werks === '') { this.itemsErrorMessage('Werks', vLine, sAction); }
                 else if (aData[i].Prodh1 === '') { this.itemsErrorMessage('Prodh1', vLine, sAction); }
-                else if (aData[i].CurrentVol === '') { this.itemsErrorMessage('CurrentVol', vLine, sAction); }
+                else if (aData[i].CurVolFt === '') { this.itemsErrorMessage('CurVolFt', vLine, sAction); }
                 else if (aData[i].TotalVol === '') { this.itemsErrorMessage('TotalVol', vLine, sAction); }
                 else if (aData[i].Exfac === '') { this.itemsErrorMessage('Exfac', vLine, sAction); }
                 else if (aData[i].Disc === '') { this.itemsErrorMessage('Disc', vLine, sAction); }
@@ -175,7 +175,7 @@ sap.ui.define(['sap/m/MessageBox'], function (MessageBox) {
 
                 else if (aData[i].Zzprodh4 === '') { this.itemsErrorMessage('Zzprodh4', vLine, sAction); }
                 else if (aData[i].Mvgr5 === '') { this.itemsErrorMessage('Mvgr5', vLine, sAction); }
-                else if (aData[i].LandedPrice === '') { this.itemsErrorMessage('LandedPrice', vLine, sAction); }
+                else if (aData[i].LandedPriceSqft === '') { this.itemsErrorMessage('LandedPriceSqft', vLine, sAction); }
                 else if (aData[i].Nef === '') { this.itemsErrorMessage('Nef', vLine, sAction); }
                 else { return 1; }
             }

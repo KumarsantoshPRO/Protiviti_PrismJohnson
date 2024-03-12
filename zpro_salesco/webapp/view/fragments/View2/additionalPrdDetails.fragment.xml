@@ -376,7 +376,7 @@
                                 id="idV2TblCLIInpCurVol"
                                 maxLength="10"
                                 liveChange="onNumberValidation"
-                                value="{JSONModelPayload>CurrentVol}"
+                                value="{JSONModelPayload>CurVolFt}"
                                 editable="{GlobalModel>/Editable}"
                             />
 

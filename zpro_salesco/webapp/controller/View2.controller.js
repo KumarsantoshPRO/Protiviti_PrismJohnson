@@ -318,22 +318,26 @@ sap.ui.define([
 
                 // var oTable = oEvent.getSource().getParent().getParent();
                 // oTable.removeItem(oEvent.getSource().getParent());
-                var index = Number(oEvent.getSource().getId().split("-")[8]);
+                var vLen = oEvent.getSource().getParent().getBindingContextPath().split("/").length
+             
+                var index = Number( oEvent.getSource().getParent().getBindingContextPath().split("/")[vLen -1]);
+ 
                 var JSONData = this.getView().getModel("JSONModelPayload").getData();
-                if (JSONData.items) {
-                    if (JSONData.items.length > 1) {
-                        JSONData.items.splice(index, 1);
-                    } else {
-                        MessageBox.error("Atlease one entry is required");
-                    }
+                // if (JSONData.items) {
+                //     if (JSONData.items.length > 1) {
+                //         JSONData.items.splice(index, 1);
+                //     } else {
+                //         MessageBox.error("Atlease one entry is required");
+                //     }
 
-                } else {
+                // } else {
+                // }
                     if (JSONData.ET_SALES_COORD_ISET.results.length > 1) {
                         JSONData.ET_SALES_COORD_ISET.results.splice(index, 1);
                     } else {
                         MessageBox.error("Atlease one entry is required");
                     }
-                }
+               
                 this.getView().getModel("JSONModelPayload").setData(JSON.parse(JSON.stringify(JSONData)));
 
                 // this.getView().getModel("oRequestModel").getData().splice(index, 1);;
