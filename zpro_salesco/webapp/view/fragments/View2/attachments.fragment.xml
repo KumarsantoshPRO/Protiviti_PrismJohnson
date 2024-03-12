@@ -46,7 +46,7 @@
                 <upload:statuses>
                     <ObjectStatus
                         id="idV2OS"
-                        title="{LocalJSONModelForAttachment>Pafno}"
+                        title="PAF NO - {path:'LocalJSONModelForAttachment>Pafno',  formatter:'sap.formatter.removeLeadingZeros'}"
                         text="View attachment"
                         press="onViewAttachmentObjectStatusPress"
                         icon=""
