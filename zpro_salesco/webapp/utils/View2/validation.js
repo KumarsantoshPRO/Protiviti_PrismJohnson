@@ -41,7 +41,7 @@ sap.ui.define(['sap/m/MessageBox'], function (MessageBox) {
         headerPayloadValidation: function (oControl) {
 
             var oResourceModel = oControl.getView().getModel("i18nV2").getResourceBundle();
-          
+
             if (!oControl.getView().getModel("JSONModelPayload").getData().Kunnr) {
                 MessageBox.error("Please enter " + oResourceModel.getText("view2.simpleForm.label.custCode"));
                 this.headerPayloadState(oControl, "Kunnr");
@@ -58,16 +58,17 @@ sap.ui.define(['sap/m/MessageBox'], function (MessageBox) {
             //  if(!oControl.getView().getModel("JSONModelPayload").getData().ACTION){
             //     MessageBox.error(" ");
             // }
-            else if (!oControl.getView().getModel("JSONModelPayload").getData().Zterm) {
-                MessageBox.error("Please select " + oResourceModel.getText("view2.simpleForm.label.payTerm"));
-                this.headerPayloadState(oControl, "Zterm");
-                return 0;
-            } else if (!oControl.getView().getModel("JSONModelPayload").getData().Validity) {
+            // else if (!oControl.getView().getModel("JSONModelPayload").getData().Zterm) {
+            //     MessageBox.error("Please select " + oResourceModel.getText("view2.simpleForm.label.payTerm"));
+            //     this.headerPayloadState(oControl, "Zterm");
+            //     return 0;
+            // } 
+            else if (!oControl.getView().getModel("JSONModelPayload").getData().Validity) {
                 debugger;
                 MessageBox.error("Please enter " + oResourceModel.getText("view2.simpleForm.label.validity"));
                 this.headerPayloadState(oControl, "Validity");
                 return 0;
-            } 
+            }
             // else if (!oControl.getView().getModel("JSONModelPayload").getData().Aufnr) {
             //     MessageBox.error("Please enter " + oResourceModel.getText("view2.simpleForm.label.ordNo"));
             //     this.headerPayloadState(oControl, "Aufnr");
@@ -126,14 +127,16 @@ sap.ui.define(['sap/m/MessageBox'], function (MessageBox) {
             for (var j = 0; j < oTable.getAggregation("items").length; j++) {
                 for (let k = 0; k < oTable.getAggregation("items")[0].getAggregation("cells").length; k++) {
 
-                    if (k === 7 || k === 17) {
+
+                    if (k === 20 || k === 12 || k === 13 || k === 14 || k === 15 || k === 16) {
+                        // Non mandatory items
+                    } else if (k === 7 || k === 17) {
+                        // Select
                         if (oTable.getAggregation("items")[j].getAggregation("cells")[k].getSelectedKey() === '') {
                             oTable.getAggregation("items")[j].getAggregation("cells")[k].setValueState("Error")
-                        }else {
+                        } else {
                             oTable.getAggregation("items")[j].getAggregation("cells")[k].setValueState("None")
                         }
-
-                    } else if (k === 20) {
 
                     }
                     else {
@@ -153,11 +156,13 @@ sap.ui.define(['sap/m/MessageBox'], function (MessageBox) {
 
                 if (aData[i].Mfrgr === '') { this.itemsErrorMessage('Mfrgr', vLine, sAction); }
                 else if (aData[i].Szmm === '') {
-                     
-                    this.itemsErrorMessage('Szmm', vLine, sAction); }
-                else if (aData[i].Mvgr2 === '') { 
-                    
-                    this.itemsErrorMessage('Mvgr2', vLine, sAction); }
+
+                    this.itemsErrorMessage('Szmm', vLine, sAction);
+                }
+                else if (aData[i].Mvgr2 === '') {
+
+                    this.itemsErrorMessage('Mvgr2', vLine, sAction);
+                }
                 else if (aData[i].Werks === '') { this.itemsErrorMessage('Werks', vLine, sAction); }
                 else if (aData[i].Prodh1 === '') { this.itemsErrorMessage('Prodh1', vLine, sAction); }
                 else if (aData[i].CurVolFt === '') { this.itemsErrorMessage('CurVolFt', vLine, sAction); }
@@ -166,8 +171,8 @@ sap.ui.define(['sap/m/MessageBox'], function (MessageBox) {
                 else if (aData[i].Disc === '') { this.itemsErrorMessage('Disc', vLine, sAction); }
                 else if (aData[i].Schemedisc === '') { this.itemsErrorMessage('Schemedisc', vLine, sAction); }
                 else if (aData[i].SchemediscPer === '') { this.itemsErrorMessage('SchemediscPer', vLine, sAction); }
-                else if (aData[i].Frgtbx === '') { this.itemsErrorMessage('Frgtbx', vLine, sAction); }
 
+                // else if (aData[i].Frgtbx === '') { this.itemsErrorMessage('Frgtbx', vLine, sAction); }
                 // else if (aData[i].Commbox === '') { this.itemsErrorMessage('Commbox', vLine, sAction); }
                 // else if (aData[i].Commboxp === '') { this.itemsErrorMessage('Commboxp', vLine, sAction); }
                 // else if (aData[i].Compname === '') { this.itemsErrorMessage('Compname', vLine, sAction); }
@@ -183,7 +188,7 @@ sap.ui.define(['sap/m/MessageBox'], function (MessageBox) {
 
         },
         itemsErrorMessage: function (vColumnKey, vLine, sAction) {
-            
+
             MessageBox.error('Please enter "' + oItemFieldsNColumnHeaders[vColumnKey] + '" at line number:' + vLine + ' ,before ' + sAction + '');
             return 0;
         },

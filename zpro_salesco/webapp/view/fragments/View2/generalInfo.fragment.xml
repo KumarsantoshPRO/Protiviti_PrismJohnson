@@ -49,10 +49,31 @@
                 editable="false"
 
             />
+                                <Label
+                id="idV2LblDistChnl"
+                text="{i18nV2>view2.simpleForm.label.distChnl}"
+                required="true"
+            />
+            <Select
+                id="idV2SLDistChannel"
+                forceSelection="false"
+                items="{LocalJSONModels>/distributonChannel}"
+                selectedKey="{JSONModelPayload>/Vtweg}"
+                change="onDistributionChannelChange"
+                valueStateText="Select {i18nV2>view2.simpleForm.label.distChnl}"
+                editable="{GlobalModel>/Editable}"
+              
+            >
+                <core:Item
+                    id="idV2SLItemDistChannel"
+                    key="{LocalJSONModels>key}"
+                    text="{LocalJSONModels>text}"
+                />
+            </Select>
             <Label
                 id="idV2LblPayTerm"
                 text="{i18nV2>view2.simpleForm.label.payTerm}"
-                required="true"
+                
             />
             <Select
                 id="idV2SLPaymentTerm"
@@ -61,6 +82,7 @@
                 selectedKey="{JSONModelPayload>/Zterm}"
                 valueStateText="Select {i18nV2>view2.simpleForm.label.payTerm}"
                 editable="{GlobalModel>/Editable}"
+                change="onPaymentTermsSelectChange"
             >
                 <core:Item
                     id="idV2SLItemPayTerm"
@@ -68,6 +90,7 @@
                     text="{LocalJSONModels>text}"
                 />
             </Select>
+   
             <Label
                 id="idV2LblValidity"
                 text="{i18nV2>view2.simpleForm.label.validity}"
@@ -82,17 +105,7 @@
                 editable="{GlobalModel>/Editable}"
             />
 
-            <Label
-                id="idV2LblOrdNo"
-                text="{i18nV2>view2.simpleForm.label.ordNo}"
-            />
-            <Input
-                id="idV2InpOrderNo"
-                placeholder="{i18nV2>view2.simpleForm.label.ordNo}"
-                valueStateText="Enter {i18nV2>view2.simpleForm.label.ordNo}"
-                value="{JSONModelPayload>/Aufnr}"
-                editable="{GlobalModel>/Editable}"
-            />
+
             <!-- <Label
                 id="idV2LblValidDay"
                 text="{i18nV2>view2.simpleForm.label.validDays}"
@@ -105,26 +118,17 @@
             /> -->
 
             <core:Title id="idV2T2" />
-            <Label
-                id="idV2LblDistChnl"
-                text="{i18nV2>view2.simpleForm.label.distChnl}"
-                required="true"
+             <Label
+                id="idV2LblOrdNo"
+                text="{i18nV2>view2.simpleForm.label.ordNo}"
             />
-            <Select
-                id="idV2SLDistChannel"
-                forceSelection="false"
-                items="{LocalJSONModels>/distributonChannel}"
-                selectedKey="{JSONModelPayload>/Vtweg}"
-                change="onDistributionChannelChange"
-                valueStateText="Select {i18nV2>view2.simpleForm.label.distChnl}"
+            <Input
+                id="idV2InpOrderNo"
+                placeholder="{i18nV2>view2.simpleForm.label.ordNo}"
+                valueStateText="Enter {i18nV2>view2.simpleForm.label.ordNo}"
+                value="{JSONModelPayload>/Aufnr}"
                 editable="{GlobalModel>/Editable}"
-            >
-                <core:Item
-                    id="idV2SLItemDistChannel"
-                    key="{LocalJSONModels>key}"
-                    text="{LocalJSONModels>text}"
-                />
-            </Select>
+            />
             <Label
                 id="idV2LblSalOffice"
                 text="{i18nV2>view2.simpleForm.label.salOffice}"

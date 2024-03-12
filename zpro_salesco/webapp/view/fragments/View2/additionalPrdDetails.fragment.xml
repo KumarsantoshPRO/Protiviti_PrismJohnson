@@ -60,7 +60,7 @@
                         hAlign="Center"
                         width="10rem"
                     >
-                        <Text
+                       <Label required="true"
                             id="idV2TblClmTxtMatFreGrp"
                             text="{i18nV2>view2.table.column.text.matFreGrp}"
                         />
@@ -72,7 +72,7 @@
                         hAlign="Center"
                         width="10rem"
                     >
-                        <Text
+                       <Label 
                             id="idV2TblClmTxtSize"
                             text="{i18nV2>view2.table.column.text.size}"
                         />
@@ -84,7 +84,7 @@
                         hAlign="Center"
                         width="10rem"
                     >
-                        <Text
+                       <Label required="true"
                             id="idV2TxtTblClmDesign"
                             text="{i18nV2>view2.table.column.text.designs}"
                         />
@@ -96,7 +96,7 @@
                         hAlign="Center"
                         width="10rem"
                     >
-                        <Text
+                       <Label required="true"
                             id="idV2TxtTblClmSupp"
                             text="{i18nV2>view2.table.column.text.suppPlant}"
                         />
@@ -108,7 +108,7 @@
                         hAlign="Center"
                         width="10rem"
                     >
-                        <Text
+                       <Label required="true"
                             id="idV2TxtTblClmPlant"
                             text="{i18nV2>view2.table.column.text.manPlant}"
                         />
@@ -121,7 +121,7 @@
                         hAlign="Center"
                         width="10rem"
                     >
-                        <Text
+                       <Label required="true"
                             id="idV2TxtTblClmCurVol"
                             text="{i18nV2>view2.table.column.text.currVol}"
                         />
@@ -133,7 +133,7 @@
                         hAlign="Center"
                         width="10rem"
                     >
-                        <Text
+                       <Label required="true"
                             id="idV2TxtTblClmTotVol"
                             text="{i18nV2>view2.table.column.text.totVol}"
                         />
@@ -145,7 +145,7 @@
                         hAlign="Center"
                         width="10rem"
                     >
-                        <Text
+                       <Label required="true"
                             id="idV2TxtTblClmQlt"
                             text="{i18nV2>view2.table.column.text.quality}"
                         />
@@ -159,7 +159,7 @@
                         hAlign="Center"
                         width="10rem"
                     >
-                        <Text
+                       <Label 
                             id="idV2TxtTblClmExFac"
                             text='{=${JSONModelPayload>/Exdepsqft} === "0.00"?${i18nV2>view2.table.column.text.exFac}:${i18nV2>view2.table.column.text.exDep}}'
                            
@@ -173,7 +173,9 @@
                         hAlign="Center"
                         width="10rem"
                     >
-                        <Text
+                       <Label required="true"
+                       wrapping = "true"
+ 
                             id="idV2TxtTblClmDisPer"
                             text="{=${JSONModelPayload>/VTWEG} === '19'? ${i18nV2>view2.table.column.text.onIncDisountPercentage}:${i18nV2>view2.table.column.text.onIncDisountAmount}}"
                         />
@@ -184,9 +186,10 @@
                         demandPopin="true"
                         hAlign="Center"
                         width="10rem"
+                        visible="false"
                        
                     >
-                        <Text
+                       <Label required="true"
                             id="idV2TxtTblClmSchDis"
                             text="{i18nV2>view2.table.column.text.schDisountAmount}"
                         />
@@ -199,7 +202,7 @@
                         width="10rem"
                          visible="false"
                     >
-                        <Text
+                       <Label required="true"
                             id="idV2TxtTblClmScm"
                             text="{i18nV2>view2.table.column.text.schDisountPercentage}"
                         />
@@ -211,7 +214,7 @@
                         hAlign="Center"
                         width="10rem"
                     >
-                        <Text
+                       <Label
                             id="idV2TxtTblClmORCEnt"
                             text="{i18nV2>view2.table.column.text.orcEntity}"
                         />
@@ -224,7 +227,7 @@
                         hAlign="Center"
                         width="10rem"
                     >
-                        <Text
+                       <Label 
                             id="idV2TxtTblClmORCPer"
                             text="{i18nV2>view2.table.column.text.orcPercentage}"
                         />
@@ -236,7 +239,7 @@
                         hAlign="Center"
                         width="10rem"
                     >
-                        <Text
+                       <Label 
                             id="idV2TxtTblCLmFrei"
                             text="{i18nV2>view2.table.column.text.freight}"
                         />
@@ -248,7 +251,7 @@
                         hAlign="Center"
                         width="10rem"
                     >
-                        <Text
+                       <Label  
                             id="idV2TxtTblClmComp"
                             text="{i18nV2>view2.table.column.text.compName}"
                         />
@@ -260,7 +263,7 @@
                         hAlign="Center"
                         width="10rem"
                     >
-                        <Text
+                       <Label  wrapping="true"
                             id="idV2TxtTblClmLanPrice"
                             text="{i18nV2>view2.table.column.text.compLandPrice}"
                         />
@@ -274,7 +277,7 @@
                         hAlign="Center"
                         width="10rem"
                     >
-                        <Text
+                       <Label required="true"
                             id="idV2TxtTblCLmPart"
                             text="{i18nV2>view2.table.column.text.part}"
                         />
@@ -286,7 +289,7 @@
                         hAlign="Center"
                         width="10rem"
                     >
-                        <Text
+                       <Label 
                             id="idV2TxtTblClmLand"
                             text="{i18nV2>view2.table.column.text.landed}"
                         />
@@ -298,7 +301,7 @@
                         hAlign="Center"
                         width="10rem"
                     >
-                        <Text
+                       <Label 
                             id="idV2TxtTblClmNEF"
                             text="{i18nV2>view2.table.column.text.netExFactory}"
                         />
@@ -312,7 +315,7 @@
                         width="5rem"
                         visible="{GlobalModel>/Editable}"
                     >
-                        <Text
+                       <Label  
                             id="idV2TxtTblClmDel"
                             text="{i18nV2>view2.table.column.text.delete}"
                         />
@@ -429,6 +432,7 @@
                                 liveChange="onNumberValidation"
                                  value="{JSONModelPayload>Schemedisc}"
                                  editable="{GlobalModel>/Editable}"
+                                 visible="false"
                                 
                             />
 
@@ -502,7 +506,7 @@
                                 id="idV2TblCLIInpNEF"
                                 editable="false"
                                 
-                                value="{JSONModelPayload>Nef}"
+                                value="{JSONModelPayload>Nefsqft}"
                             />
 
                             <Button

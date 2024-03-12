@@ -78,7 +78,6 @@ sap.ui.define([
                     this.getView().byId("idV2OPSubAttach").setVisible(true);
                     //Start: Santosh changes
                     // payload for OData service
-
                     var dataModelPayload = this.getOwnerComponent().getModel("payload").getData();
                     dataModelPayload.header.ET_SALES_COORD_ISET.results = [];
                     dataModelPayload.header.ET_SALES_COORD_ISET.results.push(dataModelPayload.item);
@@ -197,6 +196,16 @@ sap.ui.define([
 
             onEdit: function () {
                 this.getView().getModel("GlobalModel").setProperty("/Editable", true);
+            },
+
+            onDistributionChannelChange: function (oEvent) {
+                
+                var vGetSelectedValue = oEvent.getSource().getSelectedKey();
+                if (vGetSelectedValue === "11" || vGetSelectedValue === "17") {
+                    this.byId(sap.ui.core.Fragment.createId("idV2FragGenInfo", "idV2SLPaymentTerm")).setEnabled(false);
+                } else {
+                    this.byId(sap.ui.core.Fragment.createId("idV2FragGenInfo", "idV2SLPaymentTerm")).setEnabled(true);
+                }
             },
 
             onCancel: function () {
@@ -319,9 +328,9 @@ sap.ui.define([
                 // var oTable = oEvent.getSource().getParent().getParent();
                 // oTable.removeItem(oEvent.getSource().getParent());
                 var vLen = oEvent.getSource().getParent().getBindingContextPath().split("/").length
-             
-                var index = Number( oEvent.getSource().getParent().getBindingContextPath().split("/")[vLen -1]);
- 
+
+                var index = Number(oEvent.getSource().getParent().getBindingContextPath().split("/")[vLen - 1]);
+
                 var JSONData = this.getView().getModel("JSONModelPayload").getData();
                 // if (JSONData.items) {
                 //     if (JSONData.items.length > 1) {
@@ -332,12 +341,12 @@ sap.ui.define([
 
                 // } else {
                 // }
-                    if (JSONData.ET_SALES_COORD_ISET.results.length > 1) {
-                        JSONData.ET_SALES_COORD_ISET.results.splice(index, 1);
-                    } else {
-                        MessageBox.error("Atlease one entry is required");
-                    }
-               
+                if (JSONData.ET_SALES_COORD_ISET.results.length > 1) {
+                    JSONData.ET_SALES_COORD_ISET.results.splice(index, 1);
+                } else {
+                    MessageBox.error("Atlease one entry is required");
+                }
+
                 this.getView().getModel("JSONModelPayload").setData(JSON.parse(JSON.stringify(JSONData)));
 
                 // this.getView().getModel("oRequestModel").getData().splice(index, 1);;
@@ -778,7 +787,7 @@ sap.ui.define([
 
             },
             onViewAttachmentObjectStatusPress: function (oEvent) {
-                debugger;
+                
                 var sFile = oEvent.getSource().getParent().getProperty("thumbnailUrl"),
                     sFileName = oEvent.getSource().getParent().getProperty("fileName"),
                     oButton = oEvent.getSource();
