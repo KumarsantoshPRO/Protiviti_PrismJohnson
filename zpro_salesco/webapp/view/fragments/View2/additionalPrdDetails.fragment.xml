@@ -46,6 +46,7 @@
             <Table
                 id="idV2TblProducts"
                 items="{JSONModelPayload>/ET_SALES_COORD_ISET/results}"
+                sticky="ColumnHeaders,HeaderToolbar"
             >
                 <headerToolbar>
                     <Toolbar id="idV2TB">

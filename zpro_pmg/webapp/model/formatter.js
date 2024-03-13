@@ -7,10 +7,10 @@ sap.ui.define([], function () {
             if (sString) {
                 if (Number(sString) < 0) {
                     return (Number(sString) * -1).toString();
-                }else{
+                } else {
                     return sString;
                 }
-            }else{
+            } else {
                 return sString;
             }
         },
@@ -72,7 +72,15 @@ sap.ui.define([], function () {
             return temp;
 
         },
-
+        getColor: function (sString) {
+            if (Number(sString) > 12) {
+                return 8;
+            } else if (Number(sString) > 10 && Number(sString) < 12) {
+                return 1;
+            } else if (Number(sString) < 10) {
+                return 2;
+            }
+        },
 
         getStatusColor: function (status) {
             var colorCode = "";

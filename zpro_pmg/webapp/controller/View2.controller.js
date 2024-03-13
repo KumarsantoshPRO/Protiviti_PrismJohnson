@@ -43,32 +43,98 @@ sap.ui.define([
 
             getRequestDetails: function (pafID) {
                 this.getView().setBusy(true);
-                var filter = new sap.ui.model.Filter({
-                    path: "Pafno",
-                    operator: "EQ",
-                    value1: pafID
-                });
+              var sPath = "/ET_PMG_REQUEST_ITEMSet('"+pafID+"')"
 
-                this.getOwnerComponent().getModel().read("/ET_PMG_REQUEST_ITEMSet", {
-                    filters: [filter],
+              if(pafID.includes('120018') || pafID.includes('120017')){
+                this.getDataWRTPafNo(pafID);
+              }
+
+                this.getOwnerComponent().getModel().read(sPath, {
+                     
                     urlParameters: {
                         "$expand": "NAV_PMG_ITEM_PRODUCT"
                     },
                     success: function (oData) {
                         var oModel = this.getView().getModel("oRequestModel");
-                        oModel.setData(oData.results[0]);
+                        oModel.setData(oData);
                         this.getView().setModel(oModel, "oRequestModel");
 
                         var oPrdModel = this.getView().getModel("ProductModel");
-                        oPrdModel.setData(oData.results[0].NAV_PMG_ITEM_PRODUCT.results);
+                        oPrdModel.setData(oData.NAV_PMG_ITEM_PRODUCT.results);
                         this.getView().setModel(oPrdModel, "ProductModel");
                         this.getView().setBusy(false);
-                        this.getSourceDetails(this.pafID);
+                     
                     }.bind(this),
                     error: function (oError) {
                         this.getView().setBusy(false);
                     }.bind(this)
                 });
+            },
+
+            getDataWRTPafNo: function(pafID){
+                if(pafID.includes('120017')){
+                    var payload = {
+                        "CS_Value": "164.55",
+                        "CS_GrossMargin": "4.05",
+                        "CS_Volume": "4.11",
+                        "CS_GrossMarginPer": "7.2",
+                        "RD_Region": "West 2 ROM",
+                        "RD_Value": "1936.69",
+                        "RD_GrossMargin": "3.09",
+                        "RD_Volume": "59.24 Lakhs",
+                        "RD_GrossMarginPer": "9.3",
+                        "TD_NetExFactory": "25.42",
+                        "TD_FreightSqft": "4.52",
+
+                        "MD_GrossMargin": "15.42",
+                        "MD_BenchMarkGrossMargin": "",
+                        "MD_RecommendedGM": "12",
+                        "MD_RecommendedDis": "",
+                        "MD_TargetEquivalentGMpersqft": "4.07",
+                        "MD_CurrentEquivalentGMpersqft": "3.92",
+                        "MD_EffectOnCurrentEquivalentGMpersqft": "-",
+                        "MD_DiscountPer": "8",
+                        "MD_RecommendedAction": "Accept Transaction",
+                        
+                        "CD_SVC_BP": "21.5 sq ft",
+                        "CD_S_DCost": "0",
+                        "CD_S_DCostPer": ""
+                    };
+                }
+                if(pafID.includes('120018')){
+                    var payload = {
+                        "CS_Value": "164.55",
+                        "CS_GrossMargin": "4.05",
+                        "CS_Volume": "4.11",
+                        "CS_GrossMarginPer": "7.2",
+                        "RD_Region": "West 2 ROM",
+                        "RD_Value": "1936.69",
+                        "RD_GrossMargin": "3.09",
+                        "RD_Volume": "59.24 Lakhs",
+                        "RD_GrossMarginPer": "9.3",
+                        "TD_NetExFactory": "22.66",
+                        "TD_FreightSqft": "4.52",
+
+                        "MD_GrossMargin": "5.12",
+                        "MD_BenchMarkGrossMargin": "",
+                        "MD_RecommendedGM": "12",
+                        "MD_RecommendedDis": "",
+                        "MD_TargetEquivalentGMpersqft": "4.07",
+                        "MD_CurrentEquivalentGMpersqft": "1.16",
+                        "MD_EffectOnCurrentEquivalentGMpersqft": "-",
+                        "MD_DiscountPer": "8",
+                        "MD_RecommendedAction": "Reject Transaction or Request for Special Buying Price",
+                        
+                        "CD_SVC_BP": "21.5 sq ft",
+                        "CD_S_DCost": "0",
+                        "CD_S_DCostPer": ""
+                    };
+                }
+
+                var oModelWRTPafNo = new JSONModel();
+                oModelWRTPafNo.setData(payload);
+                        this.getView().setModel(oModelWRTPafNo, "oRequestModelPaf");
+
             },
 
             getSourceDetails: function (pafNo) {
@@ -113,48 +179,31 @@ sap.ui.define([
             },
 
             onChangeSource: function (oEvent) {
-                this.getView().setBusy(true);
+         
                 var oModeldata = this.getView().getModel("ProductModel").getData();
-                var newProductArr = new Array();
-                for (var i = 0; i < oModeldata.length; i++) {
-                    var newObj = {
-                        "Pafno": oModeldata[i].Pafno,
-                        "Posnr": oModeldata[i].Posnr,
-                        "vkbur": oModeldata[i].vkbur,
-                        "Mfrgr": oModeldata[i].Mfrgr,
-                        "Volume": oModeldata[i].Volume,
-                        "Szcm": oModeldata[i].Szcm,
-                        "Design": oModeldata[i].Design,
-                        "Source": oModeldata[i].Source,
-                        "Zvolume": oModeldata[i].Zvolume,
-                        "Zvolumepft": oModeldata[i].Zvolumepft,
-                        "Discount": oModeldata[i].Discount,
-                        "Netexfactory": oModeldata[i].Netexfactory,
-                        "Buyingprice": oModeldata[i].Buyingprice,
-                        "Grossmarg": oModeldata[i].Grossmarg,
-                        "Buyingpricesqft": oModeldata[i].Buyingpricesqft
-                    }
-                    newProductArr.push(newObj);
-                }
-                var newEntry = {
-                    "Pafno": this.pafID,
-                    "NAV_PMG_ITEM_PRODUCT": newProductArr
-                };
+                this.getView().getModel("ProductModel").getData()[0].Grossmargper = 15.42;
+                debugger;
+                this.getView().getModel("ProductModel").getData()[0].Buyingprice = 21.5;
+                this.getView().getModel("ProductModel").refresh(true);
+                // var newEntry = {
+                //     "Pafno": this.pafID,
+                //     "NAV_PMG_ITEM_PRODUCT": newProductArr
+                // };
                 //return;
-                this.getOwnerComponent().getModel().create('/ET_PMG_REQUEST_ITEMSet', newEntry, {
-                    success: function (oData, response) {
-                        debugger;
-                        var oPrdModel = this.getView().getModel("ProductModel");
-                        oPrdModel.setData(oData.NAV_PMG_ITEM_PRODUCT.results);
-                        this.getView().setModel(oPrdModel, "ProductModel");
-                        this.getView().getModel("ProductModel").refresh(true);
-                        this.getView().setBusy(false);
-                    }.bind(this),
-                    error: function (error) {
-                        this.getView().setBusy(false);
-                        MessageBox.error(error.responseText);
-                    }.bind(this)
-                });
+                // this.getOwnerComponent().getModel().create('/ET_PMG_REQUEST_ITEMSet', newEntry, {
+                //     success: function (oData, response) {
+                //         debugger;
+                //         var oPrdModel = this.getView().getModel("ProductModel");
+                //         oPrdModel.setData(oData.NAV_PMG_ITEM_PRODUCT.results);
+                //         this.getView().setModel(oPrdModel, "ProductModel");
+                //         this.getView().getModel("ProductModel").refresh(true);
+                //         this.getView().setBusy(false);
+                //     }.bind(this),
+                //     error: function (error) {
+                //         this.getView().setBusy(false);
+                //         MessageBox.error(error.responseText);
+                //     }.bind(this)
+                // });
 
             },
 

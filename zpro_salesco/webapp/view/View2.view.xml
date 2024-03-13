@@ -151,6 +151,7 @@
                         visible="false"
                         type="Success"
                     />
+                    <!-- <Button text="Clear" press="onClear"></Button> -->
                     <Button
                         id="idV2BtnCancel"
                         text="{i18nV2>view2.footer.button.cancel}"

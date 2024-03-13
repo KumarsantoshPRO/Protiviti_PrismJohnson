@@ -31,7 +31,7 @@
                     <IconTabFilter
                         showAll="false"
                         icon="sap-icon://expand-all"
-                      count="{count>/Total}"
+                        count="{count>/Total}"
                         text="Requests"
                         key="All"
                     />
@@ -41,21 +41,21 @@
                         iconColor="Tile"
                         text="Pending"
                         key="Pending"
-						count="{count>/Pending}"
+                        count="{count>/Pending}"
                     />
                     <IconTabFilter
                         icon="sap-icon://fob-watch"
                         iconColor="Critical"
                         text="Delayed"
                         key="Delayed"
-						count="{count>/Delayed}"
+                        count="{count>/Delayed}"
                     />
                     <IconTabFilter
                         icon="sap-icon://accept"
                         iconColor="Positive"
                         text="Approved"
                         key="Approved"
-						count="{count>/Approved}"
+                        count="{count>/Approved}"
                     />
 
                     <!-- <IconTabFilter
@@ -81,14 +81,14 @@
                         iconColor="Critical"
                         text="Rejected"
                         key="Rejected"
-						count="{count>/Rejected}"
+                        count="{count>/Rejected}"
                     />
                     <IconTabFilter
                         icon="sap-icon://delete"
                         iconColor="Negative"
                         text="Deleted"
                         key="Deleted"
-							count="{count>/Deleted}"
+                        count="{count>/Deleted}"
                     />
                 </items>
                 <content>
@@ -100,6 +100,7 @@
                         headerText="Products"
                         items="{JSONModelForTable>/}"
                         itemPress=""
+                        sticky="ColumnHeaders,HeaderToolbar"
                     >
                         <headerToolbar>
                             <OverflowToolbar>
@@ -151,19 +152,25 @@
                                 press="onClickofItem"
                             >
                                 <cells>
-                                    <Text text="{path:'JSONModelForTable>Pafno', formatter:'.formatter.removeLeadingZeros'}" />
+                                    <Text
+                                        text="{path:'JSONModelForTable>Pafno', formatter:'.formatter.removeLeadingZeros'}"
+                                    />
                                     <Text text="{JSONModelForTable>Vkbur}" />
                                     <Text text="{JSONModelForTable>Name}" />
                                     <Text text="{JSONModelForTable>Kunnr}" />
                                     <Text
                                         text="{ parts: ['JSONModelForTable>Vtweg'], formatter: '.formatter.getOrderType' }"
                                     />
-                                    <Text text="{JSONModelForTable>TotalVolume}" />
-                                    <Text text="{JSONModelForTable>CurrentVol}" />
+                                    <Text
+                                        text="{JSONModelForTable>WtotalVol}"
+                                    />
+                                    <Text
+                                        text="{JSONModelForTable>WcurVolFt}"
+                                    />
                                     <Text
                                         text="{ parts: ['JSONModelForTable>Erdat'], formatter: '.formatter.getFormattedDate' }"
                                     />
-                                    <Text text="{RequestModel>validityDays}" />
+                                    <Text text="{RequestModel>Validity}" />
                                     <tnt:InfoLabel
                                         text="{RequestModel>GM} %"
                                         renderMode="Loose"

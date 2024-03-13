@@ -25,6 +25,15 @@
                     "odataVersion": "2.0"
                 }
             },
+            "ZCUSTOMER_AUTOMATIONDISCOUNT_SRV": {
+                "uri": "/sap/opu/odata/sap/ZCUSTOMER_AUTOMATIONDISCOUNT_SRV/",
+                "type": "OData",
+                "settings": {
+                    "annotations": [],
+                    "localUri": "localService/metadata.xml",
+                    "odataVersion": "2.0"
+                }
+            },
             "count_alias": {
                 "uri": "model/countIconTabFilter.json",
                 "type": "JSON"
@@ -77,6 +86,19 @@
             "": {
                 "preload": true,
                 "dataSource": "ZPMG_AUTOMATION_DISCOUNT_SRV",
+                "settings": {
+                    "defaultBindingMode": "TwoWay",
+                    "defaultCountMode": "Inline",
+                    "refreshAfterChange": false,
+                    "useBatch": false,
+                    "metadataUrlParams": {
+                        "sap-value-list": "none"
+                    }
+                }
+            },
+            "ZCUSTOMER_AUTOMATIONDISCOUNT_SRV": {
+                "preload": true,
+                "dataSource": "ZCUSTOMER_AUTOMATIONDISCOUNT_SRV",
                 "settings": {
                     "defaultBindingMode": "TwoWay",
                     "defaultCountMode": "Inline",

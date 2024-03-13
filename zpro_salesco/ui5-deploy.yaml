@@ -21,8 +21,8 @@ builder:
           username: env:XYZ_USER
           password: env:XYZ_PASSWORD
         app:
-          name: zpro_salesco
-          description: Sales Coordinator
+          name: env:BSP_NAME
+          description: env:BSP_DESCRIPTION
           package: ZFIORI_PROTIVITY
           transport:  env:SAP_TRANSPORTNO
         exclude:

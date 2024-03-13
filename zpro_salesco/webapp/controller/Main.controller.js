@@ -82,7 +82,7 @@ sap.ui.define([
                                     break;
                                 case "P":
                                     that.getView().getModel("modelEditFlag").setProperty("/Editable", true);
-                                    
+
                                     that.getView().getModel("count").getData().onGoing = that.aPendingData.length;
                                     that.getView().getModel("count").getData().Delayed = that.aDelayedData.length;
                                     break;
@@ -95,7 +95,7 @@ sap.ui.define([
                                     that.getView().getModel("count").getData().Rejected = Data.results.length;
                                     break;
                                 case "D":
-                                    
+
                                     that.getView().getModel("modelEditFlag").setProperty("/Editable", true);
                                     that.getView().getModel("count").getData().Delayed = that.aDelayedData.length;
                                     break;
@@ -124,13 +124,6 @@ sap.ui.define([
                         MessageBox.error(JSON.parse(sError.responseText).error.message.value, {
                             actions: [sap.m.MessageBox.Action.OK],
                             onClose: function (oAction) {
-                                // var navigator = sap.ushell.Container.getService("CrossApplicationNavigation");
-                                // navigator.toExternal({
-                                //     target: {
-                                //         semanticObject: "#"
-                                //     }
-                                // });
-
                                 window.location.reload()
                             }
                         });
@@ -139,7 +132,7 @@ sap.ui.define([
 
             },
 
-            onOrderNumber: function (oEvent) {       
+            onOrderNumber: function (oEvent) {
                 var vValue = oEvent.getParameter('value');
                 var filter = new sap.ui.model.Filter({
                     path: 'Pafno',
@@ -176,7 +169,7 @@ sap.ui.define([
             },
 
             onFilterSelect: function (oEvent) {
-                this.byId(sap.ui.core.Fragment.createId("id.tableProductDetails.Fragment","id.orderNumber.Input")).setValue("");
+                this.byId(sap.ui.core.Fragment.createId("id.tableProductDetails.Fragment", "id.orderNumber.Input")).setValue("");
                 var sKey = oEvent.getParameter("key");
                 if (sKey === "All") {
                     this._getRequestData("", "tableData");
@@ -229,13 +222,6 @@ sap.ui.define([
                                         MessageBox.error(JSON.parse(sError.responseText).error.message.value, {
                                             actions: [sap.m.MessageBox.Action.OK],
                                             onClose: function (oAction) {
-                                                // var navigator = sap.ushell.Container.getService("CrossApplicationNavigation");
-                                                // navigator.toExternal({
-                                                //     target: {
-                                                //         semanticObject: "#"
-                                                //     }
-                                                // });
-
                                                 window.location.reload()
                                             }
                                         });

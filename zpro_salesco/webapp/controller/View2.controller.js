@@ -14,12 +14,13 @@ sap.ui.define([
     'zpj/pro/sk/sd/salescoordinator/zprosalesco/utils/View2/valueHelps',
     'zpj/pro/sk/sd/salescoordinator/zprosalesco/utils/View2/validation',
     "sap/m/PDFViewer",
-    'sap/ui/core/Fragment'
+    'sap/ui/core/Fragment',
+    'sap/ui/core/format/DateFormat'
 ],
     /**
      * @param {typeof sap.ui.core.mvc.Controller} Controller
      */
-    function (Controller, JSONModel, IconPool, Icon, Link, MessageItem, MessageView, Button, Bar, Title, Popover, MessageBox, valueHelps, validation, PDFViewer, Fragment) {
+    function (Controller, JSONModel, IconPool, Icon, Link, MessageItem, MessageView, Button, Bar, Title, Popover, MessageBox, valueHelps, validation, PDFViewer, Fragment, DateFormat) {
         "use strict";
 
         return Controller.extend("zpj.pro.sk.sd.salescoordinator.zprosalesco.controller.View2", {
@@ -28,10 +29,6 @@ sap.ui.define([
 
                 this.getOwnerComponent().getRouter().attachRoutePatternMatched(this.onRouteMatched, this);
 
-
-
-
-                //Start: Santosh changes
                 // local JSON models
                 this._fileDetail;
                 this.Pafno;
@@ -41,13 +38,10 @@ sap.ui.define([
                 this.getView().setModel(new JSONModel(dataModelValueHelp), "LocalJSONModels");
                 this.bindingContextPath;
 
-                //Start: Attachment
+                //Start: Upload, View and Download Attachment
                 var dataModelForAttachments = this.getOwnerComponent().getModel("attachments").getData();
                 this.getView().setModel(new JSONModel(dataModelForAttachments), "LocalJSONModelForAttachment");
                 var oUploadSet = this.byId(sap.ui.core.Fragment.createId("idV2FragAttach", "idV2UploadSet"))
-                // this.getView().byId("idV2UploadSet");
-
-
 
                 // Modify "add file" button
                 oUploadSet.getDefaultFileUploader().setButtonOnly(false);
@@ -57,9 +51,7 @@ sap.ui.define([
 
                 this.opdfViewer = new PDFViewer();
                 this.getView().addDependent(this.opdfViewer);
-                // oUploadSet.attachUploadCompleted(this.onUploadCompleted.bind(this));
-                //End: Attachment
-                // End: Santosh Changes
+                //End: Upload, View and Download Attachment
 
             },
 
@@ -73,16 +65,15 @@ sap.ui.define([
                 var sID = oEvent.getParameter("arguments").ID;
 
                 if (sID === "null" || sID === undefined) {
-
+                    
                     this.getView().getModel("GlobalModel").setProperty("/Editable", true);
                     this.getView().byId("idV2OPSubAttach").setVisible(true);
-                    //Start: Santosh changes
                     // payload for OData service
                     var dataModelPayload = this.getOwnerComponent().getModel("payload").getData();
                     dataModelPayload.header.ET_SALES_COORD_ISET.results = [];
                     dataModelPayload.header.ET_SALES_COORD_ISET.results.push(dataModelPayload.item);
                     this.getView().setModel(new JSONModel(dataModelPayload.header), "JSONModelPayload");
-                    //End: Santosh changes
+                    this.onClear();
                     this.getView().byId("ObjectPageLayout").getHeaderTitle().setObjectTitle("Generate New Request");
                 } else {
                     this.getView().getModel("GlobalModel").setProperty("/Editable", false);
@@ -100,64 +91,21 @@ sap.ui.define([
                             "$expand": "ET_SALES_COORD_ISET"
                         },
                         success: function (Data) {
-
-                            // that.byId(sap.ui.core.Fragment.createId("idV2FragGenInfo", "idV2InpValidity")).setValue(Data.Validity.replace(/^0+/, ''));
                             if (Data.Status === 'P' || Data.Status === 'D') {
                                 that.getView().byId("idV2BtnEdit").setVisible(true);
                             } else {
                                 that.getView().byId("idV2BtnEdit").setVisible(false);
                             }
-
                             Data.Validity = Data.Validity.replace(/^0+/, '');
                             that.getView().setModel(new JSONModel(Data), "JSONModelPayload");
-
-                            //Start: logic working 
-                            // var dataForTable = {
-                            //     "ET_SALES_COORD_ISET": {
-                            //         "results": Data.ET_SALES_COORD_ISET.results
-                            //     }
-                            // }
-                            // that.getView().setModel(new JSONModel(Data), "JSONModelPayload");
-                            // that.byId(sap.ui.core.Fragment.createId("idV2FragAddPrdDetails", "idV2TblProducts")).setModel(new JSONModel(dataForTable),"JSONModelPayload");
-                            // that.getView().getModel("JSONModelPayload").refresh(true);
                             that.getView().setBusy(false);
-                            //End: logic working 
-
-                            // delete Data.results[0]['__metadata'];
-                            // delete Data.results[0]['Pafvfrm'];
-                            // delete Data.results[0]['Pafvto'];
-                            // for (var i = 0; i < Data.results[0].ET_SALES_COORD_ISET.results.length; i++) {
-                            //     delete Data.results[0].ET_SALES_COORD_ISET.results[i]['__metadata'];
-                            //     delete Data.results[0].ET_SALES_COORD_ISET.results[i]['Erdat'];
-                            //     delete Data.results[0].ET_SALES_COORD_ISET.results[i]['Erzet'];
-                            // }
-
-                            // delete Data.results[0]['ET_SALES_COORD_ISET'];
-
-
-
-                            // that.byId(sap.ui.core.Fragment.createId("idV2FragAddPrdDetails", "idV2TblProducts")).setModel(new JSONModel(Data.results[0].ET_SALES_COORD_ISET.results),"JSONModelPayload")
-                            // that.byId(sap.ui.core.Fragment.createId("idV2FragAddPrdDetails", "idV2TblProducts")).getModel("JSONModelPayload").setData(Data.results[0].ET_SALES_COORD_ISET.results);
-                            // that.byId(sap.ui.core.Fragment.createId("idV2FragAddPrdDetails", "idV2TblProducts")).getModel("JSONModelPayload").refresh(true);
-
-
-
-
                         },
                         error: function (oError) {
-
                             that.getView().setBusy(false);
                             MessageBox.error(JSON.parse(oError.responseText).error.message.value, {
                                 actions: [sap.m.MessageBox.Action.OK],
                                 onClose: function (oAction) {
-                                    // var navigator = sap.ushell.Container.getService("CrossApplicationNavigation");
-                                    // navigator.toExternal({
-                                    //     target: {
-                                    //         semanticObject: "#"
-                                    //     }
-                                    // });
 
-                                    // window.location.reload()
                                 }
                             });
 
@@ -170,36 +118,33 @@ sap.ui.define([
                         },
                         async: false,
                         success: function (Data) {
-                            // that.byId(sap.ui.core.Fragment.createId("idV2FragAttach", "idV2UploadSet")).getModel("LocalJSONModelForAttachment").setData(Data);
                             that.getView().byId("idV2OPSAttach").setVisible(true);
                             var attachments = Data;
                             that.getView().getModel("LocalJSONModelForAttachment").setData({ "attachments": attachments });
                             that.getView().getModel("LocalJSONModelForAttachment").refresh(true);
 
-                            // that.byId(sap.ui.core.Fragment.createId("idV2FragAttach", "idV2UploadSet")).getModel("LocalJSONModelForAttachment")
                         },
                         error: function (oError) {
+                            MessageBox.error(JSON.parse(oError.responseText).error.message.value, {
+                                actions: [sap.m.MessageBox.Action.OK],
+                                onClose: function (oAction) {
+
+                                }
+                            });
 
                         }
                     });
-                    // this.getView().getModel("oCusModel").setProperty("/Editable", false);
+
 
 
                 }
             },
-
-
-
-
-
-            // if(ID === orderNo)
-
             onEdit: function () {
                 this.getView().getModel("GlobalModel").setProperty("/Editable", true);
             },
 
             onDistributionChannelChange: function (oEvent) {
-                
+
                 var vGetSelectedValue = oEvent.getSource().getSelectedKey();
                 if (vGetSelectedValue === "11" || vGetSelectedValue === "17") {
                     this.byId(sap.ui.core.Fragment.createId("idV2FragGenInfo", "idV2SLPaymentTerm")).setEnabled(false);
@@ -211,17 +156,10 @@ sap.ui.define([
             onCancel: function () {
 
                 var that = this;
-                // this.getView().getModel("GlobalModel").setProperty("/Editable", false);
                 MessageBox.confirm("Are you sure you want to cancel?", {
                     actions: ["Yes", "No"],
                     onClose: function (oAction) {
                         if (oAction === "Yes") {
-                            // var navigator = sap.ushell.Container.getService("CrossApplicationNavigation");
-                            // navigator.toExternal({
-                            //     target: {
-                            //         semanticObject: "#"
-                            //     }
-                            // });
                             var oRouter = that.getOwnerComponent().getRouter();
                             oRouter.navTo("page1", {});
                         } else {
@@ -231,19 +169,51 @@ sap.ui.define([
                 });
             },
 
+            onClear: function () {
+                var JSONData = {
+                    "Isexdep": "",
+                    "Pafvto": null,
+                    "Kunnr": "",
+                    "Pafvfrm": null,
+                    "Ti": "1",
+                    "Gst": "18",
+                    "Name": "",
+                    "Action": "",
+                    "Zterm": "",
+                    "Validity": "",
+                    "Aufnr": "",
+                    "Vtweg": "",
+                    "Vkbur": "",
+                    "Spart": "",
+                    "ET_SALES_COORD_ISET": {
+                        "results": [{
+                            "Mfrgr": "",
+                            "Szmm": "",
+                            "Mvgr2": "",
+                            "Werks": "",
+                            "Prodh1": "",
+                            "CurVolFt": "",
+                            "TotalVol": "",
+                            "Disc": "",
+                            "Commbox": null,
+                            "Exfacsqft": null,
+                            "Exdepsqft": null,
+                            "Commboxp": null,
+                            "Frgtbx": "",
+                            "Compname": null,
+                            "Complanprice": null,
+                            "Zzprodh4": "",
+                            "Mvgr5": ""
+                        }]
+                    }
+                }
+                this.getView().getModel("JSONModelPayload").setData(JSONData);
+            },
+
             onBack: function () {
                 this.oRouter = this.getOwnerComponent().getRouter();
                 this.oRouter.navTo("page1", {});
             },
-
-
-
-            handleMessages: function (oEvent) {
-                this.oMessageView.navigateBack();
-                this._oPopover.openBy(oEvent.getSource());
-            },
-
-            //Start: Santosh Changes
 
             _getResourceBundle: function () {
                 return this.getOwnerComponent().getModel("i18nV2").getResourceBundle();
@@ -261,30 +231,14 @@ sap.ui.define([
                 // }
 
             },
-            onOrcEntityChange: function (oEvent) {
-
-                // var sPath = oEvent.getSource().getParent().getParent().getBindingContextPath();
-                // this.getView().getModel("JSONModelPayload").getContext(sPath).getObject();
-                oEvent.getSource().getParent().getParent().getAggregation("cells")[12].getAggregation("items")[0].setValue("");
-                oEvent.getSource().getParent().getParent().getAggregation("cells")[12].getAggregation("items")[0].setEditable(false);
-            },
-            onOrcPercentageChange: function (oEvent) {
-
-                // var sPath = oEvent.getSource().getParent().getParent().getBindingContextPath();
-                // this.getView().getModel("JSONModelPayload").getContext(sPath).getObject();
-                oEvent.getSource().getParent().getParent().getAggregation("cells")[11].getAggregation("items")[0].setValue("");
-                oEvent.getSource().getParent().getParent().getAggregation("cells")[11].getAggregation("items")[0].setEditable(false);
-            },
             onAddRow: function () {
-
+              
                 var headerValidationStatus = validation.headerPayloadValidation(this);
                 if (headerValidationStatus === 1) {
                     var aData = this.getView().getModel("JSONModelPayload").getData().ET_SALES_COORD_ISET.results;
                     var itemValidationStatus = validation.itemsPayloadValidation(aData, this, "Adding new line");
                     if (itemValidationStatus === 1) {
                         var JSONData = this.getView().getModel("JSONModelPayload").getData();
-
-                        // JSONData.items.push(this.oLocalJSONPayload.item);
                         JSONData.ET_SALES_COORD_ISET.results.push({
                             "Mfrgr": "",
                             "Szmm": "",
@@ -308,39 +262,15 @@ sap.ui.define([
                         this.getView().getModel("JSONModelPayload").setData(JSON.parse(JSON.stringify(JSONData)));
                     }
                 }
-                // this.getView().getModel("JSONModelPayload").refresh(true);
-
-
-                // var oTable = this.getView().byId("idTblProducts");
-                // var cell = oTable.getAggregation("items")[0].getAggregation("cells");
-
-
-                // 
-                // var oItem = new sap.m.ColumnListItem({
-                //     cells:  cell 
-                // });
-
-                // oTable.addItem(oItem);
 
             },
             onDelete: function (oEvent) {
 
-                // var oTable = oEvent.getSource().getParent().getParent();
-                // oTable.removeItem(oEvent.getSource().getParent());
                 var vLen = oEvent.getSource().getParent().getBindingContextPath().split("/").length
 
                 var index = Number(oEvent.getSource().getParent().getBindingContextPath().split("/")[vLen - 1]);
 
                 var JSONData = this.getView().getModel("JSONModelPayload").getData();
-                // if (JSONData.items) {
-                //     if (JSONData.items.length > 1) {
-                //         JSONData.items.splice(index, 1);
-                //     } else {
-                //         MessageBox.error("Atlease one entry is required");
-                //     }
-
-                // } else {
-                // }
                 if (JSONData.ET_SALES_COORD_ISET.results.length > 1) {
                     JSONData.ET_SALES_COORD_ISET.results.splice(index, 1);
                 } else {
@@ -349,8 +279,21 @@ sap.ui.define([
 
                 this.getView().getModel("JSONModelPayload").setData(JSON.parse(JSON.stringify(JSONData)));
 
-                // this.getView().getModel("oRequestModel").getData().splice(index, 1);;
-                // this.getView().getModel("oRequestModel").refresh(true);
+
+                var data = this.getView().getModel("JSONModelPayload").getData();
+                data.Pafvto = new Date(data.Pafvto);
+                data.Pafvfrm = new Date(data.Pafvfrm);
+                var aItems = data.ET_SALES_COORD_ISET.results;
+                for (let index = 0; index < aItems.length; index++) {
+                    for (const key in aItems[index]) {
+                        if (Object.hasOwnProperty.call(aItems[index], key)) {
+                            if (key === 'Erdat') {
+                                aItems[index].Erdat = new Date(aItems[index].Erdat);
+                            }
+                        }
+                    }
+                }
+
             },
             // Customer Code Plant
             onCustomerCodeHelp: function () {
@@ -448,9 +391,6 @@ sap.ui.define([
                 var bindingContextPathMFG = this.bindingContextPath + "/Mfrgr";
                 var bindingContextPathSize = this.bindingContextPath + "/Szmm";
                 for (var i = 0; i < aModelData.length; i++) {
-                    // var obj = aModelData[i];
-                    // for (var key in obj) {
-                    //     var value = obj[key];
                     if (sSelectedValue === aModelData[i].Mfrgr && i != Number(this.bindingContextPath.split("/")[3])) {
                         MessageBox.error(sSelectedValue + " this 'Material Freigth Group' already selected");
                         this.getView().getModel("JSONModelPayload").setProperty(bindingContextPathMFG, "");
@@ -480,14 +420,7 @@ sap.ui.define([
                                 MessageBox.error(JSON.parse(oError.responseText).error.message.value, {
                                     actions: [sap.m.MessageBox.Action.OK],
                                     onClose: function (oAction) {
-                                        // var navigator = sap.ushell.Container.getService("CrossApplicationNavigation");
-                                        // navigator.toExternal({
-                                        //     target: {
-                                        //         semanticObject: "#"
-                                        //     }
-                                        // });
 
-                                        // window.location.reload()
                                     }
                                 });
                             }
@@ -506,7 +439,6 @@ sap.ui.define([
                 var sSelectedValue = oSelectedItem.getProperty("title");
                 this.getView().getModel("JSONModelPayload").setProperty(this.bindingContextPath, sSelectedValue);
             },
-
             onSupplyPlantHelpConfirm(oEvent) {
                 var oSelectedItem = oEvent.getParameter("selectedItem");
                 var sSelectedValue = oSelectedItem.getProperty("title");
@@ -521,9 +453,6 @@ sap.ui.define([
 
 
             onRadioButtonGroupSelect: function (oEvent) {
-                // selectedIndex
-
-
                 if (oEvent.getSource().getSelectedIndex() === 0) {
                     this.getView().getModel("JSONModelPayload").getData().Isexdep = "F";
                 } else {
@@ -531,6 +460,7 @@ sap.ui.define([
 
                 }
             },
+
             onSave: function () {
 
 
@@ -548,21 +478,6 @@ sap.ui.define([
                         this.getView().getModel().create(sPath, this.getView().getModel("JSONModelPayload").getData(), {
                             async: false,
                             success: function (oData) {
-
-
-
-                                // var navigator = sap.ushell.Container.getService("CrossApplicationNavigation");
-                                // navigator.toExternal({
-                                //     target: {
-                                //         semanticObject: "#"
-                                //     }
-                                // });
-
-                                // var payloadAttachment = that.getOwnerComponent().getModel("payload").getData().attachments;
-                                // for (let index = 0; index < payloadAttachment.length; index++) {
-                                //     payloadAttachment[index].Pafno = oData.Pafno;
-                                // }
-
 
                                 var aAttachmentsItems = that.getView().getModel("LocalJSONModelForAttachment").getData().attachments.Nav_File_Upload.results;
                                 if (aAttachmentsItems.length > 0) {
@@ -587,14 +502,6 @@ sap.ui.define([
                                             MessageBox.error(JSON.parse(oError.responseText).error.message.value, {
                                                 actions: [sap.m.MessageBox.Action.OK],
                                                 onClose: function (oAction) {
-                                                    // var navigator = sap.ushell.Container.getService("CrossApplicationNavigation");
-                                                    // navigator.toExternal({
-                                                    //     target: {
-                                                    //         semanticObject: "#"
-                                                    //     }
-                                                    // });
-
-                                                    // window.location.reload()
                                                 }
                                             });
                                         }
@@ -613,27 +520,21 @@ sap.ui.define([
                                 MessageBox.error(JSON.parse(oError.responseText).error.message.value, {
                                     actions: [sap.m.MessageBox.Action.OK],
                                     onClose: function (oAction) {
-                                        // var navigator = sap.ushell.Container.getService("CrossApplicationNavigation");
-                                        // navigator.toExternal({
-                                        //     target: {
-                                        //         semanticObject: "#"
-                                        //     }
-                                        // });
 
-                                        // window.location.reload()
                                     }
                                 });
                             }
                         });
                     }
                 }
-                // this.getView().getModel("JSONModelForItems").getData();
             },
+
             onGenerate: function () {
                 var headerValidationStatus = validation.headerPayloadValidation(this);
 
                 if (headerValidationStatus === 1) {
                     var aData = this.getView().getModel("JSONModelPayload").getData().ET_SALES_COORD_ISET.results;
+
                     var itemValidationStatus = validation.itemsPayloadValidation(aData, this, "Generate");
                     if (itemValidationStatus === 1) {
                         this.getView().byId("idV2OPSAttach").setVisible(true);
@@ -641,19 +542,12 @@ sap.ui.define([
                         var that = this;
                         var sPath = "/ET_SALES_COORD_HEADERSet";
                         this.getView().setBusy(true);
+
                         this.getView().getModel().create(sPath, this.getView().getModel("JSONModelPayload").getData(), {
                             async: false,
                             success: function (oData) {
-
-
-                                // that._getResourceBundle().aPropertyFiles[0].setProperty('view2.table.column.text.exFac', 'Ex Depot(SqFt)');
-
                                 that.getView().getModel("JSONModelPayload").setData(oData)
                                 that.getView().getModel("JSONModelPayload").refresh(true);
-                                // that.getView().getModel("JSONModelPayload").getData().ET_SALES_COORD_ISET = [];
-                                // that.getView().getModel("JSONModelPayload").getData().ET_SALES_COORD_ISET = oData.ET_SALES_COORD_ISET.results;
-
-
 
                                 that.getView().getModel("GlobalModel").setProperty("/Editable", false);
                                 that.getView().getModel("GlobalModel").refresh(true);
@@ -670,14 +564,7 @@ sap.ui.define([
                                 MessageBox.error(JSON.parse(oError.responseText).error.message.value, {
                                     actions: [sap.m.MessageBox.Action.OK],
                                     onClose: function (oAction) {
-                                        // var navigator = sap.ushell.Container.getService("CrossApplicationNavigation");
-                                        // navigator.toExternal({
-                                        //     target: {
-                                        //         semanticObject: "#"
-                                        //     }
-                                        // });
 
-                                        // window.location.reload()
                                     }
                                 });
                             }
@@ -707,11 +594,9 @@ sap.ui.define([
                 this.byId(sap.ui.core.Fragment.createId("idV2FragSumDeatil", "idV2InpSchDis")).setValue(vSchemeDiscount.toString());
                 this.byId(sap.ui.core.Fragment.createId("idV2FragSumDeatil", "idV2InpfraightCost")).setValue(vFreightDiscount.toString());
                 this.byId(sap.ui.core.Fragment.createId("idV2FragSumDeatil", "idV2InpPayTermDis")).setValue(vPayTermDiscount.toString());
-                // this.getView().byId("idV2InpInvcDis").setValue(vInvoiceDiscount.toString());
-                // this.getView().byId("idV2InpSchDis").setValue(vSchemeDiscount.toString());
-                // this.getView().byId("idV2InpfraightCost").setValue(vFreightDiscount.toString());
-                // this.getView().byId("idV2InpPayTermDis").setValue(vPayTermDiscount.toString());
             },
+
+            //Start: Upload, View and Download Attachment
             onBeforeUploadStarts: function (oEvent) {
 
                 var that = this;
@@ -773,21 +658,18 @@ sap.ui.define([
                 var _url = URL.createObjectURL(blob);
                 jQuery.sap.addUrlWhitelist("blob");
 
-                // var lAttachment = URL.createObjectURL(new Blob([vContent] , {type:'text/plain'}));
-                // this.byId(sap.ui.core.Fragment.createId("idV2FragAttach", "idV2USI")).setUrl(encodeURI(_url));
                 this._fileDetail = {
                     Filename: fileName,
                     Attachment: vContent,
                     Pafno: ""
                 }
 
-                // this._allAttachment.push(this._fileDetail);
 
                 this.getView().getModel("LocalJSONModelForAttachment").getData().attachments.Nav_File_Upload.results.push(this._fileDetail)
 
             },
             onViewAttachmentObjectStatusPress: function (oEvent) {
-                
+
                 var sFile = oEvent.getSource().getParent().getProperty("thumbnailUrl"),
                     sFileName = oEvent.getSource().getParent().getProperty("fileName"),
                     oButton = oEvent.getSource();
@@ -844,7 +726,6 @@ sap.ui.define([
             imageDownload: function (oEvent) {
                 const sURL = this.getView().getModel("oModelForImage").getData().ZRFILE;
                 const imageName = this.getView().getModel("oModelForImage").getData().ZRFNAME;
-                // const imageName = "this.vImageName";
                 fetch(sURL)
                     .then((oResponse) => oResponse.blob())
                     .then((oBlob) => {
@@ -859,8 +740,7 @@ sap.ui.define([
                     });
                 oEvent.getSource().getParent().getParent().destroy()
             }
-
-            //End: Santosh Changes
+            //End: Upload, View and Download Attachment
 
         });
     });
