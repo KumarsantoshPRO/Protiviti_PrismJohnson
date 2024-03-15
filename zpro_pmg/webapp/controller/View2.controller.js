@@ -28,6 +28,7 @@ sap.ui.define([
 
                 this.getOwnerComponent().getRouter().attachRoutePatternMatched(this.onRouteMatched, this);
                 this.getData();
+                this.pafNoTemp;
             },
 
             // Attach route matched method
@@ -73,6 +74,7 @@ sap.ui.define([
 
             getDataWRTPafNo: function(pafID){
                 if(pafID.includes('120017')){
+                    this.pafNoTemp = 120017;
                     var payload = {
                         "CS_Value": "164.55",
                         "CS_GrossMargin": "4.05",
@@ -102,6 +104,7 @@ sap.ui.define([
                     };
                 }
                 if(pafID.includes('120018')){
+                    this.pafNoTemp = 120018;
                     var payload = {
                         "CS_Value": "164.55",
                         "CS_GrossMargin": "4.05",
@@ -181,9 +184,18 @@ sap.ui.define([
             onChangeSource: function (oEvent) {
          
                 var oModeldata = this.getView().getModel("ProductModel").getData();
-                this.getView().getModel("ProductModel").getData()[0].Grossmargper = 15.42;
-                debugger;
+// debugger;
+               if(this.pafNoTemp === "120018") {
+                this.getView().getModel("ProductModel").getData()[0].Grossmargper = 5.1;
+          
                 this.getView().getModel("ProductModel").getData()[0].Buyingprice = 21.5;
+               }else{
+                this.getView().getModel("ProductModel").getData()[0].Grossmargper = 15.42;
+          
+                this.getView().getModel("ProductModel").getData()[0].Buyingprice = 21.5;
+            }
+
+           
                 this.getView().getModel("ProductModel").refresh(true);
                 // var newEntry = {
                 //     "Pafno": this.pafID,

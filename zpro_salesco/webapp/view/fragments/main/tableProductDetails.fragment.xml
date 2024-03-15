@@ -53,29 +53,38 @@
             />
         </items>
         <content>
-         <HBox id="idHBox" alignContent="Center" alignItems="Center">
-            <Label id="idSearchOrderNumberLabel" design="Bold" text="Search Order Number: "/>
+            <!-- <HBox
+                id="idHBox"
+                alignContent="Center"
+                alignItems="Center"
+            >
+                <Label
+                    id="idSearchOrderNumberLabel"
+                    design="Bold"
+                    text="Search Order Number: "
+                />
                 <Input
-                id="id.orderNumber.Input"
+                    id="id.orderNumber.Input"
                     placeholder="Enter Order Number"
                     submit="onOrderNumber"
                     liveChange="onOrderNumber"
-                   
                 />
-            </HBox>
+            </HBox> -->
             <Table
                 id="id.main.Products.Table"
                 alternateRowColors="true"
-                class="sapUiLargeMarginBottom"
                 mode="SingleSelectLeft"
                 growing="true"
-                inset="false"
                 headerText="{i18n.main>main.table.headerText}"
                 items="{ModelForTable>/}"
                 sticky="ColumnHeaders,HeaderToolbar"
             >
                 <headerToolbar>
-                    <OverflowToolbar id="id.main.TblOT">
+                    <OverflowToolbar
+                        id="id.main.TblOT"
+                        design="Transparent"
+                        width="100%"
+                    >
                         <content>
                             <Title
                                 id="id.main.TblTitle"
@@ -84,16 +93,32 @@
                             />
 
                             <ToolbarSpacer id="id.main.TblTS" />
-
+                            <Input
+                                id="id.orderNumber.Input"
+                                placeholder="Search Order Number"
+                                submit="onOrderNumber"
+                                liveChange="onOrderNumber"
+                                width="15%"
+                            >
+                                <layoutData>
+                                    <OverflowToolbarLayoutData
+                                        priority="NeverOverflow"
+                                    />
+                                </layoutData>
+                            </Input>
                             <Button
                                 id="id.main.TblBtnNew"
+                                text="Add New"
                                 icon="sap-icon://add"
+                                type="Accept"
                                 press="onNewPress"
                             />
                             <Button
                                 id="id.main.TblBtnDelet"
+                                text="Delete"
                                 icon="sap-icon://delete"
                                 press="_onDelete"
+                                type="Reject"
                                 visible="{modelEditFlag>/Editable}"
                             />
                         </content>
@@ -103,7 +128,7 @@
                 <columns>
                     <Column
                         id="id.main.TblClmOrderNo"
-                        width="10em"
+                        hAlign="End"
                     >
                         <Text
                             id="id.main.TblClmTxtOrderNo"
@@ -112,6 +137,7 @@
                     </Column>
                     <Column
                         id="id.main.TblClmRegion"
+                        hAlign="End"
                         minScreenWidth="Tablet"
                         demandPopin="true"
                     >
@@ -122,6 +148,7 @@
                     </Column>
                     <Column
                         id="id.main.TblClmCustomer"
+                        hAlign="Center"
                         minScreenWidth="Tablet"
                         demandPopin="true"
                     >
@@ -132,6 +159,7 @@
                     </Column>
                     <Column
                         id="id.main.TblClmCustNo"
+                        hAlign="Center"
                         minScreenWidth="Desktop"
                         demandPopin="true"
                     >
@@ -142,6 +170,7 @@
                     </Column>
                     <Column
                         id="id.main.TblClmTypeOfOrder"
+                        hAlign="End"
                         minScreenWidth="Desktop"
                         demandPopin="true"
                     >
@@ -152,6 +181,7 @@
                     </Column>
                     <Column
                         id="id.main.TblClmTotalOrder"
+                        hAlign="End"
                         minScreenWidth="Desktop"
                         demandPopin="true"
                     >
@@ -162,9 +192,10 @@
                     </Column>
                     <Column
                         id="id.main.TblClmCurrOrder"
+                        hAlign="End"
                         minScreenWidth="Desktop"
                         demandPopin="true"
-                        hAlign="Center"
+                         
                     >
                         <Text
                             id="id.main.TblClmTxtCurrOrder"
@@ -173,9 +204,10 @@
                     </Column>
                     <Column
                         id="id.main.TblClmReqDate"
+                        hAlign="Center"
                         minScreenWidth="Desktop"
                         demandPopin="true"
-                        hAlign="Center"
+                        
                     >
                         <Text
                             id="id.main.TblClmTxtReqDate"
@@ -214,10 +246,12 @@
                             <Text
                                 id="idV1TblCLITxtOrdNo"
                                 text="{path:'ModelForTable>Pafno',  formatter:'sap.formatter.removeLeadingZeros'}"
+                               
                             />
                             <Text
                                 id="idV1TblCLITxtRegion"
                                 text="{ModelForTable>Vkbur}"
+                               
                             />
                             <Text
                                 id="idV1TblCLITtCustomer"

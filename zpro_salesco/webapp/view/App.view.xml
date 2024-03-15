@@ -1,7 +1,12 @@
 <mvc:View controllerName="zpj.pro.sk.sd.salescoordinator.zprosalesco.controller.App"
     
     xmlns:mvc="sap.ui.core.mvc" displayBlock="true"
-    xmlns="sap.m">
+    xmlns="sap.m"  xmlns:f="sap.f">
+       <f:ShellBar
+        
+        title="Sales Co-ordinator"
+        homeIcon="/css/johnson_img.png"
+    />
     <App id="id.App">
     </App>
 </mvc:View>

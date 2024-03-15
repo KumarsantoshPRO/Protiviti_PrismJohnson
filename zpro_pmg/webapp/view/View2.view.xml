@@ -351,6 +351,7 @@
                                                 demandPopin="true"
                                                 hAlign="Center"
                                                 width="10rem"
+                                                visible="false"
                                             >
                                                 <Text text="Volume" />
                                             </Column>
@@ -383,6 +384,7 @@
                                                 demandPopin="true"
                                                 hAlign="Center"
                                                 width="10rem"
+                                                visible="false"
                                             >
                                                 <Text text="Gross Margin" />
                                             </Column>
@@ -391,6 +393,7 @@
                                                 demandPopin="true"
                                                 hAlign="Center"
                                                 width="10rem"
+                                                visible="false"
                                             >
                                                 <Text
                                                     text="Volume(sq.ft In Lakhs)"
@@ -440,6 +443,7 @@
 
                                                     <!-- <Text text="{oRequestModel>/sour}" /> -->
                                                     <Text
+                                                    visible="false"
                                                         text="{ProductModel>Volume}"
                                                     />
                                                     <Text
@@ -452,9 +456,11 @@
                                                         text="{ProductModel>Buyingprice}"
                                                     />
                                                     <Text
+                                                    visible="false"
                                                         text="{ProductModel>Grossmarg}"
                                                     />
                                                     <Text
+                                                    visible="false"
                                                         text="{ProductModel>Zvolumepft}"
                                                     />
                                                     <Text

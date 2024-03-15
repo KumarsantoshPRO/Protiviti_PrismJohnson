@@ -5,9 +5,10 @@
 sap.ui.define([
         "sap/ui/core/UIComponent",
         "sap/ui/Device",
-        "pj/zpurchasemanager/model/models"
+        "pj/zpurchasemanager/model/models",
+        "pj/zpurchasemanager/model/formatter"
     ],
-    function (UIComponent, Device, models) {
+    function (UIComponent, Device, models, formatter) {
         "use strict";
 
         return UIComponent.extend("pj.zpurchasemanager.Component", {

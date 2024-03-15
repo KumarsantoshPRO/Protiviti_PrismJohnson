@@ -7,9 +7,10 @@
     xmlns="sap.m"
     xmlns:upload="sap.m.upload"
 >
+
     <uxap:ObjectPageLayout
         id="ObjectPageLayout"
-        upperCaseAnchorBar="false"
+        upperCaseAnchorBar="true"
         showFooter="true"
     >
         <uxap:headerTitle>

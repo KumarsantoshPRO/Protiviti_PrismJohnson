@@ -51,7 +51,10 @@ sap.ui.define([
 
 
 
-                if (pafID.includes('120027') || pafID.includes('120017')) {
+                // if (pafID.includes('120027')) {
+                 
+                // }
+                if(pafID.includes('120018')){
                     this.getDataWRTPafNo(pafID);
                 }
 
@@ -59,20 +62,20 @@ sap.ui.define([
             },
             getDataWRTPafNo: function (pafID) {
                 debugger;
-                if (pafID.includes('120017')) {
+                if (pafID.includes('120018')) {
                     var payload = {
-                        "pafNo":"120017",
+                        "pafNo":"120018",
                         "customer": "India Tile Gallery Plot no 489,H.No",
                         "siz": "600X600",
                         "des": "AVEO SF RP",
-                        "sour": "",
-                        "vol": "",
-                        "val": "",
-                        "mfg": "",
-                        "dis": "",
-                        "nef": "",
+                        "sour": "Y - Antique",
+                        "vol": "1000.00",
+                        "val": "007",
+                        "mfg": "OMA00016",
+                        "dis": "18.00",
+                        "nef": "22.66",
                         "neff": "",
-                        "fs": "",
+                        "fs": "4.52",
                         "sts": "",
                         "rem": ""
                     };
@@ -86,6 +89,82 @@ sap.ui.define([
             onBack: function () {
                 this.oRouter = this.getOwnerComponent().getRouter();
                 this.oRouter.navTo("page1", {});
+            },
+            onRenegotiationButtonPress: function(){
+                 
+                if(this.getView().byId("id.Renegotiation.Input").getValue()){
+                var payload = {
+                    "Pafno" :  "120018",
+                    "Posnr" : "01",
+                    "Action": "BPRENG",
+                    "ApprovedBuyingprice" : this.getView().byId("id.Renegotiation.Input").getValue()
+                }
+
+                var serviceURL = "/sap/opu/odata/sap/ZPAF_PM_APPROVAL_SRV/";
+                var oODataModel = new sap.ui.model.odata.ODataModel(serviceURL, true);
+
+                oODataModel.create("/ET_PM_APPROVALSet", payload, {
+                    async: false,
+                    success: function (oData) {
+                        debugger;
+                        sap.m.MessageBox.success("Renegotiation sent successfully", {
+                            onClose: function () {
+                                var navigator = sap.ushell.Container.getService("CrossApplicationNavigation");
+								navigator.toExternal({
+									target: {
+										semanticObject: "#"
+									}
+								});
+                            }
+                        });
+                    },
+                    error: function (err) {
+                        
+                        debugger;
+
+                    }
+                });
+
+
+            }else{
+                sap.m.MessageBox.error("Please enter Renegotiation(BP) value");
+            }
+                
+            },
+            onNegotiationNotPossibleButtonPress: function(){
+                var payload = {
+                    "Pafno" :  "120018",
+                    "Posnr" : "01",
+                    "Action": "NBPRENG",
+                    "ApprovedBuyingprice" : ""
+                }
+
+                var serviceURL = "/sap/opu/odata/sap/ZPAF_PM_APPROVAL_SRV/";
+                var oODataModel = new sap.ui.model.odata.ODataModel(serviceURL, true);
+
+                oODataModel.create("/ET_PM_APPROVALSet", payload, {
+                    async: false,
+                    success: function (oData) {
+                        debugger;
+                        sap.m.MessageBox.success("Renegotiation decision sent successfully", {
+                            onClose: function () {
+                                var navigator = sap.ushell.Container.getService("CrossApplicationNavigation");
+								navigator.toExternal({
+									target: {
+										semanticObject: "#"
+									}
+								});
+                            }
+                        });
+                    },
+                    error: function (err) {
+                        
+                         
+
+                    }
+                });
+
+
             }
         });
     });
