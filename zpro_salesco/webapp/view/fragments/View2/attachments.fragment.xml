@@ -12,7 +12,6 @@
         terminationEnabled="true"
         maxFileNameLength="30"
         maxFileSize="200"
-        mediaTypes="application/pdf, image/jpeg, image/png"
         uploadUrl="../../../../upload"
         items="{path: 'LocalJSONModelForAttachment>/attachments/Nav_File_Upload/results', templateShareable: false}"
         selectionChanged="onUploadSelectionChange"

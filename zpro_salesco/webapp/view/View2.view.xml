@@ -1,13 +1,10 @@
 <mvc:View
-    height="100%"
     controllerName="zpj.pro.sk.sd.salescoordinator.zprosalesco.controller.View2"
     xmlns:mvc="sap.ui.core.mvc"
     xmlns:core="sap.ui.core"
     xmlns:uxap="sap.uxap"
     xmlns="sap.m"
-    xmlns:upload="sap.m.upload"
 >
-
     <uxap:ObjectPageLayout
         id="ObjectPageLayout"
         upperCaseAnchorBar="true"
@@ -15,12 +12,12 @@
     >
         <uxap:headerTitle>
             <uxap:ObjectPageHeader id="idV2OPH">
+            
                 <Button
                     id="idV2BtnEdit"
                     text="{i18nV2>view2.objectPageLayout.button.edit}"
                     type="Emphasized"
                     press="onEdit"
-                    
                     visible="false"
                 />
                 <!-- <Button
@@ -39,7 +36,7 @@
                 <uxap:subSections>
                     <uxap:ObjectPageSubSection
                         id="idV2OPSubGenInfo"
-                        title="{i18nV2>view2.sections.generalInfo.title}"        
+                        title="{i18nV2>view2.sections.generalInfo.title}"
                         titleUppercase="true"
                     >
                         <uxap:blocks>
@@ -77,9 +74,8 @@
                 id="idV2OPSAttach"
                 titleUppercase="true"
                 title="{i18nV2>view2.sections.attachments.title}"
-           
             >
-                  <!-- Attachment -->
+                <!-- Attachment -->
                 <uxap:subSections>
                     <uxap:ObjectPageSubSection
                         id="idV2OPSubAttach"
@@ -102,7 +98,7 @@
                 title="{i18nV2>view2.sections.sumDetails.title}"
                 visible="{GlobalModel>/Editable}"
             >
-            <!-- Summary Detail -->
+                <!-- Summary Detail -->
                 <uxap:subSections>
                     <uxap:ObjectPageSubSection
                         id="idV2OPSubSumDetail"

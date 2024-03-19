@@ -467,7 +467,7 @@
                                 id="idV2TblCLIInpFre"
                                 
                                 liveChange="onNumberValidation"
-                                value="{JSONModelPayload>Frgtbx}"
+                                value="{JSONModelPayload>Frgtsqft}"
                                 editable="{GlobalModel>/Editable}"
                                 
                             />

@@ -24,8 +24,8 @@ sap.ui.define([
                 // call the base component's init function
                 UIComponent.prototype.init.apply(this, arguments);
 
-                var oRenderer = sap.ushell.Container.getRenderer("fiori2");
-                oRenderer.setHeaderVisibility(false, false, ["home", "app"]);
+                // var oRenderer = sap.ushell.Container.getRenderer("fiori2");
+                // oRenderer.setHeaderVisibility(false, false, ["home", "app"]);
 
                 // enable routing
                 this.getRouter().initialize();

@@ -1,25 +1,27 @@
 <mvc:View
-    xmlns:cards="sap.f.cards"
     controllerName="pj.zpmg.controller.View2"
-    xmlns:core="sap.ui.core"
-    xmlns:tnt="sap.tnt"
     xmlns:mvc="sap.ui.core.mvc"
-    displayBlock="true"
+    xmlns:core="sap.ui.core"
+    xmlns:uxap="sap.uxap"
+    xmlns="sap.m"
+    xmlns:cards="sap.f.cards"
+    xmlns:tnt="sap.tnt"
     xmlns:u="sap.ui.unified"
     xmlns:upload="sap.m.upload"
     xmlns:f="sap.f"
     xmlns:forms="sap.ui.layout.form"
-    xmlns:uxap="sap.uxap"
-    xmlns="sap.m"
 >
-    <Page
-        enableScrolling="true"
-        title="DISPLAY REQUEST DETAILS"
-        class="sapUiResponsiveContentPaddingLeft"
-    >
+     <!-- <f:ShellBar
+        title="PMG"
+        homeIcon="/css/johnson_img.png"
+        showCopilot="false"
+        showSearch="false"
+        showNotifications="false"
+        showProductSwitcher="false"
+    /> -->
         <uxap:ObjectPageLayout
             id="ObjectPageLayout"
-            upperCaseAnchorBar="false"
+            upperCaseAnchorBar="true"
             showFooter="true"
         >
             <uxap:headerTitle>
@@ -27,10 +29,10 @@
                     id="idObjectHeader"
                     objectTitle=""
                 >
-                    <Button
+                    <!-- <Button
                         text="Back"
                         press="onBack"
-                    />
+                    /> -->
                 </uxap:ObjectPageHeader>
             </uxap:headerTitle>
             <uxap:sections>
@@ -49,18 +51,16 @@
                                     <Label text="Customer Name" />
                                     <Text text="{oRequestModel>/Name}" />
                                     <Label text="Volume(sq.ft In Lakhs)" />
-                                    <Text
-                                        text="{oRequestModelPaf>/CS_Volume}"
-                                    />
+                                    <Text text="{oRequestModel>/CS_Volume}" />
                                     <Label text="Value(INR Lakhs)" />
-                                    <Text text="{oRequestModelPaf>/CS_Value}" />
+                                    <Text text="{oRequestModel>/CS_Value}" />
                                     <Label text="Gross Margin(%)" />
                                     <Text
-                                        text="{oRequestModelPaf>/CS_GrossMargin}"
+                                        text="{oRequestModel>/CS_GrossMargin}"
                                     />
                                     <Label text="Gross Margin(Per sq.ft)" />
                                     <Text
-                                        text="{oRequestModelPaf>/CS_GrossMarginPer}"
+                                        text="{oRequestModel>/CS_GrossMarginPer}"
                                     />
                                 </forms:SimpleForm>
                             </uxap:blocks>
@@ -81,22 +81,18 @@
                                     title=""
                                 >
                                     <Label text="Region" />
-                                    <Text
-                                        text="{oRequestModelPaf>/RD_Region}"
-                                    />
+                                    <Text text="{oRequestModel>/RD_Region}" />
                                     <Label text="Volume(sq.ft In Lakhs)" />
-                                    <Text
-                                        text="{oRequestModelPaf>/RD_Volume}"
-                                    />
+                                    <Text text="{oRequestModel>/RD_Volume}" />
                                     <Label text="Value(INR Lakhs)" />
-                                    <Text text="{oRequestModelPaf>/RD_Value}" />
+                                    <Text text="{oRequestModel>/RD_Value}" />
                                     <Label text="Gross Margin(%)" />
                                     <Text
-                                        text="{oRequestModelPaf>/RD_GrossMarginPer}"
+                                        text="{oRequestModel>/RD_GrossMarginPer}"
                                     />
                                     <Label text="Gross Margin(Per sq.ft)" />
                                     <Text
-                                        text="{oRequestModelPaf>/RD_GrossMargin}"
+                                        text="{oRequestModel>/RD_GrossMargin}"
                                     />
                                 </forms:SimpleForm>
                             </uxap:blocks>
@@ -126,8 +122,10 @@
 											<Text text="{oRequestModel>/des}" /> -->
                                     <!-- <Label text="Source" />
 											<Text text="{oRequestModel>/sour}" /> -->
-                                    <Label text="Volume(sqft)" />
-                                    <Text text="{oRequestModel>/CurVolFt}" />
+                                    <Label text="Current Volume(sqft)" />
+                                    <Text text="{oRequestModel>/WcurVol}" />
+                                    <Label text="Total Volume(sqft)" />
+                                    <Text text="{oRequestModel>/WtotVol}" />
                                     <Label text="Validity(Days)" />
                                     <Text text="{oRequestModel>/Validity}" />
                                     <!-- <Label text="Material Freight Groups" />
@@ -135,15 +133,11 @@
                                     <Label text="Discount(%)" />
                                     <Text text="{oRequestModel>/Wdisc}" />
                                     <Label text="Net Ex Factory(Sqft)" />
-                                    <Text
-                                        text="{oRequestModelPaf>/TD_NetExFactory}"
-                                    />
+                                    <Text text="{oRequestModel>/Wnefsqft}" />
                                     <!-- <Label text="Net Ex Factory(Ft)" />
 											<Text text="{oRequestModel>/Netexsq}"/> -->
                                     <Label text="Freight Sqft(if applicable)" />
-                                    <Text
-                                        text="{oRequestModelPaf>/TD_FreightSqft}"
-                                    />
+                                    <Text text="{oRequestModel>/Wfrgtsqft}" />
                                     <Label text="Status" />
                                     <Text text="{oRequestModel>/Status}" />
                                     <Label text="Remarks(if any)" />
@@ -168,50 +162,50 @@
                                 >
                                     <Label text="Gross Margin %" />
                                     <tnt:InfoLabel
-                                        text="{path:'oRequestModelPaf>/MD_GrossMargin'}"
+                                        text="{path:'oRequestModel>/Wgrossmargper'}"
                                         renderMode="Loose"
-                                        colorScheme="{path:'oRequestModelPaf>/MD_GrossMargin', formatter:'.formatter.getColor'}"
+                                        colorScheme="{path:'oRequestModel>/Wgrossmargper', formatter:'.formatter.getColor'}"
                                     />
                                     <!-- <Text text="{oRequestModel>/grmg}"/> -->
                                     <!-- <Label text="Bench Mark Gross Margin" />
                                     <Text
-                                        text="{oRequestModelPaf>/MD_BenchMarkGrossMargin}"
+                                        text="{oRequestModel>/MD_BenchMarkGrossMargin}"
                                     /> -->
                                     <Label text="Recommended GM %" />
                                     <Text
-                                        text="{oRequestModelPaf>/MD_RecommendedGM}"
+                                        text="{oRequestModel>/MD_RecommendedGM}"
                                     />
                                     <!-- <Label text="Recommended Discount %" />
                                     <Text
-                                        text="{oRequestModelPaf>/MD_RecommendedDis}"
+                                        text="{oRequestModel>/MD_RecommendedDis}"
                                     /> -->
                                     <Label
                                         text="Target Equivalent GM per sqft"
                                     />
                                     <Text
-                                        text="{oRequestModelPaf>/MD_TargetEquivalentGMpersqft}"
+                                        text="{oRequestModel>/MD_TargetEquivalentGMpersqft}"
                                     />
                                     <Label
                                         text="Current Equivalent GM per sqft"
                                     />
                                     <Text
-                                        text="{oRequestModelPaf>/MD_CurrentEquivalentGMpersqft}"
+                                        text="{oRequestModel>/MD_CurrentEquivalentGMpersqft}"
                                     />
                                     <Label
                                         text="Effect on Current Equivalent GM per sqft"
                                     />
                                     <Text
-                                        text="{oRequestModelPaf>/MD_EffectOnCurrentEquivalentGMpersqft}"
+                                        text="{oRequestModel>/MD_EffectOnCurrentEquivalentGMpersqft}"
                                     />
                                     <!-- <Label text="Vertical Gross Margin" />
 											<Text text="{oRequestModel>/vgm}" /> -->
                                     <!-- <Label text="Discount %" />
                                     <Text
-                                        text="{oRequestModelPaf>/MD_DiscountPer}"
+                                        text="{oRequestModel>/MD_DiscountPer}"
                                     /> -->
                                     <Label text="Recommended Action" />
                                     <Text
-                                        text="{oRequestModelPaf>/MD_RecommendedAction}"
+                                        text="{oRequestModel>/MD_RecommendedAction}"
                                     />
                                 </forms:SimpleForm>
                             </uxap:blocks>
@@ -236,35 +230,32 @@
                                     <Label text="Ex factory price(s)" />
                                     <Text text="{oRequestModel>/Wexfac}" />
                                     <Label text="On Invoice Value and %" />
-                                    <Text text="{oRequestModel>/Wdisc}" />
-                                    <Text text="{oRequestModel>/oiv2}" />
+                                    <Text text="{oRequestModel>/Discb}" />
+                                    <Text text="{oRequestModel>/Disc}" />
                                     <!-- <Label
                                         text="Scheme Discount(Value and %)"
                                     />
                                     <Text text="{oRequestModel>/sd}" />
                                     <Text text="{oRequestModel>/sd2}" /> -->
-                                    <Label
-                                        text="Payment term discount(Value and %)"
-                                    />
-                                    <Text text="{oRequestModel>/Zterm}" />
+                                    <Label text="Payment term discount(%)" />
+                                    <!-- Value and  -->
                                     <Text
+                                        text="{oRequestModel>/CashDiscountper}"
+                                    />
+                                    <!-- <Text
                                         text="{path:'oRequestModel>/Wcashdisc', formatter:'.formatter.makeItPositive'}"
-                                    />
+                                    /> -->
                                     <Label text="SVC/BP" />
-                                    <Text
-                                        text="{oRequestModelPaf>/CD_SVC_BP}"
-                                    />
-                                    <Label text="Freight Cost" />
-                                    <Text text="{oRequestModel>/Frgtbx}" />
+                                    <Text text="{oRequestModel>/CD_SVC_BP}" />
+                                    <Label text="Freight Cost(Sqft)" />
+                                    <Text text="{oRequestModel>/Wfrgtsqft}" />
                                     <Label text="ORC(Value and %)" />
-                                    <Text text="0.00" />
-                                    <Text text="0.00" />
+                                    <Text text="{oRequestModel>/Worc}" />
+                                    <Text text="{oRequestModel>/Worcper}" />
                                     <Label text="S and D cost(Value and %)" />
+                                    <Text text="{oRequestModel>/CD_S_DCost}" />
                                     <Text
-                                        text="{oRequestModelPaf>/CD_S_DCost}"
-                                    />
-                                    <Text
-                                        text="{oRequestModelPaf>/CD_S_DCostPer}"
+                                        text="{oRequestModel>/CD_S_DCostPer}"
                                     />
                                 </forms:SimpleForm>
                             </uxap:blocks>
@@ -285,9 +276,11 @@
                                     title=""
                                 >
                                     <Label text="Competitor Name" />
-                                    <Text text="{oRequestModel>/comn}" />
+                                    <Text text="{oRequestModel>/Compname}" />
                                     <Label text="Competitor Landed Price" />
-                                    <Text text="{oRequestModel>/comlp}" />
+                                    <Text
+                                        text="{oRequestModel>/Complanprice}"
+                                    />
                                 </forms:SimpleForm>
                             </uxap:blocks>
                         </uxap:ObjectPageSubSection>
@@ -304,18 +297,16 @@
                             title="Product Details"
                         >
                             <uxap:blocks>
-                                <ScrollContainer
-                                    width="100%"
-                                    vertical="true"
-                                    focusable="true"
-                                >
-                                    <Table id="idTblProductDetails" items="{ProductModel>/}">
+ 
+                                    <Table
+                                        id="idTblProductDetails"
+                                        items="{ProductModel>/}"
+                                    >
                                         <columns>
                                             <Column
                                                 minScreenWidth="Tablet"
                                                 demandPopin="true"
                                                 hAlign="Center"
-                                                width="10rem"
                                             >
                                                 <Text
                                                     text="Material Freight Groups"
@@ -324,8 +315,7 @@
                                             <Column
                                                 minScreenWidth="Tablet"
                                                 demandPopin="true"
-                                                hAlign="Center"
-                                                width="10rem"
+                                                hAlign="End"
                                             >
                                                 <Text text="Size" />
                                             </Column>
@@ -333,7 +323,6 @@
                                                 minScreenWidth="Tablet"
                                                 demandPopin="true"
                                                 hAlign="Center"
-                                                width="10rem"
                                             >
                                                 <Text text="Designs" />
                                             </Column>
@@ -341,7 +330,6 @@
                                                 minScreenWidth="Tablet"
                                                 demandPopin="true"
                                                 hAlign="Center"
-                                                width="10rem"
                                             >
                                                 <Text text="Source" />
                                             </Column>
@@ -350,7 +338,6 @@
                                                 minScreenWidth="Tablet"
                                                 demandPopin="true"
                                                 hAlign="Center"
-                                                width="10rem"
                                                 visible="false"
                                             >
                                                 <Text text="Volume" />
@@ -358,24 +345,21 @@
                                             <Column
                                                 minScreenWidth="Tablet"
                                                 demandPopin="true"
-                                                hAlign="Center"
-                                                width="10rem"
+                                                hAlign="End"
                                             >
                                                 <Text text="Discount%" />
                                             </Column>
                                             <Column
                                                 minScreenWidth="Desktop"
                                                 demandPopin="true"
-                                                hAlign="Center"
-                                                width="10rem"
+                                                hAlign="End"
                                             >
                                                 <Text text="Net Ex Factory" />
                                             </Column>
                                             <Column
                                                 minScreenWidth="Desktop"
                                                 demandPopin="true"
-                                                hAlign="Center"
-                                                width="10rem"
+                                                hAlign="End"
                                             >
                                                 <Text text="SVC/BP" />
                                             </Column>
@@ -383,7 +367,6 @@
                                                 minScreenWidth="Desktop"
                                                 demandPopin="true"
                                                 hAlign="Center"
-                                                width="10rem"
                                                 visible="false"
                                             >
                                                 <Text text="Gross Margin" />
@@ -392,7 +375,6 @@
                                                 minScreenWidth="Desktop"
                                                 demandPopin="true"
                                                 hAlign="Center"
-                                                width="10rem"
                                                 visible="false"
                                             >
                                                 <Text
@@ -402,8 +384,7 @@
                                             <Column
                                                 minScreenWidth="Desktop"
                                                 demandPopin="true"
-                                                hAlign="Center"
-                                                width="10rem"
+                                                hAlign="End"
                                             >
                                                 <Text text="Gross Margin%" />
                                             </Column>
@@ -421,29 +402,18 @@
                                                     <Text
                                                         text="{ProductModel>Design}"
                                                     />
-   <!-- items="{path:'ZCUSTOMER_AUTOMATIONDISCOUNT_SRV>/ET_VALUE_HELPSSet',
-                                                                filters : [
-                                                                    { path : 'Domname', operator : 'EQ', value1 : 'SOURCE'},
-                                                                    { path : 'Domname1', operator : 'EQ', value1 : ''},
-                                                                    { path : 'Domname2', operator : 'EQ', value1 : '000000120017'},
-                                                                    { path : 'Domname3', operator : 'EQ', value1 : '00001'}
-                                                                ]}"
-                                                        selectedKey="{ProductModel>Source}" -->
-                                                    <ComboBox
-                                                        visible="true"
-                                                     
-                                                        change="onChangeSource"
-                                                    >
-                                                        <core:ListItem
-                                                            key="Y - Antique"
-                                                            text="Y - Antique"
-                                                        />
-                                                    </ComboBox>
-                                                    <!-- <Text  text="{oRequestModel>/sour}"/> -->
 
-                                                    <!-- <Text text="{oRequestModel>/sour}" /> -->
+                                                    <Input
+                                                        value="{ProductModel>Source}"
+                                                        id="idSource.Input"
+                                                        valueStateText="Enter Source"
+                                                        showValueHelp="true"
+                                                        valueHelpRequest="onSourceHelp"
+                                                        class="sapUiSmallMarginEnd"
+                                                        placeholder="Source"
+                                                    />
                                                     <Text
-                                                    visible="false"
+                                                        visible="false"
                                                         text="{ProductModel>Volume}"
                                                     />
                                                     <Text
@@ -456,11 +426,11 @@
                                                         text="{ProductModel>Buyingprice}"
                                                     />
                                                     <Text
-                                                    visible="false"
+                                                        visible="false"
                                                         text="{ProductModel>Grossmarg}"
                                                     />
                                                     <Text
-                                                    visible="false"
+                                                        visible="false"
                                                         text="{ProductModel>Zvolumepft}"
                                                     />
                                                     <Text
@@ -470,7 +440,7 @@
                                             </ColumnListItem>
                                         </items>
                                     </Table>
-                                </ScrollContainer>
+                          
                             </uxap:blocks>
                         </uxap:ObjectPageSubSection>
                     </uxap:subSections>
@@ -549,5 +519,5 @@
                 </Bar>
             </uxap:footer>
         </uxap:ObjectPageLayout>
-    </Page>
+     
 </mvc:View>

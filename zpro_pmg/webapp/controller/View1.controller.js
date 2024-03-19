@@ -16,8 +16,12 @@ sap.ui.define([
                 this.getOwnerComponent().getRouter().attachRoutePatternMatched(this._onRouteMatched, this);
             },
             _onRouteMatched: function (oEvent) {
+                 
                 var sID = oEvent.getParameter("arguments").ID;
-                if (sID === "Page1" || sID === undefined) {
+                if (sID === "Page1" || sID === undefined || sID === "") {
+                    this.getView().byId("idIconTabBar").setSelectedKey("All");
+                    this.getView().byId("id.orderNumber.Input").setValue("");
+                    this.getView().byId("idIconTabBar").focus()
                     this._getRequestData("", "count");
                     this._getRequestData("P", "count");
                     this._getRequestData("D", "count");
@@ -25,40 +29,41 @@ sap.ui.define([
                     this._getRequestData("R", "count");
                     this._getRequestData("DL", "count");
                     this._getRequestData("", "tableData");
+
                 }
             },
             _getRequestData: function (sStatusText, sForWhat) {
-                
+
                 var aFilter = [];
                 var oFilter = new sap.ui.model.Filter([new sap.ui.model.Filter("Status", sap.ui.model.FilterOperator.EQ, sStatusText)], false);
                 aFilter.push(oFilter);
                 var sPath = "/ET_ZDI_TP_BILLSet"
-                var that = this;
+
                 this.getView().setBusy(true);
                 this.getView().getModel().read(sPath, {
                     filters: aFilter,
                     success: function (Data) {
-                        
-                        that.getView().setBusy(false);
+
+                        this.getView().setBusy(false);
                         if (sForWhat === "count") {
                             switch (sStatusText) {
                                 case "":
-                                    that.getView().getModel("count").getData().Total = Data.results.length;
+                                    this.getView().getModel("count").getData().Total = Data.results.length;
                                     break;
                                 case "P":
-                                    that.getView().getModel("count").getData().Pending = Data.results.length;
+                                    this.getView().getModel("count").getData().Pending = Data.results.length;
                                     break;
                                 case "D":
-                                    that.getView().getModel("count").getData().Delayed = Data.results.length;
+                                    this.getView().getModel("count").getData().Delayed = Data.results.length;
                                     break;
                                 case "A":
-                                    that.getView().getModel("count").getData().Approved = Data.results.length;
+                                    this.getView().getModel("count").getData().Approved = Data.results.length;
                                     break;
                                 case "R":
-                                    that.getView().getModel("count").getData().Rejected = Data.results.length;
+                                    this.getView().getModel("count").getData().Rejected = Data.results.length;
                                     break;
                                 case "DL":
-                                    that.getView().getModel("count").getData().Deleted = Data.results.length;
+                                    this.getView().getModel("count").getData().Deleted = Data.results.length;
                                     break;
                                 default:
 
@@ -66,14 +71,14 @@ sap.ui.define([
                             }
                         } else {
                             var dataTableModel = Data.results;
-                            that.getView().setModel(new JSONModel(dataTableModel), "JSONModelForTable");
+                            this.getView().setModel(new JSONModel(dataTableModel), "JSONModelForTable");
                         }
-                        that.getView().getModel("count").refresh(true);
+                        this.getView().getModel("count").refresh(true);
 
 
-                    },
+                    }.bind(this),
                     error: function (sError) {
-                        that.getView().setBusy(false);
+                        this.getView().setBusy(false);
                         MessageBox.error(JSON.parse(sError.responseText).error.message.value, {
                             actions: [sap.m.MessageBox.Action.OK],
                             onClose: function (oAction) {
@@ -87,13 +92,13 @@ sap.ui.define([
                                 window.location.reload()
                             }
                         });
-                    }
+                    }.bind(this)
                 });
 
             },
 
             _onFilterSelect: function (oEvent) {
-     
+
                 var sKey = oEvent.getParameter("key");
                 if (sKey === "All") {
                     this._getRequestData("", "tableData");
@@ -117,6 +122,19 @@ sap.ui.define([
                 // } else if (sKey === "Frieght") {
                 //     this.getFrieghtData();
                 // }
+
+            },
+            onOrderNumber: function (oEvent) {
+                var vValue = oEvent.getParameter('value');
+                var filter = new sap.ui.model.Filter({
+                    path: 'Pafno',
+                    operator: sap.ui.model.FilterOperator.Contains,
+                    value1: vValue
+                });
+                var oTable = this.getView().byId("productsTable");
+
+                oTable.getBinding("items").filter(filter);
+                oTable.setShowOverlay(false);
 
             },
             onClickofItem: function (oEvent) {

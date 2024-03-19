@@ -65,7 +65,7 @@ sap.ui.define([
                 var sID = oEvent.getParameter("arguments").ID;
 
                 if (sID === "null" || sID === undefined) {
-                    
+
                     this.getView().getModel("GlobalModel").setProperty("/Editable", true);
                     this.getView().byId("idV2OPSubAttach").setVisible(true);
                     // payload for OData service
@@ -199,7 +199,7 @@ sap.ui.define([
                             "Exfacsqft": null,
                             "Exdepsqft": null,
                             "Commboxp": null,
-                            "Frgtbx": "",
+                            "Frgtsqft": "",
                             "Compname": null,
                             "Complanprice": null,
                             "Zzprodh4": "",
@@ -232,7 +232,7 @@ sap.ui.define([
 
             },
             onAddRow: function () {
-              
+
                 var headerValidationStatus = validation.headerPayloadValidation(this);
                 if (headerValidationStatus === 1) {
                     var aData = this.getView().getModel("JSONModelPayload").getData().ET_SALES_COORD_ISET.results;
@@ -253,7 +253,7 @@ sap.ui.define([
                             "Exfacsqft": null,
                             "Exdepsqft": null,
                             "Commboxp": "",
-                            "Frgtbx": "",
+                            "Frgtsqft": "",
                             "Compname": "",
                             "Complanprice": "",
                             "Zzprodh4": "",
@@ -551,7 +551,7 @@ sap.ui.define([
 
                                 that.getView().getModel("GlobalModel").setProperty("/Editable", false);
                                 that.getView().getModel("GlobalModel").refresh(true);
-
+                                debugger;
                                 that.getView().byId("idV2Bar").setVisible(true);
                                 that.getView().byId("idV2BtnSave").setVisible(true);
 
@@ -585,7 +585,7 @@ sap.ui.define([
                 for (let index = 0; index < aItemsData.length; index++) {
                     vInvoiceDiscount = vInvoiceDiscount + Number(aItemsData[index].Disc);
                     vSchemeDiscount = vSchemeDiscount + Number(aItemsData[index].Schemedisc);
-                    vFreightDiscount = vFreightDiscount + Number(aItemsData[index].Frgtbx)
+                    vFreightDiscount = vFreightDiscount + Number(aItemsData[index].Frgtsqft)
                 }
                 vInvoiceDiscount = vInvoiceDiscount / aItemsData.length;
                 vSchemeDiscount = vSchemeDiscount / aItemsData.length;
@@ -598,22 +598,23 @@ sap.ui.define([
 
             //Start: Upload, View and Download Attachment
             onBeforeUploadStarts: function (oEvent) {
-
+                debugger;
                 var that = this;
                 this.fileName = oEvent.getParameters().item.getFileName()
                 this.fileType = oEvent.getParameters().item.getMediaType()
+                
                 var file = oEvent.getParameters().item.getFileObject()
 
                 var reader = new FileReader();
                 reader.onload = function (e) {
                     var vContent = e.currentTarget.result
-
+                    
                     that.updateFile(that.fileName, that.fileType, vContent);
                 }
                 reader.readAsDataURL(file);
             },
             updateFile: function (fileName, fileType, vContent) {
-
+                debugger;
                 var decodedPdfContent,
                     blob,
                     vStatus = 1;

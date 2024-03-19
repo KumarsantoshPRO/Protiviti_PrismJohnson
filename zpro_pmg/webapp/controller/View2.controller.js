@@ -7,12 +7,13 @@ sap.ui.define([
     "sap/m/Label",
     "sap/m/library",
     "sap/m/TextArea",
-    "pj/zpmg/model/formatter"
+    "pj/zpmg/model/formatter",
+    "sap/m/MessageBox"
 ],
     /**
      * @param {typeof sap.ui.core.mvc.Controller} Controller
      */
-    function (Controller, JSONModel, Core, Dialog, Button, Label, mobileLibrary, TextArea, formatter) {
+    function (Controller, JSONModel, Core, Dialog, Button, Label, mobileLibrary, TextArea, formatter, MessageBox) {
         "use strict";
         var ButtonType = mobileLibrary.ButtonType;
         var DialogType = mobileLibrary.DialogType;
@@ -29,29 +30,34 @@ sap.ui.define([
                 this.getOwnerComponent().getRouter().attachRoutePatternMatched(this.onRouteMatched, this);
                 this.getData();
                 this.pafNoTemp;
+                this._Posnr;
+                this._rowIndex;
             },
 
             // Attach route matched method
             onRouteMatched: function (oEvent) {
                 var pafID = oEvent.getParameter("arguments").pafID;
-                if (pafID !== "null" || pafID !== undefined) {
-                    this.getView().byId("idObjectHeader").setObjectTitle("PAF NO : " + pafID.replace(/^0+/, ''));
-                    this.getRequestDetails(pafID);
-                    this.pafID = pafID;
-                    //this.getSourceDetails(pafID);
+                if (pafID !== "Page1" || pafID !== undefined) {
+                    if (pafID) {
+                        this.getView().byId("idObjectHeader").setObjectTitle("PAF NO : " + pafID.replace(/^0+/, ''));
+
+                        this.getRequestDetails(pafID);
+                        this.pafID = pafID;
+                    }
+
                 }
             },
 
             getRequestDetails: function (pafID) {
                 this.getView().setBusy(true);
-              var sPath = "/ET_PMG_REQUEST_ITEMSet('"+pafID+"')"
+                var sPath = "/ET_PMG_REQUEST_ITEMSet('" + pafID + "')"
 
-              if(pafID.includes('120018') || pafID.includes('120017')){
-                this.getDataWRTPafNo(pafID);
-              }
+                if (pafID.includes('120018') || pafID.includes('120017')) {
+                    this.getDataWRTPafNo(pafID);
+                }
 
                 this.getOwnerComponent().getModel().read(sPath, {
-                     
+
                     urlParameters: {
                         "$expand": "NAV_PMG_ITEM_PRODUCT"
                     },
@@ -64,7 +70,7 @@ sap.ui.define([
                         oPrdModel.setData(oData.NAV_PMG_ITEM_PRODUCT.results);
                         this.getView().setModel(oPrdModel, "ProductModel");
                         this.getView().setBusy(false);
-                     
+
                     }.bind(this),
                     error: function (oError) {
                         this.getView().setBusy(false);
@@ -72,8 +78,8 @@ sap.ui.define([
                 });
             },
 
-            getDataWRTPafNo: function(pafID){
-                if(pafID.includes('120017')){
+            getDataWRTPafNo: function (pafID) {
+                if (pafID.includes('120017')) {
                     this.pafNoTemp = 120017;
                     var payload = {
                         "CS_Value": "164.55",
@@ -97,13 +103,13 @@ sap.ui.define([
                         "MD_EffectOnCurrentEquivalentGMpersqft": "-",
                         "MD_DiscountPer": "8",
                         "MD_RecommendedAction": "Accept Transaction",
-                        
+
                         "CD_SVC_BP": "21.5 sq ft",
                         "CD_S_DCost": "0",
                         "CD_S_DCostPer": ""
                     };
                 }
-                if(pafID.includes('120018')){
+                if (pafID.includes('120018')) {
                     this.pafNoTemp = 120018;
                     var payload = {
                         "CS_Value": "164.55",
@@ -127,7 +133,7 @@ sap.ui.define([
                         "MD_EffectOnCurrentEquivalentGMpersqft": "-",
                         "MD_DiscountPer": "8",
                         "MD_RecommendedAction": "Reject Transaction or Request for Special Buying Price",
-                        
+
                         "CD_SVC_BP": "21.5 sq ft",
                         "CD_S_DCost": "0",
                         "CD_S_DCostPer": ""
@@ -136,7 +142,7 @@ sap.ui.define([
 
                 var oModelWRTPafNo = new JSONModel();
                 oModelWRTPafNo.setData(payload);
-                        this.getView().setModel(oModelWRTPafNo, "oRequestModelPaf");
+                this.getView().setModel(oModelWRTPafNo, "oRequestModelPaf");
 
             },
 
@@ -181,41 +187,94 @@ sap.ui.define([
                 });
             },
 
-            onChangeSource: function (oEvent) {
-         
-                var oModeldata = this.getView().getModel("ProductModel").getData();
-// debugger;
-               if(this.pafNoTemp === "120018") {
-                this.getView().getModel("ProductModel").getData()[0].Grossmargper = 5.1;
-          
-                this.getView().getModel("ProductModel").getData()[0].Buyingprice = 21.5;
-               }else{
-                this.getView().getModel("ProductModel").getData()[0].Grossmargper = 15.42;
-          
-                this.getView().getModel("ProductModel").getData()[0].Buyingprice = 21.5;
-            }
+            onSourceHelp: function (oEvent) {
+                var pathIndex = Number(oEvent.getSource().getParent().getBindingContextPath().split("/")[1]);
+                this._rowIndex = pathIndex;
+                this._Posnr = pathIndex + 1;
 
-           
+                if (!this._sourceFrag) {
+                    this._sourceFrag = sap.ui.xmlfragment("pj.zpmg.view.fragments.source", this);
+                    this.getView().addDependent(this._sourceFrag);
+                    this._CustomerCodeTemp = sap.ui.getCore().byId("idSLSourceValueHelp").clone();
+                    this._oTemp = sap.ui.getCore().byId("idSLSourceValueHelp").clone();
+                }
+                var aFilter = [],
+                    oFilterDomname = new sap.ui.model.Filter([new sap.ui.model.Filter("Domname", sap.ui.model.FilterOperator.EQ, "SOURCE")], false),
+                    oFilterDomname1 = new sap.ui.model.Filter([new sap.ui.model.Filter("Domname1", sap.ui.model.FilterOperator.EQ, "")], false),
+                    oFilterDomname2 = new sap.ui.model.Filter([new sap.ui.model.Filter("Domname2", sap.ui.model.FilterOperator.EQ, this.pafID)], false),
+                    oFilterDomname3 = new sap.ui.model.Filter([new sap.ui.model.Filter("Domname3", sap.ui.model.FilterOperator.EQ, "00001")], false);
+                aFilter.push(oFilterDomname);
+                aFilter.push(oFilterDomname1);
+                aFilter.push(oFilterDomname2);
+                aFilter.push(oFilterDomname3);
+                // sap.ui.getCore().byId("idSDSourceF4").setModel("ZCUSTOMER_AUTOMATIONDISCOUNT_SRV");
+                sap.ui.getCore().byId("idSDSourceF4").bindAggregation("items", {
+                    path: "ZCUSTOMER_AUTOMATIONDISCOUNT_SRV>/ET_VALUE_HELPSSet",
+                    filters: aFilter,
+                    template: this._CustomerCodeTemp
+                });
+
+                this._sourceFrag.open();
+
+            },
+            onSourceValueHelpConfirm: function (oEvent) {
+
+                var oSelectedItem = oEvent.getParameter("selectedItem"),
+                    sSelectedValue = oSelectedItem.getProperty("title");
+
+                var payload = {
+                    "Pafno": this.pafID,
+                    "Posnr": this._Posnr.toString(),
+                    "NAV_PMG_ITEM_PRODUCT": [
+                        {
+                            "Pafno": this.pafID,
+                            "Posnr": this._Posnr.toString(),
+                            "Source": sSelectedValue
+                        }
+                    ]
+                }
+
+                this.getOwnerComponent().getModel().create('/ET_PMG_REQUEST_ITEMSet', payload, {
+                    success: function (oData, response) {
+                        var vSVC_BP = oData.NAV_PMG_ITEM_PRODUCT.results[0].Buyingprice,
+                            vGross_Margin = oData.NAV_PMG_ITEM_PRODUCT.results[0].Grossmargper,
+                            vSource = oData.NAV_PMG_ITEM_PRODUCT.results[0].Source;
+
+                        this.getView().getModel("ProductModel").getData()[this._rowIndex].Buyingprice = vSVC_BP;
+                        this.getView().getModel("ProductModel").getData()[this._rowIndex].Grossmargper = vGross_Margin;
+                        this.getView().getModel("ProductModel").getData()[this._rowIndex].Source = vSource;
+                        this.getView().getModel("ProductModel").refresh(true);
+                        this.getView().setBusy(false);
+                    }.bind(this),
+                    error: function (error) {
+                        this.getView().setBusy(false);
+                        MessageBox.error(error.responseText);
+                    }.bind(this)
+                });
+            },
+
+            onChangeSource: function (oEvent) {
+
+                var oModeldata = this.getView().getModel("ProductModel").getData();
                 this.getView().getModel("ProductModel").refresh(true);
-                // var newEntry = {
-                //     "Pafno": this.pafID,
-                //     "NAV_PMG_ITEM_PRODUCT": newProductArr
-                // };
-                //return;
-                // this.getOwnerComponent().getModel().create('/ET_PMG_REQUEST_ITEMSet', newEntry, {
-                //     success: function (oData, response) {
-                //         debugger;
-                //         var oPrdModel = this.getView().getModel("ProductModel");
-                //         oPrdModel.setData(oData.NAV_PMG_ITEM_PRODUCT.results);
-                //         this.getView().setModel(oPrdModel, "ProductModel");
-                //         this.getView().getModel("ProductModel").refresh(true);
-                //         this.getView().setBusy(false);
-                //     }.bind(this),
-                //     error: function (error) {
-                //         this.getView().setBusy(false);
-                //         MessageBox.error(error.responseText);
-                //     }.bind(this)
-                // });
+                var newEntry = {
+                    "Pafno": this.pafID,
+                    "NAV_PMG_ITEM_PRODUCT": newProductArr
+                };
+
+                this.getOwnerComponent().getModel().create('/ET_PMG_REQUEST_ITEMSet', newEntry, {
+                    success: function (oData, response) {
+                        var oPrdModel = this.getView().getModel("ProductModel");
+                        oPrdModel.setData(oData.NAV_PMG_ITEM_PRODUCT.results);
+                        this.getView().setModel(oPrdModel, "ProductModel");
+                        this.getView().getModel("ProductModel").refresh(true);
+                        this.getView().setBusy(false);
+                    }.bind(this),
+                    error: function (error) {
+                        this.getView().setBusy(false);
+                        MessageBox.error(error.responseText);
+                    }.bind(this)
+                });
 
             },
 
@@ -285,7 +344,7 @@ sap.ui.define([
 
             onBack: function () {
                 this.oRouter = this.getOwnerComponent().getRouter();
-                this.oRouter.navTo("page1", {});
+                this.oRouter.navTo("", {});
             },
 
             onForward: function () {
@@ -501,18 +560,48 @@ sap.ui.define([
             _sendPayload: function (payload) {
 
                 payload.Pafno = this.getView().getModel("oRequestModel").getData().Pafno;
-                var that = this;
-                this.getOwnerComponent().getModel().create('/ET_PMG_REQUEST_ITEMSet', payload, {
-                    success: function (oData, response) {
-                        this.oRouter = this.getOwnerComponent().getRouter();
-                        this.oRouter.navTo("page1", {});
-                        this.getView().setBusy(false);
-                    }.bind(this),
-                    error: function (error) {
-                        this.getView().setBusy(false);
-                        MessageBox.error(error.responseText);
-                    }.bind(this)
-                });
+
+                //   ProductModel 
+
+                var aTablePayload = this.getView().getModel("ProductModel").getData(),
+                    len = aTablePayload.length,
+                    vValidation = 0;
+
+                for (let index = 0; index < len; index++) {
+                    for (const key in aTablePayload[index]) {
+                        if (Object.hasOwnProperty.call(aTablePayload[index], key)) {
+                            if (key === 'Source') {
+                                const element = aTablePayload[index]['Source'];
+                                if (element === '') {
+                                    vValidation = 0;
+                                    this.getView().byId("idTblProductDetails").getItems()[index].getAggregation("cells")[3].setValueState("Error");
+                                    // this.getView().byId("idTblProductDetails").getItems()[index].getAggregation("cells")[3]
+                                } else {
+                                    vValidation = 1;
+                                    this.getView().byId("idTblProductDetails").getItems()[index].getAggregation("cells")[3].setValueState("None")
+                                }
+                            }
+                        }
+                    }
+
+                }
+                if (vValidation === 1) {
+                    this.getView().setBusy(true);
+                    this.getOwnerComponent().getModel().create('/ET_PMG_REQUEST_ITEMSet', payload, {
+                        success: function (oData, response) {
+                            this.oRouter = this.getOwnerComponent().getRouter();
+                            this.oRouter.navTo("page1", {});
+                            this.getView().setBusy(false);
+                        }.bind(this),
+                        error: function (error) {
+                            this.getView().setBusy(false);
+                            MessageBox.error(error.responseText);
+                        }.bind(this)
+                    });
+                } else {
+                    MessageBox.error("Please select Source(vendor)");
+                    this.oRejectDialog.close();
+                }
             }
         });
     });

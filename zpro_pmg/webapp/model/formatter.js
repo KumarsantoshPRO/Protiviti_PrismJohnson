@@ -124,8 +124,16 @@ sap.ui.define([], function () {
 
         getFormattedDate: function (sDate) {
             if (sDate !== undefined && sDate !== null) {
-                var aMonths = ["Jan", "Feb", "Mar", "Apr", "May", "Jun", "July", "Aug", "Sep", "Oct", "Nov", "Dec"];
-                return aMonths[sDate.getMonth()] + " " + sDate.getDate() + ", " + sDate.getFullYear();
+                // var aMonths = ["Jan", "Feb", "Mar", "Apr", "May", "Jun", "July", "Aug", "Sep", "Oct", "Nov", "Dec"];
+                // return aMonths[sDate.getMonth()] + " " + sDate.getDate() + ", " + sDate.getFullYear();
+                var aMonths = ["01", "02", "03", "04", "05", "06", "07", "08", "09", "10", "11", "12"];
+          
+                if (sDate.getDate() < 10) {
+                    var aDay = ["01", "02", "03", "04", "05", "06", "07", "08", "09"]
+                    return aDay[sDate.getDate()] + "/" + aMonths[sDate.getMonth()] + "/" + sDate.getFullYear();
+                } else {
+                    return sDate.getDate() + "/" + aMonths[sDate.getMonth()] + "/" + sDate.getFullYear();
+                }
             } else {
                 return sDate;
             }
