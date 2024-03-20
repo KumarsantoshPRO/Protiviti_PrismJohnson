@@ -99,6 +99,7 @@ sap.ui.define([
                 if (sID === "null" || sID === undefined) {
 
                     this.getView().getModel("GlobalModel").setProperty("/Editable", true);
+                    this.byId(sap.ui.core.Fragment.createId("idV2FragGenInfo", "idV2SLPaymentTerm")).setEnabled(false);
                     this.getView().byId("idV2OPSubAttach").setVisible(true);
                     // payload for OData service
                     var dataModelPayload = this.getOwnerComponent().getModel("payload").getData();
@@ -109,6 +110,7 @@ sap.ui.define([
                     this.getView().byId("ObjectPageLayout").getHeaderTitle().setObjectTitle("Generate New Request");
                 } else {
                     this.getView().getModel("GlobalModel").setProperty("/Editable", false);
+                    this.byId(sap.ui.core.Fragment.createId("idV2FragGenInfo", "idV2SLPaymentTerm")).setEnabled(true);
                     var aFilter = [];
                     var oFilter = new sap.ui.model.Filter([new sap.ui.model.Filter("Pafno", sap.ui.model.FilterOperator.EQ, sID)], false);
                     aFilter.push(oFilter);
@@ -269,18 +271,18 @@ sap.ui.define([
             },
 
             onCancel: function () {
-
+               
                 var that = this;
                 MessageBox.confirm("Are you sure you want to cancel?", {
                     actions: ["Yes", "No"],
                     onClose: function (oAction) {
                         if (oAction === "Yes") {
-                            var oRouter = that.getOwnerComponent().getRouter();
-                            oRouter.navTo("page1", {});
+                            var oRouter = this.getOwnerComponent().getRouter();
+                            oRouter.navTo("RouteMain", {});
                         } else {
 
                         }
-                    }
+                    }.bind(this)
                 });
             },
 

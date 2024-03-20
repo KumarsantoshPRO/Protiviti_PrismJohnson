@@ -18,7 +18,7 @@ sap.ui.define([
 
             onRouteMatched: function (oEvent) {
                 var pafID = oEvent.getParameter("arguments").ID;
-                
+
                 if (pafID === "null" || pafID === undefined) {
                 } else {
                     var sPath = "/ET_PM_HEADERSet('" + pafID + "')";
@@ -29,7 +29,7 @@ sap.ui.define([
                             "$expand": "NAV_PM_REQUEST"
                         },
                         success: function (Data) {
-                            debugger;
+
                             this.getView().setModel(new JSONModel(Data), "oRequestModel");
                             this.getView().setBusy(false);
                         }.bind(this),
@@ -52,26 +52,56 @@ sap.ui.define([
                 this.oRouter.navTo("page1", {});
             },
             onRenegotiationButtonPress: function () {
+                var vValidation = 0;
+                var aTablePayload = this.getView().getModel("oRequestModel").getData().NAV_PM_REQUEST.results;
+                var len = this.getView().getModel("oRequestModel").getData().NAV_PM_REQUEST.results.length;
+                for (let index = 0; index < len; index++) {
+                    for (const key in aTablePayload[index]) {
+                        if (Object.hasOwnProperty.call(aTablePayload[index], key)) {
+                            if (key === 'ApprovedBuyingprice') {
+                                const element = aTablePayload[index]['ApprovedBuyingprice'];
+                                if (element === '0.00') {
+                                    vValidation = 0;
 
-                if (this.getView().byId("id.Renegotiation.Input").getValue()) {
-                    var nLen = this.getView().getModel("oRequestModel").getData().NAV_PM_REQUEST.results;
-                    for (let index = 0; index < nLen; index++) {
-                        delete this.getView().getModel("oRequestModel").getData().NAV_PM_REQUEST.results[index].__metadata   
+                                    this.getView().byId("idV2TblProducts").getItems()[index].getAggregation("cells")[9].setValueState("Error");
+                                    // this.getView().byId("idTblProductDetails").getItems()[index].getAggregation("cells")[3]
+                                } else {
+                                    vValidation = 1;
+                                    this.getView().byId("idV2TblProducts").getItems()[index].getAggregation("cells")[9].setValueState("None")
+                                }
+                            }
+                        }
                     }
-    
-             
+
+                }
+                if (vValidation === 1) {
                     var payload = {
-                        "Pafno": oEvent.getParameter("arguments").ID,
+                        "Pafno": this.getView().getModel("oRequestModel").getData().Pafno,
                         "Action": "BPRENG",
-                        "NAV_PM_REQUEST":this.getView().getModel("oRequestModel").getData().NAV_PM_REQUEST.results 
+                        "NAV_PM_REQUEST": []
+                    }
+                    var nLen = this.getView().getModel("oRequestModel").getData().NAV_PM_REQUEST.results.length;
+                    for (let index = 0; index < nLen; index++) {
+                        delete this.getView().getModel("oRequestModel").getData().NAV_PM_REQUEST.results[index].__metadata
+                        payload.NAV_PM_REQUEST.push(
+                            {
+                                "Pafno": this.getView().getModel("oRequestModel").getData().Pafno,
+                                "Posnr": (index+1).toString(),
+                                "ApprovedBuyingprice": this.getView().getModel("oRequestModel").getData().NAV_PM_REQUEST.results[index].ApprovedBuyingprice
+                            }
+                        )
                     }
 
-                    oODataModel.create("/ET_PM_APPROVALSet", payload, {
+                    
+                    var sPath = "/ET_PM_HEADERSet";
+                    this.getView().setBusy(true);
+                    this.getView().getModel().create(sPath, payload, {
                         async: false,
                         success: function (oData) {
-                       
+                            this.getView().setBusy(false);
                             sap.m.MessageBox.success("Renegotiation sent successfully", {
                                 onClose: function () {
+                                    
                                     var navigator = sap.ushell.Container.getService("CrossApplicationNavigation");
                                     navigator.toExternal({
                                         target: {
@@ -80,32 +110,32 @@ sap.ui.define([
                                     });
                                 }
                             });
-                        },
+                        }.bind(this),
                         error: function (err) {
 
-                            
+                            this.getView().setBusy(false);
 
                         }
                     });
 
 
                 } else {
-                    sap.m.MessageBox.error("Please enter Renegotiation(BP) value");
+                    sap.m.MessageBox.error("Please enter 'Approved Buying Price'");
                 }
 
             },
             onNegotiationNotPossibleButtonPress: function () {
 
-                var nLen = this.getView().getModel("oRequestModel").getData().NAV_PM_REQUEST.results;
+                var nLen = this.getView().getModel("oRequestModel").getData().NAV_PM_REQUEST.results.length;
                 for (let index = 0; index < nLen; index++) {
-                    delete this.getView().getModel("oRequestModel").getData().NAV_PM_REQUEST.results[index].__metadata   
+                    delete this.getView().getModel("oRequestModel").getData().NAV_PM_REQUEST.results[index].__metadata
                 }
 
-                debugger;
+
                 var payload = {
-                    "Pafno": oEvent.getParameter("arguments").ID,
+                    "Pafno": this.getView().getModel("oRequestModel").getData().Pafno,
                     "Action": "NBPRENG",
-                    "NAV_PM_REQUEST":this.getView().getModel("oRequestModel").getData().NAV_PM_REQUEST.results 
+                    "NAV_PM_REQUEST": this.getView().getModel("oRequestModel").getData().NAV_PM_REQUEST.results
                 }
 
                 var sPath = "/ET_PM_HEADERSet";

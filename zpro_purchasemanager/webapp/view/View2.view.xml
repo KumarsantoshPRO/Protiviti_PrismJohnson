@@ -145,14 +145,14 @@
                                                 demandPopin="true"
                                                 hAlign="Center"
                                             >
-                                                <Label text="Buying Price" />
+                                                <Label text="Buying Price(Sqft)" />
                                             </Column>
                                             <Column
                                                 demandPopin="true"
                                                 hAlign="Center"
                                             >
                                                 <Label
-                                                    text="Approved Buying Price"
+                                                    text="Approved Buying Price(Sqft)"
                                                     required="true"
                                                 />
                                             </Column>

@@ -448,7 +448,7 @@
 
                             <Input
                                 id="idV2TblCLIInpORCEnt"
-                                
+                                 liveChange="onNumberValidation"
                                 change="onOrcEntityChange"
                                 value="{JSONModelPayload>Commbox}"
                                 editable="{GlobalModel>/Editable}"
@@ -457,7 +457,7 @@
                             <Input
                                 id="idV2TblCLIInpORCPer"
                           
-                                
+                                 liveChange="onNumberValidation"
                                 
                                 value="{JSONModelPayload>Commboxp}"
                                 editable="{GlobalModel>/Editable}"
@@ -477,6 +477,8 @@
                             editable="{GlobalModel>/Editable}"/>
 
                             <Input id="idV2TblCLIInpCompLanPrice" 
+                            
+                                liveChange="onNumberValidation"
                             value="{JSONModelPayload>Complanprice}"
                             editable="{GlobalModel>/Editable}"/>
 
