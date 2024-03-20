@@ -28,6 +28,7 @@
                 text="{i18nV2>view2.simpleForm.label.custCode}"
                 required="true"
             />
+
             <Input
                 value="{JSONModelPayload>/Kunnr}"
                 id="idV2InpCustCode"
@@ -37,19 +38,26 @@
                 class="sapUiSmallMarginEnd"
                 placeholder="{i18nV2>view2.simpleForm.label.custCode}"
                 editable="{GlobalModel>/Editable}"
-            />
+                showSuggestion="true"
+                suggest=".onSuggest"
+                suggestionItems="{JSONModelForSuggest>/}"
+                submit="onCustomerCodeInputSubmit"
+                valueHelpOnly="true"
+            >
+                <suggestionItems>
+                    <core:Item text="{JSONModelForSuggest>DomvalueL}" />
+                </suggestionItems>
+            </Input>
             <Label
                 id="idV2LblCustName"
-                 
                 text="{i18nV2>view2.simpleForm.label.custName}"
             />
             <Input
                 value="{JSONModelPayload>/Name}"
                 id="idV2InpCustName"
                 editable="false"
-
             />
-                                <Label
+            <Label
                 id="idV2LblDistChnl"
                 text="{i18nV2>view2.simpleForm.label.distChnl}"
                 required="true"
@@ -62,7 +70,6 @@
                 change="onDistributionChannelChange"
                 valueStateText="Select {i18nV2>view2.simpleForm.label.distChnl}"
                 editable="{GlobalModel>/Editable}"
-              
             >
                 <core:Item
                     id="idV2SLItemDistChannel"
@@ -73,7 +80,6 @@
             <Label
                 id="idV2LblPayTerm"
                 text="{i18nV2>view2.simpleForm.label.payTerm}"
-                
             />
             <Select
                 id="idV2SLPaymentTerm"
@@ -90,7 +96,7 @@
                     text="{LocalJSONModels>text}"
                 />
             </Select>
-   
+
             <Label
                 id="idV2LblValidity"
                 text="{i18nV2>view2.simpleForm.label.validity}"
@@ -105,7 +111,6 @@
                 editable="{GlobalModel>/Editable}"
             />
 
-
             <!-- <Label
                 id="idV2LblValidDay"
                 text="{i18nV2>view2.simpleForm.label.validDays}"
@@ -118,7 +123,7 @@
             /> -->
 
             <core:Title id="idV2T2" />
-             <Label
+            <Label
                 id="idV2LblOrdNo"
                 text="{i18nV2>view2.simpleForm.label.ordNo}"
             />
@@ -172,7 +177,6 @@
                 editable="false"
                 valueStateText="Enter {i18nV2>view2.simpleForm.label.TranIns}"
                 value="{JSONModelPayload>/Ti}"
-              
             />
             <Label
                 id="idV2LblGST"
@@ -182,7 +186,6 @@
                 id="idV2InpGST"
                 editable="false"
                 value="{JSONModelPayload>/Gst}"
-                
             />
             <Label
                 id="idV2LblEx"
@@ -198,7 +201,7 @@
                 selectedIndex="{=${JSONModelPayload>/Isexdep}==='X'?${JSONModelPayload>/Isexdep}===''?-1:1:${JSONModelPayload>/Isexdep}===''?-1:0}"
                 editable="{GlobalModel>/Editable}"
             >
-            <!-- Isexdep -->
+                <!-- Isexdep -->
                 <RadioButton
                     id="idV2RBExFactory"
                     text="{i18nV2>view2.simpleForm.radioButton.exFactory}"

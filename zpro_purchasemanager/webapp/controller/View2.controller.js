@@ -17,23 +17,47 @@ sap.ui.define([
 
                 var oGetDataModel = new JSONModel(
                     {
-                        "customer": "Bharath Marble",
-                        "siz": "300X150",
-                        "des": "TINTONDK",
-                        "sour": "Coral",
-                        "vol": "20000",
-                        "val": "20",
-                        "mfg": "WDGIDOL",
-                        "dis": "25%",
-                        "nef": "202.5",
-                        "neff": "18.8",
-                        "fs": "No",
-                        "sts": "Pending",
-                        "rem": "Long term dealer",
-                        "ren": "-"
+                        // "customer": "Bharath Marble",
+                        // "siz": "300X150",
+                        // "des": "TINTONDK",
+                        // "sour": "Coral",
+                        // "vol": "20000",
+                        // "val": "20",
+                        // "mfg": "WDGIDOL",
+                        // "dis": "25%",
+                        // "nef": "202.5",
+                        // "neff": "18.8",
+                        // "fs": "No",
+                        // "sts": "Pending",
+                        // "rem": "Long term dealer",
+                        // "ren": "-"
+                        "pafNo" : "000000120017",
+                        "Kunnr" : "MH0S0114",
+                       "Zsmm" : "",
+                     "Design" : "AVEO SF RP",
+                     "Validity": "",
+                    
+                     
                     });
+                    var oGetDataModel1 = new JSONModel([
+                        {
+                            "Buyingpricesqft" : "0.000",
+          "Grossmarginper" : "15.42",
+          "Source" : "Y - ANTIQU",
+          "Zvolumepft" : "10000.00",
+          "Mfrgr" : "OMA00016",
+          "Discountper" : "0.00",
+          "Nefsqft" : "393.91",
+          "Nef" : "25.42",
+          "Frightsqft" : "4.52",
+          "Remarks" : "",
+          "ApprovedBuyingprice" : "0.00"
+                        }]);
+                this.getView().setModel(oGetDataModel1, "oRequestModel1");
                 this.getView().setModel(oGetDataModel, "oRequestModel");
+
             },
+
 
             onRouteMatched: function (oEvent) {
                 var pafID = oEvent.getParameter("arguments").ID;

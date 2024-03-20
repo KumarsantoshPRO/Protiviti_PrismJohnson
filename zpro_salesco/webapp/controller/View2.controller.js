@@ -53,9 +53,41 @@ sap.ui.define([
                 this.getView().addDependent(this.opdfViewer);
                 //End: Upload, View and Download Attachment
 
+
+
             },
 
             onRouteMatched: function (oEvent) {
+                // var sPath = "/ET_VALUE_HELPSSet";
+
+                // var aFilter = [];
+                // var oFilterDomname = new sap.ui.model.Filter([new sap.ui.model.Filter("Domname", sap.ui.model.FilterOperator.EQ, "KNA1")], false);
+                // var oFilterDomname1 = new sap.ui.model.Filter([new sap.ui.model.Filter("Domname1", sap.ui.model.FilterOperator.EQ, "LARS")], false);
+                // // var oFilterDomname2 = new sap.ui.model.Filter([new sap.ui.model.Filter("Domname2", sap.ui.model.FilterOperator.EQ, "")], false);
+                // aFilter.push(oFilterDomname);
+                // aFilter.push(oFilterDomname1);
+
+                // this.getView().setBusy(true);
+                // this.getView().getModel().read(sPath, {
+                //     filters: aFilter,
+                //     // urlParameters: {
+                //     //     "$expand": ""
+                //     // },
+                //     success: function (Data) {
+                //       
+                //         var JSONModelForSuggest = new JSONModel(Data.results);
+                //         this.getView().setModel(JSONModelForSuggest, "JSONModelForSuggest");
+                //         this.getView().getModel("JSONModelForSuggest").refresh(true);
+                //         this.getView().setBusy(false);
+                //     }.bind(this),
+                //     error: function (sError) {
+                //         this.getView().setBusy(false);
+                //     }.bind(this)
+                // });
+
+
+
+
                 var oGlobalModel = {
                     "Editable": false
                 }
@@ -141,6 +173,89 @@ sap.ui.define([
             },
             onEdit: function () {
                 this.getView().getModel("GlobalModel").setProperty("/Editable", true);
+            },
+
+            onSuggest: function (oEvent) {
+                var sTerm = oEvent.getParameter("suggestValue");
+                var aFilters = [];
+                if (sTerm) {
+                    // aFilters.push(new sap.ui.model.Filter("DomvalueL", sap.ui.model.FilterOperator.StartsWith, sTerm));
+                    var sPath = "/ET_VALUE_HELPSSet";
+                    var aFilter = [];
+                    var oFilterDomname = new sap.ui.model.Filter([new sap.ui.model.Filter("Domname", sap.ui.model.FilterOperator.EQ, "KNA1")], false);
+                    var oFilterDomname1 = new sap.ui.model.Filter([new sap.ui.model.Filter("Domname1", sap.ui.model.FilterOperator.EQ, sTerm)], false);
+                    // var oFilterDomname2 = new sap.ui.model.Filter([new sap.ui.model.Filter("Domname2", sap.ui.model.FilterOperator.EQ, "")], false);
+                    aFilter.push(oFilterDomname);
+                    aFilter.push(oFilterDomname1);
+
+                    this.getView().setBusy(true);
+                    this.getView().getModel().read(sPath, {
+                        filters: aFilter,
+                        // urlParameters: {
+                        //     "$expand": ""
+                        // },
+                        success: function (Data) {
+                          
+                            if(Data.results.length > 0){
+                            var JSONModelForSuggest = new JSONModel(Data.results);
+                            this.getView().setModel(JSONModelForSuggest, "JSONModelForSuggest");
+                            this.getView().getModel("JSONModelForSuggest").refresh(true);
+                            }else{
+                                MessageBox.error("Entered Customer code is wrong")
+                            }
+                            this.getView().setBusy(false);
+                        }.bind(this),
+                        error: function (sError) {
+                            this.getView().setBusy(false);
+                        }.bind(this)
+                    });
+
+                }
+
+                // oEvent.getSource().getBinding("suggestionItems").filter(aFilters);
+
+
+            },
+
+            onCustomerCodeInputSubmit: function (oEvent) {
+              
+                var sTerm = oEvent.getParameter("value");
+                var aFilters = [];
+                if (sTerm) {
+                    // aFilters.push(new sap.ui.model.Filter("DomvalueL", sap.ui.model.FilterOperator.StartsWith, sTerm));
+                    var sPath = "/ET_VALUE_HELPSSet";
+                    var aFilter = [];
+                    var oFilterDomname = new sap.ui.model.Filter([new sap.ui.model.Filter("Domname", sap.ui.model.FilterOperator.EQ, "KNA1")], false);
+                    var oFilterDomname1 = new sap.ui.model.Filter([new sap.ui.model.Filter("Domname1", sap.ui.model.FilterOperator.EQ, sTerm)], false);
+                    // var oFilterDomname2 = new sap.ui.model.Filter([new sap.ui.model.Filter("Domname2", sap.ui.model.FilterOperator.EQ, "")], false);
+                    aFilter.push(oFilterDomname);
+                    aFilter.push(oFilterDomname1);
+
+                    this.getView().setBusy(true);
+                    this.getView().getModel().read(sPath, {
+                        filters: aFilter,
+                        // urlParameters: {
+                        //     "$expand": ""
+                        // },
+                        success: function (Data) {
+                          
+                            if(Data.results.length === 1){
+                                this.getView().getModel("JSONModelPayload").setProperty("/Kunnr", Data.results[0].DomvalueL);
+                                this.getView().getModel("JSONModelPayload").setProperty("/Name", Data.results[0].Ddtext);
+                            }else{
+                                this.getView().getModel("JSONModelPayload").setProperty("/Kunnr", "");
+                                this.getView().getModel("JSONModelPayload").setProperty("/Name", "");
+                                MessageBox.error("Entered Customer code is wrong")
+                            }
+                            this.getView().setBusy(false);
+                        }.bind(this),
+                        error: function (sError) {
+                            this.getView().setBusy(false);
+                        }.bind(this)
+                    });
+
+                }
+                
             },
 
             onDistributionChannelChange: function (oEvent) {
@@ -551,7 +666,7 @@ sap.ui.define([
 
                                 that.getView().getModel("GlobalModel").setProperty("/Editable", false);
                                 that.getView().getModel("GlobalModel").refresh(true);
-                                debugger;
+                              
                                 that.getView().byId("idV2Bar").setVisible(true);
                                 that.getView().byId("idV2BtnSave").setVisible(true);
 
@@ -598,23 +713,23 @@ sap.ui.define([
 
             //Start: Upload, View and Download Attachment
             onBeforeUploadStarts: function (oEvent) {
-                debugger;
+              
                 var that = this;
                 this.fileName = oEvent.getParameters().item.getFileName()
                 this.fileType = oEvent.getParameters().item.getMediaType()
-                
+
                 var file = oEvent.getParameters().item.getFileObject()
 
                 var reader = new FileReader();
                 reader.onload = function (e) {
                     var vContent = e.currentTarget.result
-                    
+
                     that.updateFile(that.fileName, that.fileType, vContent);
                 }
                 reader.readAsDataURL(file);
             },
             updateFile: function (fileName, fileType, vContent) {
-                debugger;
+              
                 var decodedPdfContent,
                     blob,
                     vStatus = 1;

@@ -1,12 +1,16 @@
 sap.ui.define([
     "sap/ui/core/mvc/Controller",
     "sap/ui/model/json/JSONModel",
-    "pj/zpurchasemanager/model/formatter"
+    "pj/zpurchasemanager/model/formatter",
+    "sap/m/MessageBox"
 ],
     /**
      * @param {typeof sap.ui.core.mvc.Controller} Controller
      */
-    function (Controller,JSONModel,formatter) {
+    function (Controller,
+	JSONModel,
+	formatter,
+	MessageBox) {
         "use strict";
 
         return Controller.extend("pj.zpurchasemanager.controller.View1", {
@@ -36,6 +40,15 @@ sap.ui.define([
 
 
                 }
+            },
+
+            onClickofItem: function (oEvent) {
+                this.oRouter = this.getOwnerComponent().getRouter();
+                this.oRouter.navTo("page2",
+                    {
+                        ID: oEvent.getSource().getCells()[0].getText()
+                    });
+
             },
             _getRequestData: function (sStatusText, sForWhat) {
                 var aFilter = [];

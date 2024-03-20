@@ -3,7 +3,7 @@
     xmlns="sap.m" xmlns:tnt="sap.tnt">
 
     <f:ShellBar
-			title="Purchase Manager"
+			title="{i18n.View1>View1.ShellBar.title}"
 			secondTitle=""
 			homeIcon="/css/johnson_img.png"
 			showCopilot="false"
@@ -64,7 +64,7 @@
 			<Table mode="SingleSelectLeft" alternateRowColors="true" class="sapUiResponsiveContentPadding sapUiLargeMarginBottom"
 				id="productsTable" growing="true"
 				inset="false"
-				headerText="Products"
+				headerText="{i18n.View1>View1.Table.headerText}"
 				items="{ModelForTable>/}"
                 itemPress="onOrderClicked" 
 				 sticky="ColumnHeaders,HeaderToolbar">
@@ -103,47 +103,47 @@
 					<Column
 						width="10em"
 						hAlign="End">
-						<Text text="Order No" />
+						<Text text="{i18n.View1>View1.Column.orderNo}" />
 					</Column>
 					<Column
 						minScreenWidth="Tablet"
 						demandPopin="true"
 						hAlign="End">
-						<Text text="Region" />
+						<Text text="{i18n.View1>View1.Column.region}" />
 					</Column>
 					<Column
 						minScreenWidth="Tablet"
 						demandPopin="true"
 						hAlign="Center">
-						<Text text="Customer" />
+						<Text text="{i18n.View1>View1.Column.customer}" />
 					</Column>
 					<Column
 						minScreenWidth="Desktop"
 						demandPopin="true"
 						hAlign="Center">
-						<Text text="Customer ID" />
+						<Text text="{i18n.View1>View1.Column.customerId}" />
 					</Column>
                     <Column
 						minScreenWidth="Desktop"
 						demandPopin="true"
                         hAlign="End">
-						<Text text="Total Order" />
+						<Text text="{i18n.View1>View1.Column.totalOrder}" />
 					</Column>
                     <Column
 						minScreenWidth="Desktop"
 						demandPopin="true"
 						hAlign="End">
-						<Text text="Current Order" />
+						<Text text="{i18n.View1>View1.Column.currentOrder}" />
 					</Column>
                     <Column
 						minScreenWidth="Desktop"
 						demandPopin="true"
 						hAlign="Center">
-						<Text text="Requested Date" />
+						<Text text="{i18n.View1>View1.Column.requestedDate}" />
 					</Column>
 					<Column
 						hAlign="Center">
-						<Text text="Status" />
+						<Text text="{i18n.View1>View1.Column.status}" />
 					</Column>
 				</columns>
 				<items>
