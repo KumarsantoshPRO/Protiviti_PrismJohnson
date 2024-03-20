@@ -94,12 +94,6 @@
         "settings": {
           "bundleName": "pj.zpurchasemanager.i18n.i18nView1"
         }
-      },
-      "i18n.View2": {
-        "type": "sap.ui.model.resource.ResourceModel",
-        "settings": {
-          "bundleName": "pj.zpurchasemanager.i18n.i18nView2"
-        }
       }
     },
     "resources": {
@@ -157,7 +151,6 @@
         },
         "page1": {
             "viewType": "XML",
-            "viewId": "View1",
             "viewName": "View1"
         }
       }
