@@ -3,7 +3,7 @@
     xmlns="sap.m" xmlns:tnt="sap.tnt">
 
     <f:ShellBar
-			title="Purchase Manager"
+			title="{i18n.View1>View1.ShellBar.title}"
 			secondTitle=""
 			homeIcon="/css/johnson_img.png"
 			showCopilot="false"
