@@ -9,7 +9,6 @@
             direction="RowReverse"
             alignItems="Start"
         >
-       
             <Button
                 icon="sap-icon://cause"
                 id="idV2BtnGenerate"
@@ -33,8 +32,7 @@
             vertical="true"
             focusable="true"
         >
-
-              <!-- items="{path: '/ET_SALES_COORD_HEADERSet', 
+            <!-- items="{path: '/ET_SALES_COORD_HEADERSet', 
                 filters: [{
                     path:'Pafno',
                     operator:'EQ',
@@ -61,7 +59,8 @@
                         hAlign="Center"
                         width="10rem"
                     >
-                       <Label required="true"
+                        <Label
+                            required="true"
                             id="idV2TblClmTxtMatFreGrp"
                             text="{i18nV2>view2.table.column.text.matFreGrp}"
                         />
@@ -73,7 +72,7 @@
                         hAlign="Center"
                         width="10rem"
                     >
-                       <Label 
+                        <Label
                             id="idV2TblClmTxtSize"
                             text="{i18nV2>view2.table.column.text.size}"
                         />
@@ -85,7 +84,8 @@
                         hAlign="Center"
                         width="10rem"
                     >
-                       <Label required="true"
+                        <Label
+                            required="true"
                             id="idV2TxtTblClmDesign"
                             text="{i18nV2>view2.table.column.text.designs}"
                         />
@@ -97,7 +97,8 @@
                         hAlign="Center"
                         width="10rem"
                     >
-                       <Label required="true"
+                        <Label
+                            required="true"
                             id="idV2TxtTblClmSupp"
                             text="{i18nV2>view2.table.column.text.suppPlant}"
                         />
@@ -109,7 +110,8 @@
                         hAlign="Center"
                         width="10rem"
                     >
-                       <Label required="true"
+                        <Label
+                            required="true"
                             id="idV2TxtTblClmPlant"
                             text="{i18nV2>view2.table.column.text.manPlant}"
                         />
@@ -122,7 +124,8 @@
                         hAlign="Center"
                         width="10rem"
                     >
-                       <Label required="true"
+                        <Label
+                            required="true"
                             id="idV2TxtTblClmCurVol"
                             text="{i18nV2>view2.table.column.text.currVol}"
                         />
@@ -134,7 +137,8 @@
                         hAlign="Center"
                         width="10rem"
                     >
-                       <Label required="true"
+                        <Label
+                            required="true"
                             id="idV2TxtTblClmTotVol"
                             text="{i18nV2>view2.table.column.text.totVol}"
                         />
@@ -146,12 +150,12 @@
                         hAlign="Center"
                         width="10rem"
                     >
-                       <Label required="true"
+                        <Label
+                            required="true"
                             id="idV2TxtTblClmQlt"
                             text="{i18nV2>view2.table.column.text.quality}"
                         />
                     </Column>
-
 
                     <Column
                         id="idV2TblClmExFac"
@@ -160,12 +164,11 @@
                         hAlign="Center"
                         width="10rem"
                     >
-                       <Label 
+                        <Label
                             id="idV2TxtTblClmExFac"
                             text='{=${JSONModelPayload>/Exdepsqft} === "0.00"?${i18nV2>view2.table.column.text.exFac}:${i18nV2>view2.table.column.text.exDep}}'
-                           
                         />
-                         <!-- text="{i18nV2>view2.table.column.text.exFac}" -->
+                        <!-- text="{i18nV2>view2.table.column.text.exFac}" -->
                     </Column>
                     <Column
                         id="idV2TblClmDisPer"
@@ -174,11 +177,11 @@
                         hAlign="Center"
                         width="10rem"
                     >
-                       <Label required="true"
-                       wrapping = "true"
- 
+                        <Label
+                            required="true"
+                            wrapping="true"
                             id="idV2TxtTblClmDisPer"
-                            text="{=${JSONModelPayload>/VTWEG} === '19'? ${i18nV2>view2.table.column.text.onIncDisountPercentage}:${i18nV2>view2.table.column.text.onIncDisountAmount}}"
+                            text="{=${JSONModelPayload>/Vtweg} === '19'? ${i18nV2>view2.table.column.text.onIncDisountPercentage}:${i18nV2>view2.table.column.text.onIncDisountAmount}}"
                         />
                     </Column>
                     <Column
@@ -188,9 +191,9 @@
                         hAlign="Center"
                         width="10rem"
                         visible="false"
-                       
                     >
-                       <Label required="true"
+                        <Label
+                            required="true"
                             id="idV2TxtTblClmSchDis"
                             text="{i18nV2>view2.table.column.text.schDisountAmount}"
                         />
@@ -201,9 +204,10 @@
                         demandPopin="true"
                         hAlign="Center"
                         width="10rem"
-                         visible="false"
+                        visible="false"
                     >
-                       <Label required="true"
+                        <Label
+                            required="true"
                             id="idV2TxtTblClmScm"
                             text="{i18nV2>view2.table.column.text.schDisountPercentage}"
                         />
@@ -214,8 +218,9 @@
                         demandPopin="true"
                         hAlign="Center"
                         width="10rem"
+                        visible="{=${JSONModelPayload>/Vtweg} === '19'? ${JSONModelPayload>/Vtweg} === '' ? true:false :true}"
                     >
-                       <Label
+                        <Label
                             id="idV2TxtTblClmORCEnt"
                             text="{i18nV2>view2.table.column.text.orcEntity}"
                         />
@@ -227,8 +232,9 @@
                         demandPopin="true"
                         hAlign="Center"
                         width="10rem"
+                        visible="{=${JSONModelPayload>/Vtweg} === '19'?true:${JSONModelPayload>/Vtweg} === '' ? true:false}"
                     >
-                       <Label 
+                        <Label
                             id="idV2TxtTblClmORCPer"
                             text="{i18nV2>view2.table.column.text.orcPercentage}"
                         />
@@ -240,7 +246,7 @@
                         hAlign="Center"
                         width="10rem"
                     >
-                       <Label 
+                        <Label
                             id="idV2TxtTblCLmFrei"
                             text="{i18nV2>view2.table.column.text.freight}"
                         />
@@ -252,7 +258,7 @@
                         hAlign="Center"
                         width="10rem"
                     >
-                       <Label  
+                        <Label
                             id="idV2TxtTblClmComp"
                             text="{i18nV2>view2.table.column.text.compName}"
                         />
@@ -264,12 +270,12 @@
                         hAlign="Center"
                         width="10rem"
                     >
-                       <Label  wrapping="true"
+                        <Label
+                            wrapping="true"
                             id="idV2TxtTblClmLanPrice"
                             text="{i18nV2>view2.table.column.text.compLandPrice}"
                         />
                     </Column>
-
 
                     <Column
                         id="idV2TblClmPart"
@@ -278,7 +284,8 @@
                         hAlign="Center"
                         width="10rem"
                     >
-                       <Label required="true"
+                        <Label
+                            required="true"
                             id="idV2TxtTblCLmPart"
                             text="{i18nV2>view2.table.column.text.part}"
                         />
@@ -290,7 +297,7 @@
                         hAlign="Center"
                         width="10rem"
                     >
-                       <Label 
+                        <Label
                             id="idV2TxtTblClmLand"
                             text="{i18nV2>view2.table.column.text.landed}"
                         />
@@ -302,7 +309,7 @@
                         hAlign="Center"
                         width="10rem"
                     >
-                       <Label 
+                        <Label
                             id="idV2TxtTblClmNEF"
                             text="{i18nV2>view2.table.column.text.netExFactory}"
                         />
@@ -316,7 +323,7 @@
                         width="5rem"
                         visible="{GlobalModel>/Editable}"
                     >
-                       <Label  
+                        <Label
                             id="idV2TxtTblClmDel"
                             text="{i18nV2>view2.table.column.text.delete}"
                         />
@@ -343,7 +350,6 @@
                                 class="sapUiSmallMarginEnd"
                                 editable="false"
                                 value="{path:'JSONModelPayload>Szmm'}"
-                                
                             />
 
                             <Input
@@ -388,12 +394,11 @@
                                 id="idV2TblCLIInpTotVol"
                                 maxLength="10"
                                 liveChange="onNumberValidation"
-                                 value="{JSONModelPayload>TotalVol}"
-                                 editable="{GlobalModel>/Editable}"
+                                value="{JSONModelPayload>TotalVol}"
+                                editable="{GlobalModel>/Editable}"
                             />
-                           
+
                             <Select
-                               
                                 forceSelection="false"
                                 items="{LocalJSONModels>/quality}"
                                 selectedKey="{JSONModelPayload>Zzprodh4}"
@@ -409,46 +414,38 @@
                             <Input
                                 id="idV2TblCLIInpExFac"
                                 editable="false"
-                                
                                 liveChange="onNumberValidation"
-                            
-                               value=  '{=${JSONModelPayload>Exdepsqft} === "0.00" ?${JSONModelPayload>Exfacsqft}:${JSONModelPayload>Exdepsqft}}'
-                              
-                               
+                                value='{=${JSONModelPayload>Exdepsqft} === "0.00" ?${JSONModelPayload>Exfacsqft}:${JSONModelPayload>Exdepsqft}}'
                             />
                             <!-- value=  '{=${JSONModelPayload>/Exdepsqft} === "0.00" ?${JSONModelPayload>Exfacsqft}:${JSONModelPayload>/Exdepsqft}}' -->
-                              <!-- value="{JSONModelPayload>Exfac}" -->
+                            <!-- value="{JSONModelPayload>Exfac}" -->
 
                             <Input
                                 id="idV2TblCLIInpDiscount"
-                                
                                 liveChange="onNumberValidation"
-                                  value="{JSONModelPayload>Disc}"
-                                  editable="{GlobalModel>/Editable}"
+                                value="{JSONModelPayload>Disc}"
+                                editable="{GlobalModel>/Editable}"
                             />
 
                             <Input
                                 id="idV2TblCLIInpSchDis"
-                                
                                 liveChange="onNumberValidation"
-                                 value="{JSONModelPayload>Schemedisc}"
-                                 editable="{GlobalModel>/Editable}"
-                                 visible="false"
-                                
+                                value="{JSONModelPayload>Schemedisc}"
+                                editable="{GlobalModel>/Editable}"
+                                visible="false"
                             />
 
                             <Input
                                 id="idV2TblCLIInpSchPer"
-                                
                                 liveChange="onNumberValidation"
                                 value="{JSONModelPayload>Schemedisc}"
                                 editable="{GlobalModel>/Editable}"
-                                 visible="false"
+                                visible="false"
                             />
 
                             <Input
                                 id="idV2TblCLIInpORCEnt"
-                                 liveChange="onNumberValidation"
+                                liveChange="onNumberValidation"
                                 change="onOrcEntityChange"
                                 value="{JSONModelPayload>Commbox}"
                                 editable="{GlobalModel>/Editable}"
@@ -456,35 +453,32 @@
 
                             <Input
                                 id="idV2TblCLIInpORCPer"
-                          
-                                 liveChange="onNumberValidation"
-                                
+                                liveChange="onNumberValidation"
                                 value="{JSONModelPayload>Commboxp}"
                                 editable="{GlobalModel>/Editable}"
                             />
 
                             <Input
                                 id="idV2TblCLIInpFre"
-                                
                                 liveChange="onNumberValidation"
                                 value="{JSONModelPayload>Frgtsqft}"
                                 editable="{GlobalModel>/Editable}"
-                                
                             />
 
-                            <Input id="idV2TblCLIInpCompName" 
-                            value="{JSONModelPayload>Compname}"
-                            editable="{GlobalModel>/Editable}"/>
+                            <Input
+                                id="idV2TblCLIInpCompName"
+                                value="{JSONModelPayload>Compname}"
+                                editable="{GlobalModel>/Editable}"
+                            />
 
-                            <Input id="idV2TblCLIInpCompLanPrice" 
-                            
+                            <Input
+                                id="idV2TblCLIInpCompLanPrice"
                                 liveChange="onNumberValidation"
-                            value="{JSONModelPayload>Complanprice}"
-                            editable="{GlobalModel>/Editable}"/>
-
+                                value="{JSONModelPayload>Complanprice}"
+                                editable="{GlobalModel>/Editable}"
+                            />
 
                             <Select
-                                
                                 forceSelection="false"
                                 items="{LocalJSONModels>/part}"
                                 selectedKey="{JSONModelPayload>Mvgr5}"
@@ -501,14 +495,11 @@
                                 id="idV2TblCLIInpLanded"
                                 editable="false"
                                 value="{JSONModelPayload>LandedPriceSqft}"
-
-                                
                             />
 
                             <Input
                                 id="idV2TblCLIInpNEF"
                                 editable="false"
-                                
                                 value="{JSONModelPayload>Nefsqft}"
                             />
 

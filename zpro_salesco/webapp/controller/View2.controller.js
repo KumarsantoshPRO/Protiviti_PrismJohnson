@@ -15,12 +15,30 @@ sap.ui.define([
     'zpj/pro/sk/sd/salescoordinator/zprosalesco/utils/View2/validation',
     "sap/m/PDFViewer",
     'sap/ui/core/Fragment',
-    'sap/ui/core/format/DateFormat'
+    'sap/ui/core/format/DateFormat',
+    "sap/m/MessageToast"
 ],
     /**
      * @param {typeof sap.ui.core.mvc.Controller} Controller
      */
-    function (Controller, JSONModel, IconPool, Icon, Link, MessageItem, MessageView, Button, Bar, Title, Popover, MessageBox, valueHelps, validation, PDFViewer, Fragment, DateFormat) {
+    function (Controller,
+        JSONModel,
+        IconPool,
+        Icon,
+        Link,
+        MessageItem,
+        MessageView,
+        Button,
+        Bar,
+        Title,
+        Popover,
+        MessageBox,
+        valueHelps,
+        validation,
+        PDFViewer,
+        Fragment,
+        DateFormat,
+        MessageToast) {
         "use strict";
 
         return Controller.extend("zpj.pro.sk.sd.salescoordinator.zprosalesco.controller.View2", {
@@ -131,6 +149,7 @@ sap.ui.define([
                                 that.getView().byId("idV2BtnEdit").setVisible(false);
                             }
                             Data.Validity = Data.Validity.replace(/^0+/, '');
+                           
                             that.getView().setModel(new JSONModel(Data), "JSONModelPayload");
                             that.getView().setBusy(false);
                         },
@@ -197,13 +216,11 @@ sap.ui.define([
                         //     "$expand": ""
                         // },
                         success: function (Data) {
-                          
-                            if(Data.results.length > 0){
-                            var JSONModelForSuggest = new JSONModel(Data.results);
-                            this.getView().setModel(JSONModelForSuggest, "JSONModelForSuggest");
-                            this.getView().getModel("JSONModelForSuggest").refresh(true);
-                            }else{
-                                MessageBox.error("Entered Customer code is wrong")
+
+                            if (Data.results.length > 0) {
+                                var JSONModelForSuggest = new JSONModel(Data.results);
+                                this.getView().setModel(JSONModelForSuggest, "JSONModelForSuggest");
+                                this.getView().getModel("JSONModelForSuggest").refresh(true);
                             }
                             this.getView().setBusy(false);
                         }.bind(this),
@@ -218,36 +235,56 @@ sap.ui.define([
 
 
             },
-
+            // Submit action - Customer code
             onCustomerCodeInputSubmit: function (oEvent) {
-              
-                var sTerm = oEvent.getParameter("value");
-                var aFilters = [];
+                var sTerm = oEvent.getParameter("value"),
+                    aFilters = [],
+                    oFilterDomname = new sap.ui.model.Filter([new sap.ui.model.Filter("Domname", sap.ui.model.FilterOperator.EQ, "KNA1")], false),
+                    oFilterDomname1 = new sap.ui.model.Filter([new sap.ui.model.Filter("Domname1", sap.ui.model.FilterOperator.EQ, sTerm)], false),
+                    sValue1 = "/Kunnr",
+                    sValue2 = "/Name",
+                    sMessage = "Entered Customer code is wrong";
+                    aFilters.push(oFilterDomname);
+                    aFilters.push(oFilterDomname1);
+                    this._submitCall(sTerm, aFilters, sValue1, sValue2, sMessage);
+            },
+            // Submit action - Sales Office
+            onSalesOfficeInputSubmit: function(oEvent){
+                var sTerm = oEvent.getParameter("value"),
+                aFilters = [],
+                oFilterDomname = new sap.ui.model.Filter([new sap.ui.model.Filter("Domname", sap.ui.model.FilterOperator.EQ, "TVKBZ")], false),
+                oFilterDomname1 = new sap.ui.model.Filter([new sap.ui.model.Filter("Domname1", sap.ui.model.FilterOperator.EQ, sTerm)], false),
+                sValue1 = "/Vkbur",
+                sValue2 = "",
+                sMessage = "Entered Sales Office is wrong";
+                aFilters.push(oFilterDomname);
+                aFilters.push(oFilterDomname1);
+                aFilters.push(oFilterDomname2);
+                this._submitCall(sTerm, aFilters, sValue1, sValue2, sMessage);
+            },
+            // common function for all submit calls
+                _submitCall: function(sTerm, aFilters, sValue1, sValue2, sMessage){
                 if (sTerm) {
-                    // aFilters.push(new sap.ui.model.Filter("DomvalueL", sap.ui.model.FilterOperator.StartsWith, sTerm));
                     var sPath = "/ET_VALUE_HELPSSet";
-                    var aFilter = [];
-                    var oFilterDomname = new sap.ui.model.Filter([new sap.ui.model.Filter("Domname", sap.ui.model.FilterOperator.EQ, "KNA1")], false);
-                    var oFilterDomname1 = new sap.ui.model.Filter([new sap.ui.model.Filter("Domname1", sap.ui.model.FilterOperator.EQ, sTerm)], false);
-                    // var oFilterDomname2 = new sap.ui.model.Filter([new sap.ui.model.Filter("Domname2", sap.ui.model.FilterOperator.EQ, "")], false);
-                    aFilter.push(oFilterDomname);
-                    aFilter.push(oFilterDomname1);
-
                     this.getView().setBusy(true);
                     this.getView().getModel().read(sPath, {
-                        filters: aFilter,
+                        filters: aFilters,
                         // urlParameters: {
                         //     "$expand": ""
                         // },
                         success: function (Data) {
-                          
-                            if(Data.results.length === 1){
-                                this.getView().getModel("JSONModelPayload").setProperty("/Kunnr", Data.results[0].DomvalueL);
-                                this.getView().getModel("JSONModelPayload").setProperty("/Name", Data.results[0].Ddtext);
-                            }else{
-                                this.getView().getModel("JSONModelPayload").setProperty("/Kunnr", "");
-                                this.getView().getModel("JSONModelPayload").setProperty("/Name", "");
-                                MessageBox.error("Entered Customer code is wrong")
+debugger;
+                            if (Data.results.length === 1) {
+                                this.getView().getModel("JSONModelPayload").setProperty(sValue1, Data.results[0].DomvalueL);
+                                if(sValue2){
+                                this.getView().getModel("JSONModelPayload").setProperty(sValue2, Data.results[0].Ddtext);
+                                }
+                            } else {
+                                this.getView().getModel("JSONModelPayload").setProperty(sValue1, "");
+                                if(sValue2){
+                                this.getView().getModel("JSONModelPayload").setProperty(sValue2, "");
+                                }
+                                MessageBox.error(sMessage)
                             }
                             this.getView().setBusy(false);
                         }.bind(this),
@@ -257,7 +294,7 @@ sap.ui.define([
                     });
 
                 }
-                
+
             },
 
             onDistributionChannelChange: function (oEvent) {
@@ -265,13 +302,15 @@ sap.ui.define([
                 var vGetSelectedValue = oEvent.getSource().getSelectedKey();
                 if (vGetSelectedValue === "11" || vGetSelectedValue === "17") {
                     this.byId(sap.ui.core.Fragment.createId("idV2FragGenInfo", "idV2SLPaymentTerm")).setEnabled(false);
+                    MessageToast.show("Enter 'On-Invoice discount' in Amount");
                 } else {
                     this.byId(sap.ui.core.Fragment.createId("idV2FragGenInfo", "idV2SLPaymentTerm")).setEnabled(true);
+                    MessageToast.show("Enter 'On-Invoice discount' in Percentage");
                 }
             },
 
             onCancel: function () {
-               
+
                 var that = this;
                 MessageBox.confirm("Are you sure you want to cancel?", {
                     actions: ["Yes", "No"],
@@ -329,7 +368,8 @@ sap.ui.define([
 
             onBack: function () {
                 this.oRouter = this.getOwnerComponent().getRouter();
-                this.oRouter.navTo("page1", {});
+                this.oRouter.navTo("RouteMain", {});
+
             },
 
             _getResourceBundle: function () {
@@ -350,6 +390,7 @@ sap.ui.define([
             },
             onAddRow: function () {
 
+
                 var headerValidationStatus = validation.headerPayloadValidation(this);
                 if (headerValidationStatus === 1) {
                     var aData = this.getView().getModel("JSONModelPayload").getData().ET_SALES_COORD_ISET.results;
@@ -362,17 +403,16 @@ sap.ui.define([
                             "Mvgr2": "",
                             "Werks": "",
                             "Prodh1": "",
-                            "CurrentVol": "",
+                            "CurVolFt": "",
                             "TotalVol": "",
                             "Disc": "",
-                            "Schemedisc": "",
-                            "Commbox": "",
+                            "Commbox": null,
                             "Exfacsqft": null,
                             "Exdepsqft": null,
-                            "Commboxp": "",
+                            "Commboxp": null,
                             "Frgtsqft": "",
-                            "Compname": "",
-                            "Complanprice": "",
+                            "Compname": null,
+                            "Complanprice": null,
                             "Zzprodh4": "",
                             "Mvgr5": ""
                         });
@@ -396,7 +436,7 @@ sap.ui.define([
 
                 this.getView().getModel("JSONModelPayload").setData(JSON.parse(JSON.stringify(JSONData)));
 
-
+                // Date format corrector
                 var data = this.getView().getModel("JSONModelPayload").getData();
                 data.Pafvto = new Date(data.Pafvto);
                 data.Pafvfrm = new Date(data.Pafvfrm);
@@ -616,7 +656,8 @@ sap.ui.define([
                                             });
                                         },
                                         error: function (oError) {
-                                            MessageBox.error(JSON.parse(oError.responseText).error.message.value, {
+                                            debugger;
+                                            MessageBox.error(JSON.parse(oError.responseText).error.innererror.errordetails[0].message, {
                                                 actions: [sap.m.MessageBox.Action.OK],
                                                 onClose: function (oAction) {
                                                 }
@@ -634,7 +675,7 @@ sap.ui.define([
 
                             },
                             error: function (oError) {
-                                MessageBox.error(JSON.parse(oError.responseText).error.message.value, {
+                                MessageBox.error(JSON.parse(oError.responseText).error.innererror.errordetails[0].message, {
                                     actions: [sap.m.MessageBox.Action.OK],
                                     onClose: function (oAction) {
 
@@ -650,6 +691,21 @@ sap.ui.define([
                 var headerValidationStatus = validation.headerPayloadValidation(this);
 
                 if (headerValidationStatus === 1) {
+                    // Date format corrector
+                    var data = this.getView().getModel("JSONModelPayload").getData();
+                    data.Pafvto = new Date(data.Pafvto);
+                    data.Pafvfrm = new Date(data.Pafvfrm);
+                    var aItems = data.ET_SALES_COORD_ISET.results;
+                    for (let index = 0; index < aItems.length; index++) {
+                        for (const key in aItems[index]) {
+                            if (Object.hasOwnProperty.call(aItems[index], key)) {
+                                if (key === 'Erdat') {
+                                    aItems[index].Erdat = new Date(aItems[index].Erdat);
+                                }
+                            }
+                        }
+                    }
+                    this.getView().getModel("JSONModelPayload").refresh(true);
                     var aData = this.getView().getModel("JSONModelPayload").getData().ET_SALES_COORD_ISET.results;
 
                     var itemValidationStatus = validation.itemsPayloadValidation(aData, this, "Generate");
@@ -663,12 +719,13 @@ sap.ui.define([
                         this.getView().getModel().create(sPath, this.getView().getModel("JSONModelPayload").getData(), {
                             async: false,
                             success: function (oData) {
+
                                 that.getView().getModel("JSONModelPayload").setData(oData)
                                 that.getView().getModel("JSONModelPayload").refresh(true);
 
                                 that.getView().getModel("GlobalModel").setProperty("/Editable", false);
                                 that.getView().getModel("GlobalModel").refresh(true);
-                              
+
                                 that.getView().byId("idV2Bar").setVisible(true);
                                 that.getView().byId("idV2BtnSave").setVisible(true);
 
@@ -715,7 +772,7 @@ sap.ui.define([
 
             //Start: Upload, View and Download Attachment
             onBeforeUploadStarts: function (oEvent) {
-              
+
                 var that = this;
                 this.fileName = oEvent.getParameters().item.getFileName()
                 this.fileType = oEvent.getParameters().item.getMediaType()
@@ -731,7 +788,7 @@ sap.ui.define([
                 reader.readAsDataURL(file);
             },
             updateFile: function (fileName, fileType, vContent) {
-              
+
                 var decodedPdfContent,
                     blob,
                     vStatus = 1;

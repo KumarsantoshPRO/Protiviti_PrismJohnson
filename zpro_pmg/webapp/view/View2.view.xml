@@ -50,7 +50,7 @@
                                 >
                                     <Label text="Customer Name" />
                                     <Text text="{oRequestModel>/Name}" />
-                                    <Label text="Volume(sq.ft In Lakhs)" />
+                                    <Label text="Volume(Sqft In Lakhs)" />
                                     <Text text="{oRequestModel>/CS_Volume}" />
                                     <Label text="Value(INR Lakhs)" />
                                     <Text text="{oRequestModel>/CS_Value}" />
@@ -58,7 +58,7 @@
                                     <Text
                                         text="{oRequestModel>/CS_GrossMargin}"
                                     />
-                                    <Label text="Gross Margin(Per sq.ft)" />
+                                    <Label text="Gross Margin(Per Sqft)" />
                                     <Text
                                         text="{oRequestModel>/CS_GrossMarginPer}"
                                     />
@@ -82,7 +82,7 @@
                                 >
                                     <Label text="Region" />
                                     <Text text="{oRequestModel>/RD_Region}" />
-                                    <Label text="Volume(sq.ft In Lakhs)" />
+                                    <Label text="Volume(Sqft In Lakhs)" />
                                     <Text text="{oRequestModel>/RD_Volume}" />
                                     <Label text="Value(INR Lakhs)" />
                                     <Text text="{oRequestModel>/RD_Value}" />
@@ -90,7 +90,7 @@
                                     <Text
                                         text="{oRequestModel>/RD_GrossMarginPer}"
                                     />
-                                    <Label text="Gross Margin(Per sq.ft)" />
+                                    <Label text="Gross Margin(Per Sqft)" />
                                     <Text
                                         text="{oRequestModel>/RD_GrossMargin}"
                                     />
@@ -122,12 +122,12 @@
 											<Text text="{oRequestModel>/des}" /> -->
                                     <!-- <Label text="Source" />
 											<Text text="{oRequestModel>/sour}" /> -->
-                                    <Label text="Current Volume(sqft)" />
+                                    <Label text="Current Volume(Sqft)" />
                                     <Text text="{oRequestModel>/WcurVol}" />
-                                    <Label text="Total Volume(sqft)" />
+                                    <Label text="Total Volume(Sqft)" />
                                     <Text text="{oRequestModel>/WtotVol}" />
                                     <Label text="Validity(Days)" />
-                                    <Text text="{oRequestModel>/Validity}" />
+                                    <Text text="{path:'oRequestModel>/Validity', formatter:'.formatter.removeLeadingZeros'}" />
                                     <!-- <Label text="Material Freight Groups" />
 											<Text text="{oRequestModel>/mfg}" /> -->
                                     <Label text="Discount(%)" />
@@ -139,7 +139,7 @@
                                     <Label text="Freight Sqft(if applicable)" />
                                     <Text text="{oRequestModel>/Wfrgtsqft}" />
                                     <Label text="Status" />
-                                    <Text text="{oRequestModel>/Status}" />
+                                    <Text text="{path:'oRequestModel>/Status',formatter:'.formatter.getStatus'}" />
                                     <Label text="Remarks(if any)" />
                                     <Text text="{oRequestModel>/Remarks}" />
                                 </forms:SimpleForm>
@@ -160,7 +160,7 @@
                                     editable="true"
                                     title=""
                                 >
-                                    <Label text="Gross Margin %" />
+                                    <Label text="Gross Margin(%)" />
                                     <tnt:InfoLabel
                                         text="{path:'oRequestModel>/Wgrossmargper'}"
                                         renderMode="Loose"
@@ -171,7 +171,7 @@
                                     <Text
                                         text="{oRequestModel>/MD_BenchMarkGrossMargin}"
                                     /> -->
-                                    <Label text="Recommended GM %" />
+                                    <Label text="Recommended GM(%)" />
                                     <Text
                                         text="{oRequestModel>/MD_RecommendedGM}"
                                     />
@@ -180,19 +180,19 @@
                                         text="{oRequestModel>/MD_RecommendedDis}"
                                     /> -->
                                     <Label
-                                        text="Target Equivalent GM per sqft"
+                                        text="Target Equivalent GM per Sqft"
                                     />
                                     <Text
                                         text="{oRequestModel>/MD_TargetEquivalentGMpersqft}"
                                     />
                                     <Label
-                                        text="Current Equivalent GM per sqft"
+                                        text="Current Equivalent GM per Sqft"
                                     />
                                     <Text
                                         text="{oRequestModel>/MD_CurrentEquivalentGMpersqft}"
                                     />
                                     <Label
-                                        text="Effect on Current Equivalent GM per sqft"
+                                        text="Effect on Current Equivalent GM per Sqft"
                                     />
                                     <Text
                                         text="{oRequestModel>/MD_EffectOnCurrentEquivalentGMpersqft}"
@@ -225,11 +225,11 @@
                                     editable="true"
                                     title=""
                                 >
-                                    <Label text="HR Johnson Landed Price" />
-                                    <Text text="{oRequestModel>/Wlandprice}" />
-                                    <Label text="Ex factory price(s)" />
-                                    <Text text="{oRequestModel>/Wexfac}" />
-                                    <Label text="On Invoice Value and %" />
+                                    <Label text="Landed Price(Sqft)" />
+                                    <Text text="{oRequestModel>/Wlandpricesqft}" />
+                                    <Label text="Ex Factory Price(Sqft)" />
+                                    <Text text="{oRequestModel>/Wexfacsqft}" />
+                                    <Label text="On Invoice(Value and %)" />
                                     <Text text="{oRequestModel>/Discb}" />
                                     <Text text="{oRequestModel>/Disc}" />
                                     <!-- <Label
@@ -237,7 +237,7 @@
                                     />
                                     <Text text="{oRequestModel>/sd}" />
                                     <Text text="{oRequestModel>/sd2}" /> -->
-                                    <Label text="Payment term discount(%)" />
+                                    <Label text="Payment Term discount(%)" />
                                     <!-- Value and  -->
                                     <Text
                                         text="{oRequestModel>/CashDiscountper}"
@@ -245,8 +245,8 @@
                                     <!-- <Text
                                         text="{path:'oRequestModel>/Wcashdisc', formatter:'.formatter.makeItPositive'}"
                                     /> -->
-                                    <Label text="SVC/BP" />
-                                    <Text text="{oRequestModel>/CD_SVC_BP}" />
+                                    <Label text="SVC/BP(Sqft)" />
+                                    <Text text="{oRequestModel>/Wbuyingprice}" />
                                     <Label text="Freight Cost(Sqft)" />
                                     <Text text="{oRequestModel>/Wfrgtsqft}" />
                                     <Label text="ORC(Value and %)" />
@@ -347,21 +347,21 @@
                                                 demandPopin="true"
                                                 hAlign="End"
                                             >
-                                                <Text text="Discount%" />
+                                                <Text text="Discount(%)" />
                                             </Column>
                                             <Column
                                                 minScreenWidth="Desktop"
                                                 demandPopin="true"
                                                 hAlign="End"
                                             >
-                                                <Text text="Net Ex Factory" />
+                                                <Text text="Net Ex Factory(Sqft)" />
                                             </Column>
                                             <Column
                                                 minScreenWidth="Desktop"
                                                 demandPopin="true"
                                                 hAlign="End"
                                             >
-                                                <Text text="SVC/BP" />
+                                                <Text text="SVC/BP(Sqft)" />
                                             </Column>
                                             <Column
                                                 minScreenWidth="Desktop"
@@ -378,7 +378,7 @@
                                                 visible="false"
                                             >
                                                 <Text
-                                                    text="Volume(sq.ft In Lakhs)"
+                                                    text="Volume(Sqft In Lakhs)"
                                                 />
                                             </Column>
                                             <Column
@@ -386,7 +386,7 @@
                                                 demandPopin="true"
                                                 hAlign="End"
                                             >
-                                                <Text text="Gross Margin%" />
+                                                <Text text="Gross Margin(%)" />
                                             </Column>
                                         </columns>
 
@@ -408,6 +408,7 @@
                                                         id="idSource.Input"
                                                         valueStateText="Enter Source"
                                                         showValueHelp="true"
+                                                        editable="{=${ProductModel>Isown} === 'X' ? false: true}"
                                                         valueHelpRequest="onSourceHelp"
                                                         class="sapUiSmallMarginEnd"
                                                         placeholder="Source"
@@ -420,10 +421,10 @@
                                                         text="{ProductModel>Discount}"
                                                     />
                                                     <Text
-                                                        text="{ProductModel>Netexfactory}"
+                                                        text="{ProductModel>Netexsqft}"
                                                     />
                                                     <Text
-                                                        text="{ProductModel>Buyingprice}"
+                                                        text="{ProductModel>Buyingpricesqft}"
                                                     />
                                                     <Text
                                                         visible="false"
@@ -471,7 +472,7 @@
 											<Text text="{oRequestModel>/svc}" />
 											<Label text="Gross Margin%" />
 											<Text text="{oRequestModel>/gm}" />
-											<Label text="Volume(sq.ft In Lakhs)" />
+											<Label text="Volume(Sqft In Lakhs)" />
 											<Text text="{oRequestModel>/val2}" />
                                             <Label text="Gross Margin%" />
 											<Text text="{oRequestModel>/gm2}" />

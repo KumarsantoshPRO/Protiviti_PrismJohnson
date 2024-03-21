@@ -114,7 +114,7 @@
                                                 demandPopin="true"
                                                 hAlign="End"
                                             >
-                                                <Label text="{i18n.View2>View2.table.Volumn(ft)}" />
+                                                <Label text="{i18n.View2>View2.table.volumnft}" />
                                             </Column>
 
                                             <Column
@@ -146,7 +146,7 @@
                                                 hAlign="Center"
                                             >
  
-                                                <Label text="{i18n.View2>.View2.table.buyingPrice}" />
+                                                <Label text="{i18n.View2>View2.table.buyingPrice}" />
  
  
                                             </Column>

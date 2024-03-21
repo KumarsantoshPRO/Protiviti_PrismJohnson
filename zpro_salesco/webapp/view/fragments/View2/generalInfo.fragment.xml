@@ -41,9 +41,10 @@
                 showSuggestion="true"
                 suggest=".onSuggest"
                 suggestionItems="{JSONModelForSuggest>/}"
-                submit="onCustomerCodeInputSubmit"
+               
                change="onCustomerCodeInputSubmit"
             >
+             <!-- submit="onCustomerCodeInputSubmit" -->
              <!-- valueHelpOnly="true" -->
                 <suggestionItems>
                     <core:Item text="{JSONModelForSuggest>DomvalueL}" />
@@ -71,6 +72,7 @@
                 change="onDistributionChannelChange"
                 valueStateText="Select {i18nV2>view2.simpleForm.label.distChnl}"
                 editable="{GlobalModel>/Editable}"
+                
             >
                 <core:Item
                     id="idV2SLItemDistChannel"
@@ -149,7 +151,17 @@
                 valueStateText="Enter {i18nV2>view2.simpleForm.label.salOffice}"
                 value="{JSONModelPayload>/Vkbur}"
                 editable="{GlobalModel>/Editable}"
-            />
+                showSuggestion="true"
+                suggest=".onSuggest"
+                suggestionItems="{JSONModelForSuggest>/}"
+             
+               change="onSalesOfficeInputSubmit"
+             >
+               <!-- submit="onSalesOfficeInputSubmit" -->
+                <suggestionItems>
+                    <core:Item text="{JSONModelForSuggest>DomvalueL}" />
+                </suggestionItems>
+            </Input>
             <Label
                 id="idV2LblVertical"
                 text="{i18nV2>view2.simpleForm.label.vertical}"

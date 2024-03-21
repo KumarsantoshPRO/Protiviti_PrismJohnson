@@ -68,17 +68,19 @@ sap.ui.define([
                         // oData.NAV_PMG_ITEM_PRODUCT.results
                         var len = oData.NAV_PMG_ITEM_PRODUCT.results.length;
                         oData.Wgrossmargper = 0;
+                        oData.Wbuyingprice = 0;
                         for (let index = 0; index < len; index++) {
                             var nGrossMargin = Number(oData.NAV_PMG_ITEM_PRODUCT.results[index].Grossmargper);
-
-
-                            oData.Wgrossmargper = oData.Wgrossmargper + nGrossMargin;
-
-
-
+                            var nBuyingpricesqft= Number(oData.NAV_PMG_ITEM_PRODUCT.results[index].Buyingpricesqft);
+                            oData.Wgrossmargper = (oData.Wgrossmargper + nGrossMargin).toFixed(2);
+                            oData.Wbuyingprice =  (oData.Wbuyingprice + nBuyingpricesqft).toFixed(2);
                         }
                         oData.Wgrossmargper = oData.Wgrossmargper / len;
-                        debugger;
+                        oData.Wbuyingprice =oData.Wbuyingprice / len;
+                        
+                        oData.Discb = ((oData.Wexfacsqft/100)*oData.Disc).toFixed(2);
+                        oData.Worc = ((oData.Wexfacsqft/100)*oData.Worcper).toFixed(2);
+                        // oData.Discb = oData.Discb;
                         oModel.setData(oData);
                         this.getView().setModel(oModel, "oRequestModel");
 
