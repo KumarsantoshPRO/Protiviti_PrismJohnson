@@ -85,7 +85,7 @@
                                                 width="8rem"
                                             >
                                                 <Label
-                                                    text="{i18n.View2>View2.table.materialfreightgroups"
+                                                    text="{i18n.View2>View2.table.materialfreightgroups}"
                                                     wrapping="true"
                                                 />
                                             </Column>
