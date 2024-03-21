@@ -20,6 +20,7 @@ sap.ui.define([
                 var pafID = oEvent.getParameter("arguments").ID;
 
                 if (pafID === "null" || pafID === undefined) {
+                    
                 } else {
                     var sPath = "/ET_PM_HEADERSet('" + pafID + "')";
                     this.getView().setBusy(true);

@@ -67,10 +67,10 @@
                 </items>
                 <content>
                     <Table
-                      
+                      id="productsTable"
                         alternateRowColors="true"
                         class="sapUiResponsiveContentPadding sapUiLargeMarginBottom"
-                        id="productsTable"
+                        
                         growing="true"
                         inset="false"
                         headerText="{i18n.View1>View1.Table.headerText}"
@@ -183,7 +183,7 @@
                                 <cells>
                                     <Text
                                         id="idV1TblCLITxtOrdNo"
-                                        text="{path:'ModelForTable>Pafno',  formatter:'sap.formatter.removeLeadingZeros'}"
+                                        text="{path:'ModelForTable>Paf',  formatter:'sap.formatter.removeLeadingZeros'}"
                                     />
                                     <Text
                                         id="idV1TblCLITxtRegion"
@@ -208,7 +208,7 @@
                                     />
                                     <Text
                                         id="idV1TblCLITxtReqDate"
-                                        text="{ parts: ['ModelForTable>Erdat'], formatter: 'sap.formatter.getFormattedDate' }"
+                                        text="{ parts: ['ModelForTable>Requestdate'], formatter: 'sap.formatter.getFormattedDate' }"
                                     />
                                     <!-- <Text
                                 id="idV1TblCLITxtDisPer"
