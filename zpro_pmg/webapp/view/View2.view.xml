@@ -486,7 +486,7 @@
                     <contentRight>
                         <Button
                             text="Forward"
-                            enabled="false"
+                          
                             icon="sap-icon://forward"
                             press=".onForward"
                             ariaHasPopup="Dialog"

@@ -42,8 +42,9 @@
                 suggest=".onSuggest"
                 suggestionItems="{JSONModelForSuggest>/}"
                 submit="onCustomerCodeInputSubmit"
-                valueHelpOnly="true"
+               change="onCustomerCodeInputSubmit"
             >
+             <!-- valueHelpOnly="true" -->
                 <suggestionItems>
                     <core:Item text="{JSONModelForSuggest>DomvalueL}" />
                 </suggestionItems>

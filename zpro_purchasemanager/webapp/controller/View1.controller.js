@@ -8,9 +8,9 @@ sap.ui.define([
      * @param {typeof sap.ui.core.mvc.Controller} Controller
      */
     function (Controller,
-	JSONModel,
-	formatter,
-	MessageBox) {
+        JSONModel,
+        formatter,
+        MessageBox) {
         "use strict";
 
         return Controller.extend("pj.zpurchasemanager.controller.View1", {
@@ -18,7 +18,7 @@ sap.ui.define([
             onInit: function () {
                 this.getOwnerComponent().getRouter().attachRoutePatternMatched(this._onRouteMatched, this);
             },
-            
+
             _onRouteMatched: function (oEvent) {
                 var sID = oEvent.getParameter("arguments").ID;
                 var oEditFlag = {
@@ -41,7 +41,19 @@ sap.ui.define([
 
                 }
             },
+            onOrderNumber: function (oEvent) {
+                var vValue = oEvent.getParameter('value');
+                var filter = new sap.ui.model.Filter({
+                    path: 'Paf',
+                    operator: sap.ui.model.FilterOperator.Contains,
+                    value1: vValue
+                });
+                var oTable = this.getView().byId("productsTable");
 
+                oTable.getBinding("items").filter(filter);
+                oTable.setShowOverlay(false);
+
+            },
             onClickofItem: function (oEvent) {
                 this.oRouter = this.getOwnerComponent().getRouter();
                 this.oRouter.navTo("page2",
@@ -68,11 +80,12 @@ sap.ui.define([
                                 for (var i = 0; i < Data.results.length; i++) {
                                     var obj = Data.results[i];
                                     for (var key in obj) {
-                                        if (obj['Erdat']) {
+                                        debugger;
+                                        if (obj['Requestdate']) {
                                             if (key === 'Status') {
                                                 if (obj['Status'] === 'P') {
                                                     var today = new Date();
-                                                    if (Math.floor((today - obj['Erdat']) / (1000 * 3600 * 24)) > 10) {
+                                                    if (Math.floor((today - obj['Requestdate']) / (1000 * 3600 * 24)) > 10) {
                                                         obj['Status'] = 'D';
                                                         that.aDelayedData.push(obj);
                                                     } else {

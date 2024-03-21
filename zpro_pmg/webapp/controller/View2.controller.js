@@ -63,6 +63,22 @@ sap.ui.define([
                     },
                     success: function (oData) {
                         var oModel = this.getView().getModel("oRequestModel");
+
+                        // Grossmargper
+                        // oData.NAV_PMG_ITEM_PRODUCT.results
+                        var len = oData.NAV_PMG_ITEM_PRODUCT.results.length;
+                        oData.Wgrossmargper = 0;
+                        for (let index = 0; index < len; index++) {
+                            var nGrossMargin = Number(oData.NAV_PMG_ITEM_PRODUCT.results[index].Grossmargper);
+
+
+                            oData.Wgrossmargper = oData.Wgrossmargper + nGrossMargin;
+
+
+
+                        }
+                        oData.Wgrossmargper = oData.Wgrossmargper / len;
+                        debugger;
                         oModel.setData(oData);
                         this.getView().setModel(oModel, "oRequestModel");
 
@@ -243,6 +259,19 @@ sap.ui.define([
                         this.getView().getModel("ProductModel").getData()[this._rowIndex].Buyingprice = vSVC_BP;
                         this.getView().getModel("ProductModel").getData()[this._rowIndex].Grossmargper = vGross_Margin;
                         this.getView().getModel("ProductModel").getData()[this._rowIndex].Source = vSource;
+
+                        var len = this.getView().getModel("ProductModel").getData().length;
+                        this.getView().getModel("oRequestModel").getData().Wgrossmargper = 0;
+                        for (let index = 0; index < len; index++) {
+                            var nGrossMargin = Number(this.getView().getModel("ProductModel").getData()[index].Grossmargper);
+
+
+                            this.getView().getModel("oRequestModel").getData().Wgrossmargper = this.getView().getModel("oRequestModel").getData().Wgrossmargper + nGrossMargin;
+
+
+                        }
+                        this.getView().getModel("oRequestModel").getData().Wgrossmargper = this.getView().getModel("oRequestModel").getData().Wgrossmargper / len;
+                        this.getView().getModel("oRequestModel").refresh(true);
                         this.getView().getModel("ProductModel").refresh(true);
                         this.getView().setBusy(false);
                     }.bind(this),
@@ -349,13 +378,21 @@ sap.ui.define([
 
             onForward: function () {
                 if (!this.oRejectDialog) {
+                    var nGM = Number(this.getView().getModel("oRequestModel").CS_GrossMargin)
+                    debugger;
+                    if (nGM < 10) {
+                        var sHeaderMessage = "Gross Margin is less than 10%";
+                        var sInfoMessage = "Request will be forwarded to the Executive Director"
+                    }
+
+
                     this.oRejectDialog = new Dialog({
-                        title: "Gross Margin is less than 15%",
+                        title: sHeaderMessage,
                         type: DialogType.Message,
 
                         content: [
                             new Label({
-                                text: "Request will be forwarded to the National Head",
+                                text: sInfoMessage,
                             }),
                             new TextArea({
                                 width: "100%",
@@ -374,9 +411,15 @@ sap.ui.define([
                         endButton: new Button({
                             type: ButtonType.Emphasized,
                             text: "Submit",
-                            // press: function () {
-                            //     var sText = Core.byId("rejectionNote").getValue();
-                            // }.bind(this)
+                            press: function () {
+                                var remarks = oEvent.getSource().getParent().getAggregation("content")[1].getValue();
+                                var payload = {
+                                    "Pafno": "",
+                                    "Action": "FOR",
+                                    "Remark": remarks
+                                }
+                                this._sendPayload(payload);
+                            }.bind(this)
                         })
                     });
                 }
