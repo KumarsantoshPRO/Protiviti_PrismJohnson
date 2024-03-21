@@ -16,14 +16,14 @@
             <uxap:ObjectPageDynamicHeaderTitle>
                 <uxap:expandedHeading>
                     <Title
-                        text="PAF NO: {path:'oRequestModel>/Pafno',  formatter:'sap.formatter.removeLeadingZeros'}"
+                        text="{i18n.View2>View2.Title.text}: {path:'oRequestModel>/Pafno',  formatter:'sap.formatter.removeLeadingZeros'}"
                         wrapping="true"
                     />
                 </uxap:expandedHeading>
             </uxap:ObjectPageDynamicHeaderTitle>
         </uxap:headerTitle>
         <uxap:sections>
-            <uxap:ObjectPageSection title="General Details">
+            <uxap:ObjectPageSection title="{i18n.View2>View2.ObjectPageSection.title}">
                 <uxap:subSections>
                     <uxap:ObjectPageSubSection>
                         <uxap:blocks>
@@ -45,23 +45,23 @@
                                 columnsM="2"
                                 singleContainerFullSize="false"
                             >
-                                <Label text="Customer" />
+                                <Label text="{i18n.View2>View2.SimpleForm.customer}" />
                                 <Text
                                     text="{oRequestModel>/Name}({oRequestModel>/Kunnr})"
                                 />
 
-                                <Label text="Validity" />
+                                <Label text="{i18n.View2>View2.SimpleForm.validity}" />
                                 <Text
                                     text="{path:'oRequestModel>/Validity',  formatter:'sap.formatter.removeLeadingZeros'}"
                                 />
-                                <Label text="Remarks" />
+                                <Label text="{i18n.View2>View2.SimpleForm.remarks}" />
                                 <Text text="{oRequestModel>/Remark}" />
                             </forms:SimpleForm>
                         </uxap:blocks>
                     </uxap:ObjectPageSubSection>
                 </uxap:subSections>
             </uxap:ObjectPageSection>
-            <uxap:ObjectPageSection title="Transaction Details">
+            <uxap:ObjectPageSection title="{i18n.View2>View2.ObjectPageSection.title}">
                 <uxap:subSections>
                     <uxap:ObjectPageSubSection>
                         <uxap:blocks>
@@ -85,7 +85,7 @@
                                                 width="8rem"
                                             >
                                                 <Label
-                                                    text="Material Freight Groups"
+                                                    text="{i18n.View2>View2.table.materialfreightgroups"
                                                     wrapping="true"
                                                 />
                                             </Column>
@@ -93,28 +93,28 @@
                                                 demandPopin="true"
                                                 hAlign="End"
                                             >
-                                                <Label text="Size(SqMt)" />
+                                                <Label text="{i18n.View2>View2.table.sizeSqMt}" />
                                             </Column>
                                             <Column
                                                 minScreenWidth="Tablet"
                                                 demandPopin="true"
                                                 hAlign="Center"
                                             >
-                                                <Label text="Design" />
+                                                <Label text="{i18n.View2>View2.table.design}" />
                                             </Column>
 
                                             <Column
                                                 demandPopin="true"
                                                 hAlign="Center"
                                             >
-                                                <Label text="Source" />
+                                                <Label text="{i18n.View2>View2.table.source}" />
                                             </Column>
                                             <Column
                                                 minScreenWidth="Tablet"
                                                 demandPopin="true"
                                                 hAlign="End"
                                             >
-                                                <Label text="Volumn(ft)" />
+                                                <Label text="{i18n.View2>View2.table.Volumn(ft)}" />
                                             </Column>
 
                                             <Column
@@ -122,7 +122,7 @@
                                                 demandPopin="true"
                                                 hAlign="End"
                                             >
-                                                <Label text="Discount(%)" />
+                                                <Label text="{i18n.View2>View2.table.discountper}" />
                                             </Column>
 
                                             <Column
@@ -131,7 +131,7 @@
                                                 hAlign="End"
                                             >
                                                 <Label
-                                                    text="Net Ex factory(NEF)"
+                                                    text="{i18n.View2>View2.table.netexfactoryNEF}"
                                                 />
                                             </Column>
                                             <Column
@@ -139,20 +139,20 @@
                                                 demandPopin="true"
                                                 hAlign="End"
                                             >
-                                                <Label text="Freight(SqFt)" />
+                                                <Label text="{i18n.View2>View2.table.frightsqft}" />
                                             </Column>
                                             <Column
                                                 demandPopin="true"
                                                 hAlign="Center"
                                             >
-                                                <Label text="Buying Price" />
+                                                <Label text="{i18n.View2>.View2.table.buyingPrice}" />
                                             </Column>
                                             <Column
                                                 demandPopin="true"
                                                 hAlign="Center"
                                             >
                                                 <Label
-                                                    text="Approved Buying Price"
+                                                    text="{i18n.View2>View2.table.approvedbuyingprice}"
                                                     required="true"
                                                 />
                                             </Column>
@@ -209,12 +209,12 @@
             <Bar>
                 <contentRight>
                     <Button
-                        text="Negotiation not possible"
+                        text="{i18n.View2>View2.Bar.negotiationnotpossible}"
                         press="onNegotiationNotPossibleButtonPress"
                         type="Reject"
                     />
                     <Button
-                        text="Renegotiation"
+                        text="{i18n.View2>View2.Bar.renegotiation}"
                         press="onRenegotiationButtonPress"
                         type="Accept"
                     />
