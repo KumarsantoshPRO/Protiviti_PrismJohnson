@@ -72,11 +72,11 @@ sap.ui.define([
                         for (let index = 0; index < len; index++) {
                             var nGrossMargin = Number(oData.NAV_PMG_ITEM_PRODUCT.results[index].Grossmargper);
                             var nBuyingpricesqft= Number(oData.NAV_PMG_ITEM_PRODUCT.results[index].Buyingpricesqft);
-                            oData.Wgrossmargper = (oData.Wgrossmargper + nGrossMargin).toFixed(2);
-                            oData.Wbuyingprice =  (oData.Wbuyingprice + nBuyingpricesqft).toFixed(2);
+                            oData.Wgrossmargper = Number(oData.Wgrossmargper) + nGrossMargin;
+                            oData.Wbuyingprice =  Number(oData.Wbuyingprice) + nBuyingpricesqft;
                         }
-                        oData.Wgrossmargper = oData.Wgrossmargper / len;
-                        oData.Wbuyingprice =oData.Wbuyingprice / len;
+                        oData.Wgrossmargper = (oData.Wgrossmargper / len).toFixed(2);
+                        oData.Wbuyingprice = (oData.Wbuyingprice / len).toFixed(2);
                         
                         oData.Discb = ((oData.Wexfacsqft/100)*oData.Disc).toFixed(2);
                         oData.Worc = ((oData.Wexfacsqft/100)*oData.Worcper).toFixed(2);
@@ -206,6 +206,7 @@ sap.ui.define([
             },
 
             onSourceHelp: function (oEvent) {
+                debugger;
                 var pathIndex = Number(oEvent.getSource().getParent().getBindingContextPath().split("/")[1]);
                 this._rowIndex = pathIndex;
                 this._Posnr = pathIndex + 1;
@@ -220,7 +221,7 @@ sap.ui.define([
                     oFilterDomname = new sap.ui.model.Filter([new sap.ui.model.Filter("Domname", sap.ui.model.FilterOperator.EQ, "SOURCE")], false),
                     oFilterDomname1 = new sap.ui.model.Filter([new sap.ui.model.Filter("Domname1", sap.ui.model.FilterOperator.EQ, "")], false),
                     oFilterDomname2 = new sap.ui.model.Filter([new sap.ui.model.Filter("Domname2", sap.ui.model.FilterOperator.EQ, this.pafID)], false),
-                    oFilterDomname3 = new sap.ui.model.Filter([new sap.ui.model.Filter("Domname3", sap.ui.model.FilterOperator.EQ, "00001")], false);
+                    oFilterDomname3 = new sap.ui.model.Filter([new sap.ui.model.Filter("Domname3", sap.ui.model.FilterOperator.EQ, this._Posnr)], false);
                 aFilter.push(oFilterDomname);
                 aFilter.push(oFilterDomname1);
                 aFilter.push(oFilterDomname2);
@@ -254,11 +255,11 @@ sap.ui.define([
 
                 this.getOwnerComponent().getModel().create('/ET_PMG_REQUEST_ITEMSet', payload, {
                     success: function (oData, response) {
-                        var vSVC_BP = oData.NAV_PMG_ITEM_PRODUCT.results[0].Buyingprice,
+                        var vSVC_BP = oData.NAV_PMG_ITEM_PRODUCT.results[0].Buyingpricesqft,
                             vGross_Margin = oData.NAV_PMG_ITEM_PRODUCT.results[0].Grossmargper,
                             vSource = oData.NAV_PMG_ITEM_PRODUCT.results[0].Source;
 
-                        this.getView().getModel("ProductModel").getData()[this._rowIndex].Buyingprice = vSVC_BP;
+                        this.getView().getModel("ProductModel").getData()[this._rowIndex].Buyingpricesqft = vSVC_BP;
                         this.getView().getModel("ProductModel").getData()[this._rowIndex].Grossmargper = vGross_Margin;
                         this.getView().getModel("ProductModel").getData()[this._rowIndex].Source = vSource;
 

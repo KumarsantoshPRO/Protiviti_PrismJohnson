@@ -1,0 +1,171 @@
+{
+    "_version": "1.58.0",
+    "sap.app": {
+        "id": "zpj.pro.sk.sd.supplychain.zprosupchain.zprosupplychain",
+        "type": "application",
+        "i18n": "i18n/i18n.properties",
+        "applicationVersion": {
+            "version": "0.0.1"
+        },
+        "title": "{{appTitle}}",
+        "description": "{{appDescription}}",
+        "resources": "resources.json",
+        "sourceTemplate": {
+            "id": "@sap/generator-fiori:basic",
+            "version": "1.11.3",
+            "toolsId": "d04fd097-0870-48d7-b96e-1eb4beeeb215"
+        },
+        "dataSources": {
+            "ZPAF_SC_APPROVAL_SRV": {
+                "uri": "/sap/opu/odata/sap/ZPAF_SC_APPROVAL_SRV/",
+                "type": "OData",
+                "settings": {
+                    "annotations": [],
+                    "localUri": "localService/metadata.xml",
+                    "odataVersion": "2.0"
+                }
+            },
+            "count_alias": {
+                "uri": "model/count.json",
+                "type": "JSON"
+            }
+        }
+    },
+    "sap.ui": {
+        "technology": "UI5",
+        "icons": {
+            "icon": "",
+            "favIcon": "",
+            "phone": "",
+            "phone@2": "",
+            "tablet": "",
+            "tablet@2": ""
+        },
+        "deviceTypes": {
+            "desktop": true,
+            "tablet": true,
+            "phone": true
+        }
+    },
+    "sap.ui5": {
+        "flexEnabled": true,
+        "dependencies": {
+            "minUI5Version": "1.121.2",
+            "libs": {
+                "sap.m": {},
+                "sap.ui.core": {},
+                "sap.f": {},
+                "sap.suite.ui.generic.template": {},
+                "sap.ui.comp": {},
+                "sap.ui.generic.app": {},
+                "sap.ui.table": {},
+                "sap.ushell": {}
+            }
+        },
+        "contentDensities": {
+            "compact": true,
+            "cozy": true
+        },
+        "models": {
+            "i18n": {
+                "type": "sap.ui.model.resource.ResourceModel",
+                "settings": {
+                    "bundleName": "zpj.pro.sk.sd.supplychain.zprosupchain.zprosupplychain.i18n.i18n"
+                }
+            },
+            "i18n.View1": {
+                "type": "sap.ui.model.resource.ResourceModel",
+                "settings": {
+                    "bundleName": "zpj.pro.sk.sd.supplychain.zprosupchain.zprosupplychain.i18n.i18nView1"
+                }
+            },
+            "i18n.View2": {
+                "type": "sap.ui.model.resource.ResourceModel",
+                "settings": {
+                    "bundleName": "zpj.pro.sk.sd.supplychain.zprosupchain.zprosupplychain.i18n.i18nView2"
+                }
+            },
+            "": {
+                "preload": true,
+                "dataSource": "ZPAF_SC_APPROVAL_SRV",
+                "type": "sap.ui.model.odata.v2.ODataModel",
+                "settings": {
+                  "defaultOperationMode": "Server",
+                  "defaultBindingMode": "OneWay",
+                  "defaultCountMode": "Request",
+                  "useBatch": false
+                }
+            },
+            "count": {
+                "type": "sap.ui.model.json.JSONModel",
+                "dataSource": "count_alias"
+            }
+        },
+        "resources": {
+            "css": [
+                {
+                    "uri": "css/style.css"
+                }
+            ]
+        },
+        "routing": {
+            "config": {
+                "routerClass": "sap.m.routing.Router",
+                "viewType": "XML",
+                "async": true,
+                "viewPath": "zpj.pro.sk.sd.supplychain.zprosupchain.zprosupplychain.view",
+                "controlAggregation": "pages",
+                "controlId": "app",
+                "clearControlAggregation": false
+            },
+            "routes": [
+                {
+                    "name": "RouteView1",
+                    "pattern": ":?query:",
+                    "target": [
+                        "TargetView1"
+                    ]
+                },
+                {
+                    "name": "page2",
+                    "pattern": "Page2/{pafID}",
+                    "target": [
+                        "page2"
+                    ]
+                },
+                {
+                    "name": "page1",
+                    "pattern": "Page1",
+                    "target": [
+                        "page1"
+                    ]
+                }
+            ],
+            "targets": {
+                "TargetView1": {
+                    "viewType": "XML",
+                    "transition": "slide",
+                    "clearControlAggregation": false,
+                    "viewId": "View1",
+                    "viewName": "View1"
+                },
+                "page2": {
+                    "viewType": "XML",
+                    "viewId": "View2",
+                    "viewName": "View2"
+                },
+                "page1": {
+                    "viewType": "XML",
+                    "viewId": "View1",
+                    "viewName": "View1"
+                }
+            }
+        },
+        "rootView": {
+            "viewName": "zpj.pro.sk.sd.supplychain.zprosupchain.zprosupplychain.view.App",
+            "type": "XML",
+            "async": true,
+            "id": "App"
+        }
+    }
+}

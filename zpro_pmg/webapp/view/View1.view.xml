@@ -204,7 +204,7 @@
                                     <Text
                                         text="{ parts: ['JSONModelForTable>Erdat'], formatter: '.formatter.getFormattedDate' }"
                                     />
-                                    <Text text="{JSONModelForTable>Validity}" />
+                                    <Text text="{path:'JSONModelForTable>Validity', formatter:'.formatter.removeLeadingZeros'}" />
                                     <tnt:InfoLabel
                                         text="{JSONModelForTable>Wgrossmargper} %"
                                         renderMode="Loose"

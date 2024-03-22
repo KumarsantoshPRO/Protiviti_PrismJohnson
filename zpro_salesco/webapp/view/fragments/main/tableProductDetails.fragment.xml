@@ -9,6 +9,7 @@
         stretchContentHeight="true"
         select=".onFilterSelect"
         class="sapUiResponsiveContentPadding sapUiLargeMarginBottom"
+        visible="false"
     >
         <items>
             <IconTabFilter

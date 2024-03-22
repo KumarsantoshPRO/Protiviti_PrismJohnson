@@ -149,7 +149,7 @@ sap.ui.define([
                                 that.getView().byId("idV2BtnEdit").setVisible(false);
                             }
                             Data.Validity = Data.Validity.replace(/^0+/, '');
-                           
+
                             that.getView().setModel(new JSONModel(Data), "JSONModelPayload");
                             that.getView().setBusy(false);
                         },
@@ -197,26 +197,70 @@ sap.ui.define([
             },
 
             onSuggest: function (oEvent) {
-                var sTerm = oEvent.getParameter("suggestValue");
-                var aFilters = [];
-                if (sTerm) {
-                    // aFilters.push(new sap.ui.model.Filter("DomvalueL", sap.ui.model.FilterOperator.StartsWith, sTerm));
-                    var sPath = "/ET_VALUE_HELPSSet";
-                    var aFilter = [];
-                    var oFilterDomname = new sap.ui.model.Filter([new sap.ui.model.Filter("Domname", sap.ui.model.FilterOperator.EQ, "KNA1")], false);
-                    var oFilterDomname1 = new sap.ui.model.Filter([new sap.ui.model.Filter("Domname1", sap.ui.model.FilterOperator.EQ, sTerm)], false);
-                    // var oFilterDomname2 = new sap.ui.model.Filter([new sap.ui.model.Filter("Domname2", sap.ui.model.FilterOperator.EQ, "")], false);
-                    aFilter.push(oFilterDomname);
-                    aFilter.push(oFilterDomname1);
+                var sTerm = oEvent.getParameter("suggestValue"),
+                    aFilters = [],
+                    sPath = "/ET_VALUE_HELPSSet",
+                    oFilterDomname,
+                    oFilterDomname1,
+                    oFilterDomname2,
+                    nLen = 1;
+                if (oEvent.getSource().sId.includes("idV2InpCustCode")) {
+                    if (sTerm.length > 3) {
+                        nLen = 1;
+                    } else {
+                        nLen = 0;
+                    }
 
+                    oFilterDomname = new sap.ui.model.Filter([new sap.ui.model.Filter("Domname", sap.ui.model.FilterOperator.EQ, "KNA1")], false);
+                    oFilterDomname1 = new sap.ui.model.Filter([new sap.ui.model.Filter("Domname1", sap.ui.model.FilterOperator.EQ, sTerm)], false);
+                } else if (oEvent.getSource().sId.includes("idV2InpSalesOffice")) {
+                    oFilterDomname = new sap.ui.model.Filter([new sap.ui.model.Filter("Domname", sap.ui.model.FilterOperator.EQ, "TVKBZ")], false);
+                    oFilterDomname1 = new sap.ui.model.Filter([new sap.ui.model.Filter("Domname1", sap.ui.model.FilterOperator.EQ, sTerm)], false);
+                    oFilterDomname2 = new sap.ui.model.Filter([new sap.ui.model.Filter("Domname2", sap.ui.model.FilterOperator.EQ, "")], false);
+                    aFilters.push(oFilterDomname2);
+                }
+                // material Freight Group suggestion 
+                else if (oEvent.getSource().sId.includes("idV2TblCLIInpMatFreGrp")) {
+                    var Division = this.getView().getModel("JSONModelPayload").getProperty("/Spart")
+                    oFilterDomname = new sap.ui.model.Filter([new sap.ui.model.Filter("Domname", sap.ui.model.FilterOperator.EQ, "ZPRICECAT")], false);
+                    oFilterDomname1 = new sap.ui.model.Filter([new sap.ui.model.Filter("Domname1", sap.ui.model.FilterOperator.EQ, sTerm)], false);
+                    oFilterDomname2 = new sap.ui.model.Filter([new sap.ui.model.Filter("Domname2", sap.ui.model.FilterOperator.EQ, Division)], false);
+                    aFilters.push(oFilterDomname2);
+                }
+                // Design suggestion
+                else if (oEvent.getSource().sId.includes("idV2TblCLIInpDesigns")) {
+                    var sContextPath = oEvent.getSource().getParent().getBindingContextPath();
+                    var Mfrgr = this.getView().getModel("JSONModelPayload").getContext(sContextPath).getProperty("Mfrgr");
+                    var Division = this.getView().getModel("JSONModelPayload").getProperty("/Spart");
+                    oFilterDomname = new sap.ui.model.Filter([new sap.ui.model.Filter("Domname", sap.ui.model.FilterOperator.EQ, "ZMATSOURCE")], false);
+                    oFilterDomname1 = new sap.ui.model.Filter([new sap.ui.model.Filter("Domname1", sap.ui.model.FilterOperator.EQ, sTerm)], false);
+                    oFilterDomname2 = new sap.ui.model.Filter([new sap.ui.model.Filter("Domname2", sap.ui.model.FilterOperator.EQ, Mfrgr)], false);
+                    aFilters.push(oFilterDomname2);
+                }
+                // Supply plant suggestion
+                else if (oEvent.getSource().sId.includes("idV2TblCLIInpSuppPlant")) {
+                    oFilterDomname = new sap.ui.model.Filter([new sap.ui.model.Filter("Domname", sap.ui.model.FilterOperator.EQ, "T001W")], false);
+                    oFilterDomname1 = new sap.ui.model.Filter([new sap.ui.model.Filter("Domname1", sap.ui.model.FilterOperator.EQ, sTerm)], false);
+                    oFilterDomname2 = new sap.ui.model.Filter([new sap.ui.model.Filter("Domname2", sap.ui.model.FilterOperator.EQ, "")], false);
+                    aFilters.push(oFilterDomname2);
+                }
+                // Manufacturing plant suggestion
+                else if (oEvent.getSource().sId.includes("idV2TblCLIInpManPlant")) {
+                    oFilterDomname = new sap.ui.model.Filter([new sap.ui.model.Filter("Domname", sap.ui.model.FilterOperator.EQ, "T179")], false);
+                    oFilterDomname1 = new sap.ui.model.Filter([new sap.ui.model.Filter("Domname1", sap.ui.model.FilterOperator.EQ, sTerm)], false);
+                    oFilterDomname2 = new sap.ui.model.Filter([new sap.ui.model.Filter("Domname2", sap.ui.model.FilterOperator.EQ, "")], false);
+                    aFilters.push(oFilterDomname2);
+                }
+
+                aFilters.push(oFilterDomname);
+                aFilters.push(oFilterDomname1);
+
+                if (sTerm && nLen === 1) {
                     this.getView().setBusy(true);
                     this.getView().getModel().read(sPath, {
-                        filters: aFilter,
-                        // urlParameters: {
-                        //     "$expand": ""
-                        // },
+                        filters: aFilters,
                         success: function (Data) {
-
+                            debugger;
                             if (Data.results.length > 0) {
                                 var JSONModelForSuggest = new JSONModel(Data.results);
                                 this.getView().setModel(JSONModelForSuggest, "JSONModelForSuggest");
@@ -230,10 +274,6 @@ sap.ui.define([
                     });
 
                 }
-
-                // oEvent.getSource().getBinding("suggestionItems").filter(aFilters);
-
-
             },
             // Submit action - Customer code
             onCustomerCodeInputSubmit: function (oEvent) {
@@ -244,26 +284,107 @@ sap.ui.define([
                     sValue1 = "/Kunnr",
                     sValue2 = "/Name",
                     sMessage = "Entered Customer code is wrong";
-                    aFilters.push(oFilterDomname);
-                    aFilters.push(oFilterDomname1);
-                    this._submitCall(sTerm, aFilters, sValue1, sValue2, sMessage);
+                aFilters.push(oFilterDomname);
+                aFilters.push(oFilterDomname1);
+                this._submitCall(sTerm, aFilters, sValue1, sValue2, sMessage);
             },
             // Submit action - Sales Office
-            onSalesOfficeInputSubmit: function(oEvent){
+            onSalesOfficeInputSubmit: function (oEvent) {
                 var sTerm = oEvent.getParameter("value"),
-                aFilters = [],
-                oFilterDomname = new sap.ui.model.Filter([new sap.ui.model.Filter("Domname", sap.ui.model.FilterOperator.EQ, "TVKBZ")], false),
-                oFilterDomname1 = new sap.ui.model.Filter([new sap.ui.model.Filter("Domname1", sap.ui.model.FilterOperator.EQ, sTerm)], false),
-                sValue1 = "/Vkbur",
-                sValue2 = "",
-                sMessage = "Entered Sales Office is wrong";
+                    aFilters = [],
+                    oFilterDomname = new sap.ui.model.Filter([new sap.ui.model.Filter("Domname", sap.ui.model.FilterOperator.EQ, "TVKBZ")], false),
+                    oFilterDomname1 = new sap.ui.model.Filter([new sap.ui.model.Filter("Domname1", sap.ui.model.FilterOperator.EQ, sTerm)], false),
+                    sValue1 = "/Vkbur",
+                    sValue2 = "",
+                    sMessage = "Entered Sales Office is wrong";
+                aFilters.push(oFilterDomname);
+                aFilters.push(oFilterDomname1);
+                // aFilters.push(oFilterDomname2);
+                this._submitCall(sTerm, aFilters, sValue1, sValue2, sMessage);
+            },
+            // Submit action - Material Freight Group
+            onMaterialFreightGroupInputSubmit: function (oEvent) {
+                var sTerm = oEvent.getParameter("value"),
+                    aFilters = [],
+                    Division = this.getView().getModel("JSONModelPayload").getProperty("/Spart"),
+                    oFilterDomname = new sap.ui.model.Filter([new sap.ui.model.Filter("Domname", sap.ui.model.FilterOperator.EQ, "ZPRICECAT")], false),
+                    oFilterDomname1 = new sap.ui.model.Filter([new sap.ui.model.Filter("Domname1", sap.ui.model.FilterOperator.EQ, sTerm)], false),
+                    oFilterDomname2 = new sap.ui.model.Filter([new sap.ui.model.Filter("Domname2", sap.ui.model.FilterOperator.EQ, Division)], false),
+                    bindingContextPath = oEvent.getSource().getParent().getBindingContextPath(),
+                    sValue1 = bindingContextPath + "/Mfrgr",
+                    sValue2 = bindingContextPath + "/Szmm",
+                    sMessage = "Entered Material Freight Group is wrong";
                 aFilters.push(oFilterDomname);
                 aFilters.push(oFilterDomname1);
                 aFilters.push(oFilterDomname2);
+
+                if (Division) {
+                    this._submitCall(sTerm, aFilters, sValue1, sValue2, sMessage);
+                    this.byId(sap.ui.core.Fragment.createId("idV2FragGenInfo", "idV2SLVertical")).setValueState("None")
+                } else {
+                    MessageBox.error("Please select vertical first");
+                    this.getView().getModel("JSONModelPayload").setProperty(sValue1, "");
+                    this.getView().getModel("JSONModelPayload").setProperty(sValue2, "");
+                    this.byId(sap.ui.core.Fragment.createId("idV2FragGenInfo", "idV2SLVertical")).setValueState("Error")
+                }
+
+            },
+            // Submit action - Designs
+            onDesignsInputSubmit: function (oEvent) {
+                var sTerm = oEvent.getParameter("value"),
+                    aFilters = [],
+                    sContextPath = oEvent.getSource().getParent().getBindingContextPath(),
+                    Mfrgr = this.getView().getModel("JSONModelPayload").getContext(sContextPath).getProperty("Mfrgr"),
+                    oFilterDomname = new sap.ui.model.Filter([new sap.ui.model.Filter("Domname", sap.ui.model.FilterOperator.EQ, "ZMATSOURCE")], false),
+                    oFilterDomname1 = new sap.ui.model.Filter([new sap.ui.model.Filter("Domname1", sap.ui.model.FilterOperator.EQ, sTerm)], false),
+                    oFilterDomname2 = new sap.ui.model.Filter([new sap.ui.model.Filter("Domname2", sap.ui.model.FilterOperator.EQ, Mfrgr)], false),
+                    sValue1 = sContextPath + "/Mvgr2",
+                    sValue2 = "",
+                    sMessage = "Entered Design is wrong";
+                aFilters.push(oFilterDomname);
+                aFilters.push(oFilterDomname1);
+                aFilters.push(oFilterDomname2);
+                if (Mfrgr) {
+                    this._submitCall(sTerm, aFilters, sValue1, sValue2, sMessage);
+                } else {
+                    MessageBox.error("Please select Material Frieght Group first");
+                    this.getView().getModel("JSONModelPayload").setProperty(sValue1, "");
+
+                }
+
+            },
+            // Submit action - Supply plant
+            onSupplyPlantInputSubmit: function (oEvent) {
+                var sTerm = oEvent.getParameter("value"),
+                    aFilters = [],
+                    sContextPath = oEvent.getSource().getParent().getBindingContextPath(),
+                    oFilterDomname = new sap.ui.model.Filter([new sap.ui.model.Filter("Domname", sap.ui.model.FilterOperator.EQ, "T001W")], false),
+                    oFilterDomname1 = new sap.ui.model.Filter([new sap.ui.model.Filter("Domname1", sap.ui.model.FilterOperator.EQ, sTerm)], false),
+                    sValue1 = sContextPath + "/Werks",
+                    sValue2 = "",
+                    sMessage = "Entered Supply Plant is wrong";
+                aFilters.push(oFilterDomname);
+                aFilters.push(oFilterDomname1);
                 this._submitCall(sTerm, aFilters, sValue1, sValue2, sMessage);
             },
-            // common function for all submit calls
-                _submitCall: function(sTerm, aFilters, sValue1, sValue2, sMessage){
+            // Submit action - Manufacturing Plant
+            onManufacturingPlantInputSubmit: function (oEvent) {
+                var sTerm = oEvent.getParameter("value"),
+                    aFilters = [],
+                    sContextPath = oEvent.getSource().getParent().getBindingContextPath(),
+                    oFilterDomname = new sap.ui.model.Filter([new sap.ui.model.Filter("Domname", sap.ui.model.FilterOperator.EQ, "T179")], false),
+                    oFilterDomname1 = new sap.ui.model.Filter([new sap.ui.model.Filter("Domname1", sap.ui.model.FilterOperator.EQ, sTerm)], false),
+                    sValue1 = sContextPath + "/Prodh1",
+                    sValue2 = "",
+                    sMessage = "Entered Manufacturing Plantis wrong";
+                aFilters.push(oFilterDomname);
+                aFilters.push(oFilterDomname1);
+                this._submitCall(sTerm, aFilters, sValue1, sValue2, sMessage);
+            },
+
+            // Common function for all submit calls
+            _submitCall: function (sTerm, aFilters, sValue1, sValue2, sMessage) {
+
                 if (sTerm) {
                     var sPath = "/ET_VALUE_HELPSSet";
                     this.getView().setBusy(true);
@@ -273,16 +394,20 @@ sap.ui.define([
                         //     "$expand": ""
                         // },
                         success: function (Data) {
-debugger;
+
                             if (Data.results.length === 1) {
-                                this.getView().getModel("JSONModelPayload").setProperty(sValue1, Data.results[0].DomvalueL);
-                                if(sValue2){
-                                this.getView().getModel("JSONModelPayload").setProperty(sValue2, Data.results[0].Ddtext);
+                                if (sValue1.includes("Mvgr2")) {
+                                    this.getView().getModel("JSONModelPayload").setProperty(sValue1, Data.results[0].Ddtext);
+                                } else {
+                                    this.getView().getModel("JSONModelPayload").setProperty(sValue1, Data.results[0].DomvalueL);
+                                }
+                                if (sValue2) {
+                                    this.getView().getModel("JSONModelPayload").setProperty(sValue2, Data.results[0].Ddtext);
                                 }
                             } else {
                                 this.getView().getModel("JSONModelPayload").setProperty(sValue1, "");
-                                if(sValue2){
-                                this.getView().getModel("JSONModelPayload").setProperty(sValue2, "");
+                                if (sValue2) {
+                                    this.getView().getModel("JSONModelPayload").setProperty(sValue2, "");
                                 }
                                 MessageBox.error(sMessage)
                             }
@@ -521,6 +646,8 @@ debugger;
                 }
                 else if (evt.getParameter('id') === 'idSDDesignsF4') {
                     var oFilterDomname = new sap.ui.model.Filter([new sap.ui.model.Filter("Domname", sap.ui.model.FilterOperator.EQ, "ZMATSOURCE")], false);
+                    var oFilterDomname2 = new sap.ui.model.Filter([new sap.ui.model.Filter("Domname2", sap.ui.model.FilterOperator.EQ, Mfrgr)], false)
+                    aFilter.push(oFilterDomname2);
                 } else if (evt.getParameter('id') === 'idSDSupplyingPlantF4') {
                     var oFilterDomname = new sap.ui.model.Filter([new sap.ui.model.Filter("Domname", sap.ui.model.FilterOperator.EQ, "T001W")], false);
                 } else if (evt.getParameter('id') === 'idSDManufacturingAmountF4') {
@@ -550,6 +677,7 @@ debugger;
                 for (var i = 0; i < aModelData.length; i++) {
                     if (sSelectedValue === aModelData[i].Mfrgr && i != Number(this.bindingContextPath.split("/")[3])) {
                         MessageBox.error(sSelectedValue + " this 'Material Freigth Group' already selected");
+
                         this.getView().getModel("JSONModelPayload").setProperty(bindingContextPathMFG, "");
                         this.getView().getModel("JSONModelPayload").setProperty(bindingContextPathSize, "");
                         i = aModelData.length;
@@ -656,7 +784,7 @@ debugger;
                                             });
                                         },
                                         error: function (oError) {
-                                            debugger;
+
                                             MessageBox.error(JSON.parse(oError.responseText).error.innererror.errordetails[0].message, {
                                                 actions: [sap.m.MessageBox.Action.OK],
                                                 onClose: function (oAction) {
@@ -914,8 +1042,66 @@ debugger;
                         document.body.removeChild(oLink);
                     });
                 oEvent.getSource().getParent().getParent().destroy()
-            }
+            },
             //End: Upload, View and Download Attachment
+
+            // Start: Upload Excel
+            onUpload: function (oEvent) {
+
+                this._import(oEvent.getParameter("files") && oEvent.getParameter("files")[0]);
+
+
+            },
+            _import: function (file) {
+
+                var that = this;
+                var excelData = {};
+
+                if (file && window.FileReader) {
+                    var reader = new FileReader();
+                    reader.onload = function (e) {
+                        var data = e.target.result;
+                        var workbook = XLSX.read(data, {
+                            type: 'binary'
+                        });
+                        workbook.SheetNames.forEach(function (sheetName) {
+                            // Here is your object for every sheet in workbook
+                            excelData = XLSX.utils.sheet_to_row_object_array(workbook.Sheets[sheetName]);
+                        });
+
+                        var tabValues = [];
+
+                        for (var index = 0; index < excelData.length; index++) {
+                            var i = index.toString();
+                            var oTab = {};
+                            oTab.Mfrgr = excelData[i].Mfrgr;
+                            oTab.Mvgr2 = excelData[i].Mvgr2;
+                            oTab.Werks = excelData[i].Werks;
+                            oTab.Prodh1 = excelData[i].Prodh1;
+                            oTab.CurVolFt = excelData[i].CurVolFt;
+                            oTab.TotalVol = excelData[i].TotalVol;
+                            oTab.Zzprodh4 = excelData[i].Zzprodh4;
+                            oTab.Disc = excelData[i].Disc;
+                            oTab.Commbox = excelData[i].Commbox;
+                            oTab.Commboxp = excelData[i].Commboxp;
+                            oTab.Frgtsqft = excelData[i].Frgtsqft;
+                            oTab.Compname = excelData[i].Compname;
+                            oTab.Complanprice = excelData[i].Complanprice;
+                            oTab.Mvgr5 = excelData[i].Mvgr5;
+                            tabValues.push(oTab);
+                        }
+                        // Setting the data to the local model 
+                        that.getView().getModel("JSONModelPayload").getData().ET_SALES_COORD_ISET.results = tabValues;
+                        that.getView().getModel("JSONModelPayload").refresh(true);
+                      
+                    };
+                    reader.onerror = function (ex) {
+                    
+                    };
+                    reader.readAsBinaryString(file);
+                }
+            },
+            // End: Upload Excel
 
         });
     });

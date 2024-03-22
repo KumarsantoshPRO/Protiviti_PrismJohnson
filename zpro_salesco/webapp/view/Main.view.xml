@@ -4,13 +4,78 @@
     displayBlock="true"
     xmlns="sap.m"
     xmlns:core="sap.ui.core"
+    xmlns:f="sap.f"
+    xmlns:card="sap.f.cards"
+    xmlns:form="sap.ui.layout.form"
 >
- 
     <Page
         id="id.Page.MainPage"
         class="sapUiLargeMarginBottom"
     >
         <content>
+            <FlexBox
+                id="idFlexBox"
+                wrap="Wrap"
+                justifyContent="Center"
+            >
+                <f:Card
+                    id="mainCardId"
+                    class="sapUiTinyMarginTop"
+                >
+                    <f:header>
+                        <card:Header
+                            class="cardHeader"
+                            title="Selection Screen"
+                            iconSrc="sap-icon://enter-more"
+                        />
+                    </f:header>
+                    <f:content>
+                        <form:SimpleForm
+                            editable="true"
+                            layout="ResponsiveGridLayout"
+                        >
+                            <form:content>
+                                <Label />
+                                <Label
+                                    design="Bold"
+                                    text="Sales office"
+                                />
+                                <Input
+                                    id="id.SalesOffice.Input"
+                                    placeholder="Sales Office"
+                                    showValueHelp="true"
+                                    valueHelpRequest="onSalesOfficeHelp"
+                                    showSuggestion="true"
+                                    suggest=".onSuggest"
+                                    suggestionItems="{JSONModelForSuggest>/}"
+                                    change="onSalesOfficeInputSubmit"
+                                >
+                                    <!-- submit="onSalesOfficeInputSubmit" -->
+                                    <suggestionItems>
+                                        <core:Item
+                                            text="{JSONModelForSuggest>DomvalueL}"
+                                        />
+                                    </suggestionItems>
+                                </Input>
+                                <Label
+                                    design="Bold"
+                                    text="PAF No."
+                                />
+                                <Input
+                                    id="id.PafNo.Input"
+                                    placeholder="PAF No."
+                                />
+                                <Label />
+                                <Button
+                                    text="Submit"
+                                    press="onSubmitButtonPress"
+                                    type="Accept"
+                                />
+                            </form:content>
+                        </form:SimpleForm>
+                    </f:content>
+                </f:Card>
+            </FlexBox>
             <core:Fragment
                 id="id.tableProductDetails.Fragment"
                 fragmentName="zpj.pro.sk.sd.salescoordinator.zprosalesco.view.fragments.main.tableProductDetails"

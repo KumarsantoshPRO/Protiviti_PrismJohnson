@@ -252,11 +252,9 @@
                                     <Label text="ORC(Value and %)" />
                                     <Text text="{oRequestModel>/Worc}" />
                                     <Text text="{oRequestModel>/Worcper}" />
-                                    <Label text="S and D cost(Value and %)" />
-                                    <Text text="{oRequestModel>/CD_S_DCost}" />
-                                    <Text
-                                        text="{oRequestModel>/CD_S_DCostPer}"
-                                    />
+                                    <Label text="S and D cost" />
+                                    <Text text="{oRequestModel>/Wsd}" />
+                                    
                                 </forms:SimpleForm>
                             </uxap:blocks>
                         </uxap:ObjectPageSubSection>

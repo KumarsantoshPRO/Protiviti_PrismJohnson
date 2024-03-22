@@ -1,0 +1,85 @@
+<?xml version="1.0" encoding="utf-8"?>
+<edmx:Edmx Version="1.0" xmlns:edmx="http://schemas.microsoft.com/ado/2007/06/edmx" xmlns:m="http://schemas.microsoft.com/ado/2007/08/dataservices/metadata" xmlns:sap="http://www.sap.com/Protocols/SAPData">
+    <edmx:DataServices m:DataServiceVersion="2.0">
+        <Schema Namespace="ZPAF_SC_APPROVAL_SRV" xml:lang="en" sap:schema-version="1" xmlns="http://schemas.microsoft.com/ado/2008/09/edm">
+            <EntityType Name="ET_SC_APPROVAL" sap:content-version="1">
+                <Key>
+                    <PropertyRef Name="Pafno"/>
+                    <PropertyRef Name="Posnr"/>
+                </Key>
+                <Property Name="Sname" Type="Edm.String" Nullable="false" MaxLength="35" sap:unicode="false" sap:label="Last name" sap:creatable="false" sap:updatable="false" sap:sortable="false" sap:filterable="false"/>
+                <Property Name="Action" Type="Edm.String" Nullable="false" MaxLength="10" sap:unicode="false" sap:label="action" sap:creatable="false" sap:updatable="false" sap:sortable="false" sap:filterable="false"/>
+                <Property Name="Zsmm" Type="Edm.String" Nullable="false" MaxLength="4" sap:unicode="false" sap:label="Size" sap:creatable="false" sap:updatable="false" sap:sortable="false" sap:filterable="false"/>
+                <Property Name="Name" Type="Edm.String" Nullable="false" MaxLength="35" sap:unicode="false" sap:label="Last name" sap:creatable="false" sap:updatable="false" sap:sortable="false" sap:filterable="false"/>
+                <Property Name="ApprovedFrightprice" Type="Edm.Decimal" Precision="14" Scale="3" sap:unicode="false" sap:label="Fright Per Sq Ft" sap:creatable="false" sap:updatable="false" sap:sortable="false" sap:filterable="false"/>
+                <Property Name="Design" Type="Edm.String" Nullable="false" MaxLength="40" sap:unicode="false" sap:label="Design" sap:creatable="false" sap:updatable="false" sap:sortable="false" sap:filterable="false"/>
+                <Property Name="Approverdate" Type="Edm.DateTime" Precision="7" sap:unicode="false" sap:label="Current Date" sap:creatable="false" sap:updatable="false" sap:sortable="false" sap:filterable="false"/>
+                <Property Name="Approverid" Type="Edm.String" Nullable="false" MaxLength="12" sap:unicode="false" sap:label="User Name" sap:creatable="false" sap:updatable="false" sap:sortable="false" sap:filterable="false"/>
+                <Property Name="Frightsqft" Type="Edm.Decimal" Nullable="false" Precision="13" Scale="2" sap:unicode="false" sap:label="Fright Per Ton" sap:creatable="false" sap:updatable="false" sap:sortable="false" sap:filterable="false"/>
+                <Property Name="Lddbox" Type="Edm.Decimal" Nullable="false" Precision="12" Scale="3" sap:unicode="false" sap:label="Dlr Landed / Box" sap:creatable="false" sap:updatable="false" sap:sortable="false" sap:filterable="false"/>
+                <Property Name="Lddsft" Type="Edm.Decimal" Nullable="false" Precision="12" Scale="3" sap:unicode="false" sap:label="Dlr Ldd / Sft" sap:creatable="false" sap:updatable="false" sap:sortable="false" sap:filterable="false"/>
+                <Property Name="Mfrgr" Type="Edm.String" Nullable="false" MaxLength="8" sap:unicode="false" sap:label="Mat.freight grp" sap:creatable="false" sap:updatable="false" sap:sortable="false" sap:filterable="false"/>
+                <Property Name="Nef" Type="Edm.Decimal" Nullable="false" Precision="13" Scale="2" sap:unicode="false" sap:label="NEF" sap:creatable="false" sap:updatable="false" sap:sortable="false" sap:filterable="false"/>
+                <Property Name="Nefsqft" Type="Edm.Decimal" Nullable="false" Precision="13" Scale="2" sap:unicode="false" sap:label="NEF" sap:creatable="false" sap:updatable="false" sap:sortable="false" sap:filterable="false"/>
+                <Property Name="Pafno" Type="Edm.String" Nullable="false" MaxLength="12" sap:unicode="false" sap:label="PAF No." sap:creatable="false" sap:updatable="false" sap:sortable="false" sap:filterable="false"/>
+                <Property Name="Posnr" Type="Edm.String" Nullable="false" MaxLength="6" sap:unicode="false" sap:label="Serial No." sap:creatable="false" sap:updatable="false" sap:sortable="false" sap:filterable="false"/>
+                <Property Name="Remarks" Type="Edm.String" Nullable="false" MaxLength="50" sap:unicode="false" sap:label="Remark" sap:creatable="false" sap:updatable="false" sap:sortable="false" sap:filterable="false"/>
+                <Property Name="Requestdate" Type="Edm.DateTime" Precision="7" sap:unicode="false" sap:label="Current Date" sap:creatable="false" sap:updatable="false" sap:sortable="false" sap:filterable="false"/>
+                <Property Name="Requestname" Type="Edm.String" Nullable="false" MaxLength="12" sap:unicode="false" sap:label="User Name" sap:creatable="false" sap:updatable="false" sap:sortable="false" sap:filterable="false"/>
+                <Property Name="Requesttime" Type="Edm.Time" Precision="0" sap:unicode="false" sap:label="Time" sap:creatable="false" sap:updatable="false" sap:sortable="false" sap:filterable="false"/>
+                <Property Name="Source" Type="Edm.String" Nullable="false" MaxLength="10" sap:unicode="false" sap:label="Manufacturer" sap:creatable="false" sap:updatable="false" sap:sortable="false" sap:filterable="false"/>
+                <Property Name="Status" Type="Edm.String" Nullable="false" MaxLength="1" sap:unicode="false" sap:label="status" sap:creatable="false" sap:updatable="false" sap:sortable="false" sap:filterable="false"/>
+            </EntityType>
+            <EntityType Name="ET_SC_HEADER" sap:content-version="1">
+                <Key>
+                    <PropertyRef Name="Pafno"/>
+                </Key>
+                <Property Name="Kunnr" Type="Edm.String" Nullable="false" MaxLength="10" sap:unicode="false" sap:label="Customer" sap:creatable="false" sap:updatable="false" sap:sortable="false" sap:filterable="false"/>
+                <Property Name="Name" Type="Edm.String" Nullable="false" MaxLength="35" sap:unicode="false" sap:label="Last name" sap:creatable="false" sap:updatable="false" sap:sortable="false" sap:filterable="false"/>
+                <Property Name="Pafno" Type="Edm.String" Nullable="false" MaxLength="12" sap:unicode="false" sap:label="PAF No." sap:creatable="false" sap:updatable="false" sap:sortable="false" sap:filterable="false"/>
+                <Property Name="Remark" Type="Edm.String" Nullable="false" MaxLength="50" sap:unicode="false" sap:label="Remark" sap:creatable="false" sap:updatable="false" sap:sortable="false" sap:filterable="false"/>
+                <Property Name="Action" Type="Edm.String" Nullable="false" MaxLength="10" sap:unicode="false" sap:label="Action" sap:creatable="false" sap:updatable="false" sap:sortable="false" sap:filterable="false"/>
+                <Property Name="Validity" Type="Edm.String" Nullable="false" MaxLength="3" sap:unicode="false" sap:label="validity" sap:creatable="false" sap:updatable="false" sap:sortable="false" sap:filterable="false"/>
+                <NavigationProperty Name="NAV_SC_HEADER" Relationship="ZPAF_SC_APPROVAL_SRV.NAV_SC_HEADER_REQUEST" FromRole="FromRole_NAV_SC_HEADER_REQUEST" ToRole="ToRole_NAV_SC_HEADER_REQUEST"/>
+            </EntityType>
+            <EntityType Name="ET_ZDI_TP_BILL" sap:content-version="1">
+                <Key>
+                    <PropertyRef Name="Paf"/>
+                </Key>
+                <Property Name="Paf" Type="Edm.String" Nullable="false" MaxLength="12" sap:unicode="false" sap:label="PAF No." sap:creatable="false" sap:updatable="false" sap:sortable="false" sap:filterable="false"/>
+                <Property Name="Requestdate" Type="Edm.DateTime" Nullable="false" Precision="7" sap:unicode="false" sap:label="Current Date" sap:creatable="false" sap:updatable="false" sap:sortable="false" sap:filterable="false"/>
+                <Property Name="Status" Type="Edm.String" Nullable="false" MaxLength="1" sap:unicode="false" sap:label="Approval/Rejected" sap:creatable="false" sap:updatable="false" sap:sortable="false" sap:filterable="false"/>
+                <Property Name="Frgtsqft" Type="Edm.Decimal" Nullable="false" Precision="13" Scale="2" sap:unicode="false" sap:label="Fright Per Sq Ft" sap:creatable="false" sap:updatable="false" sap:sortable="false" sap:filterable="false"/>
+                <Property Name="Kunnr" Type="Edm.String" Nullable="false" MaxLength="10" sap:unicode="false" sap:label="Customer" sap:creatable="false" sap:updatable="false" sap:sortable="false" sap:filterable="false"/>
+                <Property Name="Name" Type="Edm.String" Nullable="false" MaxLength="35" sap:unicode="false" sap:label="Last name" sap:creatable="false" sap:updatable="false" sap:sortable="false" sap:filterable="false"/>
+                <Property Name="Vkbur" Type="Edm.String" Nullable="false" MaxLength="4" sap:unicode="false" sap:label="Sales Office" sap:creatable="false" sap:updatable="false" sap:sortable="false" sap:filterable="false"/>
+                <Property Name="WtotalVol" Type="Edm.Decimal" Nullable="false" Precision="13" Scale="2" sap:unicode="false" sap:label="sum of total vol" sap:creatable="false" sap:updatable="false" sap:sortable="false" sap:filterable="false"/>
+                <Property Name="WcurVolFt" Type="Edm.Decimal" Nullable="false" Precision="13" Scale="2" sap:unicode="false" sap:label="sum of all cur _vol_" sap:creatable="false" sap:updatable="false" sap:sortable="false" sap:filterable="false"/>
+            </EntityType>
+            <Association Name="NAV_SC_HEADER_REQUEST" sap:content-version="1">
+                <End Type="ZPAF_SC_APPROVAL_SRV.ET_SC_HEADER" Multiplicity="1" Role="FromRole_NAV_SC_HEADER_REQUEST"/>
+                <End Type="ZPAF_SC_APPROVAL_SRV.ET_SC_APPROVAL" Multiplicity="*" Role="ToRole_NAV_SC_HEADER_REQUEST"/>
+                <ReferentialConstraint>
+                    <Principal Role="FromRole_NAV_SC_HEADER_REQUEST">
+                        <PropertyRef Name="Pafno"/>
+                    </Principal>
+                    <Dependent Role="ToRole_NAV_SC_HEADER_REQUEST">
+                        <PropertyRef Name="Pafno"/>
+                    </Dependent>
+                </ReferentialConstraint>
+            </Association>
+            <EntityContainer Name="ZPAF_SC_APPROVAL_SRV_Entities" m:IsDefaultEntityContainer="true" sap:supported-formats="atom json xlsx">
+                <EntitySet Name="ET_SC_APPROVALSet" EntityType="ZPAF_SC_APPROVAL_SRV.ET_SC_APPROVAL" sap:creatable="false" sap:updatable="false" sap:deletable="false" sap:pageable="false" sap:addressable="false" sap:content-version="1"/>
+                <EntitySet Name="ET_SC_HEADERSet" EntityType="ZPAF_SC_APPROVAL_SRV.ET_SC_HEADER" sap:creatable="false" sap:updatable="false" sap:deletable="false" sap:pageable="false" sap:addressable="false" sap:content-version="1"/>
+                <EntitySet Name="ET_ZDI_TP_BILLSet" EntityType="ZPAF_SC_APPROVAL_SRV.ET_ZDI_TP_BILL" sap:creatable="false" sap:updatable="false" sap:deletable="false" sap:pageable="false" sap:addressable="false" sap:content-version="1"/>
+                <AssociationSet Name="NAV_SC_HEADER_REQUESTSet" Association="ZPAF_SC_APPROVAL_SRV.NAV_SC_HEADER_REQUEST" sap:creatable="false" sap:updatable="false" sap:deletable="false" sap:content-version="1">
+                    <End EntitySet="ET_SC_HEADERSet" Role="FromRole_NAV_SC_HEADER_REQUEST"/>
+                    <End EntitySet="ET_SC_APPROVALSet" Role="ToRole_NAV_SC_HEADER_REQUEST"/>
+                </AssociationSet>
+            </EntityContainer>
+            <Annotation Term="Core.SchemaVersion" String="1.0.0" xmlns="http://docs.oasis-open.org/odata/ns/edm"/>
+            <atom:link rel="self" href="http://192.168.14.195:8000/sap/opu/odata/sap/ZPAF_SC_APPROVAL_SRV/$metadata" xmlns:atom="http://www.w3.org/2005/Atom"/>
+            <atom:link rel="latest-version" href="http://192.168.14.195:8000/sap/opu/odata/sap/ZPAF_SC_APPROVAL_SRV/$metadata" xmlns:atom="http://www.w3.org/2005/Atom"/>
+        </Schema>
+    </edmx:DataServices>
+</edmx:Edmx>

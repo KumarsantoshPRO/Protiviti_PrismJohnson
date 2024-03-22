@@ -1,20 +1,117 @@
 sap.ui.define([
     "sap/ui/core/mvc/Controller",
     "sap/ui/model/json/JSONModel",
-    'sap/m/MessageBox'
+    'sap/m/MessageBox',
+    'zpj/pro/sk/sd/salescoordinator/zprosalesco/utils/View2/valueHelps',
 ],
     /**
      * @param {typeof sap.ui.core.mvc.Controller} Controller
      */
     function (Controller,
         JSONModel,
-        MessageBox) {
+        MessageBox, valueHelps) {
         "use strict";
 
         return Controller.extend("zpj.pro.sk.sd.salescoordinator.zprosalesco.controller.Main", {
 
             onInit: function () {
                 this.getOwnerComponent().getRouter().attachRoutePatternMatched(this._onRouteMatched, this);
+
+            },
+            onSalesOfficeHelp: function () {
+                valueHelps.onSalesOfficeHelp(this);
+            },
+            // Submit action - Sales Office
+            onSalesOfficeInputSubmit: function (oEvent) {
+                var sTerm = oEvent.getParameter("value"),
+                    aFilters = [],
+                    oFilterDomname = new sap.ui.model.Filter([new sap.ui.model.Filter("Domname", sap.ui.model.FilterOperator.EQ, "TVKBZ")], false),
+                    oFilterDomname1 = new sap.ui.model.Filter([new sap.ui.model.Filter("Domname1", sap.ui.model.FilterOperator.EQ, sTerm)], false),
+                    sValue1 = "/Vkbur",
+                    sValue2 = "",
+                    sMessage = "Entered Sales Office is wrong";
+                aFilters.push(oFilterDomname);
+                aFilters.push(oFilterDomname1);
+                // aFilters.push(oFilterDomname2);
+                this._submitCall(sTerm, aFilters, sValue1, sValue2, sMessage);
+            },
+            onSuggest: function (oEvent) {
+                var sTerm = oEvent.getParameter("suggestValue"),
+                    aFilters = [],
+                    sPath = "/ET_VALUE_HELPSSet",
+                    oFilterDomname,
+                    oFilterDomname1,
+                    oFilterDomname2;
+
+                oFilterDomname = new sap.ui.model.Filter([new sap.ui.model.Filter("Domname", sap.ui.model.FilterOperator.EQ, "TVKBZ")], false);
+                oFilterDomname1 = new sap.ui.model.Filter([new sap.ui.model.Filter("Domname1", sap.ui.model.FilterOperator.EQ, sTerm)], false);
+                oFilterDomname2 = new sap.ui.model.Filter([new sap.ui.model.Filter("Domname2", sap.ui.model.FilterOperator.EQ, "")], false);
+                aFilters.push(oFilterDomname);
+                aFilters.push(oFilterDomname2);
+                aFilters.push(oFilterDomname1);
+
+                if (sTerm) {
+                    this.getView().setBusy(true);
+                    this.getView().getModel().read(sPath, {
+                        filters: aFilters,
+                        success: function (Data) {
+                            debugger;
+                            if (Data.results.length > 0) {
+                                var JSONModelForSuggest = new JSONModel(Data.results);
+                                this.getView().setModel(JSONModelForSuggest, "JSONModelForSuggest");
+                                this.getView().getModel("JSONModelForSuggest").refresh(true);
+                            }
+                            this.getView().setBusy(false);
+                        }.bind(this),
+                        error: function (sError) {
+                            this.getView().setBusy(false);
+                        }.bind(this)
+                    });
+
+                }
+            },
+            
+            onSubmitButtonPress: function () {
+                var vSalesOffice = this.getView().byId("id.SalesOffice.Input").getValue(),
+                    vPAFNo = this.getView().byId("id.PafNo.Input").getValue(),
+                    vMessage = "Enter 'Sales Office' or 'PAF No' to proceed";
+                if (!vSalesOffice && !vPAFNo) {
+                    this.getView().byId("id.SalesOffice.Input").setValueState("Error");
+                    this.getView().byId("id.PafNo.Input").setValueState("Error");
+                    MessageBox.error(vMessage);
+                } else {
+                    this.getView().byId("id.SalesOffice.Input").setValueState("None");
+                    this.getView().byId("id.PafNo.Input").setValueState("None");
+                    this.getView().byId("idFlexBox").setVisible(false);
+                    this.byId(sap.ui.core.Fragment.createId("id.tableProductDetails.Fragment", "id.main.IconTabBar")).setVisible(true);
+                }
+            },
+            _submitCall: function (sTerm, aFilters, sValue1, sValue2, sMessage) {
+
+                if (sTerm) {
+                    var sPath = "/ET_VALUE_HELPSSet";
+                    this.getView().setBusy(true);
+                    this.getView().getModel().read(sPath, {
+                        filters: aFilters,
+                        // urlParameters: {
+                        //     "$expand": ""
+                        // },
+                        success: function (Data) {
+
+                            if (Data.results.length === 1) {
+                                this.getView().byId("id.SalesOffice.Input").setValue(Data.results[0].DomvalueL);
+                            } else {
+                                this.getView().byId("id.SalesOffice.Input").setValue("");
+                                MessageBox.error(sMessage)
+                            }
+                            this.getView().setBusy(false);
+                        }.bind(this),
+                        error: function (sError) {
+                            this.getView().setBusy(false);
+                        }.bind(this)
+                    });
+
+                }
 
             },
             _onRouteMatched: function (oEvent) {

@@ -2,6 +2,7 @@
     xmlns="sap.m"
     xmlns:core="sap.ui.core"
     xmlns:form="sap.ui.layout.form"
+    xmlns:u="sap.ui.unified"
 >
     <VBox id="idV2VB">
         <FlexBox
@@ -17,11 +18,25 @@
                 type="Attention"
                 visible="{GlobalModel>/Editable}"
             />
+            <u:FileUploader
+                id="FileUploaderId"
+                buttonText="Excel Upload"
+                sameFilenameAllowed="true"
+                iconOnly="false"
+                buttonOnly="true"
+                fileType="XLSX,xlsx"
+                icon="sap-icon://browse-folder"
+                iconFirst="true"
+                change="onUpload"
+                tooltip="Excel Upload"
+                visible="false"
+            />
             <Button
                 id="idV2BtnAdd"
                 text="{i18nV2>view2.flexBox.button.AddMoreProducts}"
                 icon="sap-icon://add"
                 press="onAddRow"
+                type="Accept"
                 visible="{GlobalModel>/Editable}"
             />
         </FlexBox>
@@ -343,7 +358,17 @@
                                 placeholder="Material Freight Groups"
                                 value="{path:'JSONModelPayload>Mfrgr'}"
                                 editable="{GlobalModel>/Editable}"
-                            />
+                                showSuggestion="true"
+                                suggest=".onSuggest"
+                                suggestionItems="{JSONModelForSuggest>/}"
+                                change="onMaterialFreightGroupInputSubmit"
+                            >
+                                <suggestionItems>
+                                    <core:Item
+                                        text="{JSONModelForSuggest>DomvalueL}"
+                                    />
+                                </suggestionItems>
+                            </Input>
 
                             <Input
                                 id="idV2TblCLIInpSize"
@@ -360,7 +385,17 @@
                                 placeholder="Designs"
                                 value="{JSONModelPayload>Mvgr2}"
                                 editable="{GlobalModel>/Editable}"
-                            />
+                                showSuggestion="true"
+                                suggest=".onSuggest"
+                                suggestionItems="{JSONModelForSuggest>/}"
+                                change="onDesignsInputSubmit"
+                            >
+                                <suggestionItems>
+                                    <core:Item
+                                        text="{JSONModelForSuggest>Ddtext}"
+                                    />
+                                </suggestionItems>
+                            </Input>
 
                             <Input
                                 id="idV2TblCLIInpSuppPlant"
@@ -370,7 +405,17 @@
                                 placeholder="Supplying Plant"
                                 value="{JSONModelPayload>Werks}"
                                 editable="{GlobalModel>/Editable}"
-                            />
+                                showSuggestion="true"
+                                suggest=".onSuggest"
+                                suggestionItems="{JSONModelForSuggest>/}"
+                                change="onSupplyPlantInputSubmit"
+                            >
+                                <suggestionItems>
+                                    <core:Item
+                                        text="{JSONModelForSuggest>DomvalueL}"
+                                    />
+                                </suggestionItems>
+                            </Input>
 
                             <Input
                                 id="idV2TblCLIInpManPlant"
@@ -380,7 +425,17 @@
                                 placeholder="Manufacturing Plant"
                                 value="{JSONModelPayload>Prodh1}"
                                 editable="{GlobalModel>/Editable}"
-                            />
+                                showSuggestion="true"
+                                suggest=".onSuggest"
+                                suggestionItems="{JSONModelForSuggest>/}"
+                                change="onManufacturingPlantInputSubmit"
+                            >
+                                <suggestionItems>
+                                    <core:Item
+                                        text="{JSONModelForSuggest>DomvalueL}"
+                                    />
+                                </suggestionItems>
+                            </Input>
 
                             <Input
                                 id="idV2TblCLIInpCurVol"
@@ -402,6 +457,7 @@
                                 forceSelection="false"
                                 items="{LocalJSONModels>/quality}"
                                 selectedKey="{JSONModelPayload>Zzprodh4}"
+                                
                                 editable="{GlobalModel>/Editable}"
                             >
                                 <core:Item
