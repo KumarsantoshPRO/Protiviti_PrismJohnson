@@ -401,15 +401,9 @@
                                                         text="{ProductModel>Design}"
                                                     />
 
-                                                    <Input
-                                                        value="{ProductModel>Source}"
-                                                        id="idSource.Input"
-                                                        valueStateText="Enter Source"
-                                                        showValueHelp="true"
-                                                        editable="{=${ProductModel>Isown} === 'X' ? false: true}"
-                                                        valueHelpRequest="onSourceHelp"
-                                                        class="sapUiSmallMarginEnd"
-                                                        placeholder="Source"
+                                                    <Text
+                                                        text="{ProductModel>Source}"
+                                                
                                                     />
                                                     <Text
                                                         visible="false"
@@ -483,7 +477,7 @@
             <uxap:footer>
                 <Bar>
                     <contentRight>
-                        <Button
+                        <!-- <Button
                             text="Forward"
                           
                             icon="sap-icon://forward"
@@ -501,7 +495,7 @@
                             press=".freightRenegotiation"
                             ariaHasPopup="Dialog"
                             type="Emphasized"
-                        />
+                        /> -->
                         <Button
                             text="Reject"
                             press=".reject"
