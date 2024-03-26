@@ -9,7 +9,7 @@ sap.ui.define([
     function (Controller, JSONModel, MessageBox) {
         "use strict";
 
-        return Controller.extend("zpj.pro.sk.sd.supplychain.zprosupchain.zprosupplychain.i18n.i18nView1", {
+        return Controller.extend("zpj.pro.sk.sd.supplychain.zprosupchain.zprosupplychain.controller.View2", {
             onInit: function () {
 
                 this.getOwnerComponent().getRouter().attachRoutePatternMatched(this.onRouteMatched, this);
