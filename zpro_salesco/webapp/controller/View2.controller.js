@@ -16,7 +16,10 @@ sap.ui.define([
     "sap/m/PDFViewer",
     'sap/ui/core/Fragment',
     'sap/ui/core/format/DateFormat',
-    "sap/m/MessageToast"
+    "sap/m/MessageToast",
+    "sap/ui/core/util/ExportTypeCSV",
+    "sap/ui/export/library",
+    'sap/ui/export/Spreadsheet'
 ],
     /**
      * @param {typeof sap.ui.core.mvc.Controller} Controller
@@ -38,9 +41,9 @@ sap.ui.define([
         PDFViewer,
         Fragment,
         DateFormat,
-        MessageToast) {
+        MessageToast, ExportTypeCSV, exportLibrary, Spreadsheet) {
         "use strict";
-
+        var EdmType = exportLibrary.EdmType;
         return Controller.extend("zpj.pro.sk.sd.salescoordinator.zprosalesco.controller.View2", {
 
             onInit: function () {
@@ -1093,15 +1096,121 @@ sap.ui.define([
                         // Setting the data to the local model 
                         that.getView().getModel("JSONModelPayload").getData().ET_SALES_COORD_ISET.results = tabValues;
                         that.getView().getModel("JSONModelPayload").refresh(true);
-                      
+
                     };
                     reader.onerror = function (ex) {
-                    
+
                     };
                     reader.readAsBinaryString(file);
                 }
             },
             // End: Upload Excel
+
+            // Start: Download Excel
+            //Excel export using Spreadsheet
+            onExport: function () {
+                var aCols, oRowBinding, oSettings, oSheet, oTable;
+
+                if (!this._oTable) {
+                    this._oTable = this.byId(sap.ui.core.Fragment.createId("idV2FragAddPrdDetails", "idV2TblProducts"));
+                }
+
+                oTable = this._oTable;
+                oRowBinding = oTable.getBinding('items');
+                aCols = this.createColumnConfig();
+
+                oSettings = {
+                    workbook: {
+                        columns: aCols,
+                        hierarchyLevel: 'Level',
+                        context: {
+
+                            sheetName: 'Product Details'
+                        }
+                    },
+                    dataSource: oRowBinding,
+                    fileName: 'Product Details.xlsx',
+                    worker: false // We need to disable worker because we are using a MockServer as OData Service
+                };
+
+                oSheet = new Spreadsheet(oSettings);
+                oSheet.build().finally(function () {
+                    oSheet.destroy();
+                });
+            },
+            createColumnConfig: function () {
+                var aCols = [];
+
+                aCols.push({
+                    property: 'Material Freight Group',
+                    type: EdmType.String
+                });
+
+                aCols.push({
+                    property: 'Design',
+                    type: EdmType.String
+                });
+
+                aCols.push({
+                    property: 'Supplying Plant',
+                    type: EdmType.String
+                });
+
+                aCols.push({
+                    property: 'Manufacturing Plant',
+                    type: EdmType.String
+                });
+                aCols.push({
+                    property: 'Current Volume(Sqft)',
+                    type: EdmType.String
+                });
+                aCols.push({
+                    property: 'Total Volume(Sqft)',
+                    type: EdmType.Number
+                });
+
+                aCols.push({
+                    property: 'Quality',
+                    type: EdmType.Number
+                });
+
+                aCols.push({
+                    property: 'On-Invoice Discount(Amount)',
+                    type: EdmType.Number
+                });
+
+                aCols.push({
+                    property: 'ORC(Box)',
+                    type: EdmType.Number
+                });
+
+                aCols.push({
+                    property: 'ORC(%)',
+                    type: EdmType.Number
+                });
+
+                aCols.push({
+                    property: 'Freight(SqFt)',
+                    type: EdmType.Number
+                });
+
+                aCols.push({
+                    property: 'Competitor Name',
+                    type: EdmType.Number
+                });
+
+                aCols.push({
+                    property: 'Competitor landed price',
+                    type: EdmType.Number
+                });
+                aCols.push({
+                    property: 'Part A/B',
+                    type: EdmType.Number
+                });
+
+                return aCols;
+            },
+            // End: Download Excel
 
         });
     });

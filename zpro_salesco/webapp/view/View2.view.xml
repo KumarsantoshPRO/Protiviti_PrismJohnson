@@ -141,7 +141,9 @@
 										value="{= ${chatModel>/}.length}"
 										visible="true"/>
 								</customData> -->
+                               
                             </Button>
+                             <Link  visible="{GlobalModel>/Editable}" text="Download Excel Template" id="id.excelExport.Link" press="onExport"/>
                         </contentLeft>
                         <contentRight>
                             <Button

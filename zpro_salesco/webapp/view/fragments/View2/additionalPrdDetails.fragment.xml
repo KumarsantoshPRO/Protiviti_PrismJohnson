@@ -29,7 +29,7 @@
                 iconFirst="true"
                 change="onUpload"
                 tooltip="Excel Upload"
-                visible="false"
+                visible="{GlobalModel>/Editable}"
             />
             <Button
                 id="idV2BtnAdd"
