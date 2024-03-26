@@ -54,7 +54,7 @@ sap.ui.define([
                 var oFilter = new sap.ui.model.Filter([new sap.ui.model.Filter("Status", sap.ui.model.FilterOperator.EQ, sStatusText)], false);
                 aFilter.push(oFilter);
                 var sPath = "/ET_ZDI_TP_BILLSet"
-
+debugger;
                 this.getView().setBusy(true);
                 this.getView().getModel().read(sPath, {
                     filters: aFilter,
