@@ -26,9 +26,9 @@
                 }
             },
             "count_alias": {
-              "uri": "model/countIconTabFilter.json",
-              "type": "JSON"
-          }
+                "uri": "model/countIconTabFilter.json",
+                "type": "JSON"
+            }
         }
     },
     "sap.ui": {
@@ -77,14 +77,17 @@
                 "preload": true,
                 "dataSource": "ZPAF_VH_APPROVAL_SRV",
                 "settings": {
-                    "defaultBindingMode": "TwoWay",
-                    "defaultCountMode": "Inline",
-                    "refreshAfterChange": false,
-                    "metadataUrlParams": {
-                        "sap-value-list": "none"
-                    }
-                }
-            }
+                    "defaultOperationMode": "Server",
+                    "defaultBindingMode": "OneWay",
+                    "defaultCountMode": "Request",
+                    "useBatch": false
+                },
+                "type": "sap.ui.model.odata.v2.ODataModel"
+            },
+            "count": {
+                "type": "sap.ui.model.json.JSONModel",
+                "dataSource": "count_alias"
+              }
         },
         "resources": {
             "css": [
