@@ -17,7 +17,7 @@
 sap.ui.define([
     "sap/ui/core/mvc/Controller",
     "sap/ui/model/json/JSONModel",
-    "pj/zpmg/model/formatter",
+    "zpj/pro/sd/sk/zpronatsaleshead/model/formatter",
     'sap/m/MessageBox'
 ],
     /**

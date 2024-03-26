@@ -7,7 +7,7 @@ sap.ui.define([
     "sap/m/Label",
     "sap/m/library",
     "sap/m/TextArea",
-    "pj/zpmg/model/formatter",
+    "zpj/pro/sd/sk/zpronatsaleshead/model/formatter",
     "sap/m/MessageBox"
 ],
     /**
