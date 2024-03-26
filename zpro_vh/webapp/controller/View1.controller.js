@@ -1,18 +1,4 @@
-// sap.ui.define([
-//     "sap/ui/core/mvc/Controller"
-// ],
-//     /**
-//      * @param {typeof sap.ui.core.mvc.Controller} Controller
-//      */
-//     function (Controller) {
-//         "use strict";
-
-//         return Controller.extend("zpj.pro.sd.sk.zprovertihead.controller.View1", {
-//             onInit: function () {
-
-//             }
-//         });
-//     });
+ 
 sap.ui.define([
     "sap/ui/core/mvc/Controller",
     "sap/ui/model/json/JSONModel",
@@ -154,6 +140,7 @@ sap.ui.define([
             },
             onClickofItem: function (oEvent) {
                 this.oRouter = this.getOwnerComponent().getRouter();
+                debugger;
                 this.oRouter.navTo("page2",
                     {
                         pafID: oEvent.getSource().getCells()[0].getText()

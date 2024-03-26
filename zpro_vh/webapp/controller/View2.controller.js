@@ -26,7 +26,7 @@ sap.ui.define([
 
                 var oSouceModel = new JSONModel();
                 this.getView().setModel(oSouceModel, "SouceModel");
-
+debugger
                 this.getOwnerComponent().getRouter().attachRoutePatternMatched(this.onRouteMatched, this);
                 this.getData();
                 this.pafNoTemp;
@@ -36,6 +36,7 @@ sap.ui.define([
 
             // Attach route matched method
             onRouteMatched: function (oEvent) {
+                debugger;
                 var pafID = oEvent.getParameter("arguments").pafID;
                 if (pafID !== "Page1" || pafID !== undefined) {
                     if (pafID) {
@@ -50,7 +51,7 @@ sap.ui.define([
 
             getRequestDetails: function (pafID) {
                 this.getView().setBusy(true);
-                var sPath = "/ET_PMG_REQUEST_ITEMSet('" + pafID + "')"
+                var sPath = "/ZPAF_VH_HEADERSet('" + pafID + "')"
 
                 if (pafID.includes('120018') || pafID.includes('120017')) {
                     this.getDataWRTPafNo(pafID);
@@ -59,19 +60,19 @@ sap.ui.define([
                 this.getOwnerComponent().getModel().read(sPath, {
 
                     urlParameters: {
-                        "$expand": "NAV_PMG_ITEM_PRODUCT"
+                        "$expand": "NAV_VH_ITEM_PRODUCT"
                     },
                     success: function (oData) {
                         var oModel = this.getView().getModel("oRequestModel");
 
                         // Grossmargper
-                        // oData.NAV_PMG_ITEM_PRODUCT.results
-                        var len = oData.NAV_PMG_ITEM_PRODUCT.results.length;
+                        // oData.NAV_VH_ITEM_PRODUCT.results
+                        var len = oData.NAV_VH_ITEM_PRODUCT.results.length;
                         oData.Wgrossmargper = 0;
                         oData.Wbuyingprice = 0;
                         for (let index = 0; index < len; index++) {
-                            var nGrossMargin = Number(oData.NAV_PMG_ITEM_PRODUCT.results[index].Grossmargper);
-                            var nBuyingpricesqft= Number(oData.NAV_PMG_ITEM_PRODUCT.results[index].Buyingpricesqft);
+                            var nGrossMargin = Number(oData.NAV_VH_ITEM_PRODUCT.results[index].Grossmargper);
+                            var nBuyingpricesqft= Number(oData.NAV_VH_ITEM_PRODUCT.results[index].Buyingpricesqft);
                             oData.Wgrossmargper = Number(oData.Wgrossmargper) + nGrossMargin;
                             oData.Wbuyingprice =  Number(oData.Wbuyingprice) + nBuyingpricesqft;
                         }
@@ -85,7 +86,7 @@ sap.ui.define([
                         this.getView().setModel(oModel, "oRequestModel");
 
                         var oPrdModel = this.getView().getModel("ProductModel");
-                        oPrdModel.setData(oData.NAV_PMG_ITEM_PRODUCT.results);
+                        oPrdModel.setData(oData.NAV_VH_ITEM_PRODUCT.results);
                         this.getView().setModel(oPrdModel, "ProductModel");
                         this.getView().setBusy(false);
 
@@ -244,7 +245,7 @@ sap.ui.define([
                 var payload = {
                     "Pafno": this.pafID,
                     "Posnr": this._Posnr.toString(),
-                    "NAV_PMG_ITEM_PRODUCT": [
+                    "NAV_VH_ITEM_PRODUCT": [
                         {
                             "Pafno": this.pafID,
                             "Posnr": this._Posnr.toString(),
@@ -253,11 +254,11 @@ sap.ui.define([
                     ]
                 }
 
-                this.getOwnerComponent().getModel().create('/ET_PMG_REQUEST_ITEMSet', payload, {
+                this.getOwnerComponent().getModel().create('/ZPAF_VH_HEADERSet', payload, {
                     success: function (oData, response) {
-                        var vSVC_BP = oData.NAV_PMG_ITEM_PRODUCT.results[0].Buyingpricesqft,
-                            vGross_Margin = oData.NAV_PMG_ITEM_PRODUCT.results[0].Grossmargper,
-                            vSource = oData.NAV_PMG_ITEM_PRODUCT.results[0].Source;
+                        var vSVC_BP = oData.NAV_VH_ITEM_PRODUCT.results[0].Buyingpricesqft,
+                            vGross_Margin = oData.NAV_VH_ITEM_PRODUCT.results[0].Grossmargper,
+                            vSource = oData.NAV_VH_ITEM_PRODUCT.results[0].Source;
 
                         this.getView().getModel("ProductModel").getData()[this._rowIndex].Buyingpricesqft = vSVC_BP;
                         this.getView().getModel("ProductModel").getData()[this._rowIndex].Grossmargper = vGross_Margin;
@@ -291,13 +292,13 @@ sap.ui.define([
                 this.getView().getModel("ProductModel").refresh(true);
                 var newEntry = {
                     "Pafno": this.pafID,
-                    "NAV_PMG_ITEM_PRODUCT": newProductArr
+                    "NAV_VH_ITEM_PRODUCT": newProductArr
                 };
 
-                this.getOwnerComponent().getModel().create('/ET_PMG_REQUEST_ITEMSet', newEntry, {
+                this.getOwnerComponent().getModel().create('/ZPAF_VH_HEADERSet', newEntry, {
                     success: function (oData, response) {
                         var oPrdModel = this.getView().getModel("ProductModel");
-                        oPrdModel.setData(oData.NAV_PMG_ITEM_PRODUCT.results);
+                        oPrdModel.setData(oData.NAV_VH_ITEM_PRODUCT.results);
                         this.getView().setModel(oPrdModel, "ProductModel");
                         this.getView().getModel("ProductModel").refresh(true);
                         this.getView().setBusy(false);
@@ -633,7 +634,7 @@ sap.ui.define([
                 }
                 if (vValidation === 1) {
                     this.getView().setBusy(true);
-                    this.getOwnerComponent().getModel().create('/ET_PMG_REQUEST_ITEMSet', payload, {
+                    this.getOwnerComponent().getModel().create('/ZPAF_VH_HEADERSet', payload, {
                         success: function (oData, response) {
                             this.oRouter = this.getOwnerComponent().getRouter();
                             this.oRouter.navTo("page1", {});
