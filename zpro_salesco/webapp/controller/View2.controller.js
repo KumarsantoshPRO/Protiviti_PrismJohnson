@@ -152,6 +152,17 @@ sap.ui.define([
                                 that.getView().byId("idV2BtnEdit").setVisible(false);
                             }
                             Data.Validity = Data.Validity.replace(/^0+/, '');
+                            // Disc and Discb  conversion
+                            if (Data.Vtweg === '19') {
+
+                            } else {
+                                var aTableItems = Data.ET_SALES_COORD_ISET.results;
+                                var nLen = aTableItems.length;
+                                for (var i = 0; i < nLen; i++) {
+                                    aTableItems[i].Disc = aTableItems[i].Discb;
+                                    aTableItems[i].Discb = null;
+                                }
+                            }
 
                             that.getView().setModel(new JSONModel(Data), "JSONModelPayload");
                             that.getView().setBusy(false);
@@ -263,7 +274,7 @@ sap.ui.define([
                     this.getView().getModel().read(sPath, {
                         filters: aFilters,
                         success: function (Data) {
-                            debugger;
+
                             if (Data.results.length > 0) {
                                 var JSONModelForSuggest = new JSONModel(Data.results);
                                 this.getView().setModel(JSONModelForSuggest, "JSONModelForSuggest");
@@ -427,6 +438,7 @@ sap.ui.define([
 
             onDistributionChannelChange: function (oEvent) {
 
+                this.getView().getModel("JSONModelPayload").setProperty("/Zterm", "");
                 var vGetSelectedValue = oEvent.getSource().getSelectedKey();
                 if (vGetSelectedValue === "11" || vGetSelectedValue === "17") {
                     this.byId(sap.ui.core.Fragment.createId("idV2FragGenInfo", "idV2SLPaymentTerm")).setEnabled(false);
@@ -478,12 +490,13 @@ sap.ui.define([
                             "Prodh1": "",
                             "CurVolFt": "",
                             "TotalVol": "",
-                            "Disc": "",
+                            "Disc": null,
+                            "Discb": null,
                             "Commbox": null,
                             "Exfacsqft": null,
                             "Exdepsqft": null,
                             "Commboxp": null,
-                            "Frgtsqft": "",
+                            "Frgtsqft": null,
                             "Compname": null,
                             "Complanprice": null,
                             "Zzprodh4": "",
@@ -533,7 +546,8 @@ sap.ui.define([
                             "Prodh1": "",
                             "CurVolFt": "",
                             "TotalVol": "",
-                            "Disc": "",
+                            "Disc": null,
+                            "Discb": null,
                             "Commbox": null,
                             "Exfacsqft": null,
                             "Exdepsqft": null,
@@ -843,6 +857,20 @@ sap.ui.define([
                     if (itemValidationStatus === 1) {
                         this.getView().byId("idV2OPSAttach").setVisible(true);
                         this.getView().getModel("JSONModelPayload").getData().Action = "GENERATE";
+
+                        // Disc and Discb convertion
+
+                        if (this.getView().getModel("JSONModelPayload").getData().Vtweg === '19') {
+
+                        } else {
+                            var aTableItems = this.getView().getModel("JSONModelPayload").getData().ET_SALES_COORD_ISET.results;
+                            var nLen = aTableItems.length;
+                            for (var i = 0; i < nLen; i++) {
+                                aTableItems[i].Discb = aTableItems[i].Disc;
+                                aTableItems[i].Disc = null;
+                            }
+                        }
+
                         var that = this;
                         var sPath = "/ET_SALES_COORD_HEADERSet";
                         this.getView().setBusy(true);
@@ -850,6 +878,18 @@ sap.ui.define([
                         this.getView().getModel().create(sPath, this.getView().getModel("JSONModelPayload").getData(), {
                             async: false,
                             success: function (oData) {
+
+                                // Disc and Discb  conversion
+                                if (oData.Vtweg === '19') {
+
+                                } else {
+                                    var aTableItems = oData.ET_SALES_COORD_ISET.results;
+                                    var nLen = aTableItems.length;
+                                    for (var i = 0; i < nLen; i++) {
+                                        aTableItems[i].Disc = aTableItems[i].Discb;
+                                        aTableItems[i].Discb = null;
+                                    }
+                                }
 
                                 that.getView().getModel("JSONModelPayload").setData(oData)
                                 that.getView().getModel("JSONModelPayload").refresh(true);
@@ -888,13 +928,31 @@ sap.ui.define([
                 var vPayTermDiscount = this.getView().getModel("JSONModelPayload").getData().Zterm;
                 var aItemsData = this.getView().getModel("JSONModelPayload").getData().ET_SALES_COORD_ISET.results;
                 for (let index = 0; index < aItemsData.length; index++) {
-                    vInvoiceDiscount = vInvoiceDiscount + Number(aItemsData[index].Disc);
+                    // Disc and Discb conversion
+                    debugger;
+                    if (aItemsData[index].Disc === null || aItemsData[index].Disc === '0.00' || aItemsData[index].Disc === '') {
+                        vInvoiceDiscount = vInvoiceDiscount + Number(aItemsData[index].Discb);
+                    } else {
+                        vInvoiceDiscount = vInvoiceDiscount + Number(aItemsData[index].Disc);
+                    }
                     vSchemeDiscount = vSchemeDiscount + Number(aItemsData[index].Schemedisc);
                     vFreightDiscount = vFreightDiscount + Number(aItemsData[index].Frgtsqft)
                 }
                 vInvoiceDiscount = vInvoiceDiscount / aItemsData.length;
                 vSchemeDiscount = vSchemeDiscount / aItemsData.length;
-                vFreightDiscount = vFreightDiscount / aItemsData.length;;
+                vFreightDiscount = vFreightDiscount / aItemsData.length;
+                if (vInvoiceDiscount === NaN || vInvoiceDiscount === 0 || vInvoiceDiscount === '') {
+                    vInvoiceDiscount = 'Not Available'
+                }
+                if (vSchemeDiscount === NaN || vSchemeDiscount === 0 || vSchemeDiscount === '') {
+                    vSchemeDiscount = 'Not Available'
+                }
+                if (vFreightDiscount === NaN || vFreightDiscount === 0 || vFreightDiscount === '') {
+                    vFreightDiscount = 'Not Available'
+                }
+                if (vPayTermDiscount === NaN || vPayTermDiscount === 0 || vPayTermDiscount === '') {
+                    vPayTermDiscount = 'Not Available'
+                }
                 this.byId(sap.ui.core.Fragment.createId("idV2FragSumDeatil", "idV2InpInvcDis")).setValue(vInvoiceDiscount.toString());
                 this.byId(sap.ui.core.Fragment.createId("idV2FragSumDeatil", "idV2InpSchDis")).setValue(vSchemeDiscount.toString());
                 this.byId(sap.ui.core.Fragment.createId("idV2FragSumDeatil", "idV2InpfraightCost")).setValue(vFreightDiscount.toString());
@@ -1077,20 +1135,20 @@ sap.ui.define([
                         for (var index = 0; index < excelData.length; index++) {
                             var i = index.toString();
                             var oTab = {};
-                            oTab.Mfrgr = excelData[i].Mfrgr;
-                            oTab.Mvgr2 = excelData[i].Mvgr2;
-                            oTab.Werks = excelData[i].Werks;
-                            oTab.Prodh1 = excelData[i].Prodh1;
-                            oTab.CurVolFt = excelData[i].CurVolFt;
-                            oTab.TotalVol = excelData[i].TotalVol;
-                            oTab.Zzprodh4 = excelData[i].Zzprodh4;
-                            oTab.Disc = excelData[i].Disc;
-                            oTab.Commbox = excelData[i].Commbox;
-                            oTab.Commboxp = excelData[i].Commboxp;
-                            oTab.Frgtsqft = excelData[i].Frgtsqft;
-                            oTab.Compname = excelData[i].Compname;
-                            oTab.Complanprice = excelData[i].Complanprice;
-                            oTab.Mvgr5 = excelData[i].Mvgr5;
+                            oTab.Mfrgr = excelData[i].MaterialFreightGroup;
+                            oTab.Mvgr2 = excelData[i].Design;
+                            oTab.Werks = excelData[i].SupplyingPlant;
+                            oTab.Prodh1 = excelData[i].ManufacturingPlant;
+                            oTab.CurVolFt = excelData[i].CurrentVolumeInSqft;
+                            oTab.TotalVol = excelData[i].TotalVolumeInSqft;
+                            oTab.Zzprodh4 = excelData[i].Quality;
+                            oTab.Disc = excelData[i].OnInvoiceDiscount;
+                            oTab.Commbox = excelData[i].ORCByBox;
+                            oTab.Commboxp = excelData[i].ORCInPer;
+                            oTab.Frgtsqft = excelData[i].FreightInSqFt;
+                            oTab.Compname = excelData[i].CompetitorName;
+                            oTab.Complanprice = excelData[i].CompetitorLandedPrice;
+                            oTab.Mvgr5 = excelData[i].PartAorB;
                             tabValues.push(oTab);
                         }
                         // Setting the data to the local model 
@@ -1142,7 +1200,7 @@ sap.ui.define([
                 var aCols = [];
 
                 aCols.push({
-                    property: 'Material Freight Group',
+                    property: 'MaterialFreightGroup',
                     type: EdmType.String
                 });
 
@@ -1152,20 +1210,20 @@ sap.ui.define([
                 });
 
                 aCols.push({
-                    property: 'Supplying Plant',
+                    property: 'SupplyingPlant',
                     type: EdmType.String
                 });
 
                 aCols.push({
-                    property: 'Manufacturing Plant',
+                    property: 'ManufacturingPlant',
                     type: EdmType.String
                 });
                 aCols.push({
-                    property: 'Current Volume(Sqft)',
+                    property: 'CurrentVolumeInSqft',
                     type: EdmType.String
                 });
                 aCols.push({
-                    property: 'Total Volume(Sqft)',
+                    property: 'TotalVolumeInSqft',
                     type: EdmType.Number
                 });
 
@@ -1175,36 +1233,36 @@ sap.ui.define([
                 });
 
                 aCols.push({
-                    property: 'On-Invoice Discount(Amount)',
+                    property: 'OnInvoiceDiscount',
                     type: EdmType.Number
                 });
 
                 aCols.push({
-                    property: 'ORC(Box)',
+                    property: 'ORCByBox',
                     type: EdmType.Number
                 });
 
                 aCols.push({
-                    property: 'ORC(%)',
+                    property: 'ORCInPer',
                     type: EdmType.Number
                 });
 
                 aCols.push({
-                    property: 'Freight(SqFt)',
+                    property: 'FreightInSqFt',
                     type: EdmType.Number
                 });
 
                 aCols.push({
-                    property: 'Competitor Name',
+                    property: 'CompetitorName',
                     type: EdmType.Number
                 });
 
                 aCols.push({
-                    property: 'Competitor landed price',
+                    property: 'CompetitorLandedPrice',
                     type: EdmType.Number
                 });
                 aCols.push({
-                    property: 'Part A/B',
+                    property: 'PartAorB',
                     type: EdmType.Number
                 });
 

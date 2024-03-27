@@ -35,9 +35,7 @@ sap.ui.define([
                  
                 var sID = oEvent.getParameter("arguments").ID;
                 if (sID === "Page1" || sID === undefined || sID === "") {
-                    this.getView().byId("idIconTabBar").setSelectedKey("All");
-                    this.getView().byId("id.orderNumber.Input").setValue("");
-                    this.getView().byId("idIconTabBar").focus()
+                
                     this._getRequestData("", "count");
                     this._getRequestData("P", "count");
                     this._getRequestData("D", "count");
@@ -54,12 +52,12 @@ sap.ui.define([
                 var oFilter = new sap.ui.model.Filter([new sap.ui.model.Filter("Status", sap.ui.model.FilterOperator.EQ, sStatusText)], false);
                 aFilter.push(oFilter);
                 var sPath = "/ET_ZDI_TP_BILLSet"
-
+ 
                 this.getView().setBusy(true);
                 this.getView().getModel().read(sPath, {
                     filters: aFilter,
                     success: function (Data) {
-
+                        debugger;
                         this.getView().setBusy(false);
                         if (sForWhat === "count") {
                             switch (sStatusText) {
@@ -67,6 +65,7 @@ sap.ui.define([
                                     this.getView().getModel("count").getData().Total = Data.results.length;
                                     break;
                                 case "P":
+                                    debugger;
                                     this.getView().getModel("count").getData().Pending = Data.results.length;
                                     break;
                                 case "D":

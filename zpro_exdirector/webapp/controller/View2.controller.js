@@ -7,8 +7,9 @@ sap.ui.define([
     "sap/m/Label",
     "sap/m/library",
     "sap/m/TextArea",
-    "zp/pro/sd/sk/zproexdirector/model/formatter",
-    "sap/m/MessageBox"
+    "zpj/pro/sd/sk/zproexdirector/model/formatter",
+    "sap/m/MessageBox",
+    
 ],
     /**
      * @param {typeof sap.ui.core.mvc.Controller} Controller
@@ -50,28 +51,26 @@ sap.ui.define([
 
             getRequestDetails: function (pafID) {
                 this.getView().setBusy(true);
-                var sPath = "/ET_PMG_REQUEST_ITEMSet('" + pafID + "')"
+                var sPath = "/ZPAF_ED_HEADERSet('" + pafID + "')"
 
-                if (pafID.includes('120018') || pafID.includes('120017')) {
-                    this.getDataWRTPafNo(pafID);
-                }
+               
 
                 this.getOwnerComponent().getModel().read(sPath, {
 
                     urlParameters: {
-                        "$expand": "NAV_PMG_ITEM_PRODUCT"
+                        "$expand": "NAV_ED_ITEM_PRODUCT"
                     },
                     success: function (oData) {
                         var oModel = this.getView().getModel("oRequestModel");
 
                         // Grossmargper
-                        // oData.NAV_PMG_ITEM_PRODUCT.results
-                        var len = oData.NAV_PMG_ITEM_PRODUCT.results.length;
+                        // oData.NAV_ED_ITEM_PRODUCT.results
+                        var len = oData.NAV_ED_ITEM_PRODUCT.results.length;
                         oData.Wgrossmargper = 0;
                         oData.Wbuyingprice = 0;
                         for (let index = 0; index < len; index++) {
-                            var nGrossMargin = Number(oData.NAV_PMG_ITEM_PRODUCT.results[index].Grossmargper);
-                            var nBuyingpricesqft= Number(oData.NAV_PMG_ITEM_PRODUCT.results[index].Buyingpricesqft);
+                            var nGrossMargin = Number(oData.NAV_ED_ITEM_PRODUCT.results[index].Grossmargper);
+                            var nBuyingpricesqft= Number(oData.NAV_ED_ITEM_PRODUCT.results[index].Buyingpricesqft);
                             oData.Wgrossmargper = Number(oData.Wgrossmargper) + nGrossMargin;
                             oData.Wbuyingprice =  Number(oData.Wbuyingprice) + nBuyingpricesqft;
                         }
@@ -85,7 +84,7 @@ sap.ui.define([
                         this.getView().setModel(oModel, "oRequestModel");
 
                         var oPrdModel = this.getView().getModel("ProductModel");
-                        oPrdModel.setData(oData.NAV_PMG_ITEM_PRODUCT.results);
+                        oPrdModel.setData(oData.NAV_ED_ITEM_PRODUCT.results);
                         this.getView().setModel(oPrdModel, "ProductModel");
                         this.getView().setBusy(false);
 
@@ -96,74 +95,7 @@ sap.ui.define([
                 });
             },
 
-            getDataWRTPafNo: function (pafID) {
-                if (pafID.includes('120017')) {
-                    this.pafNoTemp = 120017;
-                    var payload = {
-                        "CS_Value": "164.55",
-                        "CS_GrossMargin": "4.05",
-                        "CS_Volume": "4.11",
-                        "CS_GrossMarginPer": "7.2",
-                        "RD_Region": "West 2 ROM",
-                        "RD_Value": "1936.69",
-                        "RD_GrossMargin": "3.09",
-                        "RD_Volume": "59.24 Lakhs",
-                        "RD_GrossMarginPer": "9.3",
-                        "TD_NetExFactory": "25.42",
-                        "TD_FreightSqft": "4.52",
-
-                        "MD_GrossMargin": "15.42",
-                        "MD_BenchMarkGrossMargin": "",
-                        "MD_RecommendedGM": "12",
-                        "MD_RecommendedDis": "",
-                        "MD_TargetEquivalentGMpersqft": "4.07",
-                        "MD_CurrentEquivalentGMpersqft": "3.92",
-                        "MD_EffectOnCurrentEquivalentGMpersqft": "-",
-                        "MD_DiscountPer": "8",
-                        "MD_RecommendedAction": "Accept Transaction",
-
-                        "CD_SVC_BP": "21.5 sq ft",
-                        "CD_S_DCost": "0",
-                        "CD_S_DCostPer": ""
-                    };
-                }
-                if (pafID.includes('120018')) {
-                    this.pafNoTemp = 120018;
-                    var payload = {
-                        "CS_Value": "164.55",
-                        "CS_GrossMargin": "4.05",
-                        "CS_Volume": "4.11",
-                        "CS_GrossMarginPer": "7.2",
-                        "RD_Region": "West 2 ROM",
-                        "RD_Value": "1936.69",
-                        "RD_GrossMargin": "3.09",
-                        "RD_Volume": "59.24 Lakhs",
-                        "RD_GrossMarginPer": "9.3",
-                        "TD_NetExFactory": "22.66",
-                        "TD_FreightSqft": "4.52",
-
-                        "MD_GrossMargin": "5.12",
-                        "MD_BenchMarkGrossMargin": "",
-                        "MD_RecommendedGM": "12",
-                        "MD_RecommendedDis": "",
-                        "MD_TargetEquivalentGMpersqft": "4.07",
-                        "MD_CurrentEquivalentGMpersqft": "1.16",
-                        "MD_EffectOnCurrentEquivalentGMpersqft": "-",
-                        "MD_DiscountPer": "8",
-                        "MD_RecommendedAction": "Reject Transaction or Request for Special Buying Price",
-
-                        "CD_SVC_BP": "21.5 sq ft",
-                        "CD_S_DCost": "0",
-                        "CD_S_DCostPer": ""
-                    };
-                }
-
-                var oModelWRTPafNo = new JSONModel();
-                oModelWRTPafNo.setData(payload);
-                this.getView().setModel(oModelWRTPafNo, "oRequestModelPaf");
-
-            },
-
+        
             getSourceDetails: function (pafNo) {
                 this.getView().setBusy(true);
                 var newFilArray = new Array();
@@ -212,7 +144,7 @@ sap.ui.define([
                 this._Posnr = pathIndex + 1;
 
                 if (!this._sourceFrag) {
-                    this._sourceFrag = sap.ui.xmlfragment("pj.zpmg.view.fragments.source", this);
+                    this._sourceFrag = sap.ui.xmlfragment("zpj.pro.sd.sk.zproexdirector.view.fragments.source", this);
                     this.getView().addDependent(this._sourceFrag);
                     this._CustomerCodeTemp = sap.ui.getCore().byId("idSLSourceValueHelp").clone();
                     this._oTemp = sap.ui.getCore().byId("idSLSourceValueHelp").clone();
@@ -244,7 +176,7 @@ sap.ui.define([
                 var payload = {
                     "Pafno": this.pafID,
                     "Posnr": this._Posnr.toString(),
-                    "NAV_PMG_ITEM_PRODUCT": [
+                    "NAV_ED_ITEM_PRODUCT": [
                         {
                             "Pafno": this.pafID,
                             "Posnr": this._Posnr.toString(),
@@ -253,11 +185,11 @@ sap.ui.define([
                     ]
                 }
 
-                this.getOwnerComponent().getModel().create('/ET_PMG_REQUEST_ITEMSet', payload, {
+                this.getOwnerComponent().getModel().create('/ZPAF_ED_HEADERSet', payload, {
                     success: function (oData, response) {
-                        var vSVC_BP = oData.NAV_PMG_ITEM_PRODUCT.results[0].Buyingpricesqft,
-                            vGross_Margin = oData.NAV_PMG_ITEM_PRODUCT.results[0].Grossmargper,
-                            vSource = oData.NAV_PMG_ITEM_PRODUCT.results[0].Source;
+                        var vSVC_BP = oData.NAV_ED_ITEM_PRODUCT.results[0].Buyingpricesqft,
+                            vGross_Margin = oData.NAV_ED_ITEM_PRODUCT.results[0].Grossmargper,
+                            vSource = oData.NAV_ED_ITEM_PRODUCT.results[0].Source;
 
                         this.getView().getModel("ProductModel").getData()[this._rowIndex].Buyingpricesqft = vSVC_BP;
                         this.getView().getModel("ProductModel").getData()[this._rowIndex].Grossmargper = vGross_Margin;
@@ -291,13 +223,13 @@ sap.ui.define([
                 this.getView().getModel("ProductModel").refresh(true);
                 var newEntry = {
                     "Pafno": this.pafID,
-                    "NAV_PMG_ITEM_PRODUCT": newProductArr
+                    "NAV_ED_ITEM_PRODUCT": newProductArr
                 };
 
-                this.getOwnerComponent().getModel().create('/ET_PMG_REQUEST_ITEMSet', newEntry, {
+                this.getOwnerComponent().getModel().create('/ZPAF_ED_HEADERSet', newEntry, {
                     success: function (oData, response) {
                         var oPrdModel = this.getView().getModel("ProductModel");
-                        oPrdModel.setData(oData.NAV_PMG_ITEM_PRODUCT.results);
+                        oPrdModel.setData(oData.NAV_ED_ITEM_PRODUCT.results);
                         this.getView().setModel(oPrdModel, "ProductModel");
                         this.getView().getModel("ProductModel").refresh(true);
                         this.getView().setBusy(false);
@@ -633,7 +565,7 @@ sap.ui.define([
                 }
                 if (vValidation === 1) {
                     this.getView().setBusy(true);
-                    this.getOwnerComponent().getModel().create('/ET_PMG_REQUEST_ITEMSet', payload, {
+                    this.getOwnerComponent().getModel().create('/ZPAF_ED_HEADERSet', payload, {
                         success: function (oData, response) {
                             this.oRouter = this.getOwnerComponent().getRouter();
                             this.oRouter.navTo("page1", {});

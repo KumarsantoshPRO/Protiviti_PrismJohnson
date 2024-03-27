@@ -457,7 +457,6 @@
                                 forceSelection="false"
                                 items="{LocalJSONModels>/quality}"
                                 selectedKey="{JSONModelPayload>Zzprodh4}"
-                                
                                 editable="{GlobalModel>/Editable}"
                             >
                                 <core:Item
@@ -475,13 +474,14 @@
                             />
                             <!-- value=  '{=${JSONModelPayload>/Exdepsqft} === "0.00" ?${JSONModelPayload>Exfacsqft}:${JSONModelPayload>/Exdepsqft}}' -->
                             <!-- value="{JSONModelPayload>Exfac}" -->
-
+                            <!-- come back here -->
                             <Input
                                 id="idV2TblCLIInpDiscount"
                                 liveChange="onNumberValidation"
                                 value="{JSONModelPayload>Disc}"
                                 editable="{GlobalModel>/Editable}"
                             />
+                            
 
                             <Input
                                 id="idV2TblCLIInpSchDis"

@@ -9,7 +9,7 @@ sap.ui.define(['sap/m/MessageBox'], function (MessageBox) {
         "CurVolFt": "Current Volume (Sqft)",
         "TotalVol": "Total Volume (Sqft)",
         "Exfac": "Ex Factory (SqFt)",
-        "Disc": "On-Invoice discount per SqFt",
+        "Disc": "On-Invoice discount",
         "Schemedisc": "Schemes discount per SqFt(If Applicable)",
         "SchemediscPer": "Schemes %",
         "Commbox": "ORC Entity",

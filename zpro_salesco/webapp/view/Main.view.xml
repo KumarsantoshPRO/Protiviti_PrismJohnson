@@ -17,6 +17,7 @@
                 id="idFlexBox"
                 wrap="Wrap"
                 justifyContent="Center"
+                visible="false"
             >
                 <f:Card
                     id="mainCardId"

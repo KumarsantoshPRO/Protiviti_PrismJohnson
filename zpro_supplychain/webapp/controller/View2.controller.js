@@ -62,14 +62,15 @@ sap.ui.define([
                         if (Object.hasOwnProperty.call(aTablePayload[index], key)) {
                             if (key === 'ApprovedFrightprice') {
                                 const element = aTablePayload[index]['ApprovedFrightprice'];
+                                debugger;
                                 if (element === '0.00') {
                                     vValidation = 0;
 
-                                    this.getView().byId("idV2TblProducts").getItems()[index].getAggregation("cells")[9].setValueState("Error");
+                                    this.getView().byId("idV2TblProducts").getItems()[index].getAggregation("cells")[8].setValueState("Error");
                                     // this.getView().byId("idTblProductDetails").getItems()[index].getAggregation("cells")[3]
                                 } else {
                                     vValidation = 1;
-                                    this.getView().byId("idV2TblProducts").getItems()[index].getAggregation("cells")[9].setValueState("None")
+                                    this.getView().byId("idV2TblProducts").getItems()[index].getAggregation("cells")[8].setValueState("None")
                                 }
                             }
                         }
@@ -85,7 +86,7 @@ sap.ui.define([
                     var nLen = this.getView().getModel("oRequestModel").getData().NAV_SC_HEADER.results.length;
                     for (let index = 0; index < nLen; index++) {
                         delete this.getView().getModel("oRequestModel").getData().NAV_SC_HEADER.results[index].__metadata
-                        payload.NAV_PM_REQUEST.push(
+                        payload.NAV_SC_HEADER.push(
                             {
                                 "Pafno": this.getView().getModel("oRequestModel").getData().Pafno,
                                 "Posnr": (index + 1).toString(),

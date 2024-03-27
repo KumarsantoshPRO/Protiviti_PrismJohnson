@@ -2,6 +2,7 @@
     xmlns="sap.m"
     xmlns:core="sap.ui.core"
     xmlns:tnt="sap.tnt"
+    xmlns:fb="sap.ui.comp.filterbar"
 >
     <IconTabBar
         id="id.main.IconTabBar"
@@ -9,7 +10,6 @@
         stretchContentHeight="true"
         select=".onFilterSelect"
         class="sapUiResponsiveContentPadding sapUiLargeMarginBottom"
-        visible="false"
     >
         <items>
             <IconTabFilter
@@ -54,23 +54,57 @@
             />
         </items>
         <content>
-            <!-- <HBox
-                id="idHBox"
-                alignContent="Center"
-                alignItems="Center"
+            <fb:FilterBar
+                id="id.FilterBar"
+                persistencyKey="myPersKey"
+                useToolbar="false"
+                search=".onSearch"
+                showFilterConfiguration="false"
+             
             >
-                <Label
-                    id="idSearchOrderNumberLabel"
-                    design="Bold"
-                    text="Search Order Number: "
-                />
-                <Input
-                    id="id.orderNumber.Input"
-                    placeholder="Enter Order Number"
-                    submit="onOrderNumber"
-                    liveChange="onOrderNumber"
-                />
-            </HBox> -->
+                <fb:filterGroupItems>
+                    <fb:FilterGroupItem
+                        name="SalesOffice"
+                        label="Sales Office"
+                        groupName="Group1"
+                    
+                        visibleInFilterBar="true"
+                    >
+                        <fb:control>
+                            <Input
+                                id="id.SalesOffice.Input"
+                                placeholder="Sales Office"
+                                showValueHelp="true"
+                                valueHelpRequest="onSalesOfficeHelp"
+                                showSuggestion="true"
+                                suggest=".onSuggest"
+                                suggestionItems="{JSONModelForSuggest>/}"
+                                change="onSalesOfficeInputSubmit"
+                            >
+                                <!-- submit="onSalesOfficeInputSubmit" -->
+                                <suggestionItems>
+                                    <core:Item
+                                        text="{JSONModelForSuggest>DomvalueL}"
+                                    />
+                                </suggestionItems>
+                            </Input>
+                        </fb:control>
+                    </fb:FilterGroupItem>
+                    <fb:FilterGroupItem
+                        name="PafNo"
+                        label="Paf No"
+                        groupName="Group1"
+                        visibleInFilterBar="true"
+                    >
+                        <fb:control>
+                            <Input
+                                id="id.PafNo.Input"
+                                placeholder="PAF No."
+                            />
+                        </fb:control>
+                    </fb:FilterGroupItem>
+                </fb:filterGroupItems>
+            </fb:FilterBar>
             <Table
                 id="id.main.Products.Table"
                 alternateRowColors="true"
@@ -196,7 +230,6 @@
                         hAlign="End"
                         minScreenWidth="Desktop"
                         demandPopin="true"
-                         
                     >
                         <Text
                             id="id.main.TblClmTxtCurrOrder"
@@ -208,7 +241,6 @@
                         hAlign="Center"
                         minScreenWidth="Desktop"
                         demandPopin="true"
-                        
                     >
                         <Text
                             id="id.main.TblClmTxtReqDate"
@@ -247,12 +279,10 @@
                             <Text
                                 id="idV1TblCLITxtOrdNo"
                                 text="{path:'ModelForTable>Pafno',  formatter:'sap.formatter.removeLeadingZeros'}"
-                               
                             />
                             <Text
                                 id="idV1TblCLITxtRegion"
                                 text="{ModelForTable>Vkbur}"
-                               
                             />
                             <Text
                                 id="idV1TblCLITtCustomer"

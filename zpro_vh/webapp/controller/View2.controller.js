@@ -8,7 +8,8 @@ sap.ui.define([
     "sap/m/library",
     "sap/m/TextArea",
     "zpj/pro/sd/sk/zprovertihead/model/formatter",
-    "sap/m/MessageBox"
+    "sap/m/MessageBox",
+    
 ],
     /**
      * @param {typeof sap.ui.core.mvc.Controller} Controller
@@ -26,7 +27,7 @@ sap.ui.define([
 
                 var oSouceModel = new JSONModel();
                 this.getView().setModel(oSouceModel, "SouceModel");
-debugger
+
                 this.getOwnerComponent().getRouter().attachRoutePatternMatched(this.onRouteMatched, this);
                 this.getData();
                 this.pafNoTemp;
@@ -36,7 +37,6 @@ debugger
 
             // Attach route matched method
             onRouteMatched: function (oEvent) {
-                debugger;
                 var pafID = oEvent.getParameter("arguments").pafID;
                 if (pafID !== "Page1" || pafID !== undefined) {
                     if (pafID) {
@@ -53,9 +53,7 @@ debugger
                 this.getView().setBusy(true);
                 var sPath = "/ZPAF_VH_HEADERSet('" + pafID + "')"
 
-                if (pafID.includes('120018') || pafID.includes('120017')) {
-                    this.getDataWRTPafNo(pafID);
-                }
+               
 
                 this.getOwnerComponent().getModel().read(sPath, {
 
@@ -97,74 +95,7 @@ debugger
                 });
             },
 
-            getDataWRTPafNo: function (pafID) {
-                if (pafID.includes('120017')) {
-                    this.pafNoTemp = 120017;
-                    var payload = {
-                        "CS_Value": "164.55",
-                        "CS_GrossMargin": "4.05",
-                        "CS_Volume": "4.11",
-                        "CS_GrossMarginPer": "7.2",
-                        "RD_Region": "West 2 ROM",
-                        "RD_Value": "1936.69",
-                        "RD_GrossMargin": "3.09",
-                        "RD_Volume": "59.24 Lakhs",
-                        "RD_GrossMarginPer": "9.3",
-                        "TD_NetExFactory": "25.42",
-                        "TD_FreightSqft": "4.52",
-
-                        "MD_GrossMargin": "15.42",
-                        "MD_BenchMarkGrossMargin": "",
-                        "MD_RecommendedGM": "12",
-                        "MD_RecommendedDis": "",
-                        "MD_TargetEquivalentGMpersqft": "4.07",
-                        "MD_CurrentEquivalentGMpersqft": "3.92",
-                        "MD_EffectOnCurrentEquivalentGMpersqft": "-",
-                        "MD_DiscountPer": "8",
-                        "MD_RecommendedAction": "Accept Transaction",
-
-                        "CD_SVC_BP": "21.5 sq ft",
-                        "CD_S_DCost": "0",
-                        "CD_S_DCostPer": ""
-                    };
-                }
-                if (pafID.includes('120018')) {
-                    this.pafNoTemp = 120018;
-                    var payload = {
-                        "CS_Value": "164.55",
-                        "CS_GrossMargin": "4.05",
-                        "CS_Volume": "4.11",
-                        "CS_GrossMarginPer": "7.2",
-                        "RD_Region": "West 2 ROM",
-                        "RD_Value": "1936.69",
-                        "RD_GrossMargin": "3.09",
-                        "RD_Volume": "59.24 Lakhs",
-                        "RD_GrossMarginPer": "9.3",
-                        "TD_NetExFactory": "22.66",
-                        "TD_FreightSqft": "4.52",
-
-                        "MD_GrossMargin": "5.12",
-                        "MD_BenchMarkGrossMargin": "",
-                        "MD_RecommendedGM": "12",
-                        "MD_RecommendedDis": "",
-                        "MD_TargetEquivalentGMpersqft": "4.07",
-                        "MD_CurrentEquivalentGMpersqft": "1.16",
-                        "MD_EffectOnCurrentEquivalentGMpersqft": "-",
-                        "MD_DiscountPer": "8",
-                        "MD_RecommendedAction": "Reject Transaction or Request for Special Buying Price",
-
-                        "CD_SVC_BP": "21.5 sq ft",
-                        "CD_S_DCost": "0",
-                        "CD_S_DCostPer": ""
-                    };
-                }
-
-                var oModelWRTPafNo = new JSONModel();
-                oModelWRTPafNo.setData(payload);
-                this.getView().setModel(oModelWRTPafNo, "oRequestModelPaf");
-
-            },
-
+        
             getSourceDetails: function (pafNo) {
                 this.getView().setBusy(true);
                 var newFilArray = new Array();
@@ -213,7 +144,7 @@ debugger
                 this._Posnr = pathIndex + 1;
 
                 if (!this._sourceFrag) {
-                    this._sourceFrag = sap.ui.xmlfragment("pj.zpmg.view.fragments.source", this);
+                    this._sourceFrag = sap.ui.xmlfragment("zpj.pro.sd.sk.zprovertihead.view.fragments.source", this);
                     this.getView().addDependent(this._sourceFrag);
                     this._CustomerCodeTemp = sap.ui.getCore().byId("idSLSourceValueHelp").clone();
                     this._oTemp = sap.ui.getCore().byId("idSLSourceValueHelp").clone();

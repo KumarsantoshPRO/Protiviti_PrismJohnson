@@ -1,228 +1,516 @@
 <mvc:View
     controllerName="zpj.pro.sd.sk.zproexdirector.controller.View2"
-    xmlns:core="sap.ui.core"
     xmlns:mvc="sap.ui.core.mvc"
-    xmlns:f="sap.f"
+    xmlns:core="sap.ui.core"
+    xmlns:uxap="sap.uxap"
     xmlns="sap.m"
+    xmlns:cards="sap.f.cards"
     xmlns:tnt="sap.tnt"
+    xmlns:u="sap.ui.unified"
+    xmlns:upload="sap.m.upload"
+    xmlns:f="sap.f"
+    xmlns:forms="sap.ui.layout.form"
 >
-    <!-- <f:ShellBar
+     <!-- <f:ShellBar
         title="PMG"
         homeIcon="/css/johnson_img.png"
+        showCopilot="false"
+        showSearch="false"
+        showNotifications="false"
+        showProductSwitcher="false"
     /> -->
-
-    <Page class="sapUiLargeMarginBottom">
-        <content>
-            <IconTabBar
-                id="idIconTabBar"
-                headerMode="Standard"
-                stretchContentHeight="true"
-                select="_onFilterSelect"
-                class="sapUiResponsiveContentPadding sapUiLargeMarginBottom"
-            >
-                <items>
-                    <IconTabFilter
-                        icon="sap-icon://expand-all"
-                        count="{count>/Total}"
-                        text="Requests"
-                        key="All"
-                    />
-                    <IconTabSeparator />
-                    <IconTabFilter
-                        icon="sap-icon://lateness"
-                        iconColor="Tile"
-                        text="Pending"
-                        key="Pending"
-                        count="{count>/Pending}"
-                    />
-
-                    <IconTabFilter
-                        icon="sap-icon://accept"
-                        iconColor="Positive"
-                        text="Approved"
-                        key="Approved"
-                        count="{count>/Approved}"
-                    />
-
-                    <!-- <IconTabFilter
-                        icon="sap-icon://media-forward"
-                        iconColor="Neutral"
-                        text="Forwarded"
-                        key="Forwarded"
-                    />
-                    <IconTabFilter
-                        icon="sap-icon://message-popup"
-                        iconColor="Contrast"
-                        text="BP Renegotiation"
-                        key="BP"
-                    />
-                    <IconTabFilter
-                        icon="sap-icon://message-information"
-                        iconColor="Marker"
-                        text=" Frieght Renegotiation"
-                        key="Frieght"
+        <uxap:ObjectPageLayout
+            id="ObjectPageLayout"
+            upperCaseAnchorBar="true"
+            showFooter="true"
+        >
+            <uxap:headerTitle>
+                <uxap:ObjectPageHeader
+                    id="idObjectHeader"
+                    objectTitle=""
+                >
+                    <!-- <Button
+                        text="Back"
+                        press="onBack"
                     /> -->
-                    <IconTabFilter
-                        icon="sap-icon://decline"
-                        iconColor="Critical"
-                        text="Rejected"
-                        key="Rejected"
-                        count="{count>/Rejected}"
-                    />
-                    <IconTabFilter
-                        icon="sap-icon://fob-watch"
-                        iconColor="Critical"
-                        text="Delayed"
-                        key="Delayed"
-                        count="{count>/Delayed}"
-                    />
-                    <IconTabFilter
-                        icon="sap-icon://delete"
-                        iconColor="Negative"
-                        text="Deleted"
-                        key="Deleted"
-                        count="{count>/Deleted}"
-                    />
-                </items>
-                <content>
-                    <Table
-                        id="productsTable"
-                        alternateRowColors="true"
-                        growing="true"
-                        headerText="Products"
-                        items="{JSONModelForTable>/}"
-                        sticky="ColumnHeaders,HeaderToolbar"
-                    >
-                        <headerToolbar>
-                            <OverflowToolbar
-                                id="id.main.TblOT"
-                                design="Transparent"
-                                width="100%"
-                            >
-                                <content>
-                                    <Title
-                                        id="id.View1.Title"
-                                        text="Products"
-                                        level="H2"
+                </uxap:ObjectPageHeader>
+            </uxap:headerTitle>
+            <uxap:sections>
+                <uxap:ObjectPageSection title="Customer History">
+                    <uxap:subSections>
+                        <uxap:ObjectPageSubSection>
+                            <uxap:blocks>
+                                <forms:SimpleForm
+                                    layout="ColumnLayout"
+                                    columnsM="2"
+                                    columnsL="3"
+                                    columnsXL="4"
+                                    editable="true"
+                                    title=""
+                                >
+                                    <Label text="Customer Name" />
+                                    <Text text="{oRequestModel>/Name}" />
+                                    <Label text="Volume(Sqft In Lakhs)" />
+                                    <Text text="{oRequestModel>/CS_Volume}" />
+                                    <Label text="Value(INR Lakhs)" />
+                                    <Text text="{oRequestModel>/CS_Value}" />
+                                    <Label text="Gross Margin(%)" />
+                                    <Text
+                                        text="{oRequestModel>/CS_GrossMargin}"
                                     />
+                                    <Label text="Gross Margin(Per Sqft)" />
+                                    <Text
+                                        text="{oRequestModel>/CS_GrossMarginPer}"
+                                    />
+                                </forms:SimpleForm>
+                            </uxap:blocks>
+                        </uxap:ObjectPageSubSection>
+                    </uxap:subSections>
+                </uxap:ObjectPageSection>
 
-                                    <ToolbarSpacer id="id.main.TblTS" />
-                                    <Input
-                                        id="id.orderNumber.Input"
-                                        placeholder="Search Order Number"
-                                        submit="onOrderNumber"
-                                        liveChange="onOrderNumber"
-                                        width="15%"
+                <uxap:ObjectPageSection title="Region Details">
+                    <uxap:subSections>
+                        <uxap:ObjectPageSubSection>
+                            <uxap:blocks>
+                                <forms:SimpleForm
+                                    layout="ColumnLayout"
+                                    columnsM="2"
+                                    columnsL="3"
+                                    columnsXL="4"
+                                    editable="true"
+                                    title=""
+                                >
+                                    <Label text="Region" />
+                                    <Text text="{oRequestModel>/RD_Region}" />
+                                    <Label text="Volume(Sqft In Lakhs)" />
+                                    <Text text="{oRequestModel>/RD_Volume}" />
+                                    <Label text="Value(INR Lakhs)" />
+                                    <Text text="{oRequestModel>/RD_Value}" />
+                                    <Label text="Gross Margin(%)" />
+                                    <Text
+                                        text="{oRequestModel>/RD_GrossMarginPer}"
+                                    />
+                                    <Label text="Gross Margin(Per Sqft)" />
+                                    <Text
+                                        text="{oRequestModel>/RD_GrossMargin}"
+                                    />
+                                </forms:SimpleForm>
+                            </uxap:blocks>
+                        </uxap:ObjectPageSubSection>
+                    </uxap:subSections>
+                </uxap:ObjectPageSection>
+
+                <uxap:ObjectPageSection title="Transaction Details">
+                    <uxap:subSections>
+                        <uxap:ObjectPageSubSection>
+                            <uxap:blocks>
+                                <forms:SimpleForm
+                                    editable="true"
+                                    title=""
+                                    layout="ColumnLayout"
+                                    columnsM="2"
+                                    columnsL="3"
+                                    columnsXL="4"
+                                >
+                                    <Label text="Customer Name" />
+                                    <Text text="{oRequestModel>/Name}" />
+                                    <Label text="Customer Id" />
+                                    <Text text="{oRequestModel>/Kunnr}" />
+                                    <!-- <Label text="Size(s)(ft)" />
+											<Text text="{oRequestModel>/siz}"  /> -->
+                                    <!-- <Label text="Design(s)" />
+											<Text text="{oRequestModel>/des}" /> -->
+                                    <!-- <Label text="Source" />
+											<Text text="{oRequestModel>/sour}" /> -->
+                                    <Label text="Current Volume(Sqft)" />
+                                    <Text text="{oRequestModel>/WcurVol}" />
+                                    <Label text="Total Volume(Sqft)" />
+                                    <Text text="{oRequestModel>/WtotVol}" />
+                                    <Label text="Validity(Days)" />
+                                    <Text text="{path:'oRequestModel>/Validity', formatter:'.formatter.removeLeadingZeros'}" />
+                                    <!-- <Label text="Material Freight Groups" />
+											<Text text="{oRequestModel>/mfg}" /> -->
+                                    <Label text="Discount(%)" />
+                                    <Text text="{oRequestModel>/Wdisc}" />
+                                    <Label text="Net Ex Factory(Sqft)" />
+                                    <Text text="{oRequestModel>/Wnefsqft}" />
+                                    <!-- <Label text="Net Ex Factory(Ft)" />
+											<Text text="{oRequestModel>/Netexsq}"/> -->
+                                    <Label text="Freight Sqft(if applicable)" />
+                                    <Text text="{oRequestModel>/Wfrgtsqft}" />
+                                    <Label text="Status" />
+                                    <Text text="{path:'oRequestModel>/Status',formatter:'.formatter.getStatus'}" />
+                                    <Label text="Remarks(if any)" />
+                                    <Text text="{oRequestModel>/Remarks}" />
+                                </forms:SimpleForm>
+                            </uxap:blocks>
+                        </uxap:ObjectPageSubSection>
+                    </uxap:subSections>
+                </uxap:ObjectPageSection>
+
+                <uxap:ObjectPageSection title="Margin Details">
+                    <uxap:subSections>
+                        <uxap:ObjectPageSubSection>
+                            <uxap:blocks>
+                                <forms:SimpleForm
+                                    layout="ColumnLayout"
+                                    columnsM="2"
+                                    columnsL="3"
+                                    columnsXL="4"
+                                    editable="true"
+                                    title=""
+                                >
+                                    <Label text="Gross Margin(%)" />
+                                    <tnt:InfoLabel
+                                        text="{path:'oRequestModel>/Wgrossmargper'}"
+                                        renderMode="Loose"
+                                        colorScheme="{path:'oRequestModel>/Wgrossmargper', formatter:'.formatter.getColor'}"
+                                    />
+                                    <!-- <Text text="{oRequestModel>/grmg}"/> -->
+                                    <!-- <Label text="Bench Mark Gross Margin" />
+                                    <Text
+                                        text="{oRequestModel>/MD_BenchMarkGrossMargin}"
+                                    /> -->
+                                    <Label text="Recommended GM(%)" />
+                                    <Text
+                                        text="{oRequestModel>/MD_RecommendedGM}"
+                                    />
+                                    <!-- <Label text="Recommended Discount %" />
+                                    <Text
+                                        text="{oRequestModel>/MD_RecommendedDis}"
+                                    /> -->
+                                    <Label
+                                        text="Target Equivalent GM per Sqft"
+                                    />
+                                    <Text
+                                        text="{oRequestModel>/MD_TargetEquivalentGMpersqft}"
+                                    />
+                                    <Label
+                                        text="Current Equivalent GM per Sqft"
+                                    />
+                                    <Text
+                                        text="{oRequestModel>/MD_CurrentEquivalentGMpersqft}"
+                                    />
+                                    <Label
+                                        text="Effect on Current Equivalent GM per Sqft"
+                                    />
+                                    <Text
+                                        text="{oRequestModel>/MD_EffectOnCurrentEquivalentGMpersqft}"
+                                    />
+                                    <!-- <Label text="Vertical Gross Margin" />
+											<Text text="{oRequestModel>/vgm}" /> -->
+                                    <!-- <Label text="Discount %" />
+                                    <Text
+                                        text="{oRequestModel>/MD_DiscountPer}"
+                                    /> -->
+                                    <Label text="Recommended Action" />
+                                    <Text
+                                        text="{oRequestModel>/MD_RecommendedAction}"
+                                    />
+                                </forms:SimpleForm>
+                            </uxap:blocks>
+                        </uxap:ObjectPageSubSection>
+                    </uxap:subSections>
+                </uxap:ObjectPageSection>
+
+                <uxap:ObjectPageSection title="Cost Details">
+                    <uxap:subSections>
+                        <uxap:ObjectPageSubSection>
+                            <uxap:blocks>
+                                <forms:SimpleForm
+                                    layout="ColumnLayout"
+                                    columnsM="2"
+                                    columnsL="3"
+                                    columnsXL="4"
+                                    editable="true"
+                                    title=""
+                                >
+                                    <Label text="Landed Price(Sqft)" />
+                                    <Text text="{oRequestModel>/Wlandpricesqft}" />
+                                    <Label text="Ex Factory Price(Sqft)" />
+                                    <Text text="{oRequestModel>/Wexfacsqft}" />
+                                    <Label text="On Invoice(Value and %)" />
+                                    <Text text="{oRequestModel>/Discb}" />
+                                    <Text text="{oRequestModel>/Disc}" />
+                                    <!-- <Label
+                                        text="Scheme Discount(Value and %)"
+                                    />
+                                    <Text text="{oRequestModel>/sd}" />
+                                    <Text text="{oRequestModel>/sd2}" /> -->
+                                    <Label text="Payment Term discount(%)" />
+                                    <!-- Value and  -->
+                                    <Text
+                                        text="{oRequestModel>/CashDiscountper}"
+                                    />
+                                    <!-- <Text
+                                        text="{path:'oRequestModel>/Wcashdisc', formatter:'.formatter.makeItPositive'}"
+                                    /> -->
+                                    <Label text="SVC/BP(Sqft)" />
+                                    <Text text="{oRequestModel>/Wbuyingprice}" />
+                                    <Label text="Freight Cost(Sqft)" />
+                                    <Text text="{oRequestModel>/Wfrgtsqft}" />
+                                    <Label text="ORC(Value and %)" />
+                                    <Text text="{oRequestModel>/Worc}" />
+                                    <Text text="{oRequestModel>/Worcper}" />
+                                    <Label text="S and D cost" />
+                                    <Text text="{oRequestModel>/Wsd}" />
+                                    
+                                </forms:SimpleForm>
+                            </uxap:blocks>
+                        </uxap:ObjectPageSubSection>
+                    </uxap:subSections>
+                </uxap:ObjectPageSection>
+
+                <uxap:ObjectPageSection title="Competitor Details">
+                    <uxap:subSections>
+                        <uxap:ObjectPageSubSection>
+                            <uxap:blocks>
+                                <forms:SimpleForm
+                                    layout="ColumnLayout"
+                                    columnsM="2"
+                                    columnsL="3"
+                                    columnsXL="4"
+                                    editable="true"
+                                    title=""
+                                >
+                                    <Label text="Competitor Name" />
+                                    <Text text="{oRequestModel>/Compname}" />
+                                    <Label text="Competitor Landed Price" />
+                                    <Text
+                                        text="{oRequestModel>/Complanprice}"
+                                    />
+                                </forms:SimpleForm>
+                            </uxap:blocks>
+                        </uxap:ObjectPageSubSection>
+                    </uxap:subSections>
+                </uxap:ObjectPageSection>
+                <uxap:ObjectPageSection
+                    titleUppercase="true"
+                    title="Additional Product Details"
+                >
+                    <uxap:subSections>
+                        <!-- <uxap:ObjectPageSubSection title="Additional Product Details" titleUppercase="true"> -->
+                        <uxap:ObjectPageSubSection
+                            titleUppercase="true"
+                            title="Product Details"
+                        >
+                            <uxap:blocks>
+ 
+                                    <Table
+                                        id="idTblProductDetails"
+                                        items="{ProductModel>/}"
                                     >
-                                        <layoutData>
-                                            <OverflowToolbarLayoutData
-                                                priority="NeverOverflow"
-                                            />
-                                        </layoutData>
-                                    </Input>
-                                </content>
-                            </OverflowToolbar>
-                        </headerToolbar>
-                        <columns>
-                            <Column hAlign="End">
-                                <Text text="Order No" />
-                            </Column>
-                            <Column hAlign="End">
-                                <Text text="Region" />
-                            </Column>
-                            <Column hAlign="Center">
-                                <Text text="Customer" />
-                            </Column>
-                            <Column hAlign="Center">
-                                <Text text="Customer ID" />
-                            </Column>
-                            <Column
-                                hAlign="Center"
-                                demandPopin="true"
-                            >
-                                <Text text="Order type" />
-                            </Column>
-                            <Column
-                                hAlign="End"
-                                demandPopin="true"
-                            >
-                                <Text text="Total Order" />
-                            </Column>
-                            <Column
-                                hAlign="End"
-                                demandPopin="true"
-                            >
-                                <Text text="Current Order" />
-                            </Column>
-                            <Column
-                                hAlign="Center"
-                                demandPopin="true"
-                            >
-                                <Text text="Request Date" />
-                            </Column>
-                            <Column
-                                hAlign="End"
-                                demandPopin="true"
-                            >
-                                <Text text="Validity" />
-                            </Column>
-                            <Column
-                                hAlign="End"
-                                demandPopin="true"
-                            >
-                                <Text text="GM%" />
-                            </Column>
-                            <Column
-                                hAlign="Center"
-                                demandPopin="true"
-                            >
-                                <Text text="Status" />
-                            </Column>
-                        </columns>
-                        <items>
-                            <ColumnListItem
-                                vAlign="Middle"
-                                type="Navigation"
-                                press="onClickofItem"
-                            >
-                                <cells>
-                                    <Text
-                                        text="{path:'JSONModelForTable>Pafno', formatter:'.formatter.removeLeadingZeros'}"
-                                    />
-                                    <Text text="{JSONModelForTable>Vkbur}" />
-                                    <Text text="{JSONModelForTable>Name}" />
-                                    <Text text="{JSONModelForTable>Kunnr}" />
-                                    <Text
-                                        text="{ parts: ['JSONModelForTable>Vtweg'], formatter: '.formatter.getOrderType' }"
-                                    />
-                                    <Text
-                                        text="{JSONModelForTable>WtotalVol}"
-                                    />
-                                    <Text
-                                        text="{JSONModelForTable>WcurVolFt}"
-                                    />
-                                    <Text
-                                        text="{ parts: ['JSONModelForTable>Erdat'], formatter: '.formatter.getFormattedDate' }"
-                                    />
-                                    <Text text="{path:'JSONModelForTable>Validity', formatter:'.formatter.removeLeadingZeros'}" />
-                                    <tnt:InfoLabel
-                                        text="{JSONModelForTable>Wgrossmargper} %"
-                                        renderMode="Loose"
-                                        colorScheme="{ parts: [                                        
-													'JSONModelForTable>Wgrossmargper'], 
-													formatter: '.formatter.getGMColor' }"
-                                    />
-                                    <tnt:InfoLabel
-                                        text="{ parts: ['JSONModelForTable>Status'], formatter: '.formatter.getStatus' }"
-                                        renderMode="Loose"
-                                        colorScheme="{ parts: ['JSONModelForTable>Status'], formatter: '.formatter.getStatusColor' }"
-                                    />
-                                </cells>
-                            </ColumnListItem>
-                        </items>
-                    </Table>
-                </content>
-            </IconTabBar>
-        </content>
-    </Page>
+                                        <columns>
+                                            <Column
+                                                minScreenWidth="Tablet"
+                                                demandPopin="true"
+                                                hAlign="Center"
+                                            >
+                                                <Text
+                                                    text="Material Freight Groups"
+                                                />
+                                            </Column>
+                                            <Column
+                                                minScreenWidth="Tablet"
+                                                demandPopin="true"
+                                                hAlign="End"
+                                            >
+                                                <Text text="Size" />
+                                            </Column>
+                                            <Column
+                                                minScreenWidth="Tablet"
+                                                demandPopin="true"
+                                                hAlign="Center"
+                                            >
+                                                <Text text="Designs" />
+                                            </Column>
+                                            <Column
+                                                minScreenWidth="Tablet"
+                                                demandPopin="true"
+                                                hAlign="Center"
+                                            >
+                                                <Text text="Source" />
+                                            </Column>
+
+                                            <Column
+                                                minScreenWidth="Tablet"
+                                                demandPopin="true"
+                                                hAlign="Center"
+                                                visible="false"
+                                            >
+                                                <Text text="Volume" />
+                                            </Column>
+                                            <Column
+                                                minScreenWidth="Tablet"
+                                                demandPopin="true"
+                                                hAlign="End"
+                                            >
+                                                <Text text="Discount(%)" />
+                                            </Column>
+                                            <Column
+                                                minScreenWidth="Desktop"
+                                                demandPopin="true"
+                                                hAlign="End"
+                                            >
+                                                <Text text="Net Ex Factory(Sqft)" />
+                                            </Column>
+                                            <Column
+                                                minScreenWidth="Desktop"
+                                                demandPopin="true"
+                                                hAlign="End"
+                                            >
+                                                <Text text="SVC/BP(Sqft)" />
+                                            </Column>
+                                            <Column
+                                                minScreenWidth="Desktop"
+                                                demandPopin="true"
+                                                hAlign="Center"
+                                                visible="false"
+                                            >
+                                                <Text text="Gross Margin" />
+                                            </Column>
+                                            <Column
+                                                minScreenWidth="Desktop"
+                                                demandPopin="true"
+                                                hAlign="Center"
+                                                visible="false"
+                                            >
+                                                <Text
+                                                    text="Volume(Sqft In Lakhs)"
+                                                />
+                                            </Column>
+                                            <Column
+                                                minScreenWidth="Desktop"
+                                                demandPopin="true"
+                                                hAlign="End"
+                                            >
+                                                <Text text="Gross Margin(%)" />
+                                            </Column>
+                                        </columns>
+
+                                        <items>
+                                            <ColumnListItem vAlign="Middle">
+                                                <cells>
+                                                    <Text
+                                                        text="{ProductModel>Mfrgr}"
+                                                    />
+                                                    <Text
+                                                        text="{ProductModel>Szcm}"
+                                                    />
+                                                    <Text
+                                                        text="{ProductModel>Design}"
+                                                    />
+
+                                                    <Text
+                                                        text="{ProductModel>Source}"
+                                                     
+                                                    />
+                                                    <Text
+                                                        visible="false"
+                                                        text="{ProductModel>Volume}"
+                                                    />
+                                                    <Text
+                                                        text="{ProductModel>Discount}"
+                                                    />
+                                                    <Text
+                                                        text="{ProductModel>Netexsqft}"
+                                                    />
+                                                    <Text
+                                                        text="{ProductModel>Buyingpricesqft}"
+                                                    />
+                                                    <Text
+                                                        visible="false"
+                                                        text="{ProductModel>Grossmarg}"
+                                                    />
+                                                    <Text
+                                                        visible="false"
+                                                        text="{ProductModel>Zvolumepft}"
+                                                    />
+                                                    <Text
+                                                        text="{path:'ProductModel>Grossmargper'}"
+                                                    />
+                                                </cells>
+                                            </ColumnListItem>
+                                        </items>
+                                    </Table>
+                          
+                            </uxap:blocks>
+                        </uxap:ObjectPageSubSection>
+                    </uxap:subSections>
+                </uxap:ObjectPageSection>
+
+                <!-- <uxap:ObjectPageSection titleUppercase="true" title="Product Details">
+							
+							
+							<uxap:subSections>
+								<uxap:ObjectPageSubSection titleUppercase="true">
+									<uxap:blocks>
+										<forms:SimpleForm layout="ColumnLayout" columnsM="2" columnsL="3" columnsXL="4" editable="true">
+											<Label text="Material Freight Groups"/>
+											<Text text="{oRequestModel>/mfg}"/>
+											<Label text="Size"/>
+											<Text text="{oRequestModel>/siz}" />
+											<Label text="Design" />
+											<Text text="{oRequestModel>/des}"/>
+											<Label text="Source" />
+											<Text text="{oRequestModel>/sour}" />
+											<Label text="Volume" />
+											<Text text="{oRequestModel>/vol}" />
+											<Label text="Discount%" />
+											<Text text="{oRequestModel>/dis}" />
+											<Label text="Net Ex Factory" />
+											<Text text="{oRequestModel>/nef}" />
+											<Label text="SVC/BP" />
+											<Text text="{oRequestModel>/svc}" />
+											<Label text="Gross Margin%" />
+											<Text text="{oRequestModel>/gm}" />
+											<Label text="Volume(Sqft In Lakhs)" />
+											<Text text="{oRequestModel>/val2}" />
+                                            <Label text="Gross Margin%" />
+											<Text text="{oRequestModel>/gm2}" />
+										</forms:SimpleForm>
+										</uxap:blocks>
+										</uxap:ObjectPageSubSection>
+							</uxap:subSections>		 -->
+                <!-- </uxap:ObjectPageSection> -->
+            </uxap:sections>
+            <uxap:footer>
+                <Bar>
+                    <contentRight>
+                        <!-- <Button
+                            text="Forward"
+                          
+                            icon="sap-icon://forward"
+                            press=".onForward"
+                            ariaHasPopup="Dialog"
+                        />
+                        <Button
+                            text="BP Renegotiation"
+                            press=".bpRenegotiation"
+                            ariaHasPopup="Dialog"
+                            type="Emphasized"
+                        />
+                        <Button
+                            text="Freight Renegotiation"
+                            press=".freightRenegotiation"
+                            ariaHasPopup="Dialog"
+                            type="Emphasized"
+                        /> -->
+                        <Button
+                            text="Reject"
+                            press=".reject"
+                            ariaHasPopup="Dialog"
+                            type="Reject"
+                        />
+                        <Button
+                            text="Approve"
+                            press=".Approved"
+                            ariaHasPopup="Dialog"
+                            type="Accept"
+                        />
+                    </contentRight>
+                </Bar>
+            </uxap:footer>
+        </uxap:ObjectPageLayout>
+     
 </mvc:View>

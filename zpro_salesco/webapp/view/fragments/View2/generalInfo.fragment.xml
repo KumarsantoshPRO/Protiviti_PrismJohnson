@@ -66,7 +66,7 @@
                 text="{i18nV2>view2.simpleForm.label.distChnl}"
                 required="true"
             />
-            <Select
+            <ComboBox
                 id="idV2SLDistChannel"
                 forceSelection="false"
                 items="{LocalJSONModels>/distributonChannel}"
@@ -80,12 +80,12 @@
                     key="{LocalJSONModels>key}"
                     text="{LocalJSONModels>text}"
                 />
-            </Select>
+            </ComboBox>
             <Label
                 id="idV2LblPayTerm"
                 text="{i18nV2>view2.simpleForm.label.payTerm}"
             />
-            <Select
+            <ComboBox
                 id="idV2SLPaymentTerm"
                 forceSelection="false"
                 items="{LocalJSONModels>/paymentTerms}"
@@ -99,7 +99,7 @@
                     key="{LocalJSONModels>key}"
                     text="{LocalJSONModels>text}"
                 />
-            </Select>
+            </ComboBox>
 
             <Label
                 id="idV2LblValidity"
@@ -169,7 +169,7 @@
                 text="{i18nV2>view2.simpleForm.label.vertical}"
                 required="true"
             />
-            <Select
+            <ComboBox
                 id="idV2SLVertical"
                 forceSelection="false"
                 items="{LocalJSONModels>/vertical}"
@@ -182,7 +182,7 @@
                     key="{LocalJSONModels>key}"
                     text="{LocalJSONModels>text}"
                 />
-            </Select>
+            </ComboBox>
             <Label
                 id="idV2LblTranIns"
                 text="{i18nV2>view2.simpleForm.label.TranIns}"
