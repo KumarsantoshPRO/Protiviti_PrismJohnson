@@ -539,31 +539,7 @@ sap.ui.define([
 
                 payload.Pafno = this.getView().getModel("oRequestModel").getData().Pafno;
 
-                //   ProductModel 
-
-                var aTablePayload = this.getView().getModel("ProductModel").getData(),
-                    len = aTablePayload.length,
-                    vValidation = 0;
-
-                for (let index = 0; index < len; index++) {
-                    for (const key in aTablePayload[index]) {
-                        if (Object.hasOwnProperty.call(aTablePayload[index], key)) {
-                            if (key === 'Source') {
-                                const element = aTablePayload[index]['Source'];
-                                if (element === '') {
-                                    vValidation = 0;
-                                    this.getView().byId("idTblProductDetails").getItems()[index].getAggregation("cells")[3].setValueState("Error");
-                                    // this.getView().byId("idTblProductDetails").getItems()[index].getAggregation("cells")[3]
-                                } else {
-                                    vValidation = 1;
-                                    this.getView().byId("idTblProductDetails").getItems()[index].getAggregation("cells")[3].setValueState("None")
-                                }
-                            }
-                        }
-                    }
-
-                }
-                if (vValidation === 1) {
+           
                     this.getView().setBusy(true);
                     this.getOwnerComponent().getModel().create('/ZPAF_ED_HEADERSet', payload, {
                         success: function (oData, response) {
@@ -576,10 +552,7 @@ sap.ui.define([
                             MessageBox.error(error.responseText);
                         }.bind(this)
                     });
-                } else {
-                    MessageBox.error("Please select Source(vendor)");
-                    this.oRejectDialog.close();
-                }
+            
             }
         });
     });

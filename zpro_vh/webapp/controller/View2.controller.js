@@ -138,7 +138,7 @@ sap.ui.define([
             },
 
             onSourceHelp: function (oEvent) {
-                debugger;
+               
                 var pathIndex = Number(oEvent.getSource().getParent().getBindingContextPath().split("/")[1]);
                 this._rowIndex = pathIndex;
                 this._Posnr = pathIndex + 1;
@@ -314,7 +314,7 @@ sap.ui.define([
             onForward: function () {
                 if (!this.oRejectDialog) {
                     var nGM = Number(this.getView().getModel("oRequestModel").CS_GrossMargin)
-                    debugger;
+                    
                     if (nGM < 10) {
                         var sHeaderMessage = "Gross Margin is less than 10%";
                         var sInfoMessage = "Request will be forwarded to the Executive Director"
@@ -541,30 +541,31 @@ sap.ui.define([
 
                 //   ProductModel 
 
-                var aTablePayload = this.getView().getModel("ProductModel").getData(),
-                    len = aTablePayload.length,
-                    vValidation = 0;
+                // var aTablePayload = this.getView().getModel("ProductModel").getData(),
+                //     len = aTablePayload.length,
+                //     vValidation = 0;
 
-                for (let index = 0; index < len; index++) {
-                    for (const key in aTablePayload[index]) {
-                        if (Object.hasOwnProperty.call(aTablePayload[index], key)) {
-                            if (key === 'Source') {
-                                const element = aTablePayload[index]['Source'];
-                                if (element === '') {
-                                    vValidation = 0;
-                                    this.getView().byId("idTblProductDetails").getItems()[index].getAggregation("cells")[3].setValueState("Error");
-                                    // this.getView().byId("idTblProductDetails").getItems()[index].getAggregation("cells")[3]
-                                } else {
-                                    vValidation = 1;
-                                    this.getView().byId("idTblProductDetails").getItems()[index].getAggregation("cells")[3].setValueState("None")
-                                }
-                            }
-                        }
-                    }
+                // for (let index = 0; index < len; index++) {
+                //     for (const key in aTablePayload[index]) {
+                //         if (Object.hasOwnProperty.call(aTablePayload[index], key)) {
+                //             if (key === 'Source') {
+                //                 const element = aTablePayload[index]['Source'];
+                //                 if (element === '') {
+                //                     vValidation = 0;
+                //                     this.getView().byId("idTblProductDetails").getItems()[index].getAggregation("cells")[3].setValueState("Error");
+                //                     // this.getView().byId("idTblProductDetails").getItems()[index].getAggregation("cells")[3]
+                //                 } else {
+                //                     vValidation = 1;
+                //                     this.getView().byId("idTblProductDetails").getItems()[index].getAggregation("cells")[3].setValueState("None")
+                //                 }
+                //             }
+                //         }
+                //     }
 
-                }
-                if (vValidation === 1) {
+                // }
+                // if (vValidation === 1) {
                     this.getView().setBusy(true);
+                    debugger;
                     this.getOwnerComponent().getModel().create('/ZPAF_VH_HEADERSet', payload, {
                         success: function (oData, response) {
                             this.oRouter = this.getOwnerComponent().getRouter();
@@ -576,10 +577,10 @@ sap.ui.define([
                             MessageBox.error(error.responseText);
                         }.bind(this)
                     });
-                } else {
-                    MessageBox.error("Please select Source(vendor)");
-                    this.oRejectDialog.close();
-                }
+                // } else {
+                //     MessageBox.error("Please select Source(vendor)");
+                //     this.oRejectDialog.close();
+                // }
             }
         });
     });

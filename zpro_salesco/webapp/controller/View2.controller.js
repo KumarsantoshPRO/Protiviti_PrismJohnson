@@ -1181,6 +1181,8 @@ sap.ui.define([
                     workbook: {
                         columns: aCols,
                         hierarchyLevel: 'Level',
+                        textAlign: 'Left',
+                        wrap: true,
                         context: {
 
                             sheetName: 'Product Details'
@@ -1189,6 +1191,7 @@ sap.ui.define([
                     dataSource: oRowBinding,
                     fileName: 'Product Details.xlsx',
                     worker: false // We need to disable worker because we are using a MockServer as OData Service
+                    
                 };
 
                 oSheet = new Spreadsheet(oSettings);
@@ -1198,7 +1201,38 @@ sap.ui.define([
             },
             createColumnConfig: function () {
                 var aCols = [];
-
+                aCols.push({
+                    property: 'CustomerCode',
+                    type: EdmType.String
+                });
+                aCols.push({
+                    property: 'DistributionChannel',
+                    type: EdmType.String
+                });
+                aCols.push({
+                    property: 'PaymentTerm',
+                    type: EdmType.String
+                });
+                aCols.push({
+                    property: 'ValidityInDays',
+                    type: EdmType.String
+                });
+                aCols.push({
+                    property: 'PurchaseOrderNo',
+                    type: EdmType.String
+                });
+                aCols.push({
+                    property: 'SalesOffice',
+                    type: EdmType.String
+                });
+                aCols.push({
+                    property: 'Vertical',
+                    type: EdmType.String
+                });
+                aCols.push({
+                    property: 'Vertical',
+                    type: EdmType.String
+                });
                 aCols.push({
                     property: 'MaterialFreightGroup',
                     type: EdmType.String

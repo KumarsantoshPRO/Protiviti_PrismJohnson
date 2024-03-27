@@ -4,165 +4,178 @@
     xmlns:core="sap.ui.core"
     xmlns:uxap="sap.uxap"
     xmlns="sap.m"
-
+    xmlns:u="sap.ui.unified"
 >
- 
-
-            <uxap:ObjectPageLayout
-                id="ObjectPageLayout"
-                upperCaseAnchorBar="true"
-                showFooter="true"
-                
-            >
-                <uxap:headerTitle>
-                    <uxap:ObjectPageHeader id="idV2OPH">
-                        <Button
-                            id="idV2BtnEdit"
-                            text="{i18nV2>view2.objectPageLayout.button.edit}"
-                            type="Emphasized"
-                            press="onEdit"
-                            visible="false"
-                        />
-                        <!-- <Button
+    <uxap:ObjectPageLayout
+        id="ObjectPageLayout"
+        upperCaseAnchorBar="true"
+        showFooter="true"
+    >
+        <uxap:headerTitle>
+            <uxap:ObjectPageHeader id="idV2OPH">
+                <Button
+                    id="idV2BtnEdit"
+                    text="{i18nV2>view2.objectPageLayout.button.edit}"
+                    type="Emphasized"
+                    press="onEdit"
+                    visible="false"
+                />
+                <!-- <Button
                     id="idV2BtnBack"
                     text="{i18nV2>view2.objectPageLayout.button.back}"
                     press="onBack"
                 /> -->
-                    </uxap:ObjectPageHeader>
-                </uxap:headerTitle>
-                <uxap:sections>
-                    <uxap:ObjectPageSection
-                        id="idV2OPSGenInfo"
-                        titleUppercase="true"
+            </uxap:ObjectPageHeader>
+        </uxap:headerTitle>
+        <uxap:sections>
+            <uxap:ObjectPageSection
+                id="idV2OPSGenInfo"
+                titleUppercase="true"
+                title="{i18nV2>view2.sections.generalInfo.title}"
+            >
+                <uxap:subSections>
+                    <uxap:ObjectPageSubSection
+                        id="idV2OPSubGenInfo"
                         title="{i18nV2>view2.sections.generalInfo.title}"
-                    >
-                        <uxap:subSections>
-                            <uxap:ObjectPageSubSection
-                                id="idV2OPSubGenInfo"
-                                title="{i18nV2>view2.sections.generalInfo.title}"
-                                titleUppercase="true"
-                            >
-                                <uxap:blocks>
-                                    <core:Fragment
-                                        id="idV2FragGenInfo"
-                                        fragmentName="zpj.pro.sk.sd.salescoordinator.zprosalesco.view.fragments.View2.generalInfo"
-                                        type="XML"
-                                    />
-                                </uxap:blocks>
-                            </uxap:ObjectPageSubSection>
-                        </uxap:subSections>
-                    </uxap:ObjectPageSection>
-                    <uxap:ObjectPageSection
-                        id="idV2OPSPrdDetail"
                         titleUppercase="true"
+                    >
+                        <uxap:blocks>
+                            <core:Fragment
+                                id="idV2FragGenInfo"
+                                fragmentName="zpj.pro.sk.sd.salescoordinator.zprosalesco.view.fragments.View2.generalInfo"
+                                type="XML"
+                            />
+                        </uxap:blocks>
+                    </uxap:ObjectPageSubSection>
+                </uxap:subSections>
+            </uxap:ObjectPageSection>
+            <uxap:ObjectPageSection
+                id="idV2OPSPrdDetail"
+                titleUppercase="true"
+                title="{i18nV2>view2.sections.addPrdDetails.title}"
+            >
+                <uxap:subSections>
+                    <uxap:ObjectPageSubSection
+                        id="idV2OPSubPrdDetail"
                         title="{i18nV2>view2.sections.addPrdDetails.title}"
-                    >
-                        <uxap:subSections>
-                            <uxap:ObjectPageSubSection
-                                id="idV2OPSubPrdDetail"
-                                title="{i18nV2>view2.sections.addPrdDetails.title}"
-                                titleUppercase="true"
-                            >
-                                <uxap:blocks>
-                                    <core:Fragment
-                                        id="idV2FragAddPrdDetails"
-                                        fragmentName="zpj.pro.sk.sd.salescoordinator.zprosalesco.view.fragments.View2.additionalPrdDetails"
-                                        type="XML"
-                                    />
-                                </uxap:blocks>
-                            </uxap:ObjectPageSubSection>
-                        </uxap:subSections>
-                    </uxap:ObjectPageSection>
-                    <uxap:ObjectPageSection
-                        id="idV2OPSAttach"
                         titleUppercase="true"
+                    >
+                        <uxap:blocks>
+                            <core:Fragment
+                                id="idV2FragAddPrdDetails"
+                                fragmentName="zpj.pro.sk.sd.salescoordinator.zprosalesco.view.fragments.View2.additionalPrdDetails"
+                                type="XML"
+                            />
+                        </uxap:blocks>
+                    </uxap:ObjectPageSubSection>
+                </uxap:subSections>
+            </uxap:ObjectPageSection>
+            <uxap:ObjectPageSection
+                id="idV2OPSAttach"
+                titleUppercase="true"
+                title="{i18nV2>view2.sections.attachments.title}"
+            >
+                <!-- Attachment -->
+                <uxap:subSections>
+                    <uxap:ObjectPageSubSection
+                        id="idV2OPSubAttach"
                         title="{i18nV2>view2.sections.attachments.title}"
-                    >
-                        <!-- Attachment -->
-                        <uxap:subSections>
-                            <uxap:ObjectPageSubSection
-                                id="idV2OPSubAttach"
-                                title="{i18nV2>view2.sections.attachments.title}"
-                                titleUppercase="true"
-                            >
-                                <uxap:blocks>
-                                    <core:Fragment
-                                        id="idV2FragAttach"
-                                        fragmentName="zpj.pro.sk.sd.salescoordinator.zprosalesco.view.fragments.View2.attachments"
-                                        type="XML"
-                                    />
-                                </uxap:blocks>
-                            </uxap:ObjectPageSubSection>
-                        </uxap:subSections>
-                    </uxap:ObjectPageSection>
-                    <uxap:ObjectPageSection
-                        id="idV2OPSSumDetail"
                         titleUppercase="true"
+                    >
+                        <uxap:blocks>
+                            <core:Fragment
+                                id="idV2FragAttach"
+                                fragmentName="zpj.pro.sk.sd.salescoordinator.zprosalesco.view.fragments.View2.attachments"
+                                type="XML"
+                            />
+                        </uxap:blocks>
+                    </uxap:ObjectPageSubSection>
+                </uxap:subSections>
+            </uxap:ObjectPageSection>
+            <uxap:ObjectPageSection
+                id="idV2OPSSumDetail"
+                titleUppercase="true"
+                title="{i18nV2>view2.sections.sumDetails.title}"
+                visible="{GlobalModel>/Editable}"
+            >
+                <!-- Summary Detail -->
+                <uxap:subSections>
+                    <uxap:ObjectPageSubSection
+                        id="idV2OPSubSumDetail"
                         title="{i18nV2>view2.sections.sumDetails.title}"
-                        visible="{GlobalModel>/Editable}"
+                        titleUppercase="true"
                     >
-                        <!-- Summary Detail -->
-                        <uxap:subSections>
-                            <uxap:ObjectPageSubSection
-                                id="idV2OPSubSumDetail"
-                                title="{i18nV2>view2.sections.sumDetails.title}"
-                                titleUppercase="true"
-                            >
-                                <uxap:blocks>
-                                    <core:Fragment
-                                        id="idV2FragSumDeatil"
-                                        fragmentName="zpj.pro.sk.sd.salescoordinator.zprosalesco.view.fragments.View2.summaryDetails"
-                                        type="XML"
-                                    />
-                                </uxap:blocks>
-                            </uxap:ObjectPageSubSection>
-                        </uxap:subSections>
-                    </uxap:ObjectPageSection>
-                </uxap:sections>
+                        <uxap:blocks>
+                            <core:Fragment
+                                id="idV2FragSumDeatil"
+                                fragmentName="zpj.pro.sk.sd.salescoordinator.zprosalesco.view.fragments.View2.summaryDetails"
+                                type="XML"
+                            />
+                        </uxap:blocks>
+                    </uxap:ObjectPageSubSection>
+                </uxap:subSections>
+            </uxap:ObjectPageSection>
+        </uxap:sections>
 
-                <uxap:footer>
-                    <Bar
-                        id="idV2Bar"
-                        visible="{GlobalModel>/Editable}"
+        <uxap:footer>
+            <Bar
+                id="idV2Bar"
+                visible="{GlobalModel>/Editable}"
+            >
+                <contentLeft>
+                    <Button
+                        id="idV2BtnMessages"
+                        class="sapUiTinyMarginBeginEnd"
+                        icon="sap-icon://SAP-icons-TNT/message-start-event"
+                        type="Attention"
+                        text="{i18nV2>view2.footer.button.message}"
+                        press="handleMessages"
+                        visible="false"
                     >
-                        <contentLeft>
-                            <Button
-                                id="idV2BtnMessages"
-                                class="sapUiTinyMarginBeginEnd"
-                                icon="sap-icon://SAP-icons-TNT/message-start-event"
-                                type="Attention"
-                                text="{i18nV2>view2.footer.button.message}"
-                                press="handleMessages"
-                                visible="false"
-                            >
-                                <!-- <customData>
+                        <!-- <customData>
 									<BadgeCustomData
 										key="badge"
 										value="{= ${chatModel>/}.length}"
 										visible="true"/>
 								</customData> -->
-                               
-                            </Button>
-                             <Link  visible="{GlobalModel>/Editable}" text="Download Excel Template" id="id.excelExport.Link" press="onExport"/>
-                        </contentLeft>
-                        <contentRight>
-                            <Button
-                                id="idV2BtnSave"
-                                text="{i18nV2>view2.footer.button.save}"
-                                press="onSave"
-                                visible="false"
-                                type="Success"
-                            />
-                            <!-- <Button text="Clear" press="onClear"></Button> -->
-                            <Button
-                                id="idV2BtnCancel"
-                                text="{i18nV2>view2.footer.button.cancel}"
-                                press="onCancel"
-                                type="Reject"
-                            />
-                        </contentRight>
-                    </Bar>
-                </uxap:footer>
-            </uxap:ObjectPageLayout>
-             
+                    </Button>
+                    <u:FileUploader
+                        id="FileUploaderId"
+                        buttonText="Excel Upload"
+                        sameFilenameAllowed="true"
+                        buttonOnly="true"
+                        fileType="XLSX,xlsx"
+                        icon="sap-icon://browse-folder"
+                        change="onUpload"
+                        tooltip="Excel Upload"
+                        visible="{GlobalModel>/Editable}"
+                        style="Emphasized"
+                    />
+                    <Link
+                        id="id.excelExport.Link"
+                        visible="{GlobalModel>/Editable}"
+                        text="Download Excel Template"
+                        emphasized="true"
+                        press="onExport"
+                    />
+                </contentLeft>
+                <contentRight>
+                    <Button
+                        id="idV2BtnSave"
+                        text="{i18nV2>view2.footer.button.save}"
+                        press="onSave"
+                        visible="false"
+                        type="Success"
+                    />
+                    <!-- <Button text="Clear" press="onClear"></Button> -->
+                    <Button
+                        id="idV2BtnCancel"
+                        text="{i18nV2>view2.footer.button.cancel}"
+                        press="onCancel"
+                        type="Reject"
+                    />
+                </contentRight>
+            </Bar>
+        </uxap:footer>
+    </uxap:ObjectPageLayout>
 </mvc:View>

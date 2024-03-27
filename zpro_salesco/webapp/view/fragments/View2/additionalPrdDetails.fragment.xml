@@ -18,7 +18,7 @@
                 type="Attention"
                 visible="{GlobalModel>/Editable}"
             />
-            <u:FileUploader
+            <!-- <u:FileUploader
                 id="FileUploaderId"
                 buttonText="Excel Upload"
                 sameFilenameAllowed="true"
@@ -30,7 +30,7 @@
                 change="onUpload"
                 tooltip="Excel Upload"
                 visible="{GlobalModel>/Editable}"
-            />
+            /> -->
             <Button
                 id="idV2BtnAdd"
                 text="{i18nV2>view2.flexBox.button.AddMoreProducts}"

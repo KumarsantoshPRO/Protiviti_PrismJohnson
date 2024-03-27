@@ -9,7 +9,7 @@ sap.ui.define([
     "sap/m/TextArea",
     "zpj/pro/sd/sk/zpronatsaleshead/model/formatter",
     "sap/m/MessageBox",
-    
+
 ],
     /**
      * @param {typeof sap.ui.core.mvc.Controller} Controller
@@ -53,7 +53,7 @@ sap.ui.define([
                 this.getView().setBusy(true);
                 var sPath = "/ZPAF_NSH_HEADERSet('" + pafID + "')"
 
-               
+
 
                 this.getOwnerComponent().getModel().read(sPath, {
 
@@ -62,7 +62,7 @@ sap.ui.define([
                     },
                     success: function (oData) {
                         var oModel = this.getView().getModel("oRequestModel");
-
+debugger;
                         // Grossmargper
                         // oData.NAV_NSH_ITEM_PRODUCT.results
                         var len = oData.NAV_NSH_ITEM_PRODUCT.results.length;
@@ -70,15 +70,15 @@ sap.ui.define([
                         oData.Wbuyingprice = 0;
                         for (let index = 0; index < len; index++) {
                             var nGrossMargin = Number(oData.NAV_NSH_ITEM_PRODUCT.results[index].Grossmargper);
-                            var nBuyingpricesqft= Number(oData.NAV_NSH_ITEM_PRODUCT.results[index].Buyingpricesqft);
+                            var nBuyingpricesqft = Number(oData.NAV_NSH_ITEM_PRODUCT.results[index].Buyingpricesqft);
                             oData.Wgrossmargper = Number(oData.Wgrossmargper) + nGrossMargin;
-                            oData.Wbuyingprice =  Number(oData.Wbuyingprice) + nBuyingpricesqft;
+                            oData.Wbuyingprice = Number(oData.Wbuyingprice) + nBuyingpricesqft;
                         }
                         oData.Wgrossmargper = (oData.Wgrossmargper / len).toFixed(2);
                         oData.Wbuyingprice = (oData.Wbuyingprice / len).toFixed(2);
-                        
-                        oData.Discb = ((oData.Wexfacsqft/100)*oData.Disc).toFixed(2);
-                        oData.Worc = ((oData.Wexfacsqft/100)*oData.Worcper).toFixed(2);
+
+                        oData.Discb = ((oData.Wexfacsqft / 100) * oData.Disc).toFixed(2);
+                        oData.Worc = ((oData.Wexfacsqft / 100) * oData.Worcper).toFixed(2);
                         // oData.Discb = oData.Discb;
                         oModel.setData(oData);
                         this.getView().setModel(oModel, "oRequestModel");
@@ -95,7 +95,7 @@ sap.ui.define([
                 });
             },
 
-        
+
             getSourceDetails: function (pafNo) {
                 this.getView().setBusy(true);
                 var newFilArray = new Array();
@@ -539,47 +539,20 @@ sap.ui.define([
 
                 payload.Pafno = this.getView().getModel("oRequestModel").getData().Pafno;
 
-                //   ProductModel 
+                debugger;
+                this.getView().setBusy(true);
+                this.getOwnerComponent().getModel().create('/ZPAF_NSH_HEADERSet', payload, {
+                    success: function (oData, response) {
+                        this.oRouter = this.getOwnerComponent().getRouter();
+                        this.oRouter.navTo("page1", {});
+                        this.getView().setBusy(false);
+                    }.bind(this),
+                    error: function (error) {
+                        this.getView().setBusy(false);
+                        MessageBox.error(error.responseText);
+                    }.bind(this)
+                });
 
-                var aTablePayload = this.getView().getModel("ProductModel").getData(),
-                    len = aTablePayload.length,
-                    vValidation = 0;
-
-                for (let index = 0; index < len; index++) {
-                    for (const key in aTablePayload[index]) {
-                        if (Object.hasOwnProperty.call(aTablePayload[index], key)) {
-                            if (key === 'Source') {
-                                const element = aTablePayload[index]['Source'];
-                                if (element === '') {
-                                    vValidation = 0;
-                                    this.getView().byId("idTblProductDetails").getItems()[index].getAggregation("cells")[3].setValueState("Error");
-                                    // this.getView().byId("idTblProductDetails").getItems()[index].getAggregation("cells")[3]
-                                } else {
-                                    vValidation = 1;
-                                    this.getView().byId("idTblProductDetails").getItems()[index].getAggregation("cells")[3].setValueState("None")
-                                }
-                            }
-                        }
-                    }
-
-                }
-                if (vValidation === 1) {
-                    this.getView().setBusy(true);
-                    this.getOwnerComponent().getModel().create('/ZPAF_NSH_HEADERSet', payload, {
-                        success: function (oData, response) {
-                            this.oRouter = this.getOwnerComponent().getRouter();
-                            this.oRouter.navTo("page1", {});
-                            this.getView().setBusy(false);
-                        }.bind(this),
-                        error: function (error) {
-                            this.getView().setBusy(false);
-                            MessageBox.error(error.responseText);
-                        }.bind(this)
-                    });
-                } else {
-                    MessageBox.error("Please select Source(vendor)");
-                    this.oRejectDialog.close();
-                }
             }
         });
     });

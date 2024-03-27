@@ -140,7 +140,7 @@ sap.ui.define([
             },
             onClickofItem: function (oEvent) {
                 this.oRouter = this.getOwnerComponent().getRouter();
-                debugger;
+        
                 this.oRouter.navTo("page2",
                     {
                         pafID: oEvent.getSource().getCells()[0].getText()
