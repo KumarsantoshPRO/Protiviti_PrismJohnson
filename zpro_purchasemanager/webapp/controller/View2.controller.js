@@ -20,7 +20,7 @@ sap.ui.define([
                 var pafID = oEvent.getParameter("arguments").ID;
 
                 if (pafID === "null" || pafID === undefined) {
-                    
+
                 } else {
                     var sPath = "/ET_PM_HEADERSet('" + pafID + "')";
                     this.getView().setBusy(true);
@@ -53,28 +53,28 @@ sap.ui.define([
                 this.oRouter.navTo("page1", {});
             },
             onRenegotiationButtonPress: function () {
-                var vValidation = 0;
+                var vValidation = 1;
                 var aTablePayload = this.getView().getModel("oRequestModel").getData().NAV_PM_REQUEST.results;
                 var len = this.getView().getModel("oRequestModel").getData().NAV_PM_REQUEST.results.length;
-                for (let index = 0; index < len; index++) {
-                    for (const key in aTablePayload[index]) {
-                        if (Object.hasOwnProperty.call(aTablePayload[index], key)) {
-                            if (key === 'ApprovedBuyingprice') {
-                                const element = aTablePayload[index]['ApprovedBuyingprice'];
-                                if (element === '0.00') {
-                                    vValidation = 0;
+                // for (let index = 0; index < len; index++) {
+                //     for (const key in aTablePayload[index]) {
+                //         if (Object.hasOwnProperty.call(aTablePayload[index], key)) {
+                //             if (key === 'ApprovedBuyingprice') {
+                //                 const element = aTablePayload[index]['ApprovedBuyingprice'];
+                //                 if (element === '0.00') {
+                //                     vValidation = 0;
 
-                                    this.getView().byId("idV2TblProducts").getItems()[index].getAggregation("cells")[9].setValueState("Error");
-                                    // this.getView().byId("idTblProductDetails").getItems()[index].getAggregation("cells")[3]
-                                } else {
-                                    vValidation = 1;
-                                    this.getView().byId("idV2TblProducts").getItems()[index].getAggregation("cells")[9].setValueState("None")
-                                }
-                            }
-                        }
-                    }
+                //                     this.getView().byId("idV2TblProducts").getItems()[index].getAggregation("cells")[9].setValueState("Error");
+                //                     // this.getView().byId("idTblProductDetails").getItems()[index].getAggregation("cells")[3]
+                //                 } else {
+                //                     vValidation = 1;
+                //                     this.getView().byId("idV2TblProducts").getItems()[index].getAggregation("cells")[9].setValueState("None")
+                //                 }
+                //             }
+                //         }
+                //     }
 
-                }
+                // }
                 if (vValidation === 1) {
                     var payload = {
                         "Pafno": this.getView().getModel("oRequestModel").getData().Pafno,
@@ -87,13 +87,13 @@ sap.ui.define([
                         payload.NAV_PM_REQUEST.push(
                             {
                                 "Pafno": this.getView().getModel("oRequestModel").getData().Pafno,
-                                "Posnr": (index+1).toString(),
+                                "Posnr": (index + 1).toString(),
                                 "ApprovedBuyingprice": this.getView().getModel("oRequestModel").getData().NAV_PM_REQUEST.results[index].ApprovedBuyingprice
                             }
                         )
                     }
+                     
 
-                    
                     var sPath = "/ET_PM_HEADERSet";
                     this.getView().setBusy(true);
                     this.getView().getModel().create(sPath, payload, {
@@ -102,7 +102,7 @@ sap.ui.define([
                             this.getView().setBusy(false);
                             sap.m.MessageBox.success("Renegotiation sent successfully", {
                                 onClose: function () {
-                                    
+
                                     var navigator = sap.ushell.Container.getService("CrossApplicationNavigation");
                                     navigator.toExternal({
                                         target: {

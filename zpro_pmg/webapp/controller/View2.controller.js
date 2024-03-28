@@ -313,17 +313,42 @@ sap.ui.define([
 
             onForward: function () {
                 if (!this.oRejectDialog) {
-                    var nGM = Number(this.getView().getModel("oRequestModel").CS_GrossMargin)
                     debugger;
+                    var nGM = Number(this.getView().getModel("oRequestModel").getProperty("/Wgrossmargper"));
+                  var bEditable,
+                  sState;
                     if (nGM < 10) {
                         var sHeaderMessage = "Gross Margin is less than 10%";
                         var sInfoMessage = "Request will be forwarded to the Executive Director"
+                        bEditable = true;
+                        sState = "None";
+                    }else if(nGM > 10 && nGM < 30) {
+                        var sHeaderMessage = "Gross Margin is in between 11%-30%";
+                        var sInfoMessage = "Request will be forwarded to the National Sales Head"
+                        bEditable = true;
+                        sState = "None";
+                    }else if(nGM > 30 && nGM < 50) {
+                        var sHeaderMessage = "Gross Margin is in between 31%-50%";
+                        var sInfoMessage = "Request will be forwarded to the Vertical Head"
+                        bEditable = true;
+                        sState = "None";
+                    }else if(nGM > 50 && nGM < 100) {
+                        var sHeaderMessage = "Gross Margin is in between 51%-100%";
+                        var sInfoMessage = "Request will be forwarded to the PMG"
+                        bEditable = true;
+                        sState = "None";
+                    }else{
+                        var sHeaderMessage = "Gross Margin is wrong";
+                        var sInfoMessage = "Request you to connect with IT team"
+                        bEditable = false;
+                        sState = "Error";
                     }
 
 
                     this.oRejectDialog = new Dialog({
                         title: sHeaderMessage,
                         type: DialogType.Message,
+                        state: sState,
 
                         content: [
                             new Label({
@@ -331,22 +356,21 @@ sap.ui.define([
                             }),
                             new TextArea({
                                 width: "100%",
-                                placeholder: "Type the reason for acceptance"
+                                placeholder: "Type the reason for acceptance",
+                                editable: bEditable
                             })
                         ],
                         beginButton: new Button({
                             text: "Cancel",
                             press: function () {
                                 this.oRejectDialog.close();
-
-
-                                this.oRejectDialog.close();
                             }.bind(this)
                         }),
                         endButton: new Button({
                             type: ButtonType.Emphasized,
                             text: "Submit",
-                            press: function () {
+                            press: function (oEvent) {
+                                 
                                 var remarks = oEvent.getSource().getParent().getAggregation("content")[1].getValue();
                                 var payload = {
                                     "Pafno": "",
@@ -536,7 +560,7 @@ sap.ui.define([
             },
 
             _sendPayload: function (payload) {
-
+debugger;
                 payload.Pafno = this.getView().getModel("oRequestModel").getData().Pafno;
 
                 //   ProductModel 

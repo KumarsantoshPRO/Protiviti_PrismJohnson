@@ -460,7 +460,7 @@
                                 editable="{GlobalModel>/Editable}"
                             >
                                 <core:Item
-                                    id="idV2TblCLISLItemQuality"
+                                  
                                     key="{LocalJSONModels>key}"
                                     text="{LocalJSONModels>text}"
                                 />
@@ -541,7 +541,7 @@
                                 editable="{GlobalModel>/Editable}"
                             >
                                 <core:Item
-                                    id="idV2TblCLISLItemPart"
+                             
                                     key="{LocalJSONModels>key}"
                                     text="{LocalJSONModels>text}"
                                 />

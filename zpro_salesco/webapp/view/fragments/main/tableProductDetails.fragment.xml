@@ -60,14 +60,14 @@
                 useToolbar="false"
                 search=".onSearch"
                 showFilterConfiguration="false"
-             
+                visible="{modelVisibleFlag>/Visible}"
             >
                 <fb:filterGroupItems>
                     <fb:FilterGroupItem
                         name="SalesOffice"
                         label="Sales Office"
                         groupName="Group1"
-                    
+                        mandatory="true"
                         visibleInFilterBar="true"
                     >
                         <fb:control>

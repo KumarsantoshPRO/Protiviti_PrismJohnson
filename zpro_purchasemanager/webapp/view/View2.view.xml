@@ -188,7 +188,7 @@
                                                     />
 
                                                     <Text
-                                                        text="{oRequestModel>Nef}"
+                                                        text="{oRequestModel>Nefsqft}"
                                                     />
                                                     <Text
                                                         text="{oRequestModel>Frightsqft}"

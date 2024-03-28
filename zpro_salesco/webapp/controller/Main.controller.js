@@ -16,6 +16,16 @@ sap.ui.define([
 
             onInit: function () {
                 this.getOwnerComponent().getRouter().attachRoutePatternMatched(this._onRouteMatched, this);
+                var oEditFlag = {
+                    "Editable": false
+                }
+                var oVisibleFlag = {
+                    "Visible": true
+                }
+                var oModelEditFlag = new JSONModel(oEditFlag);
+                var oModelVisibleFlag = new JSONModel(oVisibleFlag);
+                this.getView().setModel(oModelEditFlag, "modelEditFlag");
+                this.getView().setModel(oModelVisibleFlag, "modelVisibleFlag");
 
             },
             onSalesOfficeHelp: function () {
@@ -99,7 +109,7 @@ sap.ui.define([
                     this.getView().getModel().read(sPath, {
                         filters: aFilters,
                         success: function (Data) {
-                            debugger;
+                            
                             if (Data.results.length > 0) {
                                 var JSONModelForSuggest = new JSONModel(Data.results);
                                 this.getView().setModel(JSONModelForSuggest, "JSONModelForSuggest");
@@ -116,7 +126,12 @@ sap.ui.define([
             },
 
             onSearch: function () {
-                debugger;
+                // Come back here
+                this.getView().getModel("modelVisibleFlag").setProperty("/Visible", true);
+                this.getView().getModel("modelVisibleFlag").refresh(true);
+                this.getView().getModel("modelEditFlag").setProperty("/Editable", false);
+                this.getView().getModel("modelEditFlag").refresh(true);
+
                 var vSalesOffice = this.byId(sap.ui.core.Fragment.createId("id.tableProductDetails.Fragment", "id.SalesOffice.Input")).getValue(),
                     vPAFNo = this.byId(sap.ui.core.Fragment.createId("id.tableProductDetails.Fragment", "id.PafNo.Input")).getValue(),
                     vMessage = "Enter 'Sales Office' to proceed";
@@ -130,22 +145,20 @@ sap.ui.define([
                 } else {
                     this.byId(sap.ui.core.Fragment.createId("id.tableProductDetails.Fragment", "id.SalesOffice.Input")).setValueState("None");
 
-                    var oEditFlag = {
-                        "Editable": false
-                    }
-                    var oModelEditFlag = new JSONModel(oEditFlag);
-                    this.getView().setModel(oModelEditFlag, "modelEditFlag");
+
+
                     if (this.sID === "null" || this.sID === undefined) {
                         this.byId(sap.ui.core.Fragment.createId("id.tableProductDetails.Fragment", "id.main.IconTabBar")).setSelectedKey("All");
                         var dataCount = this.getOwnerComponent().getModel("payload").getData().count;
                         this.getView().setModel(new JSONModel(dataCount), "count");
                         var oFilterSalOffice = new sap.ui.model.Filter([new sap.ui.model.Filter("Vkbur", sap.ui.model.FilterOperator.EQ, vSalesOffice)], false);
-                        this._getRequestData("", "count", oFilterSalOffice);
-                        this._getRequestData("P", "count", oFilterSalOffice);
-                        this._getRequestData("A", "count", oFilterSalOffice);
-                        this._getRequestData("R", "count", oFilterSalOffice);
+                        var oFilterPafNo = new sap.ui.model.Filter([new sap.ui.model.Filter("Pafno", sap.ui.model.FilterOperator.EQ, vPAFNo)], false);
+                        this._getRequestData("", "count", oFilterSalOffice, oFilterPafNo);
+                        this._getRequestData("P", "count", oFilterSalOffice, oFilterPafNo);
+                        this._getRequestData("A", "count", oFilterSalOffice, oFilterPafNo);
+                        this._getRequestData("R", "count", oFilterSalOffice, oFilterPafNo);
                         // this._getRequestData("D", "count");
-                        this._getRequestData("", "tableData", oFilterSalOffice);
+                        this._getRequestData("", "tableData", oFilterSalOffice, oFilterPafNo);
                     }
                 }
             },
@@ -200,12 +213,13 @@ sap.ui.define([
 
                 // }
             },
-            _getRequestData: function (sStatusText, sForWhat, oFilterSalOffice) {
+            _getRequestData: function (sStatusText, sForWhat, oFilterSalOffice, oFilterPafNo) {
 
                 var aFilter = [];
                 var oFilter = new sap.ui.model.Filter([new sap.ui.model.Filter("Status", sap.ui.model.FilterOperator.EQ, sStatusText)], false);
                 aFilter.push(oFilter);
                 aFilter.push(oFilterSalOffice);
+                aFilter.push(oFilterPafNo);
                 var sPath = "/ET_ZDI_TP_BILLSet"
                 var that = this;
                 this.getView().setBusy(true);
@@ -335,24 +349,38 @@ sap.ui.define([
             onFilterSelect: function (oEvent) {
                 this.byId(sap.ui.core.Fragment.createId("id.tableProductDetails.Fragment", "id.orderNumber.Input")).setValue("");
                 var sKey = oEvent.getParameter("key");
+                var vPAFNo = this.byId(sap.ui.core.Fragment.createId("id.tableProductDetails.Fragment", "id.PafNo.Input")).getValue();
                 var vSalesOffice = this.byId(sap.ui.core.Fragment.createId("id.tableProductDetails.Fragment", "id.SalesOffice.Input")).getValue();
                 var oFilterSalOffice = new sap.ui.model.Filter([new sap.ui.model.Filter("Vkbur", sap.ui.model.FilterOperator.EQ, vSalesOffice)], false);
+                var oFilterPafNo = new sap.ui.model.Filter([new sap.ui.model.Filter("Pafno", sap.ui.model.FilterOperator.EQ, vPAFNo)], false);
                 if (sKey === "All") {
-                    this._getRequestData("", "tableData", oFilterSalOffice);
+
+                    this._getRequestData("", "tableData", oFilterSalOffice, oFilterPafNo);
                     this.getView().getModel("modelEditFlag").setProperty("/Editable", false);
+                    this.getView().getModel("modelVisibleFlag").setProperty("/Visible", true);
+
                 }
                 else if (sKey === "Delay") {
-                    this._getRequestData("D", "tableData", oFilterSalOffice);
+
+                    this._getRequestData("D", "tableData", oFilterSalOffice, oFilterPafNo);
                     this.getView().getModel("modelEditFlag").setProperty("/Editable", true);
+                    this.getView().getModel("modelVisibleFlag").setProperty("/Visible", false);
+
                 } else if (sKey === "OnGoing") {
-                    this._getRequestData("P", "tableData", oFilterSalOffice);
+
+                    this._getRequestData("P", "tableData", oFilterSalOffice, oFilterPafNo);
                     this.getView().getModel("modelEditFlag").setProperty("/Editable", true);
+                    this.getView().getModel("modelVisibleFlag").setProperty("/Visible", false);
                 } else if (sKey === "Approved") {
-                    this._getRequestData("A", "tableData", oFilterSalOffice);
+
+                    this._getRequestData("A", "tableData", oFilterSalOffice, oFilterPafNo);
                     this.getView().getModel("modelEditFlag").setProperty("/Editable", false);
+                    this.getView().getModel("modelVisibleFlag").setProperty("/Visible", false);
                 } else if (sKey === "Rejected") {
-                    this._getRequestData("R", "tableData", oFilterSalOffice);
+
+                    this._getRequestData("R", "tableData", oFilterSalOffice, oFilterPafNo);
                     this.getView().getModel("modelEditFlag").setProperty("/Editable", false);
+                    this.getView().getModel("modelVisibleFlag").setProperty("/Visible", false);
                 }
 
             },
@@ -368,14 +396,16 @@ sap.ui.define([
                     var sContextPath = oTable.getSelectedItem().oBindingContexts.ModelForTable.sPath;
 
                     var oOrderNumber = this.getView().getModel("ModelForTable").getContext(sContextPath).getProperty("Pafno");
-                    var sPath = "/ET_ZDI_TP_BILLSet('" + oOrderNumber + "')";
+                    var sPath = "/ET_Sales_coord_HSet('" + oOrderNumber + "')";
                     var that = this;
                     MessageBox.confirm("Are you sure you want to delete Order No:'" + oOrderNumber + "' ?", {
                         actions: ["Yes", "No"],
                         onClose: function (oAction) {
                             if (oAction === "Yes") {
+                                this.getView().setBusy(true);
                                 that.getView().getModel().read(sPath, {
                                     success: function (Data) {
+                                        this.getView().setBusy(false);
                                         MessageBox.success("Order No:'" + oOrderNumber + "' Deleted", {
                                             actions: ["Ok"],
                                             onClose: function (oAction) {
@@ -385,6 +415,7 @@ sap.ui.define([
 
                                     },
                                     error: function (sError) {
+                                        this.getView().setBusy(false);
                                         MessageBox.error(JSON.parse(sError.responseText).error.message.value, {
                                             actions: [sap.m.MessageBox.Action.OK],
                                             onClose: function (oAction) {

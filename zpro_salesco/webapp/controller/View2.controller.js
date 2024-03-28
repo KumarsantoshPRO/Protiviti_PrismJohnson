@@ -291,6 +291,7 @@ sap.ui.define([
             },
             // Submit action - Customer code
             onCustomerCodeInputSubmit: function (oEvent) {
+
                 var sTerm = oEvent.getParameter("value"),
                     aFilters = [],
                     oFilterDomname = new sap.ui.model.Filter([new sap.ui.model.Filter("Domname", sap.ui.model.FilterOperator.EQ, "KNA1")], false),
@@ -328,6 +329,7 @@ sap.ui.define([
                     sValue1 = bindingContextPath + "/Mfrgr",
                     sValue2 = bindingContextPath + "/Szmm",
                     sMessage = "Entered Material Freight Group is wrong";
+                
                 aFilters.push(oFilterDomname);
                 aFilters.push(oFilterDomname1);
                 aFilters.push(oFilterDomname2);
@@ -929,7 +931,7 @@ sap.ui.define([
                 var aItemsData = this.getView().getModel("JSONModelPayload").getData().ET_SALES_COORD_ISET.results;
                 for (let index = 0; index < aItemsData.length; index++) {
                     // Disc and Discb conversion
-                    debugger;
+
                     if (aItemsData[index].Disc === null || aItemsData[index].Disc === '0.00' || aItemsData[index].Disc === '') {
                         vInvoiceDiscount = vInvoiceDiscount + Number(aItemsData[index].Discb);
                     } else {
@@ -1110,8 +1112,6 @@ sap.ui.define([
             onUpload: function (oEvent) {
 
                 this._import(oEvent.getParameter("files") && oEvent.getParameter("files")[0]);
-
-
             },
             _import: function (file) {
 
@@ -1131,7 +1131,25 @@ sap.ui.define([
                         });
 
                         var tabValues = [];
-
+                        var payload = {
+                            "Isexdep": "",
+                            "Pafvto": null,
+                            "Kunnr": excelData[0].CustomerCode,
+                            "Pafvfrm": null,
+                            "Ti": "1",
+                            "Gst": "18",
+                            "Name": "",
+                            "Action": "",
+                            "Zterm": excelData[0].PaymentTerm,
+                            "Validity": excelData[0].ValidityInDays,
+                            "Aufnr": excelData[0].PurchaseOrderNo,
+                            "Vtweg": excelData[0].DistributionChannel,
+                            "Vkbur": excelData[0].SalesOffice,
+                            "Spart": excelData[0].Vertical,
+                            "ET_SALES_COORD_ISET": {
+                                "results": []
+                            }
+                        };
                         for (var index = 0; index < excelData.length; index++) {
                             var i = index.toString();
                             var oTab = {};
@@ -1149,18 +1167,73 @@ sap.ui.define([
                             oTab.Compname = excelData[i].CompetitorName;
                             oTab.Complanprice = excelData[i].CompetitorLandedPrice;
                             oTab.Mvgr5 = excelData[i].PartAorB;
-                            tabValues.push(oTab);
+                            payload.ET_SALES_COORD_ISET.results.push(oTab);
                         }
-                        // Setting the data to the local model 
-                        that.getView().getModel("JSONModelPayload").getData().ET_SALES_COORD_ISET.results = tabValues;
+
+                        that.getView().getModel("JSONModelPayload").setData(payload);
                         that.getView().getModel("JSONModelPayload").refresh(true);
+
+                        that.fnResolve();
 
                     };
                     reader.onerror = function (ex) {
 
                     };
                     reader.readAsBinaryString(file);
+
                 }
+
+            },
+            fnResolve: function () {
+                // Come back here
+                // get call - Get Customer Name using customer code
+                var sTerm = this.byId(sap.ui.core.Fragment.createId("idV2FragGenInfo", "idV2InpCustCode")).getValue(),
+                    aFilters = [],
+                    oFilterDomname = new sap.ui.model.Filter([new sap.ui.model.Filter("Domname", sap.ui.model.FilterOperator.EQ, "KNA1")], false),
+                    oFilterDomname1 = new sap.ui.model.Filter([new sap.ui.model.Filter("Domname1", sap.ui.model.FilterOperator.EQ, sTerm)], false),
+                    sValue1 = "/Kunnr",
+                    sValue2 = "/Name",
+                    sMessage = "Entered Customer code is wrong";
+                aFilters.push(oFilterDomname);
+                aFilters.push(oFilterDomname1);
+                this._submitCall(sTerm, aFilters, sValue1, sValue2, sMessage);
+                this.getView().setBusy(true);
+                // get call - Get Size using MFG
+                const delay = ms => new Promise(resolve => setTimeout(resolve, ms));
+                var nLen = this.getView().getModel("JSONModelPayload").getData().ET_SALES_COORD_ISET.results.length;
+                [...Array(nLen)].reduce((p, _, index) =>
+                    p.then(() => delay(Math.random() * 1000))
+                        .then(() => {
+                            if (index === nLen - 1) {
+                                this.getView().setBusy(false);
+                            }
+                            var bindingContextPath = "/ET_SALES_COORD_ISET/results/" + index + "",
+                                sValue1 = bindingContextPath + "/Mfrgr",
+                                sValue2 = bindingContextPath + "/Szmm",
+                                sTerm = this.getView().getModel("JSONModelPayload").getProperty(sValue1),
+                                aFilters = [],
+                                Division = this.getView().getModel("JSONModelPayload").getProperty("/Spart"),
+                                oFilterDomname = new sap.ui.model.Filter([new sap.ui.model.Filter("Domname", sap.ui.model.FilterOperator.EQ, "ZPRICECAT")], false),
+                                oFilterDomname1 = new sap.ui.model.Filter([new sap.ui.model.Filter("Domname1", sap.ui.model.FilterOperator.EQ, sTerm)], false),
+                                oFilterDomname2 = new sap.ui.model.Filter([new sap.ui.model.Filter("Domname2", sap.ui.model.FilterOperator.EQ, Division)], false),
+                                sMessage = "Entered Material Freight Group is wrong";
+                            aFilters.push(oFilterDomname);
+                            aFilters.push(oFilterDomname1);
+                            aFilters.push(oFilterDomname2);
+
+                            if (Division) {
+                                this._submitCall(sTerm, aFilters, sValue1, sValue2, sMessage);
+                                this.byId(sap.ui.core.Fragment.createId("idV2FragGenInfo", "idV2SLVertical")).setValueState("None")
+                            } else {
+                                MessageBox.error("Please select vertical first");
+                                this.getView().getModel("JSONModelPayload").setProperty(sValue1, "");
+                                this.getView().getModel("JSONModelPayload").setProperty(sValue2, "");
+                                this.byId(sap.ui.core.Fragment.createId("idV2FragGenInfo", "idV2SLVertical")).setValueState("Error")
+                            }
+                        })
+                    , Promise.resolve());
+
+
             },
             // End: Upload Excel
 
@@ -1191,7 +1264,7 @@ sap.ui.define([
                     dataSource: oRowBinding,
                     fileName: 'Product Details.xlsx',
                     worker: false // We need to disable worker because we are using a MockServer as OData Service
-                    
+
                 };
 
                 oSheet = new Spreadsheet(oSettings);
@@ -1229,10 +1302,7 @@ sap.ui.define([
                     property: 'Vertical',
                     type: EdmType.String
                 });
-                aCols.push({
-                    property: 'Vertical',
-                    type: EdmType.String
-                });
+
                 aCols.push({
                     property: 'MaterialFreightGroup',
                     type: EdmType.String

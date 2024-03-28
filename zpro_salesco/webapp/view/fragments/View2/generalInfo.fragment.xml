@@ -30,8 +30,8 @@
             />
 
             <Input
-                value="{JSONModelPayload>/Kunnr}"
                 id="idV2InpCustCode"
+                value="{JSONModelPayload>/Kunnr}"
                 valueStateText="Enter {i18nV2>view2.simpleForm.label.custCode}"
                 showValueHelp="true"
                 valueHelpRequest="onCustomerCodeHelp"
@@ -42,6 +42,7 @@
                 suggest=".onSuggest"
                 suggestionItems="{JSONModelForSuggest>/}"
                 change="onCustomerCodeInputSubmit"
+             
             >
                 <!-- submit="onCustomerCodeInputSubmit" -->
                 <!-- valueHelpOnly="true" -->
@@ -159,9 +160,7 @@
             >
                 <!-- submit="onSalesOfficeInputSubmit" -->
                 <suggestionItems>
-                    <core:Item
-                        text="{JSONModelForSuggest>DomvalueL}"
-                    />
+                    <core:Item text="{JSONModelForSuggest>DomvalueL}" />
                 </suggestionItems>
             </Input>
             <Label
