@@ -14,6 +14,15 @@ sap.ui.define([], function () {
                 return sString;
             }
         },
+        getDiscountAmtorBox: function(sValue1, sValue2){
+            debugger;
+            if(sValue1 === '0.00'){
+                return sValue2;
+            }else{
+                return sValue1;
+            }
+
+        },
         removeLeadingZeros: function (sString) {
 
             if (sString) {

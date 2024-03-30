@@ -61,7 +61,7 @@
                     </uxap:ObjectPageSubSection>
                 </uxap:subSections>
             </uxap:ObjectPageSection>
-            <uxap:ObjectPageSection title="{i18n.View2>View2.ObjectPageSection.title}">
+            <uxap:ObjectPageSection title="{i18n.View2>View2.ObjectPageSection.productDetails}">
                 <uxap:subSections>
                     <uxap:ObjectPageSubSection>
                         <uxap:blocks>
@@ -151,8 +151,10 @@
  
                                             </Column>
                                             <Column
+                                            id="id.bp.Column"
                                                 demandPopin="true"
                                                 hAlign="Center"
+                                                 
                                             >
                                                 <Label
  
@@ -214,11 +216,13 @@
             <Bar>
                 <contentRight>
                     <Button
+                    id="id.negotiationnotpossible.Button"
                         text="{i18n.View2>View2.Bar.negotiationnotpossible}"
                         press="onNegotiationNotPossibleButtonPress"
                         type="Reject"
                     />
                     <Button
+                    id="id.renegotiation.Button"
                         text="{i18n.View2>View2.Bar.renegotiation}"
                         press="onRenegotiationButtonPress"
                         type="Accept"

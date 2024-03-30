@@ -74,6 +74,7 @@
                 id="idV2OPSAttach"
                 titleUppercase="true"
                 title="{i18nV2>view2.sections.attachments.title}"
+                 
             >
                 <!-- Attachment -->
                 <uxap:subSections>
@@ -96,7 +97,7 @@
                 id="idV2OPSSumDetail"
                 titleUppercase="true"
                 title="{i18nV2>view2.sections.sumDetails.title}"
-                visible="{GlobalModel>/Editable}"
+               
             >
                 <!-- Summary Detail -->
                 <uxap:subSections>
@@ -120,7 +121,7 @@
         <uxap:footer>
             <Bar
                 id="idV2Bar"
-                visible="{GlobalModel>/Editable}"
+                
             >
                 <contentLeft>
                     <Button
@@ -148,14 +149,12 @@
                         icon="sap-icon://browse-folder"
                         change="onUpload"
                         tooltip="Excel Upload"
-                        visible="{GlobalModel>/Editable}"
+                       
                         style="Emphasized"
                     />
-                    <Link
-                        id="id.excelExport.Link"
-                        visible="{GlobalModel>/Editable}"
+                    <Button
+                        id="id.excelExport.Link"   
                         text="Download Excel Template"
-                        emphasized="true"
                         press="onExport"
                     />
                 </contentLeft>
@@ -165,7 +164,7 @@
                         text="{i18nV2>view2.footer.button.save}"
                         press="onSave"
                         visible="false"
-                        type="Success"
+                        type="Accept"
                     />
                     <!-- <Button text="Clear" press="onClear"></Button> -->
                     <Button

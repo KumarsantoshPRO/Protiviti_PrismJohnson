@@ -8,7 +8,7 @@
         id="idV2UploadSet"
         instantUpload="true"
         showIcons="true"
-        uploadEnabled="{GlobalModel>/Editable}"
+        uploadEnabled="{GlobalEditableModel>/Editable}"
         terminationEnabled="true"
         maxFileNameLength="30"
         maxFileSize="200"

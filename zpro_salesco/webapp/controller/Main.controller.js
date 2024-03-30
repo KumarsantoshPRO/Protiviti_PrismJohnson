@@ -109,7 +109,7 @@ sap.ui.define([
                     this.getView().getModel().read(sPath, {
                         filters: aFilters,
                         success: function (Data) {
-                            
+
                             if (Data.results.length > 0) {
                                 var JSONModelForSuggest = new JSONModel(Data.results);
                                 this.getView().setModel(JSONModelForSuggest, "JSONModelForSuggest");
@@ -117,8 +117,14 @@ sap.ui.define([
                             }
                             this.getView().setBusy(false);
                         }.bind(this),
-                        error: function (sError) {
+                        error: function (oError) {
                             this.getView().setBusy(false);
+                            MessageBox.error(JSON.parse(oError.responseText).error.innererror.errordetails[0].message, {
+                                actions: [sap.m.MessageBox.Action.OK],
+                                onClose: function (oAction) {
+
+                                }
+                            });
                         }.bind(this)
                     });
 
@@ -131,6 +137,7 @@ sap.ui.define([
                 this.getView().getModel("modelVisibleFlag").refresh(true);
                 this.getView().getModel("modelEditFlag").setProperty("/Editable", false);
                 this.getView().getModel("modelEditFlag").refresh(true);
+                this.byId(sap.ui.core.Fragment.createId("id.tableProductDetails.Fragment", "id.main.TblBtnDelet")).setVisible(false);
 
                 var vSalesOffice = this.byId(sap.ui.core.Fragment.createId("id.tableProductDetails.Fragment", "id.SalesOffice.Input")).getValue(),
                     vPAFNo = this.byId(sap.ui.core.Fragment.createId("id.tableProductDetails.Fragment", "id.PafNo.Input")).getValue(),
@@ -183,8 +190,14 @@ sap.ui.define([
                             }
                             this.getView().setBusy(false);
                         }.bind(this),
-                        error: function (sError) {
+                        error: function (oError) {
                             this.getView().setBusy(false);
+                            MessageBox.error(JSON.parse(oError.responseText).error.innererror.errordetails[0].message, {
+                                actions: [sap.m.MessageBox.Action.OK],
+                                onClose: function (oAction) {
+
+                                }
+                            });
                         }.bind(this)
                     });
 
@@ -254,28 +267,33 @@ sap.ui.define([
                             }
 
                             switch (sStatusText) {
-                                case "":
-                                    that.getView().getModel("modelEditFlag").setProperty("/Editable", false);
-                                    that.getView().getModel("count").getData().Total = Data.results.length;
-                                    break;
+
                                 case "P":
                                     that.getView().getModel("modelEditFlag").setProperty("/Editable", true);
-
+                                    that.byId(sap.ui.core.Fragment.createId("id.tableProductDetails.Fragment", "id.main.TblBtnDelet")).setVisible(true);
                                     that.getView().getModel("count").getData().onGoing = that.aPendingData.length;
                                     that.getView().getModel("count").getData().Delayed = that.aDelayedData.length;
                                     break;
                                 case "A":
                                     that.getView().getModel("modelEditFlag").setProperty("/Editable", false);
+                                    that.byId(sap.ui.core.Fragment.createId("id.tableProductDetails.Fragment", "id.main.TblBtnDelet")).setVisible(false);
                                     that.getView().getModel("count").getData().Approved = Data.results.length;
                                     break;
                                 case "R":
                                     that.getView().getModel("modelEditFlag").setProperty("/Editable", false);
+                                    that.byId(sap.ui.core.Fragment.createId("id.tableProductDetails.Fragment", "id.main.TblBtnDelet")).setVisible(false);
                                     that.getView().getModel("count").getData().Rejected = Data.results.length;
                                     break;
                                 case "D":
 
                                     that.getView().getModel("modelEditFlag").setProperty("/Editable", true);
+                                    that.byId(sap.ui.core.Fragment.createId("id.tableProductDetails.Fragment", "id.main.TblBtnDelet")).setVisible(true);
                                     that.getView().getModel("count").getData().Delayed = that.aDelayedData.length;
+                                    break;
+                                case "":
+                                    that.getView().getModel("modelEditFlag").setProperty("/Editable", false);
+                                    that.byId(sap.ui.core.Fragment.createId("id.tableProductDetails.Fragment", "id.main.TblBtnDelet")).setVisible(false);
+                                    that.getView().getModel("count").getData().Total = Data.results.length;
                                     break;
                                 default:
 
@@ -299,10 +317,10 @@ sap.ui.define([
                     },
                     error: function (sError) {
                         that.getView().setBusy(false);
-                        MessageBox.error(JSON.parse(sError.responseText).error.message.value, {
+                        MessageBox.error(JSON.parse(oError.responseText).error.innererror.errordetails[0].message, {
                             actions: [sap.m.MessageBox.Action.OK],
                             onClose: function (oAction) {
-                                window.location.reload()
+
                             }
                         });
                     }
@@ -358,6 +376,7 @@ sap.ui.define([
                     this._getRequestData("", "tableData", oFilterSalOffice, oFilterPafNo);
                     this.getView().getModel("modelEditFlag").setProperty("/Editable", false);
                     this.getView().getModel("modelVisibleFlag").setProperty("/Visible", true);
+                    this.byId(sap.ui.core.Fragment.createId("id.tableProductDetails.Fragment", "id.main.TblBtnDelet")).setVisible(false);
 
                 }
                 else if (sKey === "Delay") {
@@ -365,22 +384,26 @@ sap.ui.define([
                     this._getRequestData("D", "tableData", oFilterSalOffice, oFilterPafNo);
                     this.getView().getModel("modelEditFlag").setProperty("/Editable", true);
                     this.getView().getModel("modelVisibleFlag").setProperty("/Visible", false);
+                    this.byId(sap.ui.core.Fragment.createId("id.tableProductDetails.Fragment", "id.main.TblBtnDelet")).setVisible(true);
 
                 } else if (sKey === "OnGoing") {
 
                     this._getRequestData("P", "tableData", oFilterSalOffice, oFilterPafNo);
                     this.getView().getModel("modelEditFlag").setProperty("/Editable", true);
                     this.getView().getModel("modelVisibleFlag").setProperty("/Visible", false);
+                    this.byId(sap.ui.core.Fragment.createId("id.tableProductDetails.Fragment", "id.main.TblBtnDelet")).setVisible(true);
                 } else if (sKey === "Approved") {
 
                     this._getRequestData("A", "tableData", oFilterSalOffice, oFilterPafNo);
                     this.getView().getModel("modelEditFlag").setProperty("/Editable", false);
                     this.getView().getModel("modelVisibleFlag").setProperty("/Visible", false);
+                    this.byId(sap.ui.core.Fragment.createId("id.tableProductDetails.Fragment", "id.main.TblBtnDelet")).setVisible(false);
                 } else if (sKey === "Rejected") {
 
                     this._getRequestData("R", "tableData", oFilterSalOffice, oFilterPafNo);
                     this.getView().getModel("modelEditFlag").setProperty("/Editable", false);
                     this.getView().getModel("modelVisibleFlag").setProperty("/Visible", false);
+                    this.byId(sap.ui.core.Fragment.createId("id.tableProductDetails.Fragment", "id.main.TblBtnDelet")).setVisible(false);
                 }
 
             },
@@ -402,7 +425,7 @@ sap.ui.define([
                         actions: ["Yes", "No"],
                         onClose: function (oAction) {
                             if (oAction === "Yes") {
-                                this.getView().setBusy(true);
+                                that.getView().setBusy(true);
                                 that.getView().getModel().read(sPath, {
                                     success: function (Data) {
                                         this.getView().setBusy(false);
@@ -415,11 +438,11 @@ sap.ui.define([
 
                                     },
                                     error: function (sError) {
-                                        this.getView().setBusy(false);
-                                        MessageBox.error(JSON.parse(sError.responseText).error.message.value, {
+                                        that.getView().setBusy(false);
+                                        MessageBox.error(JSON.parse(oError.responseText).error.innererror.errordetails[0].message, {
                                             actions: [sap.m.MessageBox.Action.OK],
                                             onClose: function (oAction) {
-                                                window.location.reload()
+
                                             }
                                         });
 

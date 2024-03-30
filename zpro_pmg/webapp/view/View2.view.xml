@@ -131,7 +131,7 @@
                                     <!-- <Label text="Material Freight Groups" />
 											<Text text="{oRequestModel>/mfg}" /> -->
                                     <Label text="Discount(%)" />
-                                    <Text text="{oRequestModel>/Wdisc}" />
+                                    <Text text="{parts:['oRequestModel>/Wdisc','oRequestModel>/Wdiscb'], formatter:'.formatter.getDiscountAmtorBox'}" />
                                     <Label text="Net Ex Factory(Sqft)" />
                                     <Text text="{oRequestModel>/Wnefsqft}" />
                                     <!-- <Label text="Net Ex Factory(Ft)" />
@@ -241,6 +241,7 @@
                                     <!-- Value and  -->
                                     <Text
                                         text="{oRequestModel>/CashDiscountper}"
+                                        
                                     />
                                     <!-- <Text
                                         text="{path:'oRequestModel>/Wcashdisc', formatter:'.formatter.makeItPositive'}"
@@ -284,6 +285,7 @@
                         </uxap:ObjectPageSubSection>
                     </uxap:subSections>
                 </uxap:ObjectPageSection>
+
                 <uxap:ObjectPageSection
                     titleUppercase="true"
                     title="Additional Product Details"
@@ -416,7 +418,7 @@
                                                         text="{ProductModel>Volume}"
                                                     />
                                                     <Text
-                                                        text="{ProductModel>Discount}"
+                                                        text="{parts:['ProductModel>Discount','ProductModel>Discountb'], formatter:'.formatter.getDiscountAmtorBox'}"
                                                     />
                                                     <Text
                                                         text="{ProductModel>Netexsqft}"
@@ -445,40 +447,21 @@
                     </uxap:subSections>
                 </uxap:ObjectPageSection>
 
-                <!-- <uxap:ObjectPageSection titleUppercase="true" title="Product Details">
+                <uxap:ObjectPageSection id="idV2OPSAttach" visible="false" titleUppercase="true" title="Attachments">
 							
 							
 							<uxap:subSections>
 								<uxap:ObjectPageSubSection titleUppercase="true">
 									<uxap:blocks>
-										<forms:SimpleForm layout="ColumnLayout" columnsM="2" columnsL="3" columnsXL="4" editable="true">
-											<Label text="Material Freight Groups"/>
-											<Text text="{oRequestModel>/mfg}"/>
-											<Label text="Size"/>
-											<Text text="{oRequestModel>/siz}" />
-											<Label text="Design" />
-											<Text text="{oRequestModel>/des}"/>
-											<Label text="Source" />
-											<Text text="{oRequestModel>/sour}" />
-											<Label text="Volume" />
-											<Text text="{oRequestModel>/vol}" />
-											<Label text="Discount%" />
-											<Text text="{oRequestModel>/dis}" />
-											<Label text="Net Ex Factory" />
-											<Text text="{oRequestModel>/nef}" />
-											<Label text="SVC/BP" />
-											<Text text="{oRequestModel>/svc}" />
-											<Label text="Gross Margin%" />
-											<Text text="{oRequestModel>/gm}" />
-											<Label text="Volume(Sqft In Lakhs)" />
-											<Text text="{oRequestModel>/val2}" />
-                                            <Label text="Gross Margin%" />
-											<Text text="{oRequestModel>/gm2}" />
-										</forms:SimpleForm>
+									  <core:Fragment
+                                id="idV2FragAttach"
+                                fragmentName="pj.zpmg.view.fragments.attachments"
+                                type="XML"
+                            />
 										</uxap:blocks>
 										</uxap:ObjectPageSubSection>
-							</uxap:subSections>		 -->
-                <!-- </uxap:ObjectPageSection> -->
+							</uxap:subSections>		 
+                </uxap:ObjectPageSection>
             </uxap:sections>
             <uxap:footer>
                 <Bar>

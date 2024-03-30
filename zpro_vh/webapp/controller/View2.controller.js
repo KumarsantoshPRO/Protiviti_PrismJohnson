@@ -62,7 +62,16 @@ sap.ui.define([
                     },
                     success: function (oData) {
                         var oModel = this.getView().getModel("oRequestModel");
-
+                        debugger;
+                        if (oData.Status === 'A' || oData.Status === 'R') {
+                            
+                            this.getView().byId("id.Approve.Button").setVisible(false);
+                            this.getView().byId("id.Reject.Button").setVisible(false);
+                        } else {
+                             
+                            this.getView().byId("id.Approve.Button").setVisible(true);
+                            this.getView().byId("id.Reject.Button").setVisible(true);
+                        }
                         // Grossmargper
                         // oData.NAV_VH_ITEM_PRODUCT.results
                         var len = oData.NAV_VH_ITEM_PRODUCT.results.length;
@@ -125,6 +134,7 @@ sap.ui.define([
                 newValHelpModel.read("/ET_VALUE_HELPSSet", {
                     filters: newFilArray,
                     success: function (oData) {
+                      
                         var oModel = this.getView().getModel("SouceModel");
                         oModel.setData(oData.results);
                         this.getView().setModel(oModel, "SouceModel");

@@ -16,7 +16,7 @@
                 text="{i18nV2>view2.flexBox.button.Generate}"
                 press="onGenerate"
                 type="Attention"
-                visible="{GlobalModel>/Editable}"
+                visible="{GlobalEditableModel>/Editable}"
             />
             <!-- <u:FileUploader
                 id="FileUploaderId"
@@ -29,7 +29,7 @@
                 iconFirst="true"
                 change="onUpload"
                 tooltip="Excel Upload"
-                visible="{GlobalModel>/Editable}"
+                visible="{GlobalEditableModel>/Editable}"
             /> -->
             <Button
                 id="idV2BtnAdd"
@@ -37,7 +37,7 @@
                 icon="sap-icon://add"
                 press="onAddRow"
                 type="Accept"
-                visible="{GlobalModel>/Editable}"
+                visible="{GlobalEditableModel>/Editable}"
             />
         </FlexBox>
 
@@ -74,8 +74,10 @@
                         hAlign="Center"
                         width="10rem"
                     >
+                  
                         <Label
                             required="true"
+                            wrapping="true"
                             id="idV2TblClmTxtMatFreGrp"
                             text="{i18nV2>view2.table.column.text.matFreGrp}"
                         />
@@ -85,7 +87,7 @@
                         minScreenWidth="Tablet"
                         demandPopin="true"
                         hAlign="Center"
-                        width="10rem"
+                       width="10rem"
                     >
                         <Label
                             id="idV2TblClmTxtSize"
@@ -114,6 +116,7 @@
                     >
                         <Label
                             required="true"
+                            wrapping="true"
                             id="idV2TxtTblClmSupp"
                             text="{i18nV2>view2.table.column.text.suppPlant}"
                         />
@@ -127,6 +130,7 @@
                     >
                         <Label
                             required="true"
+                            wrapping="true"
                             id="idV2TxtTblClmPlant"
                             text="{i18nV2>view2.table.column.text.manPlant}"
                         />
@@ -137,10 +141,11 @@
                         minScreenWidth="Desktop"
                         demandPopin="true"
                         hAlign="Center"
-                        width="10rem"
+                       width="10rem"
                     >
                         <Label
                             required="true"
+                            wrapping="true"
                             id="idV2TxtTblClmCurVol"
                             text="{i18nV2>view2.table.column.text.currVol}"
                         />
@@ -150,10 +155,11 @@
                         minScreenWidth="Desktop"
                         demandPopin="true"
                         hAlign="Center"
-                        width="10rem"
+                       width="10rem"
                     >
                         <Label
                             required="true"
+                            wrapping="true"
                             id="idV2TxtTblClmTotVol"
                             text="{i18nV2>view2.table.column.text.totVol}"
                         />
@@ -167,6 +173,7 @@
                     >
                         <Label
                             required="true"
+                              wrapping="true"
                             id="idV2TxtTblClmQlt"
                             text="{i18nV2>view2.table.column.text.quality}"
                         />
@@ -335,8 +342,8 @@
                         minScreenWidth="Desktop"
                         demandPopin="true"
                         hAlign="Center"
-                        width="5rem"
-                        visible="{GlobalModel>/Editable}"
+                        width="10rem"
+                        visible="{GlobalEditableModel>/Editable}"
                     >
                         <Label
                             id="idV2TxtTblClmDel"
@@ -357,11 +364,12 @@
                                 class="sapUiSmallMarginEnd"
                                 placeholder="Material Freight Groups"
                                 value="{path:'JSONModelPayload>Mfrgr'}"
-                                editable="{GlobalModel>/Editable}"
+                                editable="{GlobalEditableModel>/Editable}"
                                 showSuggestion="true"
                                 suggest=".onSuggest"
                                 suggestionItems="{JSONModelForSuggest>/}"
-                                change="onMaterialFreightGroupInputSubmit"
+                                submit="onMaterialFreightGroupInputSubmit"
+                                liveChange="onLiveChange"
                             >
                                 <suggestionItems>
                                     <core:Item
@@ -384,11 +392,12 @@
                                 class="sapUiSmallMarginEnd"
                                 placeholder="Designs"
                                 value="{JSONModelPayload>Mvgr2}"
-                                editable="{GlobalModel>/Editable}"
+                                editable="{GlobalEditableModel>/Editable}"
                                 showSuggestion="true"
                                 suggest=".onSuggest"
                                 suggestionItems="{JSONModelForSuggest>/}"
-                                change="onDesignsInputSubmit"
+                                submit="onDesignsInputSubmit"
+                                 liveChange="onLiveChange"
                             >
                                 <suggestionItems>
                                     <core:Item
@@ -404,11 +413,12 @@
                                 class="sapUiSmallMarginEnd"
                                 placeholder="Supplying Plant"
                                 value="{JSONModelPayload>Werks}"
-                                editable="{GlobalModel>/Editable}"
+                                editable="{GlobalEditableModel>/Editable}"
                                 showSuggestion="true"
                                 suggest=".onSuggest"
                                 suggestionItems="{JSONModelForSuggest>/}"
-                                change="onSupplyPlantInputSubmit"
+                                submit="onSupplyPlantInputSubmit"
+                                 liveChange="onLiveChange"
                             >
                                 <suggestionItems>
                                     <core:Item
@@ -418,17 +428,19 @@
                             </Input>
 
                             <Input
+                          
                                 id="idV2TblCLIInpManPlant"
                                 showValueHelp="true"
                                 valueHelpRequest="onManufacturingAmtHelp"
                                 class="sapUiSmallMarginEnd"
                                 placeholder="Manufacturing Plant"
                                 value="{JSONModelPayload>Prodh1}"
-                                editable="{GlobalModel>/Editable}"
+                                editable="{GlobalEditableModel>/Editable}"
                                 showSuggestion="true"
                                 suggest=".onSuggest"
                                 suggestionItems="{JSONModelForSuggest>/}"
-                                change="onManufacturingPlantInputSubmit"
+                                submit="onManufacturingPlantInputSubmit"
+                                 liveChange="onLiveChange"
                             >
                                 <suggestionItems>
                                     <core:Item
@@ -442,7 +454,7 @@
                                 maxLength="10"
                                 liveChange="onNumberValidation"
                                 value="{JSONModelPayload>CurVolFt}"
-                                editable="{GlobalModel>/Editable}"
+                                editable="{GlobalEditableModel>/Editable}"
                             />
 
                             <Input
@@ -450,14 +462,14 @@
                                 maxLength="10"
                                 liveChange="onNumberValidation"
                                 value="{JSONModelPayload>TotalVol}"
-                                editable="{GlobalModel>/Editable}"
+                                editable="{GlobalEditableModel>/Editable}"
                             />
 
                             <Select
                                 forceSelection="false"
                                 items="{LocalJSONModels>/quality}"
                                 selectedKey="{JSONModelPayload>Zzprodh4}"
-                                editable="{GlobalModel>/Editable}"
+                                editable="{GlobalEditableModel>/Editable}"
                             >
                                 <core:Item
                                   
@@ -477,9 +489,9 @@
                             <!-- come back here -->
                             <Input
                                 id="idV2TblCLIInpDiscount"
-                                liveChange="onNumberValidation"
+                                liveChange="onInvoiceLiveValidation"
                                 value="{JSONModelPayload>Disc}"
-                                editable="{GlobalModel>/Editable}"
+                                editable="{GlobalEditableModel>/Editable}"
                             />
                             
 
@@ -487,7 +499,7 @@
                                 id="idV2TblCLIInpSchDis"
                                 liveChange="onNumberValidation"
                                 value="{JSONModelPayload>Schemedisc}"
-                                editable="{GlobalModel>/Editable}"
+                                editable="{GlobalEditableModel>/Editable}"
                                 visible="false"
                             />
 
@@ -495,7 +507,7 @@
                                 id="idV2TblCLIInpSchPer"
                                 liveChange="onNumberValidation"
                                 value="{JSONModelPayload>Schemedisc}"
-                                editable="{GlobalModel>/Editable}"
+                                editable="{GlobalEditableModel>/Editable}"
                                 visible="false"
                             />
 
@@ -504,41 +516,42 @@
                                 liveChange="onNumberValidation"
                                 change="onOrcEntityChange"
                                 value="{JSONModelPayload>Commbox}"
-                                editable="{GlobalModel>/Editable}"
+                                editable="{GlobalEditableModel>/Editable}"
                             />
 
                             <Input
                                 id="idV2TblCLIInpORCPer"
-                                liveChange="onNumberValidation"
+                               liveChange="onOrcPerLiveValidation"
                                 value="{JSONModelPayload>Commboxp}"
-                                editable="{GlobalModel>/Editable}"
+                                editable="{GlobalEditableModel>/Editable}"
                             />
 
                             <Input
                                 id="idV2TblCLIInpFre"
                                 liveChange="onNumberValidation"
                                 value="{JSONModelPayload>Frgtsqft}"
-                                editable="{GlobalModel>/Editable}"
+                                editable="{GlobalEditableModel>/Editable}"
                             />
 
                             <Input
                                 id="idV2TblCLIInpCompName"
                                 value="{JSONModelPayload>Compname}"
-                                editable="{GlobalModel>/Editable}"
+                                editable="{GlobalEditableModel>/Editable}"
+                                 liveChange="onLiveChange"
                             />
 
                             <Input
                                 id="idV2TblCLIInpCompLanPrice"
                                 liveChange="onNumberValidation"
                                 value="{JSONModelPayload>Complanprice}"
-                                editable="{GlobalModel>/Editable}"
+                                editable="{GlobalEditableModel>/Editable}"
                             />
 
                             <Select
                                 forceSelection="false"
                                 items="{LocalJSONModels>/part}"
                                 selectedKey="{JSONModelPayload>Mvgr5}"
-                                editable="{GlobalModel>/Editable}"
+                                editable="{GlobalEditableModel>/Editable}"
                             >
                                 <core:Item
                              
@@ -551,19 +564,21 @@
                                 id="idV2TblCLIInpLanded"
                                 editable="false"
                                 value="{JSONModelPayload>LandedPriceSqft}"
+                                 liveChange="onLiveChange"
                             />
 
                             <Input
                                 id="idV2TblCLIInpNEF"
                                 editable="false"
                                 value="{JSONModelPayload>Nefsqft}"
+                                 liveChange="onLiveChange"
                             />
 
                             <Button
                                 id="idV2TblBtnDel"
                                 icon="sap-icon://delete"
                                 press="onDelete"
-                                visible="{GlobalModel>/Editable}"
+                                visible="{GlobalEditableModel>/Editable}"
                             />
                         </cells>
                     </ColumnListItem>

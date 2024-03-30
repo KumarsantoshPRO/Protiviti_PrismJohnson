@@ -23,6 +23,7 @@ sap.ui.define([
                 if (pafID === "null" || pafID === undefined) {
 
                 } else {
+                    this.oRouter = this.getOwnerComponent().getRouter();
                     var sPath = "/ET_SC_HEADERSet('" + pafID + "')";
                     this.getView().setBusy(true);
                     this.getView().getModel().read(sPath, {
@@ -31,7 +32,15 @@ sap.ui.define([
                             "$expand": "NAV_SC_HEADER"
                         },
                         success: function (Data) {
-
+                            if (Data.NAV_SC_HEADER.results[0].Status === 'A' || Data.NAV_SC_HEADER.results[0].Status === 'R') {
+                                this.getView().byId("id.bp.Column").setVisible(false);
+                                this.getView().byId("id.negotiationnotpossible.Button").setVisible(false);
+                                this.getView().byId("id.renegotiation.Button").setVisible(false);
+                            } else {
+                                this.getView().byId("id.bp.Column").setVisible(true);
+                                this.getView().byId("id.negotiationnotpossible.Button").setVisible(true);
+                                this.getView().byId("id.renegotiation.Button").setVisible(true);
+                            }
                             this.getView().setModel(new JSONModel(Data), "oRequestModel");
                             this.getView().setBusy(false);
                         }.bind(this),
@@ -104,15 +113,10 @@ sap.ui.define([
                             this.getView().setBusy(false);
                             sap.m.MessageBox.success("Renegotiation sent successfully", {
                                 onClose: function () {
-
-                                    var navigator = sap.ushell.Container.getService("CrossApplicationNavigation");
-                                    navigator.toExternal({
-                                        target: {
-                                            semanticObject: "#"
-                                        }
-                                    });
-                                }
+                                    this.oRouter.navTo("page1", {});
+                                }.bind(this)
                             });
+                           
                         }.bind(this),
                         error: function (err) {
 
@@ -149,14 +153,10 @@ sap.ui.define([
 
                         sap.m.MessageBox.success("Renegotiation decision sent successfully", {
                             onClose: function () {
-                                var navigator = sap.ushell.Container.getService("CrossApplicationNavigation");
-                                navigator.toExternal({
-                                    target: {
-                                        semanticObject: "#"
-                                    }
-                                });
-                            }
+                                this.oRouter.navTo("page1", {});
+                            }.bind(this)
                         });
+                    
                     },
                     error: function (err) {
 

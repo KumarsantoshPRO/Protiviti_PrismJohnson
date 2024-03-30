@@ -154,7 +154,7 @@
                                 icon="sap-icon://delete"
                                 press="_onDelete"
                                 type="Reject"
-                                visible="{modelEditFlag>/Editable}"
+                                visible="false"
                             />
                         </content>
                     </OverflowToolbar>
@@ -164,8 +164,10 @@
                     <Column
                         id="id.main.TblClmOrderNo"
                         hAlign="End"
+                        width="4rem"
                     >
-                        <Text
+                        <Label
+                            wrapping="true"
                             id="id.main.TblClmTxtOrderNo"
                             text="{i18n.main>main.table.column.text.ordNo}"
                         />
@@ -175,8 +177,10 @@
                         hAlign="End"
                         minScreenWidth="Tablet"
                         demandPopin="true"
+                          width="4rem"
                     >
-                        <Text
+                        <Label
+                            wrapping="true"
                             id="id.main.TblClmTxtRegion"
                             text="{i18n.main>main.table.column.text.region}"
                         />
@@ -186,8 +190,10 @@
                         hAlign="Center"
                         minScreenWidth="Tablet"
                         demandPopin="true"
+                         width="15rem"
                     >
-                        <Text
+                        <Label
+                        wrapping="true"
                             id="id.main.TblClmTxtCustomer"
                             text="{i18n.main>main.table.column.text.customer}"
                         />
@@ -197,8 +203,10 @@
                         hAlign="Center"
                         minScreenWidth="Desktop"
                         demandPopin="true"
+                        width="5rem"
                     >
-                        <Text
+                        <Label
+                        wrapping="true"
                             id="id.main.TblClmTxtCustNo"
                             text="{i18n.main>main.table.column.text.custNo}"
                         />
@@ -208,9 +216,10 @@
                         hAlign="End"
                         minScreenWidth="Desktop"
                         demandPopin="true"
+                        width="5rem"
                     >
-                        <Text
-                            id="id.main.TblClmTxtTypeOfOrder"
+                        <Label
+                            wrapping="true"
                             text="{i18n.main>main.table.column.text.typeOfOrder}"
                         />
                     </Column>
@@ -219,8 +228,10 @@
                         hAlign="End"
                         minScreenWidth="Desktop"
                         demandPopin="true"
+                         width="5rem"
                     >
-                        <Text
+                        <Label
+                            wrapping="true"
                             id="id.main.TblClmTxtTotalOrder"
                             text="{i18n.main>main.table.column.text.totalOrder}"
                         />
@@ -230,8 +241,11 @@
                         hAlign="End"
                         minScreenWidth="Desktop"
                         demandPopin="true"
+                         width="5rem"
                     >
-                        <Text
+                        
+                        <Label
+                            wrapping="true"
                             id="id.main.TblClmTxtCurrOrder"
                             text="{i18n.main>main.table.column.text.currentOrder}"
                         />
@@ -241,8 +255,10 @@
                         hAlign="Center"
                         minScreenWidth="Desktop"
                         demandPopin="true"
+                         width="5rem"
                     >
-                        <Text
+                        <Label
+                        wrapping="true"
                             id="id.main.TblClmTxtReqDate"
                             text="{i18n.main>main.table.column.text.requestedDate}"
                         />
@@ -261,8 +277,11 @@
                     <Column
                         id="id.main.TblClmStatus"
                         hAlign="Center"
+                         width="5rem"
+                        
                     >
-                        <Text
+                        <Label
+                        wrapping="true"
                             id="id.main.TblClmTxtStatus"
                             text="{i18n.main>main.table.column.text.status}"
                         />

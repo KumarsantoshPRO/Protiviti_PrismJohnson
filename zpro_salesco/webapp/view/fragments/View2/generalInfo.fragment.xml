@@ -41,7 +41,7 @@
                 showSuggestion="true"
                 suggest=".onSuggest"
                 suggestionItems="{JSONModelForSuggest>/}"
-                change="onCustomerCodeInputSubmit"
+                submit="onCustomerCodeInputSubmit"
              
             >
                 <!-- submit="onCustomerCodeInputSubmit" -->
@@ -156,7 +156,7 @@
                 showSuggestion="true"
                 suggest=".onSuggest"
                 suggestionItems="{JSONModelForSuggest>/}"
-                change="onSalesOfficeInputSubmit"
+                submit="onSalesOfficeInputSubmit"
             >
                 <!-- submit="onSalesOfficeInputSubmit" -->
                 <suggestionItems>
@@ -175,6 +175,7 @@
                 selectedKey="{JSONModelPayload>/Spart}"
                 valueStateText="Select {i18nV2>view2.simpleForm.label.vertical}"
                 editable="{GlobalModel>/Editable}"
+                change="onVerticalComboBoxChange"
             >
                 <core:Item
                     id="idV2SLItemVertical"

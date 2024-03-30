@@ -167,11 +167,11 @@ sap.ui.define([], function () {
                 oControl.oFragmentDesign.setTitle(oResourceModel.getText("view2.F4.title.designs"));
                 oControl.getView().addDependent(oControl.SalesOfficerag);
                 oControl._DesignsTemp = sap.ui.getCore().byId("idSLDesignsValueHelp").clone();
-                oControl._oTemp = sap.ui.getCore().byId("idSLDesignsValueHelp").clone();
+                oControl._oTempDesign = sap.ui.getCore().byId("idSLDesignsValueHelp").clone();
             }
             var aFilter = [];
            
-            debugger;
+           
             var oFilterDomname = new sap.ui.model.Filter([new sap.ui.model.Filter("Domname", sap.ui.model.FilterOperator.EQ, "ZMATSOURCE")], false);
             var oFilterDomname1 = new sap.ui.model.Filter([new sap.ui.model.Filter("Domname1", sap.ui.model.FilterOperator.EQ, "")], false);
             var oFilterDomname2 = new sap.ui.model.Filter([new sap.ui.model.Filter("Domname2", sap.ui.model.FilterOperator.EQ, Mfrgr)], false);

@@ -8,12 +8,14 @@ sap.ui.define([
     "sap/m/library",
     "sap/m/TextArea",
     "pj/zpmg/model/formatter",
-    "sap/m/MessageBox"
+    "sap/m/MessageBox",
+    "sap/m/PDFViewer",
+    'sap/ui/core/Fragment'
 ],
     /**
      * @param {typeof sap.ui.core.mvc.Controller} Controller
      */
-    function (Controller, JSONModel, Core, Dialog, Button, Label, mobileLibrary, TextArea, formatter, MessageBox) {
+    function (Controller, JSONModel, Core, Dialog, Button, Label, mobileLibrary, TextArea, formatter, MessageBox, PDFViewer, Fragment) {
         "use strict";
         var ButtonType = mobileLibrary.ButtonType;
         var DialogType = mobileLibrary.DialogType;
@@ -32,10 +34,19 @@ sap.ui.define([
                 this.pafNoTemp;
                 this._Posnr;
                 this._rowIndex;
+
+                //Start: Upload, View and Download Attachment
+                var dataModelForAttachments = this.getOwnerComponent().getModel("attachments").getData();
+                this.getView().setModel(new JSONModel(dataModelForAttachments), "LocalJSONModelForAttachment");
+
+                this.opdfViewer = new PDFViewer();
+                this.getView().addDependent(this.opdfViewer);
+                //End: Upload, View and Download Attachment
             },
 
             // Attach route matched method
             onRouteMatched: function (oEvent) {
+                this.getView().byId("idV2OPSAttach").setVisible(false);
                 var pafID = oEvent.getParameter("arguments").pafID;
                 if (pafID !== "Page1" || pafID !== undefined) {
                     if (pafID) {
@@ -43,6 +54,34 @@ sap.ui.define([
 
                         this.getRequestDetails(pafID);
                         this.pafID = pafID;
+                        // Attachments
+                        var sPathUpload = "/ETFILE_UPLOAD_HSet('" + pafID + "')";
+                        this.getView().getModel("ZFILE_UPLOAD_SRV_01").read(sPathUpload, {
+                            urlParameters: {
+                                "$expand": "Nav_File_Upload"
+                            },
+                            async: false,
+                            success: function (Data) {
+
+                                if (Data.Nav_File_Upload.results.length > 0) {
+                                    this.getView().byId("idV2OPSAttach").setVisible(true);
+                                    var attachments = Data;
+                                    this.getView().getModel("LocalJSONModelForAttachment").setData({ "attachments": attachments });
+                                    this.getView().getModel("LocalJSONModelForAttachment").refresh(true);
+                                }
+
+                            }.bind(this),
+                            error: function (oError) {
+                                MessageBox.error(JSON.parse(oError.responseText).error.message.value, {
+                                    actions: [sap.m.MessageBox.Action.OK],
+                                    onClose: function (oAction) {
+
+                                    }
+                                });
+
+                            }.bind(this)
+                        });
+
                     }
 
                 }
@@ -52,7 +91,7 @@ sap.ui.define([
                 this.getView().setBusy(true);
                 var sPath = "/ET_PMG_REQUEST_ITEMSet('" + pafID + "')"
 
-               
+
 
                 this.getOwnerComponent().getModel().read(sPath, {
 
@@ -69,15 +108,15 @@ sap.ui.define([
                         oData.Wbuyingprice = 0;
                         for (let index = 0; index < len; index++) {
                             var nGrossMargin = Number(oData.NAV_PMG_ITEM_PRODUCT.results[index].Grossmargper);
-                            var nBuyingpricesqft= Number(oData.NAV_PMG_ITEM_PRODUCT.results[index].Buyingpricesqft);
+                            var nBuyingpricesqft = Number(oData.NAV_PMG_ITEM_PRODUCT.results[index].Buyingpricesqft);
                             oData.Wgrossmargper = Number(oData.Wgrossmargper) + nGrossMargin;
-                            oData.Wbuyingprice =  Number(oData.Wbuyingprice) + nBuyingpricesqft;
+                            oData.Wbuyingprice = Number(oData.Wbuyingprice) + nBuyingpricesqft;
                         }
                         oData.Wgrossmargper = (oData.Wgrossmargper / len).toFixed(2);
                         oData.Wbuyingprice = (oData.Wbuyingprice / len).toFixed(2);
-                        
-                        oData.Discb = ((oData.Wexfacsqft/100)*oData.Disc).toFixed(2);
-                        oData.Worc = ((oData.Wexfacsqft/100)*oData.Worcper).toFixed(2);
+
+                        oData.Discb = ((oData.Wexfacsqft / 100) * oData.Disc).toFixed(2);
+                        oData.Worc = ((oData.Wexfacsqft / 100) * oData.Worcper).toFixed(2);
                         // oData.Discb = oData.Discb;
                         oModel.setData(oData);
                         this.getView().setModel(oModel, "oRequestModel");
@@ -94,7 +133,7 @@ sap.ui.define([
                 });
             },
 
-         
+
 
             getSourceDetails: function (pafNo) {
                 this.getView().setBusy(true);
@@ -138,7 +177,7 @@ sap.ui.define([
             },
 
             onSourceHelp: function (oEvent) {
-                debugger;
+
                 var pathIndex = Number(oEvent.getSource().getParent().getBindingContextPath().split("/")[1]);
                 this._rowIndex = pathIndex;
                 this._Posnr = pathIndex + 1;
@@ -171,6 +210,7 @@ sap.ui.define([
             onSourceValueHelpConfirm: function (oEvent) {
 
                 var oSelectedItem = oEvent.getParameter("selectedItem"),
+                    sSelectedName = oSelectedItem.getProperty("description"),
                     sSelectedValue = oSelectedItem.getProperty("title");
 
                 var payload = {
@@ -180,13 +220,15 @@ sap.ui.define([
                         {
                             "Pafno": this.pafID,
                             "Posnr": this._Posnr.toString(),
-                            "Source": sSelectedValue
+                            "Source": sSelectedValue,
+                            "Sname": sSelectedName
                         }
                     ]
                 }
-
+ 
                 this.getOwnerComponent().getModel().create('/ET_PMG_REQUEST_ITEMSet', payload, {
                     success: function (oData, response) {
+                        debugger;
                         var vSVC_BP = oData.NAV_PMG_ITEM_PRODUCT.results[0].Buyingpricesqft,
                             vGross_Margin = oData.NAV_PMG_ITEM_PRODUCT.results[0].Grossmargper,
                             vSource = oData.NAV_PMG_ITEM_PRODUCT.results[0].Source;
@@ -313,31 +355,31 @@ sap.ui.define([
 
             onForward: function () {
                 if (!this.oRejectDialog) {
-                    debugger;
+
                     var nGM = Number(this.getView().getModel("oRequestModel").getProperty("/Wgrossmargper"));
-                  var bEditable,
-                  sState;
+                    var bEditable,
+                        sState;
                     if (nGM < 10) {
                         var sHeaderMessage = "Gross Margin is less than 10%";
                         var sInfoMessage = "Request will be forwarded to the Executive Director"
                         bEditable = true;
                         sState = "None";
-                    }else if(nGM > 10 && nGM < 30) {
+                    } else if (nGM > 10 && nGM < 30) {
                         var sHeaderMessage = "Gross Margin is in between 11%-30%";
                         var sInfoMessage = "Request will be forwarded to the National Sales Head"
                         bEditable = true;
                         sState = "None";
-                    }else if(nGM > 30 && nGM < 50) {
+                    } else if (nGM > 30 && nGM < 50) {
                         var sHeaderMessage = "Gross Margin is in between 31%-50%";
                         var sInfoMessage = "Request will be forwarded to the Vertical Head"
                         bEditable = true;
                         sState = "None";
-                    }else if(nGM > 50 && nGM < 100) {
+                    } else if (nGM > 50 && nGM < 100) {
                         var sHeaderMessage = "Gross Margin is in between 51%-100%";
                         var sInfoMessage = "Request will be forwarded to the PMG"
                         bEditable = true;
                         sState = "None";
-                    }else{
+                    } else {
                         var sHeaderMessage = "Gross Margin is wrong";
                         var sInfoMessage = "Request you to connect with IT team"
                         bEditable = false;
@@ -370,7 +412,7 @@ sap.ui.define([
                             type: ButtonType.Emphasized,
                             text: "Submit",
                             press: function (oEvent) {
-                                 
+
                                 var remarks = oEvent.getSource().getParent().getAggregation("content")[1].getValue();
                                 var payload = {
                                     "Pafno": "",
@@ -560,7 +602,7 @@ sap.ui.define([
             },
 
             _sendPayload: function (payload) {
-debugger;
+                debugger;
                 payload.Pafno = this.getView().getModel("oRequestModel").getData().Pafno;
 
                 //   ProductModel 
@@ -604,6 +646,80 @@ debugger;
                     MessageBox.error("Please select Source(vendor)");
                     this.oRejectDialog.close();
                 }
+            },
+            //Start: View and Download Attachment
+            onViewAttachmentObjectStatusPress: function (oEvent) {
+
+                var sFile = oEvent.getSource().getParent().getProperty("thumbnailUrl"),
+                    sFileName = oEvent.getSource().getParent().getProperty("fileName"),
+                    oButton = oEvent.getSource();
+
+                var _imageSrc = { "ZRFILE": sFile, "ZRFNAME": sFileName };
+                var oModelForImage = new sap.ui.model.json.JSONModel(_imageSrc);
+                this.getView().setModel(oModelForImage, "oModelForImage");
+
+                if (sFile.includes('PDF') || sFile.includes('pdf')) {
+                    var fileName = sFileName
+
+                    var decodedPdfContent = atob(sFile.split('data:application/pdf;base64,')[1]);
+                    var byteArray = new Uint8Array(decodedPdfContent.length)
+                    for (var i = 0; i < decodedPdfContent.length; i++) {
+                        byteArray[i] = decodedPdfContent.charCodeAt(i);
+                    }
+                    var blob = new Blob([byteArray.buffer], {
+                        type: 'application/pdf'
+                    });
+                    var _pdfurl = URL.createObjectURL(blob);
+                    jQuery.sap.addUrlWhitelist("blob");
+                    this.opdfViewer.setSource(_pdfurl);
+                    this.opdfViewer.setTitle(fileName);
+                    this.opdfViewer.open();
+                } else {
+                    if (this.oPopover) {
+                        this.oPopover.destroy();
+                        delete this._pPopover;
+                    }
+
+                    // create popover for image
+                    if (!this._pPopover) {
+                        this._pPopover = Fragment.load({
+                            id: this.getView().getId(),
+                            name: "pj.zpmg.view.fragments.imagePopover",
+                            controller: this
+                        }).then(function (oPopover) {
+                            return oPopover;
+                            oPopover.setModel(oModelForImage);
+                        });
+                    }
+                    this._pPopover.then(function (oPopover) {
+                        oPopover.openBy(oButton);
+
+                        oPopover.getAggregation("content")[0].setSrc(_imageSrc.ZRFILE);
+                        this.oPopover = oPopover;
+                    }.bind(this));
+                }
+
+            },
+            handleClose: function (oEvent) {
+                oEvent.getSource().getParent().getParent().destroy();
+            },
+            imageDownload: function (oEvent) {
+                const sURL = this.getView().getModel("oModelForImage").getData().ZRFILE;
+                const imageName = this.getView().getModel("oModelForImage").getData().ZRFNAME;
+                fetch(sURL)
+                    .then((oResponse) => oResponse.blob())
+                    .then((oBlob) => {
+                        const sBlobURL = URL.createObjectURL(oBlob);
+                        const oLink = document.createElement('a');
+                        oLink.href = sBlobURL;
+                        oLink.download = imageName;
+                        oLink.target = '_blank';
+                        document.body.appendChild(oLink);
+                        oLink.click();
+                        document.body.removeChild(oLink);
+                    });
+                oEvent.getSource().getParent().getParent().destroy()
             }
+            //End: View and Download Attachment
         });
     });

@@ -164,6 +164,7 @@
                                                 />
                                             </Column>
                                             <Column
+                                                id="id.bp.Column"
                                                 demandPopin="true"
                                                 hAlign="Center"
                                             >
@@ -222,11 +223,13 @@
             <Bar>
                 <contentRight>
                     <Button
+                        id="id.negotiationnotpossible.Button"
                         text="{i18n.View2>View2.Bar.negotiationnotpossible}"
                         press="onNegotiationNotPossibleButtonPress"
                         type="Reject"
                     />
                     <Button
+                        id="id.renegotiation.Button"
                         text="{i18n.View2>View2.Bar.renegotiation}"
                         press="onRenegotiationButtonPress"
                         type="Accept"
