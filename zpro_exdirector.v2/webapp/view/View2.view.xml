@@ -1,0 +1,136 @@
+<mvc:View
+    controllerName="zpj.pro.sd.sk.zproexdirector.controller.View2"
+     xmlns:mvc="sap.ui.core.mvc"
+    xmlns:core="sap.ui.core"
+    xmlns:uxap="sap.uxap"
+    xmlns="sap.m"
+    xmlns:cards="sap.f.cards"
+    xmlns:tnt="sap.tnt"
+    xmlns:u="sap.ui.unified"
+    xmlns:upload="sap.m.upload"
+    xmlns:f="sap.f"
+    xmlns:forms="sap.ui.layout.form"
+>
+    <Page
+        id="idPage"
+        showFooter="true"
+        titleAlignment="Center"
+        titleLevel="H1"
+        class="sapUiResponsivePadding--header sapUiResponsivePadding--subHeader sapUiResponsivePadding--content sapUiResponsivePadding--footer sapUiResponsivePadding--floatingFooter"
+    >
+        <IconTabBar
+            id="idIconTabBarNoIcons"
+            expanded="{device>/isNoPhone}"
+            class="sapUiNoContentPadding"
+            headerBackgroundDesign="Solid"
+        >
+            <items>
+                <IconTabFilter
+                    text="Transaction Details"
+                    iconColor="Contrast"
+                >
+                    <core:Fragment
+                        id="idFragment"
+                        fragmentName="zpj.pro.sd.sk.zproexdirector.view.fragments.View2.transactionDetails"
+                        type="XML"
+                    />
+                </IconTabFilter>
+                <IconTabSeparator icon="sap-icon://step" />
+                <IconTabFilter
+                    text="Customer History"
+                    iconColor="Contrast"
+                >
+                    <core:Fragment
+                        fragmentName="zpj.pro.sd.sk.zproexdirector.view.fragments.View2.customerHistory"
+                        type="XML"
+                    />
+                </IconTabFilter>
+                <IconTabSeparator icon="  sap-icon://step" />
+                <IconTabFilter
+                    text="Cost Details"
+                    iconColor="Contrast"
+                >
+                    <core:Fragment
+                        fragmentName="zpj.pro.sd.sk.zproexdirector.view.fragments.View2.costDetails"
+                        type="XML"
+                    />
+                </IconTabFilter>
+                <IconTabSeparator icon="  sap-icon://step" />
+
+                <IconTabFilter
+                    text="Region Details"
+                    iconColor="Contrast"
+                >
+                    <core:Fragment
+                        fragmentName="zpj.pro.sd.sk.zproexdirector.view.fragments.View2.regionDetails"
+                        type="XML"
+                    />
+                </IconTabFilter>
+                <IconTabSeparator icon="  sap-icon://step" />
+                <IconTabFilter
+                    text="Margin Details"
+                    iconColor="Contrast"
+                >
+                    <core:Fragment
+                        fragmentName="zpj.pro.sd.sk.zproexdirector.view.fragments.View2.marginDetails"
+                        type="XML"
+                    />
+                </IconTabFilter>
+                <IconTabSeparator icon="  sap-icon://step" />
+                <IconTabFilter
+                    text="Competitor Details"
+                    iconColor="Contrast"
+                >
+                    <core:Fragment
+                        fragmentName="zpj.pro.sd.sk.zproexdirector.view.fragments.View2.compitatorsDetails"
+                        type="XML"
+                    />
+                </IconTabFilter>
+            </items>
+        </IconTabBar>
+
+        <core:Fragment
+            fragmentName="zpj.pro.sd.sk.zproexdirector.view.fragments.View2.productsDetails"
+            type="XML"
+        />
+
+        <Panel
+            expandable="true"
+            headerText="Attachments"
+            id="idV2OPSAttach"
+            class="sapUiMediumMarginTop"
+            visible="false"
+        >
+            <content>
+                <VBox class="sapUiLargeMarginBeginEnd">
+                    <core:Fragment
+                        id="idV2FragAttach"
+                        fragmentName="zpj.pro.sd.sk.zproexdirector.view.fragments.View2.attachments"
+                        type="XML"
+                    />
+                </VBox>
+            </content>
+        </Panel>
+
+        <footer>
+            <Bar>
+                <contentRight>
+                    <Button
+                        id="id.Approve.Button"
+                        text="Reject"
+                        press=".reject"
+                        ariaHasPopup="Dialog"
+                        type="Reject"
+                    />
+                    <Button
+                        id="id.Reject.Button"
+                        text="Approve"
+                        press=".Approved"
+                        ariaHasPopup="Dialog"
+                        type="Accept"
+                    />
+                </contentRight>
+            </Bar>
+        </footer>
+    </Page>
+</mvc:View>

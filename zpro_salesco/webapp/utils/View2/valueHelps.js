@@ -57,7 +57,7 @@ sap.ui.define([], function () {
 
         },
         // Customer Code Plant
-        onCustomerCodeHelp: function (oControl) {
+        onCustomerCodeHelp: function (oControl) { 
             if (!oControl.CustomerCodeFrag) {
                 oControl.CustomerCodeFrag = sap.ui.xmlfragment("zpj.pro.sk.sd.salescoordinator.zprosalesco.view.fragments.View2.F4s.customerCodF4", oControl);
                 oControl.getView().addDependent(oControl.CustomerCodeFrag);

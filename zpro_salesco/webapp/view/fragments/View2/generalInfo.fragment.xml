@@ -38,20 +38,43 @@
                 class="sapUiSmallMarginEnd"
                 placeholder="{i18nV2>view2.simpleForm.label.custCode}"
                 editable="{GlobalModel>/Editable}"
+                textFormatMode="ValueKey"
                 showSuggestion="true"
-                suggest=".onSuggest"
-                suggestionItems="{JSONModelForSuggest>/}"
+                showTableSuggestionValueHelp="false"
+                suggest=".onSuggest_custCode"
+                suggestionRows="{JSONModelForSuggest_custCode>/}"
+                suggestionItemSelected="onCustomerCodeInputSuggestionSelect"
                 submit="onCustomerCodeInputSubmit"
-             
+                change="onCustomerCodeInputChange"
+                liveChange="onLiveChange"
             >
-                <!-- submit="onCustomerCodeInputSubmit" -->
-                <!-- valueHelpOnly="true" -->
-                <suggestionItems>
-                    <core:Item
-                        text="{JSONModelForSuggest>DomvalueL}"
-                        key="{JSONModelForSuggest>Ddtext}"
-                    />
-                </suggestionItems>
+                <suggestionColumns>
+                    <Column
+                        popinDisplay="Inline"
+                        demandPopin="true"
+                    >
+                        <Label text="Customer Code" />
+                    </Column>
+                    <Column
+                        popinDisplay="Inline"
+                        demandPopin="true"
+                    >
+                        <Label text="Customer Name" />
+                    </Column>
+
+                    <!-- <core:Item
+                        text="{JSONModelForSuggest_custCode>DomvalueL}"
+                        key="{JSONModelForSuggest_custCode>Ddtext}"
+                    /> -->
+                </suggestionColumns>
+                <suggestionRows>
+                    <ColumnListItem>
+                        <Label
+                            text="{JSONModelForSuggest_custCode>DomvalueL}"
+                        />
+                        <Label text="{JSONModelForSuggest_custCode>Ddtext}" />
+                    </ColumnListItem>
+                </suggestionRows>
             </Input>
             <Label
                 id="idV2LblCustName"
@@ -61,6 +84,7 @@
                 value="{JSONModelPayload>/Name}"
                 id="idV2InpCustName"
                 editable="false"
+              
             />
             <Label
                 id="idV2LblDistChnl"
@@ -72,9 +96,11 @@
                 forceSelection="false"
                 items="{LocalJSONModels>/distributonChannel}"
                 selectedKey="{JSONModelPayload>/Vtweg}"
-                change="onDistributionChannelChange"
                 valueStateText="Select {i18nV2>view2.simpleForm.label.distChnl}"
                 editable="{GlobalModel>/Editable}"
+                selectionChange="onDistributionChannelChange"
+                 
+    
             >
                 <core:Item
                     id="idV2SLItemDistChannel"
@@ -114,6 +140,7 @@
                 maxLength="3"
                 value="{path:'JSONModelPayload>/Validity'}"
                 editable="{GlobalModel>/Editable}"
+                liveChange="onLiveChange"
             />
 
             <!-- <Label
@@ -138,6 +165,7 @@
                 valueStateText="Enter {i18nV2>view2.simpleForm.label.ordNo}"
                 value="{JSONModelPayload>/Aufnr}"
                 editable="{GlobalModel>/Editable}"
+                liveChange="onLiveChange"
             />
             <Label
                 id="idV2LblSalOffice"
@@ -154,9 +182,10 @@
                 value="{JSONModelPayload>/Vkbur}"
                 editable="{GlobalModel>/Editable}"
                 showSuggestion="true"
-                suggest=".onSuggest"
+                suggest=".onSuggest_salesOffice"
                 suggestionItems="{JSONModelForSuggest>/}"
                 submit="onSalesOfficeInputSubmit"
+                liveChange="onLiveChange"
             >
                 <!-- submit="onSalesOfficeInputSubmit" -->
                 <suggestionItems>
@@ -207,7 +236,7 @@
                 text="{i18nV2>view2.simpleForm.label.ex}"
                 required="true"
             />
-            <RadioButtonGroup
+            <!-- <RadioButtonGroup
                 id="idV2RBG"
                 columns="2"
                 valueState="None"
@@ -215,17 +244,17 @@
                 select="onRadioButtonGroupSelect"
                 selectedIndex="{=${JSONModelPayload>/Isexdep}==='X'?${JSONModelPayload>/Isexdep}===''?-1:1:${JSONModelPayload>/Isexdep}===''?-1:0}"
                 editable="{GlobalModel>/Editable}"
-            >
-                <!-- Isexdep -->
-                <RadioButton
+            > -->
+            <!-- Isexdep -->
+            <!-- <RadioButton
                     id="idV2RBExFactory"
                     text="{i18nV2>view2.simpleForm.radioButton.exFactory}"
                 />
                 <RadioButton
                     id="idV2RBExDepot"
                     text="{i18nV2>view2.simpleForm.radioButton.exDepot}"
-                />
-            </RadioButtonGroup>
+                /> -->
+            <!-- </RadioButtonGroup> -->
         </form:content>
     </form:SimpleForm>
 </core:FragmentDefinition>

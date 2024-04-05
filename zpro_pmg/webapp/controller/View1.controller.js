@@ -77,19 +77,12 @@ sap.ui.define([
 
 
                     }.bind(this),
-                    error: function (sError) {
+                    error: function (oError) {
                         this.getView().setBusy(false);
-                        MessageBox.error(JSON.parse(sError.responseText).error.message.value, {
+                        MessageBox.error(JSON.parse(oError.responseText).error.innererror.errordetails[0].message, {
                             actions: [sap.m.MessageBox.Action.OK],
                             onClose: function (oAction) {
-                                // var navigator = sap.ushell.Container.getService("CrossApplicationNavigation");
-                                // navigator.toExternal({
-                                //     target: {
-                                //         semanticObject: "#"
-                                //     }
-                                // });
 
-                                window.location.reload()
                             }
                         });
                     }.bind(this)

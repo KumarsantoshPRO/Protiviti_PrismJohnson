@@ -80,6 +80,7 @@
                                 suggest=".onSuggest"
                                 suggestionItems="{JSONModelForSuggest>/}"
                                 change="onSalesOfficeInputSubmit"
+                                submit="onSearch"
                             >
                                 <!-- submit="onSalesOfficeInputSubmit" -->
                                 <suggestionItems>
@@ -100,6 +101,24 @@
                             <Input
                                 id="id.PafNo.Input"
                                 placeholder="PAF No."
+                                submit="onSearch"
+                            />
+                        </fb:control>
+                    </fb:FilterGroupItem>
+                    <fb:FilterGroupItem
+                        name="date"
+                        label="Date"
+                        groupName="Group1"
+                        visibleInFilterBar="true"
+                    >
+                        <fb:control>
+                            <DatePicker
+                                id="id.Date.DatePicker"
+                                valueFormat="MM/dd/yyyy"
+                                displayFormat="dd/MM/YYYY"
+                                change="onSearch"
+                                placeholder="e.g: 31/12/2020"
+
                             />
                         </fb:control>
                     </fb:FilterGroupItem>
@@ -130,7 +149,7 @@
                             <ToolbarSpacer id="id.main.TblTS" />
                             <Input
                                 id="id.orderNumber.Input"
-                                placeholder="Search Order Number"
+                                placeholder="Search PAF No"
                                 submit="onOrderNumber"
                                 liveChange="onOrderNumber"
                                 width="15%"
@@ -177,7 +196,7 @@
                         hAlign="End"
                         minScreenWidth="Tablet"
                         demandPopin="true"
-                          width="4rem"
+                        width="4rem"
                     >
                         <Label
                             wrapping="true"
@@ -190,10 +209,10 @@
                         hAlign="Center"
                         minScreenWidth="Tablet"
                         demandPopin="true"
-                         width="15rem"
+                        width="15rem"
                     >
                         <Label
-                        wrapping="true"
+                            wrapping="true"
                             id="id.main.TblClmTxtCustomer"
                             text="{i18n.main>main.table.column.text.customer}"
                         />
@@ -206,7 +225,7 @@
                         width="5rem"
                     >
                         <Label
-                        wrapping="true"
+                            wrapping="true"
                             id="id.main.TblClmTxtCustNo"
                             text="{i18n.main>main.table.column.text.custNo}"
                         />
@@ -228,7 +247,7 @@
                         hAlign="End"
                         minScreenWidth="Desktop"
                         demandPopin="true"
-                         width="5rem"
+                        width="5rem"
                     >
                         <Label
                             wrapping="true"
@@ -241,9 +260,8 @@
                         hAlign="End"
                         minScreenWidth="Desktop"
                         demandPopin="true"
-                         width="5rem"
+                        width="5rem"
                     >
-                        
                         <Label
                             wrapping="true"
                             id="id.main.TblClmTxtCurrOrder"
@@ -255,10 +273,10 @@
                         hAlign="Center"
                         minScreenWidth="Desktop"
                         demandPopin="true"
-                         width="5rem"
+                        width="5rem"
                     >
                         <Label
-                        wrapping="true"
+                            wrapping="true"
                             id="id.main.TblClmTxtReqDate"
                             text="{i18n.main>main.table.column.text.requestedDate}"
                         />
@@ -277,11 +295,10 @@
                     <Column
                         id="id.main.TblClmStatus"
                         hAlign="Center"
-                         width="5rem"
-                        
+                        width="5rem"
                     >
                         <Label
-                        wrapping="true"
+                            wrapping="true"
                             id="id.main.TblClmTxtStatus"
                             text="{i18n.main>main.table.column.text.status}"
                         />

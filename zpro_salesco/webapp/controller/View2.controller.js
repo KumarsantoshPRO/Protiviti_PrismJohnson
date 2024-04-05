@@ -13,6 +13,8 @@ sap.ui.define([
     'sap/m/MessageBox',
     'zpj/pro/sk/sd/salescoordinator/zprosalesco/utils/View2/valueHelps',
     'zpj/pro/sk/sd/salescoordinator/zprosalesco/utils/View2/validation',
+    'zpj/pro/sk/sd/salescoordinator/zprosalesco/utils/View2/salesOffice',
+    'zpj/pro/sk/sd/salescoordinator/zprosalesco/utils/View2/customerCode',
     "sap/m/PDFViewer",
     'sap/ui/core/Fragment',
     'sap/ui/core/format/DateFormat',
@@ -38,6 +40,8 @@ sap.ui.define([
         MessageBox,
         valueHelps,
         validation,
+        salesOffice,
+        customerCode,
         PDFViewer,
         Fragment,
         DateFormat,
@@ -79,32 +83,7 @@ sap.ui.define([
             },
 
             onRouteMatched: function (oEvent) {
-                // var sPath = "/ET_VALUE_HELPSSet";
 
-                // var aFilter = [];
-                // var oFilterDomname = new sap.ui.model.Filter([new sap.ui.model.Filter("Domname", sap.ui.model.FilterOperator.EQ, "KNA1")], false);
-                // var oFilterDomname1 = new sap.ui.model.Filter([new sap.ui.model.Filter("Domname1", sap.ui.model.FilterOperator.EQ, "LARS")], false);
-                // // var oFilterDomname2 = new sap.ui.model.Filter([new sap.ui.model.Filter("Domname2", sap.ui.model.FilterOperator.EQ, "")], false);
-                // aFilter.push(oFilterDomname);
-                // aFilter.push(oFilterDomname1);
-
-                // this.getView().setBusy(true);
-                // this.getView().getModel().read(sPath, {
-                //     filters: aFilter,
-                //     // urlParameters: {
-                //     //     "$expand": ""
-                //     // },
-                //     success: function (Data) {
-                //       
-                //         var JSONModelForSuggest = new JSONModel(Data.results);
-                //         this.getView().setModel(JSONModelForSuggest, "JSONModelForSuggest");
-                //         this.getView().getModel("JSONModelForSuggest").refresh(true);
-                //         this.getView().setBusy(false);
-                //     }.bind(this),
-                //     error: function (sError) {
-                //         this.getView().setBusy(false);
-                //     }.bind(this)
-                // });
 
 
 
@@ -122,10 +101,12 @@ sap.ui.define([
 
 
                 var sID = oEvent.getParameter("arguments").ID;
+                this.sID = oEvent.getParameter("arguments").ID;
 
                 if (sID === "null" || sID === undefined) {
+                    this.clearSummary();
                     this.getView().byId("FileUploaderId").setVisible(true);
-                    this.getView().byId("id.excelExport.Link").setVisible(true);
+                    // this.getView().byId("id.excelExport.Link").setVisible(true);
                     this.getView().getModel("GlobalModel").setProperty("/Editable", true);
                     this.getView().getModel("GlobalEditableModel").setProperty("/Editable", true);
                     this.getView().byId("idV2OPSSumDetail").setVisible(true);
@@ -140,10 +121,11 @@ sap.ui.define([
                     this.onClear();
                     this.getView().byId("ObjectPageLayout").getHeaderTitle().setObjectTitle("Generate New Request");
                 } else {
+                    this.clearSummary();
                     this.getView().getModel("GlobalModel").setProperty("/Editable", false);
                     this.getView().getModel("GlobalEditableModel").setProperty("/Editable", false);
                     this.getView().byId("FileUploaderId").setVisible(false);
-                    this.getView().byId("id.excelExport.Link").setVisible(false);
+                    // this.getView().byId("id.excelExport.Link").setVisible(false);
                     this.getView().byId("idV2OPSSumDetail").setVisible(false);
                     this.byId(sap.ui.core.Fragment.createId("idV2FragGenInfo", "idV2SLPaymentTerm")).setEnabled(true);
                     var aFilter = [];
@@ -179,7 +161,14 @@ sap.ui.define([
                                 }
                             }
 
+
                             that.getView().setModel(new JSONModel(Data), "JSONModelPayload");
+                            if (that.getView().getModel("JSONModelPayload").getProperty("/Vtweg")) {
+                                that.sPreviousDistributionChannel = that.getView().getModel("JSONModelPayload").getProperty("/Vtweg");
+                            }
+                            if (that.getView().getModel("JSONModelPayload").getProperty("/Spart")) {
+                                that.sPreviousVertical = that.getView().getModel("JSONModelPayload").getProperty("/Spart");
+                            }
                             that.getView().setBusy(false);
                         },
                         error: function (oError) {
@@ -194,6 +183,7 @@ sap.ui.define([
                         }
                     });
                     var sPathUpload = "/ETFILE_UPLOAD_HSet('" + sID + "')";
+                    that.getView().setBusy(true);
                     that.getView().getModel("ZFILE_UPLOAD_SRV_01").read(sPathUpload, {
                         urlParameters: {
                             "$expand": "Nav_File_Upload"
@@ -204,9 +194,10 @@ sap.ui.define([
                             var attachments = Data;
                             that.getView().getModel("LocalJSONModelForAttachment").setData({ "attachments": attachments });
                             that.getView().getModel("LocalJSONModelForAttachment").refresh(true);
-
+                            that.getView().setBusy(false);
                         },
                         error: function (oError) {
+                            that.getView().setBusy(false);
                             MessageBox.error(JSON.parse(oError.responseText).error.innererror.errordetails[0].message, {
                                 actions: [sap.m.MessageBox.Action.OK],
                                 onClose: function (oAction) {
@@ -222,119 +213,496 @@ sap.ui.define([
                 }
             },
             onEdit: function () {
-                this.getView().getModel("GlobalModel").setProperty("/Editable", false);
-                this.getView().getModel("GlobalEditableModel").setProperty("/Editable", true);
-                this.getView().byId("FileUploaderId").setVisible(false);
-                this.getView().byId("id.excelExport.Link").setVisible(false);
-                this.getView().byId("idV2OPSSumDetail").setVisible(true);
+                if (this.sID !== "null") {
+                    this.getView().getModel("GlobalModel").setProperty("/Editable", false);
+                    this.getView().getModel("GlobalEditableModel").setProperty("/Editable", true);
+                    this.getView().byId("FileUploaderId").setVisible(false);
+                    // this.getView().byId("id.excelExport.Link").setVisible(false);
+                    this.getView().byId("idV2OPSSumDetail").setVisible(true);
+                } else {
+                    this.getView().getModel("GlobalModel").setProperty("/Editable", true);
+                    this.getView().getModel("GlobalEditableModel").setProperty("/Editable", true);
+                    this.getView().byId("FileUploaderId").setVisible(true);
+                    this.getView().byId("idV2OPSSumDetail").setVisible(true);
+                }
             },
 
-            onSuggest: function (oEvent) {
-                var sTerm = oEvent.getParameter("suggestValue"),
-                    aFilters = [],
-                    sPath = "/ET_VALUE_HELPSSet",
-                    oFilterDomname,
-                    oFilterDomname1,
-                    oFilterDomname2,
-                    nLen = 1;
-                if (oEvent.getSource().sId.includes("idV2InpCustCode")) {
-                    if (sTerm.length > 3) {
-                        nLen = 1;
-                    } else {
-                        nLen = 0;
-                    }
+            onDistributionChannelChange: function (oEvent) {
+                oEvent.getSource().setValueState("None");
+                this.getView().getModel("JSONModelPayload").setProperty("/Zterm", "");
+                var vGetSelectedValue = oEvent.getSource().getSelectedKey();
+                if (vGetSelectedValue === "11" || vGetSelectedValue === "17") {
+                    this.byId(sap.ui.core.Fragment.createId("idV2FragGenInfo", "idV2SLPaymentTerm")).setEnabled(false);
+                    MessageToast.show("Enter 'Discount' per box");
+                } else {
+                    this.byId(sap.ui.core.Fragment.createId("idV2FragGenInfo", "idV2SLPaymentTerm")).setEnabled(true);
+                    MessageToast.show("Enter 'Discount' in Percentage");
+                }
+                if (this.sPreviousDistributionChannel) {
+                    MessageBox.confirm("Products will be refreshed if Distributor Channel changed, Do you wish to continue ", {
+                        actions: ["Yes", "No"],
+                        onClose: function (oAction) {
+                            if (oAction === "Yes") {
+                                this.sPreviousDistributionChannel = oEvent.getSource().getSelectedKey();
+                                this.clearProducts();
 
-                    oFilterDomname = new sap.ui.model.Filter([new sap.ui.model.Filter("Domname", sap.ui.model.FilterOperator.EQ, "KNA1")], false);
-                    oFilterDomname1 = new sap.ui.model.Filter([new sap.ui.model.Filter("Domname1", sap.ui.model.FilterOperator.EQ, sTerm)], false);
-                } else if (oEvent.getSource().sId.includes("idV2InpSalesOffice")) {
-                    oFilterDomname = new sap.ui.model.Filter([new sap.ui.model.Filter("Domname", sap.ui.model.FilterOperator.EQ, "TVKBZ")], false);
-                    oFilterDomname1 = new sap.ui.model.Filter([new sap.ui.model.Filter("Domname1", sap.ui.model.FilterOperator.EQ, sTerm)], false);
-                    oFilterDomname2 = new sap.ui.model.Filter([new sap.ui.model.Filter("Domname2", sap.ui.model.FilterOperator.EQ, "")], false);
-                    aFilters.push(oFilterDomname2);
-                }
-                // material Freight Group suggestion 
-                else if (oEvent.getSource().sId.includes("idV2TblCLIInpMatFreGrp")) {
-                    var Division = this.getView().getModel("JSONModelPayload").getProperty("/Spart")
-                    oFilterDomname = new sap.ui.model.Filter([new sap.ui.model.Filter("Domname", sap.ui.model.FilterOperator.EQ, "ZPRICECAT")], false);
-                    oFilterDomname1 = new sap.ui.model.Filter([new sap.ui.model.Filter("Domname1", sap.ui.model.FilterOperator.EQ, sTerm)], false);
-                    oFilterDomname2 = new sap.ui.model.Filter([new sap.ui.model.Filter("Domname2", sap.ui.model.FilterOperator.EQ, Division)], false);
-                    aFilters.push(oFilterDomname2);
-                }
-                // Design suggestion
-                else if (oEvent.getSource().sId.includes("idV2TblCLIInpDesigns")) {
-                    var sContextPath = oEvent.getSource().getParent().getBindingContextPath();
-                    var Mfrgr = this.getView().getModel("JSONModelPayload").getContext(sContextPath).getProperty("Mfrgr");
-                    var Division = this.getView().getModel("JSONModelPayload").getProperty("/Spart");
-                    oFilterDomname = new sap.ui.model.Filter([new sap.ui.model.Filter("Domname", sap.ui.model.FilterOperator.EQ, "ZMATSOURCE")], false);
-                    oFilterDomname1 = new sap.ui.model.Filter([new sap.ui.model.Filter("Domname1", sap.ui.model.FilterOperator.EQ, sTerm)], false);
-                    oFilterDomname2 = new sap.ui.model.Filter([new sap.ui.model.Filter("Domname2", sap.ui.model.FilterOperator.EQ, Mfrgr)], false);
-                    aFilters.push(oFilterDomname2);
-                }
-                // Supply plant suggestion
-                else if (oEvent.getSource().sId.includes("idV2TblCLIInpSuppPlant")) {
-                    oFilterDomname = new sap.ui.model.Filter([new sap.ui.model.Filter("Domname", sap.ui.model.FilterOperator.EQ, "T001W")], false);
-                    oFilterDomname1 = new sap.ui.model.Filter([new sap.ui.model.Filter("Domname1", sap.ui.model.FilterOperator.EQ, sTerm)], false);
-                    oFilterDomname2 = new sap.ui.model.Filter([new sap.ui.model.Filter("Domname2", sap.ui.model.FilterOperator.EQ, "")], false);
-                    aFilters.push(oFilterDomname2);
-                }
-                // Manufacturing plant suggestion
-                else if (oEvent.getSource().sId.includes("idV2TblCLIInpManPlant")) {
-                    oFilterDomname = new sap.ui.model.Filter([new sap.ui.model.Filter("Domname", sap.ui.model.FilterOperator.EQ, "T179")], false);
-                    oFilterDomname1 = new sap.ui.model.Filter([new sap.ui.model.Filter("Domname1", sap.ui.model.FilterOperator.EQ, sTerm)], false);
-                    oFilterDomname2 = new sap.ui.model.Filter([new sap.ui.model.Filter("Domname2", sap.ui.model.FilterOperator.EQ, "")], false);
-                    aFilters.push(oFilterDomname2);
-                }
-
-                aFilters.push(oFilterDomname);
-                aFilters.push(oFilterDomname1);
-
-                if (sTerm && nLen === 1) {
-                    this.getView().setBusy(true);
-                    this.getView().getModel().read(sPath, {
-                        filters: aFilters,
-                        success: function (Data) {
-
-                            if (Data.results.length > 0) {
-                                var JSONModelForSuggest = new JSONModel(Data.results);
-                                this.getView().setModel(JSONModelForSuggest, "JSONModelForSuggest");
-                                this.getView().getModel("JSONModelForSuggest").refresh(true);
+                            } else {
+                                if (this.sPreviousDistributionChannel) {
+                                    this.getView().getModel("JSONModelPayload").setProperty("/Vtweg", this.sPreviousDistributionChannel)
+                                    // oEvent.getSource().setSelectedKey(this.sPreviousDistributionChannel);
+                                }
                             }
-                            this.getView().setBusy(false);
-                        }.bind(this),
-                        error: function (sError) {
-                            this.getView().setBusy(false);
                         }.bind(this)
                     });
-
+                } else {
+                    this.sPreviousDistributionChannel = oEvent.getSource().getSelectedKey();
                 }
             },
-            // Submit action - Customer code
-            onCustomerCodeInputSubmit: function (oEvent) {
 
-                var sTerm = oEvent.getParameter("value"),
-                    aFilters = [],
-                    oFilterDomname = new sap.ui.model.Filter([new sap.ui.model.Filter("Domname", sap.ui.model.FilterOperator.EQ, "KNA1")], false),
-                    oFilterDomname1 = new sap.ui.model.Filter([new sap.ui.model.Filter("Domname1", sap.ui.model.FilterOperator.EQ, sTerm)], false),
-                    sValue1 = "/Kunnr",
-                    sValue2 = "/Name",
-                    sMessage = "Entered Customer code is wrong";
-                aFilters.push(oFilterDomname);
-                aFilters.push(oFilterDomname1);
-                this._submitCall(sTerm, aFilters, sValue1, sValue2, sMessage);
+            onCancel: function () {
+
+                var that = this;
+                MessageBox.confirm("Are you sure you want to cancel?", {
+                    actions: ["Yes", "No"],
+                    onClose: function (oAction) {
+                        if (oAction === "Yes") {
+                            var oRouter = this.getOwnerComponent().getRouter();
+                            oRouter.navTo("RouteMain", {});
+                        } else {
+
+                        }
+                    }.bind(this)
+                });
             },
-            // Submit action - Sales Office
+
+            onClear: function () {
+                var JSONData = {
+
+                    "Pafvto": null,
+                    "Kunnr": "",
+                    "Pafvfrm": null,
+                    "Ti": "1",
+                    "Gst": "18",
+                    "Name": "",
+                    "Action": "",
+                    "Zterm": "",
+                    "Validity": "",
+                    "Aufnr": "",
+                    "Vtweg": "",
+                    "Vkbur": "",
+                    "Spart": "",
+                    "ET_SALES_COORD_ISET": {
+                        "results": [{
+                            "Mfrgr": "",
+                            "Szmm": "",
+                            "Mvgr2": "",
+                            "Werks": "",
+                            "Prodh1": "",
+                            "CurVolFt": "",
+                            "TotalVol": "",
+                            "Disc": null,
+                            "Discb": null,
+                            "Commbox": null,
+                            "Exfacsqft": null,
+                            "Exdepsqft": null,
+                            "Commboxp": null,
+                            "Frgtsqft": null,
+                            "Compname": null,
+                            "Complanprice": null,
+                            "Zzprodh4": "",
+                            "Mvgr5": "",
+                            "Isexdep": ""
+                        }]
+                    }
+                }
+                this.getView().getModel("JSONModelPayload").setData(JSONData);
+                this.getView().getModel("JSONModelPayload").refresh(true);
+            },
+
+            onBack: function () {
+                this.oRouter = this.getOwnerComponent().getRouter();
+                this.oRouter.navTo("RouteMain", {});
+
+            },
+
+            _getResourceBundle: function () {
+                return this.getOwnerComponent().getModel("i18nV2").getResourceBundle();
+            },
+            onInvoiceLiveValidation: function (oEvent) {
+                oEvent.getSource().setValueState("None");
+
+                var value = Number(oEvent.getSource().getValue());
+                var sValue = oEvent.getSource().getValue();
+                if (sValue.includes(".")) {
+                    if (sValue.split(".")[1].length > 2) {
+
+                        MessageToast.show("Only 2 Decimal allowed");
+                        sValue = sValue.substring(0, sValue.length - 1);
+                        oEvent.getSource().setValue(sValue);
+                    }
+                }
+
+                if (isNaN(value)) {
+                    MessageBox.error("Only numeric values allowed");
+                    oEvent.getSource().setValue("");
+                }
+                if (this.getView().getModel("JSONModelPayload").getProperty('/Vtweg') === "19") {
+                    if (value > 100) {
+                        MessageBox.error("Percentage value not correct");
+                        oEvent.getSource().setValue("");
+                    }
+                }
+            },
+            onOrcPerLiveValidation: function (oEvent) {
+
+                var sValue = oEvent.getSource().getValue();
+                if (sValue.includes(".")) {
+                    if (sValue.split(".")[1].length > 2) {
+
+                        MessageToast.show("Only 2 Decimal allowed");
+                        sValue = sValue.substring(0, sValue.length - 1);
+                        oEvent.getSource().setValue(sValue);
+                    }
+                }
+                oEvent.getSource().setValueState("None");
+
+                var value = Number(oEvent.getSource().getValue());
+                if (isNaN(value)) {
+                    MessageBox.error("Only numeric values allowed");
+                    oEvent.getSource().setValue("");
+                }
+                if (this.getView().getModel("JSONModelPayload").getProperty('/Vtweg') === "19") {
+                    if (value > 100) {
+                        MessageBox.error("Percentage value not correct");
+                        oEvent.getSource().setValue("");
+                    }
+                }
+            },
+
+            onLiveChange: function (oEvent) {
+                oEvent.getSource().setValueState("None");
+            },
+            onNumberValidation: function (oEvent) {
+
+                var sValue = oEvent.getSource().getValue();
+                if (sValue.includes(".")) {
+                    if (sValue.split(".")[1].length > 2) {
+
+                        MessageToast.show("Only 2 Decimal allowed");
+                        sValue = sValue.substring(0, sValue.length - 1);
+                        oEvent.getSource().setValue(sValue);
+                    }
+                }
+                oEvent.getSource().setValueState("None");
+                var value = Number(oEvent.getSource().getValue());
+                if (isNaN(value)) {
+                    MessageBox.error("Only numeric values allowed");
+                    oEvent.getSource().setValue("");
+                }
+                // else if (value > 99) {
+                //     MessageBox.error("Please enter value less than 100");
+                //     oEvent.getSource().setValue("");
+                // }
+
+            },
+            onAddRow: function () {
+
+
+                var headerValidationStatus = validation.headerPayloadValidation(this);
+                if (headerValidationStatus === 1) {
+                    var aData = this.getView().getModel("JSONModelPayload").getData().ET_SALES_COORD_ISET.results;
+                    var itemValidationStatus = validation.itemsPayloadValidation(aData, this, "Adding new line");
+                    if (itemValidationStatus === 1) {
+                        var JSONData = this.getView().getModel("JSONModelPayload").getData();
+                        var nRowIndex = this.getView().getModel("JSONModelPayload").getData().ET_SALES_COORD_ISET.results.length;
+                        JSONData.ET_SALES_COORD_ISET.results.push({
+                            "Mfrgr": "",
+                            "Szmm": "",
+                            "Mvgr2": "",
+                            "Werks": "",
+                            "Prodh1": "",
+                            "CurVolFt": "",
+                            "TotalVol": "",
+                            "Disc": null,
+                            "Discb": null,
+                            "Commbox": null,
+                            "Exfacsqft": null,
+                            "Exdepsqft": null,
+                            "Commboxp": null,
+                            "Frgtsqft": null,
+                            "Compname": null,
+                            "Complanprice": null,
+                            "Zzprodh4": "",
+                            "Mvgr5": "",
+                            "Isexdep": ""
+                        });
+
+                        this.getView().getModel("JSONModelPayload").setData(JSON.parse(JSON.stringify(JSONData)));
+
+
+
+                    }
+                }
+
+            },
+            onDelete: function (oEvent) {
+
+                var vLen = oEvent.getSource().getParent().getBindingContextPath().split("/").length
+
+                var index = Number(oEvent.getSource().getParent().getBindingContextPath().split("/")[vLen - 1]);
+
+                var JSONData = this.getView().getModel("JSONModelPayload").getData();
+                if (JSONData.ET_SALES_COORD_ISET.results.length > 1) {
+                    JSONData.ET_SALES_COORD_ISET.results.splice(index, 1);
+                } else {
+                    MessageBox.error("Atlease one entry is required");
+                }
+
+                this.getView().getModel("JSONModelPayload").setData(JSON.parse(JSON.stringify(JSONData)));
+
+                // Date format corrector
+                var data = this.getView().getModel("JSONModelPayload").getData();
+                data.Pafvto = new Date(data.Pafvto);
+                data.Pafvfrm = new Date(data.Pafvfrm);
+                var aItems = data.ET_SALES_COORD_ISET.results;
+                for (let index = 0; index < aItems.length; index++) {
+                    for (const key in aItems[index]) {
+                        if (Object.hasOwnProperty.call(aItems[index], key)) {
+                            if (key === 'Erdat') {
+                                aItems[index].Erdat = new Date(aItems[index].Erdat);
+                            }
+                        }
+                    }
+                }
+
+            },
+            //Start: Customer Code
+            // On Value Help(F4)
+            onCustomerCodeHelp: function () {
+                customerCode.onCustomerCodeHelp(this);
+            },
+            // On F4 search
+            onValueHelpSearch_custCode: function (oEvent) {
+                customerCode.onValueHelpSearch_custCode(oEvent, this);
+            },
+            // On F4 confirm
+            onValueHelpConfirm_custCode: function (oEvent) {
+                customerCode.onValueHelpConfirm_custCode(oEvent, this);
+            },
+
+            // on Submit
+            onCustomerCodeInputSubmit: function (oEvent) {
+                customerCode.onCustomerCodeInputSubmit(oEvent, this);
+            },
+            // On Suggest
+            onSuggest_custCode: function (oEvent) {
+                customerCode.onSuggest_custCode(oEvent, this);
+            },
+            // On change
+            onCustomerCodeInputChange: function () {
+                customerCode.onCustomerCodeInputChange(this);
+            },
+            // on Suggestion select
+            onCustomerCodeInputSuggestionSelect: function (oEvent) {
+                customerCode.onCustomerCodeInputSuggestionSelect(oEvent, this);
+
+            },
+            //End: Customer Code
+
+            //Start: Sales Office
+            // on Value Help(F4)
+            onSalesOfficeHelp: function () {
+                salesOffice.onSalesOfficeHelp(this);
+            },
+            // on Submit
             onSalesOfficeInputSubmit: function (oEvent) {
-                var sTerm = oEvent.getParameter("value"),
-                    aFilters = [],
-                    oFilterDomname = new sap.ui.model.Filter([new sap.ui.model.Filter("Domname", sap.ui.model.FilterOperator.EQ, "TVKBZ")], false),
-                    oFilterDomname1 = new sap.ui.model.Filter([new sap.ui.model.Filter("Domname1", sap.ui.model.FilterOperator.EQ, sTerm)], false),
-                    sValue1 = "/Vkbur",
-                    sValue2 = "",
-                    sMessage = "Entered Sales Office is wrong";
-                aFilters.push(oFilterDomname);
-                aFilters.push(oFilterDomname1);
-                // aFilters.push(oFilterDomname2);
-                this._submitCall(sTerm, aFilters, sValue1, sValue2, sMessage);
+                salesOffice.salesOffice_submitCall(oEvent, this);
+            },
+            // on F4 search/liveChange
+            onValueHelpSearch_salOffice: function (oEvent) {
+                salesOffice.onSalesOfficeHelpSearch(oEvent, this);
+            },
+            // on F4 confirm
+            onValueHelpConfirm_salOffice: function (oEvent) {
+                salesOffice.onSalesOfficeValueHelpConfirm(oEvent, this);
+            },
+            // On Suggest
+            onSuggest_salesOffice: function (oEvent) {
+                salesOffice.onSuggest_salesOffice(oEvent, this);
+            },
+            //End: Sales Office
+
+            // Material Freight Group
+            onMaterialFreightGroupsHelp: function (oEvent) {
+                var Division = this.getView().getModel("JSONModelPayload").getProperty("/Spart");
+                if (Division) {
+                    this.bindingContextPath = oEvent.getSource().getParent().getBindingContextPath();
+                    valueHelps.onMaterialFreightGroupsHelp(this, Division);
+                    this.byId(sap.ui.core.Fragment.createId("idV2FragGenInfo", "idV2SLVertical")).setValueState("None")
+                } else {
+                    MessageBox.error("Please select vertical first");
+                    this.byId(sap.ui.core.Fragment.createId("idV2FragGenInfo", "idV2SLVertical")).setValueState("Error")
+                }
+            },
+            // Sizes
+            onSizesHelp: function (oEvent) {
+                valueHelps.onSizesHelp(this);
+            },
+            // Designs 
+            onDesignsHelp: function (oEvent) {
+
+                var sPath = oEvent.getSource().getParent().getBindingContextPath();
+                var Mfrgr = this.getView().getModel("JSONModelPayload").getContext(sPath).getProperty("Mfrgr");
+                this.Mfrgr = oEvent.getSource().getParent().getBindingContextPath() + "/Mfrgr";
+                this.bindingContextPath = oEvent.getSource().getParent().getBindingContextPath() + "/Mvgr2";
+                if (Mfrgr) {
+                    valueHelps.onDesignsHelp(this, Mfrgr);
+                } else {
+                    MessageBox.error("Please select 'Material Freight Group' first");
+                }
+            },
+            // Supply Plant
+            onSupplyPlantHelp: function (oEvent) {
+                this.bindingContextPath = oEvent.getSource().getParent().getBindingContextPath() + "/Werks";
+                valueHelps.onSupplyPlantHelp(this);
+            },
+            // Manufacturing Amount
+            onManufacturingAmtHelp: function (oEvent) {
+                this.bindingContextPath = oEvent.getSource().getParent().getBindingContextPath() + "/Prodh1";
+                valueHelps.onManufacturingAmtHelp(this);
+            },
+
+            onValueHelpSearch: function (evt) {
+                var aFilter = [];
+                var oFilter;
+
+                var sValue = evt.getParameter("value");
+                var sPath = "/ET_VALUE_HELPSSet";
+                var oSelectDialog = sap.ui.getCore().byId(evt.getParameter('id'));
+
+                if (evt.getParameter('id') === 'idSDCustomerCodeF4') {
+                    var oFilterDomname = new sap.ui.model.Filter([new sap.ui.model.Filter("Domname", sap.ui.model.FilterOperator.EQ, "KNA1")], false);
+                } else if (evt.getParameter('id') === 'idSDSalesOfficeF4') {
+                    var oFilterDomname = new sap.ui.model.Filter([new sap.ui.model.Filter("Domname", sap.ui.model.FilterOperator.EQ, "TVKBZ")], false);
+                }
+                else if (evt.getParameter('id') === 'idSDMaterialFreightGroupsF4') {
+
+                    var Division = this.getView().getModel("JSONModelPayload").getProperty("/Spart");
+                    var oFilterDomname = new sap.ui.model.Filter([new sap.ui.model.Filter("Domname", sap.ui.model.FilterOperator.EQ, "ZPRICECAT")], false);
+                    var oFilterDomname2 = new sap.ui.model.Filter([new sap.ui.model.Filter("Domname2", sap.ui.model.FilterOperator.EQ, Division)], false);
+                    aFilter.push(oFilterDomname2);
+                }
+                else if (evt.getParameter('id') === 'idSDDesignsF4') {
+                    var oFilterDomname = new sap.ui.model.Filter([new sap.ui.model.Filter("Domname", sap.ui.model.FilterOperator.EQ, "ZMATSOURCE")], false);
+                    var oFilterDomname2 = new sap.ui.model.Filter([new sap.ui.model.Filter("Domname2", sap.ui.model.FilterOperator.EQ, Mfrgr)], false)
+                    aFilter.push(oFilterDomname2);
+                } else if (evt.getParameter('id') === 'idSDSupplyingPlantF4') {
+                    var oFilterDomname = new sap.ui.model.Filter([new sap.ui.model.Filter("Domname", sap.ui.model.FilterOperator.EQ, "T001W")], false);
+                } else if (evt.getParameter('id') === 'idSDManufacturingAmountF4') {
+                    var oFilterDomname = new sap.ui.model.Filter([new sap.ui.model.Filter("Domname", sap.ui.model.FilterOperator.EQ, "T179")], false);
+                }
+
+
+                var oFilterDomname1 = new sap.ui.model.Filter([new sap.ui.model.Filter("Domname1", sap.ui.model.FilterOperator.EQ, sValue)], false);
+                aFilter.push(oFilterDomname1);
+                aFilter.push(oFilterDomname);
+                valueHelps.onCustomerCodeHelpSearch(oSelectDialog, aFilter, sPath, this);
+            },
+            onValueHelpSearchDesing: function (evt) {
+                var aFilter = [];
+                var sValue = evt.getParameter("value");
+                var sPath = "/ET_VALUE_HELPSSet";
+                // come back here
+                var oSelectDialog = sap.ui.getCore().byId(evt.getParameter('id'));
+                var Mfrgr = this.getView().getModel("JSONModelPayload").getProperty(this.Mfrgr);
+                var oFilterDomname = new sap.ui.model.Filter([new sap.ui.model.Filter("Domname", sap.ui.model.FilterOperator.EQ, "ZMATSOURCE")], false);
+                var oFilterDomname1 = new sap.ui.model.Filter([new sap.ui.model.Filter("Domname1", sap.ui.model.FilterOperator.EQ, sValue)], false);
+                var oFilterDomname2 = new sap.ui.model.Filter([new sap.ui.model.Filter("Domname2", sap.ui.model.FilterOperator.EQ, Mfrgr)], false)
+
+
+                aFilter.push(oFilterDomname);
+                aFilter.push(oFilterDomname1);
+                aFilter.push(oFilterDomname2);
+
+                oSelectDialog.bindAggregation("items", {
+                    path: sPath,
+                    filters: aFilter,
+                    template: this._oTempDesign
+                });
+            },
+
+            onValueHelpConfirm: function (evt) {
+
+                var oSelectedItem = evt.getParameter("selectedItem");
+                valueHelps.valueHelpConfirm(oSelectedItem, this, this.bindingContextPath);
+            },
+
+            onMaterialFreightGroupsHelpConfirm: function (oEvent) {
+                var oSelectedItem = oEvent.getParameter("selectedItem");
+                var sSelectedValue = oSelectedItem.getProperty("title");
+
+                var aModelData = this.getView().getModel("JSONModelPayload").getProperty("/ET_SALES_COORD_ISET/results");
+                var bindingContextPathMFG = this.bindingContextPath + "/Mfrgr";
+                var bindingContextPathSize = this.bindingContextPath + "/Szmm";
+                for (var i = 0; i < aModelData.length; i++) {
+                    if (sSelectedValue === aModelData[i].Mfrgr && i != Number(this.bindingContextPath.split("/")[3])) {
+                        MessageBox.error(sSelectedValue + " this 'Material Freigth Group' already selected");
+
+                        this.getView().getModel("JSONModelPayload").setProperty(bindingContextPathMFG, "");
+                        this.getView().getModel("JSONModelPayload").setProperty(bindingContextPathSize, "");
+                        i = aModelData.length;
+                    } else {
+                        this.getView().getModel("JSONModelPayload").setProperty(bindingContextPathMFG, sSelectedValue);
+                        var aFilter = [];
+                        var oFilterDomname = new sap.ui.model.Filter([new sap.ui.model.Filter("Domname", sap.ui.model.FilterOperator.EQ, "SIZE")], false);
+                        var oFilterDomname2 = new sap.ui.model.Filter([new sap.ui.model.Filter("Domname2", sap.ui.model.FilterOperator.EQ, sSelectedValue)], false);
+                        aFilter.push(oFilterDomname);
+                        aFilter.push(oFilterDomname2);
+                        var sPath = "/ET_VALUE_HELPSSet"
+                        var that = this;
+                        this.getView().setBusy(true);
+                        this.getView().getModel().read(sPath, {
+                            filters: aFilter,
+                            // urlParameters: {
+                            //     "$expand": ""
+                            // },
+                            success: function (Data) {
+                                that.getView().setBusy(false);
+                                that.getView().getModel("JSONModelPayload").setProperty(bindingContextPathSize, Data.results[0].Ddtext);
+                            },
+                            error: function (oError) {
+                                that.getView().setBusy(false);
+                                MessageBox.error(JSON.parse(oError.responseText).error.innererror.errordetails[0].message, {
+                                    actions: [sap.m.MessageBox.Action.OK],
+                                    onClose: function (oAction) {
+
+                                    }
+                                });
+                            }
+                        });
+                    }
+                    // }
+                }
+
+
+
+
+            },
+
+            onDesignsHelpConfirm: function (oEvent) {
+                var oSelectedItem = oEvent.getParameter("selectedItem");
+                var sSelectedValue = oSelectedItem.getProperty("title");
+                this.getView().getModel("JSONModelPayload").setProperty(this.bindingContextPath, sSelectedValue);
+            },
+            onSupplyPlantHelpConfirm(oEvent) {
+                var oSelectedItem = oEvent.getParameter("selectedItem");
+                var sSelectedValue = oSelectedItem.getProperty("title");
+                this.getView().getModel("JSONModelPayload").setProperty(this.bindingContextPath, sSelectedValue);
+            },
+            onManufacturingAmtHelpConfirm: function (oEvent) {
+                var oSelectedItem = oEvent.getParameter("selectedItem");
+                var sSelectedValue = oSelectedItem.getProperty("title");
+                this.getView().getModel("JSONModelPayload").setProperty(this.bindingContextPath, sSelectedValue);
             },
             // Submit action - Material Freight Group
             onMaterialFreightGroupInputSubmit: function (oEvent) {
@@ -479,388 +847,104 @@ sap.ui.define([
                         }.bind(this),
                         error: function (sError) {
                             this.getView().setBusy(false);
+                            MessageBox.error(JSON.parse(oError.responseText).error.innererror.errordetails[0].message, {
+                                actions: [sap.m.MessageBox.Action.OK],
+                                onClose: function (oAction) {
+
+                                }
+                            });
                         }.bind(this)
                     });
 
                 }
 
             },
-
-            onDistributionChannelChange: function (oEvent) {
-
-                this.getView().getModel("JSONModelPayload").setProperty("/Zterm", "");
-                var vGetSelectedValue = oEvent.getSource().getSelectedKey();
-                if (vGetSelectedValue === "11" || vGetSelectedValue === "17") {
-                    this.byId(sap.ui.core.Fragment.createId("idV2FragGenInfo", "idV2SLPaymentTerm")).setEnabled(false);
-                    MessageToast.show("Enter 'On-Invoice discount' in Amount");
-                } else {
-                    this.byId(sap.ui.core.Fragment.createId("idV2FragGenInfo", "idV2SLPaymentTerm")).setEnabled(true);
-                    MessageToast.show("Enter 'On-Invoice discount' in Percentage");
-                }
-            },
-
-            onCancel: function () {
-
-                var that = this;
-                MessageBox.confirm("Are you sure you want to cancel?", {
-                    actions: ["Yes", "No"],
-                    onClose: function (oAction) {
-                        if (oAction === "Yes") {
-                            var oRouter = this.getOwnerComponent().getRouter();
-                            oRouter.navTo("RouteMain", {});
-                        } else {
-
-                        }
-                    }.bind(this)
-                });
-            },
-
-            onClear: function () {
-                var JSONData = {
-                    "Isexdep": "",
-                    "Pafvto": null,
-                    "Kunnr": "",
-                    "Pafvfrm": null,
-                    "Ti": "1",
-                    "Gst": "18",
-                    "Name": "",
-                    "Action": "",
-                    "Zterm": "",
-                    "Validity": "",
-                    "Aufnr": "",
-                    "Vtweg": "",
-                    "Vkbur": "",
-                    "Spart": "",
-                    "ET_SALES_COORD_ISET": {
-                        "results": [{
-                            "Mfrgr": "",
-                            "Szmm": "",
-                            "Mvgr2": "",
-                            "Werks": "",
-                            "Prodh1": "",
-                            "CurVolFt": "",
-                            "TotalVol": "",
-                            "Disc": null,
-                            "Discb": null,
-                            "Commbox": null,
-                            "Exfacsqft": null,
-                            "Exdepsqft": null,
-                            "Commboxp": null,
-                            "Frgtsqft": null,
-                            "Compname": null,
-                            "Complanprice": null,
-                            "Zzprodh4": "",
-                            "Mvgr5": ""
-                        }]
-                    }
-                }
-                this.getView().getModel("JSONModelPayload").setData(JSONData);
-                this.getView().getModel("JSONModelPayload").refresh(true);
-            },
-
-            onBack: function () {
-                this.oRouter = this.getOwnerComponent().getRouter();
-                this.oRouter.navTo("RouteMain", {});
-
-            },
-
-            _getResourceBundle: function () {
-                return this.getOwnerComponent().getModel("i18nV2").getResourceBundle();
-            },
-            onInvoiceLiveValidation: function (oEvent) {
-                oEvent.getSource().setValueState("None");
-                 
-                var value = Number(oEvent.getSource().getValue());
-                if (isNaN(value)) {
-                    MessageBox.error("Only numeric values allowed");
-                    oEvent.getSource().setValue("");
-                }
-                if (this.getView().getModel("JSONModelPayload").getProperty('/Vtweg') === "19") {
-                    if (value > 100) {
-                        MessageBox.error("Percentage value not correct");
-                        oEvent.getSource().setValue("");
-                    }
-                }
-            },
-           onOrcPerLiveValidation: function(oEvent){
-            oEvent.getSource().setValueState("None");
-             
-            var value = Number(oEvent.getSource().getValue());
-            if (isNaN(value)) {
-                MessageBox.error("Only numeric values allowed");
-                oEvent.getSource().setValue("");
-            }
-            if (this.getView().getModel("JSONModelPayload").getProperty('/Vtweg') === "19") {
-                if (value > 100) {
-                    MessageBox.error("Percentage value not correct");
-                    oEvent.getSource().setValue("");
-                }
-            }
-           },
-
-            onLiveChange: function (oEvent) {
-                oEvent.getSource().setValueState("None");
-            },
-            onNumberValidation: function (oEvent) {
-                oEvent.getSource().setValueState("None");
-                var value = Number(oEvent.getSource().getValue());
-                if (isNaN(value)) {
-                    MessageBox.error("Only numeric values allowed");
-                    oEvent.getSource().setValue("");
-                }
-                // else if (value > 99) {
-                //     MessageBox.error("Please enter value less than 100");
-                //     oEvent.getSource().setValue("");
-                // }
-
-            },
-            onAddRow: function () {
-
-
-                var headerValidationStatus = validation.headerPayloadValidation(this);
-                if (headerValidationStatus === 1) {
-                    var aData = this.getView().getModel("JSONModelPayload").getData().ET_SALES_COORD_ISET.results;
-                    var itemValidationStatus = validation.itemsPayloadValidation(aData, this, "Adding new line");
-                    if (itemValidationStatus === 1) {
-                        var JSONData = this.getView().getModel("JSONModelPayload").getData();
-                        var nRowIndex = this.getView().getModel("JSONModelPayload").getData().ET_SALES_COORD_ISET.results.length;
-                        JSONData.ET_SALES_COORD_ISET.results.push({
-                            "Mfrgr": "",
-                            "Szmm": "",
-                            "Mvgr2": "",
-                            "Werks": "",
-                            "Prodh1": "",
-                            "CurVolFt": "",
-                            "TotalVol": "",
-                            "Disc": null,
-                            "Discb": null,
-                            "Commbox": null,
-                            "Exfacsqft": null,
-                            "Exdepsqft": null,
-                            "Commboxp": null,
-                            "Frgtsqft": null,
-                            "Compname": null,
-                            "Complanprice": null,
-                            "Zzprodh4": "",
-                            "Mvgr5": ""
-                        });
-
-                        this.getView().getModel("JSONModelPayload").setData(JSON.parse(JSON.stringify(JSONData)));
-
-
-
-                    }
-                }
-
-            },
-            onDelete: function (oEvent) {
-
-                var vLen = oEvent.getSource().getParent().getBindingContextPath().split("/").length
-
-                var index = Number(oEvent.getSource().getParent().getBindingContextPath().split("/")[vLen - 1]);
-
-                var JSONData = this.getView().getModel("JSONModelPayload").getData();
-                if (JSONData.ET_SALES_COORD_ISET.results.length > 1) {
-                    JSONData.ET_SALES_COORD_ISET.results.splice(index, 1);
-                } else {
-                    MessageBox.error("Atlease one entry is required");
-                }
-
-                this.getView().getModel("JSONModelPayload").setData(JSON.parse(JSON.stringify(JSONData)));
-
-                // Date format corrector
-                var data = this.getView().getModel("JSONModelPayload").getData();
-                data.Pafvto = new Date(data.Pafvto);
-                data.Pafvfrm = new Date(data.Pafvfrm);
-                var aItems = data.ET_SALES_COORD_ISET.results;
-                for (let index = 0; index < aItems.length; index++) {
-                    for (const key in aItems[index]) {
-                        if (Object.hasOwnProperty.call(aItems[index], key)) {
-                            if (key === 'Erdat') {
-                                aItems[index].Erdat = new Date(aItems[index].Erdat);
-                            }
-                        }
-                    }
-                }
-
-            },
-            // Customer Code Plant
-            onCustomerCodeHelp: function () {
-                valueHelps.onCustomerCodeHelp(this);
-            },
-            // Sales Office
-            onSalesOfficeHelp: function () {
-                valueHelps.onSalesOfficeHelp(this);
-            },
-            // Material Freight Group
-            onMaterialFreightGroupsHelp: function (oEvent) {
-                var Division = this.getView().getModel("JSONModelPayload").getProperty("/Spart");
-                if (Division) {
-                    this.bindingContextPath = oEvent.getSource().getParent().getBindingContextPath();
-                    valueHelps.onMaterialFreightGroupsHelp(this, Division);
-                    this.byId(sap.ui.core.Fragment.createId("idV2FragGenInfo", "idV2SLVertical")).setValueState("None")
-                } else {
-                    MessageBox.error("Please select vertical first");
-                    this.byId(sap.ui.core.Fragment.createId("idV2FragGenInfo", "idV2SLVertical")).setValueState("Error")
-                }
-            },
-            // Sizes
-            onSizesHelp: function (oEvent) {
-                valueHelps.onSizesHelp(this);
-            },
-            // Designs 
-            onDesignsHelp: function (oEvent) {
-
-                var sPath = oEvent.getSource().getParent().getBindingContextPath();
-                var Mfrgr = this.getView().getModel("JSONModelPayload").getContext(sPath).getProperty("Mfrgr");
-                this.bindingContextPath = oEvent.getSource().getParent().getBindingContextPath() + "/Mvgr2";
-                if (Mfrgr) {
-                    valueHelps.onDesignsHelp(this, Mfrgr);
-                } else {
-                    MessageBox.error("Please select 'Material Freight Group' first");
-                }
-            },
-            // Supply Plant
-            onSupplyPlantHelp: function (oEvent) {
-                this.bindingContextPath = oEvent.getSource().getParent().getBindingContextPath() + "/Werks";
-                valueHelps.onSupplyPlantHelp(this);
-            },
-            // Manufacturing Amount
-            onManufacturingAmtHelp: function (oEvent) {
-                this.bindingContextPath = oEvent.getSource().getParent().getBindingContextPath() + "/Prodh1";
-                valueHelps.onManufacturingAmtHelp(this);
-            },
-
-            onValueHelpSearch: function (evt) {
-                var aFilter = [];
-                var oFilter;
-
-                var sValue = evt.getParameter("value");
-                var sPath = "/ET_VALUE_HELPSSet";
-                var oSelectDialog = sap.ui.getCore().byId(evt.getParameter('id'));
-
-                if (evt.getParameter('id') === 'idSDCustomerCodeF4') {
-                    var oFilterDomname = new sap.ui.model.Filter([new sap.ui.model.Filter("Domname", sap.ui.model.FilterOperator.EQ, "KNA1")], false);
-                } else if (evt.getParameter('id') === 'idSDSalesOfficeF4') {
-                    var oFilterDomname = new sap.ui.model.Filter([new sap.ui.model.Filter("Domname", sap.ui.model.FilterOperator.EQ, "TVKBZ")], false);
-                }
-                else if (evt.getParameter('id') === 'idSDMaterialFreightGroupsF4') {
-
-                    var Division = this.getView().getModel("JSONModelPayload").getProperty("/Spart");
-                    var oFilterDomname = new sap.ui.model.Filter([new sap.ui.model.Filter("Domname", sap.ui.model.FilterOperator.EQ, "ZPRICECAT")], false);
-                    var oFilterDomname2 = new sap.ui.model.Filter([new sap.ui.model.Filter("Domname2", sap.ui.model.FilterOperator.EQ, Division)], false);
-                    aFilter.push(oFilterDomname2);
-                }
-                else if (evt.getParameter('id') === 'idSDDesignsF4') {
-                    var oFilterDomname = new sap.ui.model.Filter([new sap.ui.model.Filter("Domname", sap.ui.model.FilterOperator.EQ, "ZMATSOURCE")], false);
-                    var oFilterDomname2 = new sap.ui.model.Filter([new sap.ui.model.Filter("Domname2", sap.ui.model.FilterOperator.EQ, Mfrgr)], false)
-                    aFilter.push(oFilterDomname2);
-                } else if (evt.getParameter('id') === 'idSDSupplyingPlantF4') {
-                    var oFilterDomname = new sap.ui.model.Filter([new sap.ui.model.Filter("Domname", sap.ui.model.FilterOperator.EQ, "T001W")], false);
-                } else if (evt.getParameter('id') === 'idSDManufacturingAmountF4') {
-                    var oFilterDomname = new sap.ui.model.Filter([new sap.ui.model.Filter("Domname", sap.ui.model.FilterOperator.EQ, "T179")], false);
-                }
-
-
-                var oFilterDomname1 = new sap.ui.model.Filter([new sap.ui.model.Filter("Domname1", sap.ui.model.FilterOperator.EQ, sValue)], false);
-                aFilter.push(oFilterDomname1);
-                aFilter.push(oFilterDomname);
-                valueHelps.onCustomerCodeHelpSearch(oSelectDialog, aFilter, sPath, this);
-            },
-            onValueHelpSearchDesing: function (evt) {
-                var aFilter = [];
-                var sValue = evt.getParameter("value");
-                var sPath = "/ET_VALUE_HELPSSet";
-
-                var oSelectDialog = sap.ui.getCore().byId(evt.getParameter('id'));
-                var Division = this.getView().getModel("JSONModelPayload").getProperty("/Spart");
-                var oFilterDomname = new sap.ui.model.Filter([new sap.ui.model.Filter("Domname", sap.ui.model.FilterOperator.EQ, "ZMATSOURCE")], false);
-                var oFilterDomname2 = new sap.ui.model.Filter([new sap.ui.model.Filter("Domname2", sap.ui.model.FilterOperator.EQ, Mfrgr)], false)
-                aFilter.push(oFilterDomname2);
-                var oFilterDomname1 = new sap.ui.model.Filter([new sap.ui.model.Filter("Domname1", sap.ui.model.FilterOperator.EQ, sValue)], false);
-                aFilter.push(oFilterDomname1);
-                aFilter.push(oFilterDomname);
-                oSelectDialog.bindAggregation("items", {
-                    path: sPath,
-                    filters: aFilter,
-                    template: this._oTempDesign
-                });
-            },
-
-            onValueHelpConfirm: function (evt) {
-
-                var oSelectedItem = evt.getParameter("selectedItem");
-                valueHelps.valueHelpConfirm(oSelectedItem, this, this.bindingContextPath);
-            },
-
-            onMaterialFreightGroupsHelpConfirm: function (oEvent) {
-                var oSelectedItem = oEvent.getParameter("selectedItem");
-                var sSelectedValue = oSelectedItem.getProperty("title");
-
-                var aModelData = this.getView().getModel("JSONModelPayload").getProperty("/ET_SALES_COORD_ISET/results");
-                var bindingContextPathMFG = this.bindingContextPath + "/Mfrgr";
-                var bindingContextPathSize = this.bindingContextPath + "/Szmm";
-                for (var i = 0; i < aModelData.length; i++) {
-                    if (sSelectedValue === aModelData[i].Mfrgr && i != Number(this.bindingContextPath.split("/")[3])) {
-                        MessageBox.error(sSelectedValue + " this 'Material Freigth Group' already selected");
-
-                        this.getView().getModel("JSONModelPayload").setProperty(bindingContextPathMFG, "");
-                        this.getView().getModel("JSONModelPayload").setProperty(bindingContextPathSize, "");
-                        i = aModelData.length;
+            // Common function for all suggestion
+            onSuggest: function (oEvent) {
+                var sTerm = oEvent.getParameter("suggestValue"),
+                    aFilters = [],
+                    sPath = "/ET_VALUE_HELPSSet",
+                    oFilterDomname,
+                    oFilterDomname1,
+                    oFilterDomname2,
+                    nLen = 1;
+                if (oEvent.getSource().sId.includes("idV2InpCustCode")) {
+                    if (sTerm.length > 3) {
+                        nLen = 1;
                     } else {
-                        this.getView().getModel("JSONModelPayload").setProperty(bindingContextPathMFG, sSelectedValue);
-                        var aFilter = [];
-                        var oFilterDomname = new sap.ui.model.Filter([new sap.ui.model.Filter("Domname", sap.ui.model.FilterOperator.EQ, "SIZE")], false);
-                        var oFilterDomname2 = new sap.ui.model.Filter([new sap.ui.model.Filter("Domname2", sap.ui.model.FilterOperator.EQ, sSelectedValue)], false);
-                        aFilter.push(oFilterDomname);
-                        aFilter.push(oFilterDomname2);
-                        var sPath = "/ET_VALUE_HELPSSet"
-                        var that = this;
-                        this.getView().setBusy(true);
-                        this.getView().getModel().read(sPath, {
-                            filters: aFilter,
-                            // urlParameters: {
-                            //     "$expand": ""
-                            // },
-                            success: function (Data) {
-                                that.getView().setBusy(false);
-                                that.getView().getModel("JSONModelPayload").setProperty(bindingContextPathSize, Data.results[0].Ddtext);
-                            },
-                            error: function (oError) {
-                                that.getView().setBusy(false);
-                                MessageBox.error(JSON.parse(oError.responseText).error.innererror.errordetails[0].message, {
-                                    actions: [sap.m.MessageBox.Action.OK],
-                                    onClose: function (oAction) {
-
-                                    }
-                                });
-                            }
-                        });
+                        nLen = 0;
                     }
-                    // }
+
+                    oFilterDomname = new sap.ui.model.Filter([new sap.ui.model.Filter("Domname", sap.ui.model.FilterOperator.EQ, "KNA1")], false);
+                    oFilterDomname1 = new sap.ui.model.Filter([new sap.ui.model.Filter("Domname1", sap.ui.model.FilterOperator.EQ, sTerm)], false);
+                } else if (oEvent.getSource().sId.includes("idV2InpSalesOffice")) {
+                    oFilterDomname = new sap.ui.model.Filter([new sap.ui.model.Filter("Domname", sap.ui.model.FilterOperator.EQ, "TVKBZ")], false);
+                    oFilterDomname1 = new sap.ui.model.Filter([new sap.ui.model.Filter("Domname1", sap.ui.model.FilterOperator.EQ, sTerm)], false);
+                    oFilterDomname2 = new sap.ui.model.Filter([new sap.ui.model.Filter("Domname2", sap.ui.model.FilterOperator.EQ, "")], false);
+                    aFilters.push(oFilterDomname2);
+                }
+                // material Freight Group suggestion 
+                else if (oEvent.getSource().sId.includes("idV2TblCLIInpMatFreGrp")) {
+                    var Division = this.getView().getModel("JSONModelPayload").getProperty("/Spart")
+                    oFilterDomname = new sap.ui.model.Filter([new sap.ui.model.Filter("Domname", sap.ui.model.FilterOperator.EQ, "ZPRICECAT")], false);
+                    oFilterDomname1 = new sap.ui.model.Filter([new sap.ui.model.Filter("Domname1", sap.ui.model.FilterOperator.EQ, sTerm)], false);
+                    oFilterDomname2 = new sap.ui.model.Filter([new sap.ui.model.Filter("Domname2", sap.ui.model.FilterOperator.EQ, Division)], false);
+                    aFilters.push(oFilterDomname2);
+                }
+                // Design suggestion
+                else if (oEvent.getSource().sId.includes("idV2TblCLIInpDesigns")) {
+                    var sContextPath = oEvent.getSource().getParent().getBindingContextPath();
+                    var Mfrgr = this.getView().getModel("JSONModelPayload").getContext(sContextPath).getProperty("Mfrgr");
+                    var Division = this.getView().getModel("JSONModelPayload").getProperty("/Spart");
+                    oFilterDomname = new sap.ui.model.Filter([new sap.ui.model.Filter("Domname", sap.ui.model.FilterOperator.EQ, "ZMATSOURCE")], false);
+                    oFilterDomname1 = new sap.ui.model.Filter([new sap.ui.model.Filter("Domname1", sap.ui.model.FilterOperator.EQ, sTerm)], false);
+                    oFilterDomname2 = new sap.ui.model.Filter([new sap.ui.model.Filter("Domname2", sap.ui.model.FilterOperator.EQ, Mfrgr)], false);
+                    aFilters.push(oFilterDomname2);
+                }
+                // Supply plant suggestion
+                else if (oEvent.getSource().sId.includes("idV2TblCLIInpSuppPlant")) {
+                    oFilterDomname = new sap.ui.model.Filter([new sap.ui.model.Filter("Domname", sap.ui.model.FilterOperator.EQ, "T001W")], false);
+                    oFilterDomname1 = new sap.ui.model.Filter([new sap.ui.model.Filter("Domname1", sap.ui.model.FilterOperator.EQ, sTerm)], false);
+                    oFilterDomname2 = new sap.ui.model.Filter([new sap.ui.model.Filter("Domname2", sap.ui.model.FilterOperator.EQ, "")], false);
+                    aFilters.push(oFilterDomname2);
+                }
+                // Manufacturing plant suggestion
+                else if (oEvent.getSource().sId.includes("idV2TblCLIInpManPlant")) {
+                    oFilterDomname = new sap.ui.model.Filter([new sap.ui.model.Filter("Domname", sap.ui.model.FilterOperator.EQ, "T179")], false);
+                    oFilterDomname1 = new sap.ui.model.Filter([new sap.ui.model.Filter("Domname1", sap.ui.model.FilterOperator.EQ, sTerm)], false);
+                    oFilterDomname2 = new sap.ui.model.Filter([new sap.ui.model.Filter("Domname2", sap.ui.model.FilterOperator.EQ, "")], false);
+                    aFilters.push(oFilterDomname2);
                 }
 
+                aFilters.push(oFilterDomname);
+                aFilters.push(oFilterDomname1);
 
+                if (sTerm && nLen === 1) {
+                    this.getView().setBusy(true);
+                    this.getView().getModel().read(sPath, {
+                        filters: aFilters,
+                        success: function (Data) {
 
+                            if (Data.results.length > 0) {
+                                var JSONModelForSuggest = new JSONModel(Data.results);
+                                this.getView().setModel(JSONModelForSuggest, "JSONModelForSuggest");
+                                this.getView().getModel("JSONModelForSuggest").refresh(true);
+                            }
+                            this.getView().setBusy(false);
+                        }.bind(this),
+                        error: function (sError) {
+                            this.getView().setBusy(false);
+                            MessageBox.error(JSON.parse(oError.responseText).error.innererror.errordetails[0].message, {
+                                actions: [sap.m.MessageBox.Action.OK],
+                                onClose: function (oAction) {
 
+                                }
+                            });
+                        }.bind(this)
+                    });
+
+                }
             },
-
-            onDesignsHelpConfirm: function (oEvent) {
-                var oSelectedItem = oEvent.getParameter("selectedItem");
-                var sSelectedValue = oSelectedItem.getProperty("title");
-                this.getView().getModel("JSONModelPayload").setProperty(this.bindingContextPath, sSelectedValue);
-            },
-            onSupplyPlantHelpConfirm(oEvent) {
-                var oSelectedItem = oEvent.getParameter("selectedItem");
-                var sSelectedValue = oSelectedItem.getProperty("title");
-                this.getView().getModel("JSONModelPayload").setProperty(this.bindingContextPath, sSelectedValue);
-            },
-            onManufacturingAmtHelpConfirm: function (oEvent) {
-                var oSelectedItem = oEvent.getParameter("selectedItem");
-                var sSelectedValue = oSelectedItem.getProperty("title");
-                this.getView().getModel("JSONModelPayload").setProperty(this.bindingContextPath, sSelectedValue);
-            },
-
 
 
             onRadioButtonGroupSelect: function (oEvent) {
@@ -937,13 +1021,16 @@ sap.ui.define([
                                 this.getView().getModel("JSONModelPayload").setData(oData);
                                 this.getView().getModel("JSONModelPayload").refresh(true);
 
+
+
                                 this.getView().getModel("GlobalModel").setProperty("/Editable", false);
                                 this.getView().getModel("GlobalEditableModel").setProperty("/Editable", false);
+
 
                                 this.getView().byId("idV2Bar").setVisible(true);
                                 this.getView().byId("idV2BtnSave").setVisible(true);
                                 this.getView().byId("FileUploaderId").setVisible(false);
-                                this.getView().byId("id.excelExport.Link").setVisible(false);
+                                // this.getView().byId("id.excelExport.Link").setVisible(false);
                                 this.getView().byId("idV2OPSSumDetail").setVisible(true);
                                 this.onSaveAfterGenerate();
                             }.bind(this),
@@ -999,9 +1086,12 @@ sap.ui.define([
                                     var _attachmentPayload = that.getView().getModel("LocalJSONModelForAttachment").getData().attachments
 
                                     var sPathUpload = "/ETFILE_UPLOAD_HSet"
+                                    that.getView().setBusy(true);
                                     that.getView().getModel("ZFILE_UPLOAD_SRV_01").create(sPathUpload, _attachmentPayload, {
                                         async: false,
                                         success: function (Data) {
+                                            that.getView().setBusy(false);
+                                            debugger;
                                             MessageBox.success("Request saved successfully with PAF Number:" + oData.Pafno.replace(/^0+/, '') + "", {
                                                 actions: [sap.m.MessageBox.Action.OK],
                                                 onClose: function (oAction) {
@@ -1010,7 +1100,7 @@ sap.ui.define([
                                             });
                                         },
                                         error: function (oError) {
-
+                                            that.getView().setBusy(false);
                                             MessageBox.error(JSON.parse(oError.responseText).error.innererror.errordetails[0].message, {
                                                 actions: [sap.m.MessageBox.Action.OK],
                                                 onClose: function (oAction) {
@@ -1019,7 +1109,8 @@ sap.ui.define([
                                         }
                                     });
                                 } else {
-                                    MessageBox.success("Request saved successfully with PAF Number:" + oData.Pafno + "", {
+                                    debugger;
+                                    MessageBox.success("Request saved successfully with PAF Number:" + oData.Pafno.replace(/^0+/, '') + "", {
                                         actions: [sap.m.MessageBox.Action.OK],
                                         onClose: function (oAction) {
                                             window.location.reload();
@@ -1029,10 +1120,10 @@ sap.ui.define([
 
                             },
                             error: function (oError) {
+                                that.getView().setBusy(false);
                                 MessageBox.error(JSON.parse(oError.responseText).error.innererror.errordetails[0].message, {
                                     actions: [sap.m.MessageBox.Action.OK],
                                     onClose: function (oAction) {
-
                                     }
                                 });
                             }
@@ -1110,7 +1201,7 @@ sap.ui.define([
                                 this.getView().byId("idV2Bar").setVisible(true);
                                 this.getView().byId("idV2BtnSave").setVisible(true);
                                 this.getView().byId("FileUploaderId").setVisible(false);
-                                this.getView().byId("id.excelExport.Link").setVisible(false);
+                                // this.getView().byId("id.excelExport.Link").setVisible(false);
                                 this.getView().byId("idV2OPSSumDetail").setVisible(true);
                                 this.getView().byId("idV2BtnEdit").setVisible(true);
 
@@ -1135,40 +1226,60 @@ sap.ui.define([
 
             _displaySummaryDetails: function () {
                 var vInvoiceDiscount = 0;
-                var vSchemeDiscount = 0;
+                var vOrc = 0;
                 var vFreightDiscount = 0;
                 var vPayTermDiscount = this.getView().getModel("JSONModelPayload").getData().Zterm;
                 var aItemsData = this.getView().getModel("JSONModelPayload").getData().ET_SALES_COORD_ISET.results;
                 for (let index = 0; index < aItemsData.length; index++) {
                     // Disc and Discb conversion
-
-                    if (aItemsData[index].Disc === null || aItemsData[index].Disc === '0.00' || aItemsData[index].Disc === '') {
+                    var vInvoiceType;
+                    var vOrcType;
+                    if (this.getView().getModel("JSONModelPayload").getProperty("/Vtweg") !== '19') {
                         vInvoiceDiscount = vInvoiceDiscount + Number(aItemsData[index].Discb);
+                        vInvoiceType = "Per Box"
                     } else {
                         vInvoiceDiscount = vInvoiceDiscount + Number(aItemsData[index].Disc);
+                        vInvoiceType = "%"
                     }
-                    vSchemeDiscount = vSchemeDiscount + Number(aItemsData[index].Schemedisc);
+
+                    if (this.getView().getModel("JSONModelPayload").getProperty("/Vtweg") === '19') {
+                        vOrc = vOrc + Number(aItemsData[index].Commboxp);
+                        vOrcType = "%"
+                    } else {
+                        vOrc = vOrc + Number(aItemsData[index].Commbox);
+                        vOrcType = "Per Box"
+                    }
+
+
+
                     vFreightDiscount = vFreightDiscount + Number(aItemsData[index].Frgtsqft)
                 }
-                vInvoiceDiscount = vInvoiceDiscount / aItemsData.length;
-                vSchemeDiscount = vSchemeDiscount / aItemsData.length;
-                vFreightDiscount = vFreightDiscount / aItemsData.length;
-                if (vInvoiceDiscount === NaN || vInvoiceDiscount === 0 || vInvoiceDiscount === '') {
+                vInvoiceDiscount = (vInvoiceDiscount / aItemsData.length).toFixed(2);
+                vOrc = (vOrc / aItemsData.length).toFixed(2);
+                vFreightDiscount = (vFreightDiscount / aItemsData.length).toFixed(2);
+                if (vInvoiceDiscount === NaN || vInvoiceDiscount === 0 || vInvoiceDiscount === '' || vInvoiceDiscount === undefined) {
                     vInvoiceDiscount = 'Not Available'
                 }
-                if (vSchemeDiscount === NaN || vSchemeDiscount === 0 || vSchemeDiscount === '') {
-                    vSchemeDiscount = 'Not Available'
+                if (vOrc === NaN || vOrc === 0 || vOrc === '' || vOrc === undefined) {
+                    vOrc = 'Not Available'
                 }
-                if (vFreightDiscount === NaN || vFreightDiscount === 0 || vFreightDiscount === '') {
+                if (vFreightDiscount === NaN || vFreightDiscount === 0 || vFreightDiscount === '' || vFreightDiscount === undefined) {
                     vFreightDiscount = 'Not Available'
                 }
                 if (vPayTermDiscount === NaN || vPayTermDiscount === 0 || vPayTermDiscount === '' || vPayTermDiscount === undefined) {
                     vPayTermDiscount = 'Not Available'
                 }
-                this.byId(sap.ui.core.Fragment.createId("idV2FragSumDeatil", "idV2InpInvcDis")).setValue(vInvoiceDiscount.toString());
-                this.byId(sap.ui.core.Fragment.createId("idV2FragSumDeatil", "idV2InpSchDis")).setValue(vSchemeDiscount.toString());
+                this.byId(sap.ui.core.Fragment.createId("idV2FragSumDeatil", "idV2InpInvcDis")).setValue(vInvoiceDiscount.toString()+vInvoiceType);
+                this.byId(sap.ui.core.Fragment.createId("idV2FragSumDeatil", "idV2InpOrc")).setValue(vOrc.toString()+vOrcType);
                 this.byId(sap.ui.core.Fragment.createId("idV2FragSumDeatil", "idV2InpfraightCost")).setValue(vFreightDiscount.toString());
                 this.byId(sap.ui.core.Fragment.createId("idV2FragSumDeatil", "idV2InpPayTermDis")).setValue(vPayTermDiscount.toString());
+            },
+
+            clearSummary: function () {
+                this.byId(sap.ui.core.Fragment.createId("idV2FragSumDeatil", "idV2InpInvcDis")).setValue("");
+                this.byId(sap.ui.core.Fragment.createId("idV2FragSumDeatil", "idV2InpOrc")).setValue("");
+                this.byId(sap.ui.core.Fragment.createId("idV2FragSumDeatil", "idV2InpfraightCost")).setValue("");
+                this.byId(sap.ui.core.Fragment.createId("idV2FragSumDeatil", "idV2InpPayTermDis")).setValue("");
             },
 
             //Start: Upload, View and Download Attachment
@@ -1342,7 +1453,7 @@ sap.ui.define([
 
                         var tabValues = [];
                         var payload = {
-                            "Isexdep": "",
+
                             "Pafvto": null,
                             "Kunnr": excelData[0].CustomerCode,
                             "Pafvfrm": null,
@@ -1584,30 +1695,28 @@ sap.ui.define([
                 return aCols;
             },
             // End: Download Excel
-
-            onVerticalComboBoxChange: function () {
-                debugger;
-                // var  oRow = {
-                //     "Mfrgr": "",
-                //     "Szmm": "",
-                //     "Mvgr2": "",
-                //     "Werks": "",
-                //     "Prodh1": "",
-                //     "CurVolFt": "",
-                //     "TotalVol": "",
-                //     "Disc": null,
-                //     "Discb": null,
-                //     "Commbox": null,
-                //     "Exfacsqft": null,
-                //     "Exdepsqft": null,
-                //     "Commboxp": null,
-                //     "Frgtsqft": null,
-                //     "Compname": null,
-                //     "Complanprice": null,
-                //     "Zzprodh4": "",
-                //     "Mvgr5": ""
-                // };
-                //  this.getView().getModel("JSONModelPayload").setProperty("/ET_SALES_COORD_ISET/results", oRow)
+            onVerticalComboBoxChange: function (oEvent) {
+                oEvent.getSource().setValueState("None");
+                if (this.sPreviousVertical) {
+                    MessageBox.confirm("Products will be refreshed if Vertical changed, Do you wish to continue ", {
+                        actions: ["Yes", "No"],
+                        onClose: function (oAction) {
+                            if (oAction === "Yes") {
+                                this.sPreviousVertical = oEvent.getSource().getSelectedKey();
+                                this.clearProducts();
+                            } else {
+                                if (this.sPreviousVertical) {
+                                    this.getView().getModel("JSONModelPayload").setProperty("/Spart", this.sPreviousVertical);
+                                    // oEvent.getSource().setSelectedKey(this.sPreviousVertical);
+                                }
+                            }
+                        }.bind(this)
+                    });
+                } else {
+                    this.sPreviousVertical = oEvent.getSource().getSelectedKey();
+                }
+            },
+            clearProducts: function () {
                 var JSONData = this.getView().getModel("JSONModelPayload").getData();
                 var oRow = {
                     "Mfrgr": "",
@@ -1627,7 +1736,8 @@ sap.ui.define([
                     "Compname": null,
                     "Complanprice": null,
                     "Zzprodh4": "",
-                    "Mvgr5": ""
+                    "Mvgr5": "",
+                    "Isexdep": ""
                 };
                 JSONData.ET_SALES_COORD_ISET.results = [oRow];
                 this.getView().getModel("JSONModelPayload").setData(JSON.parse(JSON.stringify(JSONData)));

@@ -10,327 +10,100 @@
     xmlns:upload="sap.m.upload"
     xmlns:f="sap.f"
     xmlns:forms="sap.ui.layout.form"
+     
 >
-    <Page id="idPage" showFooter="true"  >
+    <Page
+        id="idPage"
+        showFooter="true"
+        titleAlignment="Center"
+        titleLevel="H1"
+        class="sapUiResponsivePadding--header sapUiResponsivePadding--subHeader sapUiResponsivePadding--content sapUiResponsivePadding--footer sapUiResponsivePadding--floatingFooter"
+    >
         <!-- <uxap:ObjectPageHeader
             id="idObjectHeader"
             objectTitle=""
         /> -->
 
- 
         <IconTabBar
             id="idIconTabBarNoIcons"
             expanded="{device>/isNoPhone}"
-            class="sapUiResponsiveContentPadding"
+            class="sapUiNoContentPadding"
+            headerBackgroundDesign="Solid"
+             
         >
             <items>
-             <IconTabFilter text="Customer History" iconColor="Positive">
-                    <forms:SimpleForm
-                        layout="ColumnLayout"
-                        columnsM="2"
-                        columnsL="3"
-                        columnsXL="4"
-                        editable="true"
-                        title=""
-                    >
-                        <Label text="Customer Name" />
-                        <Text text="{oRequestModel>/Name}" />
-                        <Label text="Volume(Sqft In Lakhs)" />
-                        <Text text="{oRequestModel>/CS_Volume}" />
-                        <Label text="Value(INR Lakhs)" />
-                        <Text text="{oRequestModel>/CS_Value}" />
-                        <Label text="Gross Margin(%)" />
-                        <Text text="{oRequestModel>/CS_GrossMargin}" />
-                        <Label text="Gross Margin(Per Sqft)" />
-                        <Text text="{oRequestModel>/CS_GrossMarginPer}" />
-                    </forms:SimpleForm>
+                <IconTabFilter
+                    text="Transaction Details"
+                    iconColor="Contrast"
+                >
+                    <core:Fragment
+                    id="idFragment"
+                        fragmentName="pj.zpmg.view.fragments.View2.transactionDetails"
+                        type="XML"
+                    />
                 </IconTabFilter>
-                	<IconTabSeparator icon="  sap-icon://process"/>
-                <IconTabFilter text="Transaction Details" iconColor="Negative">
-                    <forms:SimpleForm
-                        editable="true"
-                        title=""
-                        layout="ColumnLayout"
-                        columnsM="2"
-                        columnsL="3"
-                        columnsXL="4"
-                    >
-                        <Label text="Customer Name" />
-                        <Text text="{oRequestModel>/Name}" />
-                        <Label text="Customer Id" />
-                        <Text text="{oRequestModel>/Kunnr}" />
-
-                        <Label text="Current Volume(Sqft)" />
-                        <Text text="{oRequestModel>/WcurVol}" />
-                        <Label text="Total Volume(Sqft)" />
-                        <Text text="{oRequestModel>/WtotVol}" />
-                        <Label text="Validity(Days)" />
-                        <Text
-                            text="{path:'oRequestModel>/Validity', formatter:'.formatter.removeLeadingZeros'}"
-                        />
-
-                        <Label text="Discount(%)" />
-                        <Text text="{oRequestModel>/Wdisc}" />
-                        <Label text="Net Ex Factory(Sqft)" />
-                        <Text text="{oRequestModel>/Wnefsqft}" />
-
-                        <Label text="Freight Sqft(if applicable)" />
-                        <Text text="{oRequestModel>/Wfrgtsqft}" />
-                        <Label text="Status" />
-                        <Text
-                            text="{path:'oRequestModel>/Status',formatter:'.formatter.getStatus'}"
-                        />
-                        <Label text="Remarks(if any)" />
-                        <Text text="{oRequestModel>/Remarks}" />
-                    </forms:SimpleForm>
+                <IconTabSeparator icon="sap-icon://step" />
+                <IconTabFilter
+                    text="Customer History"
+                    iconColor="Contrast"
+                >
+                    <core:Fragment
+                        fragmentName="pj.zpmg.view.fragments.View2.customerHistory"
+                        type="XML"
+                    />
                 </IconTabFilter>
-                <IconTabSeparator icon="  sap-icon://process"/>
-                <IconTabFilter text="Cost Details" iconColor="Negative">
-                    <forms:SimpleForm
-                        layout="ColumnLayout"
-                        columnsM="2"
-                        columnsL="3"
-                        columnsXL="4"
-                        editable="true"
-                        title=""
-                    >
-                        <Label text="Landed Price(Sqft)" />
-                        <Text text="{oRequestModel>/Wlandpricesqft}" />
-                        <Label text="Ex Factory Price(Sqft)" />
-                        <Text text="{oRequestModel>/Wexfacsqft}" />
-                        <Label text="On Invoice(Value and %)" />
-                        <Text text="{oRequestModel>/Discb}" />
-                        <Text text="{oRequestModel>/Disc}" />
-
-                        <Label text="Payment Term discount(%)" />
-
-                        <Text text="{oRequestModel>/CashDiscountper}" />
-
-                        <Label text="SVC/BP(Sqft)" />
-                        <Text text="{oRequestModel>/Wbuyingprice}" />
-                        <Label text="Freight Cost(Sqft)" />
-                        <Text text="{oRequestModel>/Wfrgtsqft}" />
-                        <Label text="ORC(Value and %)" />
-                        <Text text="{oRequestModel>/Worc}" />
-                        <Text text="{oRequestModel>/Worcper}" />
-                        <Label text="S and D cost" />
-                        <Text text="{oRequestModel>/Wsd}" />
-                    </forms:SimpleForm>
+                <IconTabSeparator icon="  sap-icon://step" />
+                <IconTabFilter
+                    text="Cost Details"
+                    iconColor="Contrast"
+                >
+                    <core:Fragment
+                        fragmentName="pj.zpmg.view.fragments.View2.costDetails"
+                        type="XML"
+                    />
                 </IconTabFilter>
-               	<IconTabSeparator icon="  sap-icon://process"/>
+                <IconTabSeparator icon="  sap-icon://step" />
 
-                  	
-              
-                <IconTabFilter text="Region Details" iconColor="Positive">
-                    <forms:SimpleForm
-                        layout="ColumnLayout"
-                        columnsM="2"
-                        columnsL="3"
-                        columnsXL="4"
-                        editable="true"
-                        title=""
-                    >
-                        <Label text="Region" />
-                        <Text text="{oRequestModel>/RD_Region}" />
-                        <Label text="Volume(Sqft In Lakhs)" />
-                        <Text text="{oRequestModel>/RD_Volume}" />
-                        <Label text="Value(INR Lakhs)" />
-                        <Text text="{oRequestModel>/RD_Value}" />
-                        <Label text="Gross Margin(%)" />
-                        <Text text="{oRequestModel>/RD_GrossMarginPer}" />
-                        <Label text="Gross Margin(Per Sqft)" />
-                        <Text text="{oRequestModel>/RD_GrossMargin}" />
-                    </forms:SimpleForm>
+                <IconTabFilter
+                    text="Region Details"
+                    iconColor="Contrast"
+                >
+                    <core:Fragment
+                        fragmentName="pj.zpmg.view.fragments.View2.regionDetails"
+                        type="XML"
+                    />
                 </IconTabFilter>
-<IconTabSeparator icon="  sap-icon://process"/>
-                <IconTabFilter text="Margin Details" iconColor="Positive">
-                    <forms:SimpleForm
-                        layout="ColumnLayout"
-                        columnsM="2"
-                        columnsL="3"
-                        columnsXL="4"
-                        editable="true"
-                        title=""
-                    >
-                        <Label text="Gross Margin(%)" />
-                        <tnt:InfoLabel
-                            text="{path:'oRequestModel>/Wgrossmargper'}"
-                            renderMode="Loose"
-                            colorScheme="{path:'oRequestModel>/Wgrossmargper', formatter:'.formatter.getColor'}"
-                        />
-
-                        <Label text="Recommended GM(%)" />
-                        <Text text="{oRequestModel>/MD_RecommendedGM}" />
-
-                        <Label text="Target Equivalent GM per Sqft" />
-                        <Text
-                            text="{oRequestModel>/MD_TargetEquivalentGMpersqft}"
-                        />
-                        <Label text="Current Equivalent GM per Sqft" />
-                        <Text
-                            text="{oRequestModel>/MD_CurrentEquivalentGMpersqft}"
-                        />
-                        <Label
-                            text="Effect on Current Equivalent GM per Sqft"
-                        />
-                        <Text
-                            text="{oRequestModel>/MD_EffectOnCurrentEquivalentGMpersqft}"
-                        />
-
-                        <Label text="Recommended Action" />
-                        <Text text="{oRequestModel>/MD_RecommendedAction}" />
-                    </forms:SimpleForm>
+                <IconTabSeparator icon="  sap-icon://step" />
+                <IconTabFilter
+                    text="Margin Details"
+                    iconColor="Contrast"
+                >
+                    <core:Fragment
+                        fragmentName="pj.zpmg.view.fragments.View2.marginDetails"
+                        type="XML"
+                    />
                 </IconTabFilter>
-<IconTabSeparator icon="  sap-icon://process"/>
-                <IconTabFilter text="Competitor Details" iconColor="Positive">
-                    <forms:SimpleForm
-                        layout="ColumnLayout"
-                        columnsM="2"
-                        columnsL="3"
-                        columnsXL="4"
-                        editable="true"
-                        title=""
-                    >
-                        <Label text="Competitor Name" />
-                        <Text text="{oRequestModel>/Compname}" />
-                        <Label text="Competitor Landed Price" />
-                        <Text text="{oRequestModel>/Complanprice}" />
-                    </forms:SimpleForm>
+                <IconTabSeparator icon="  sap-icon://step" />
+                <IconTabFilter
+                    text="Competitor Details"
+                    iconColor="Contrast"
+                >
+                    <core:Fragment
+                        fragmentName="pj.zpmg.view.fragments.View2.compitatorsDetails"
+                        type="XML"
+                    />
                 </IconTabFilter>
             </items>
         </IconTabBar>
-         
 
-        <Table
-            class="sapUiMediumMarginBeginEnd sapUiTinyMarginTop"
-            id="idTblProductDetails"
-            items="{ProductModel>/}"
-            width="95%"
-            headerText="Products Details"
-            headerLevel="H6"
-        >
-            <columns>
-                <Column
-                    minScreenWidth="Tablet"
-                    demandPopin="true"
-                    hAlign="Center"
-                >
-                    <Label wrapping="true" design="Bold" text="Material Freight Groups" />
-                </Column>
-                <Column
-                    minScreenWidth="Tablet"
-                    demandPopin="true"
-                    hAlign="End"
-                >
-                    <Label design="Bold" text="Size" />
-                </Column>
-                <Column
-                    minScreenWidth="Tablet"
-                    demandPopin="true"
-                    hAlign="Center"
-                >
-                    <Label design="Bold" text="Designs" />
-                </Column>
-                <Column
-                    minScreenWidth="Tablet"
-                    demandPopin="true"
-                    hAlign="Center"
-                >
-                    <Label design="Bold" text="Source" />
-                </Column>
-                <Column
-                    minScreenWidth="Tablet"
-                    demandPopin="true"
-                    hAlign="Center"
-                    visible="false"
-                >
-                    <Label design="Bold" text="Volume" />
-                </Column>
-                <Column
-                    minScreenWidth="Tablet"
-                    demandPopin="true"
-                    hAlign="End"
-                >
-                    <Label design="Bold" text="Discount(%)" />
-                </Column>
-                <Column
-                    minScreenWidth="Desktop"
-                    demandPopin="true"
-                    hAlign="End"
-                >
-                    <Label design="Bold" text="Net Ex Factory(Sqft)" />
-                </Column>
-                <Column
-                    minScreenWidth="Desktop"
-                    demandPopin="true"
-                    hAlign="End"
-                >
-                    <Label design="Bold" text="SVC/BP(Sqft)" />
-                </Column>
-                <Column
-                    minScreenWidth="Desktop"
-                    demandPopin="true"
-                    hAlign="Center"
-                    visible="false"
-                >
-                    <Label design="Bold" text="Gross Margin" />
-                </Column>
-                <Column
-                    minScreenWidth="Desktop"
-                    demandPopin="true"
-                    hAlign="Center"
-                    visible="false"
-                >
-                    <Label design="Bold" text="Volume(Sqft In Lakhs)" />
-                </Column>
-                <Column
-                    minScreenWidth="Desktop"
-                    demandPopin="true"
-                    hAlign="End"
-                >
-                    <Label design="Bold" text="Gross Margin(%)" />
-                </Column>
-            </columns>
-            <items>
-                <ColumnListItem vAlign="Middle">
-                    <cells>
-                        <Text text="{ProductModel>Mfrgr}" />
-                        <Text text="{ProductModel>Szcm}" />
-                        <Text text="{ProductModel>Design}" />
-                        <Input
-                            value="{ProductModel>Source}"
-                            id="idSource.Input"
-                            valueStateText="Enter Source"
-                            showValueHelp="true"
-                            editable="{=${ProductModel>Isown} === 'X' ? false: true}"
-                            valueHelpRequest="onSourceHelp"
-                            class="sapUiSmallMarginEnd"
-                            placeholder="Source"
-                        />
-                        <Text
-                            visible="false"
-                            text="{ProductModel>Volume}"
-                        />
-                        <Text text="{ProductModel>Discount}" />
-                        <Text text="{ProductModel>Netexsqft}" />
-                        <Text text="{ProductModel>Buyingpricesqft}" />
-                        <Text
-                            visible="false"
-                            text="{ProductModel>Grossmarg}"
-                        />
-                        <Text
-                            visible="false"
-                            text="{ProductModel>Zvolumepft}"
-                        />
-                        <Text text="{path:'ProductModel>Grossmargper'}" />
-                    </cells>
-                </ColumnListItem>
-            </items>
-        </Table>
+        <core:Fragment
+            fragmentName="pj.zpmg.view.fragments.View2.productsDetails"
+            type="XML"
+        />
 
         <Panel
             expandable="true"
-            headerText="Attachment"
+            headerText="Attachments"
             id="idV2OPSAttach"
             class="sapUiMediumMarginTop"
         >
@@ -338,7 +111,7 @@
                 <VBox class="sapUiLargeMarginBeginEnd">
                     <core:Fragment
                         id="idV2FragAttach"
-                        fragmentName="pj.zpmg.view.fragments.attachments"
+                        fragmentName="pj.zpmg.view.fragments.View2.attachments"
                         type="XML"
                     />
                 </VBox>

@@ -116,7 +116,7 @@
                                     <ToolbarSpacer id="id.main.TblTS" />
                                     <Input
                                         id="id.orderNumber.Input"
-                                        placeholder="Search Order Number"
+                                        placeholder="Search PAF No"
                                         submit="onOrderNumber"
                                         liveChange="onOrderNumber"
                                         width="15%"
@@ -131,57 +131,64 @@
                             </OverflowToolbar>
                         </headerToolbar>
                         <columns>
-                            <Column hAlign="End">
-                                <Text text="Order No" />
+                            <Column hAlign="End" width="4rem">
+                                <Text text="PAF No" />  
                             </Column>
-                            <Column hAlign="End">
+                            <Column hAlign="End" width="4rem">
                                 <Text text="Region" />
                             </Column>
-                            <Column hAlign="Center">
+                            <Column hAlign="Center" width="14rem">
                                 <Text text="Customer" />
                             </Column>
-                            <Column hAlign="Center">
+                            <Column hAlign="Center" width="6rem">
                                 <Text text="Customer ID" />
                             </Column>
                             <Column
                                 hAlign="Center"
                                 demandPopin="true"
+                                 width="6rem"
                             >
                                 <Text text="Order type" />
                             </Column>
                             <Column
                                 hAlign="End"
                                 demandPopin="true"
+                                width="6rem"
                             >
                                 <Text text="Total Order" />
                             </Column>
                             <Column
                                 hAlign="End"
                                 demandPopin="true"
+                                width="6rem"
                             >
                                 <Text text="Current Order" />
                             </Column>
                             <Column
                                 hAlign="Center"
                                 demandPopin="true"
+                                width="6rem"
                             >
                                 <Text text="Request Date" />
                             </Column>
                             <Column
                                 hAlign="End"
                                 demandPopin="true"
+                                 width="6rem"
                             >
                                 <Text text="Validity" />
                             </Column>
                             <Column
                                 hAlign="End"
                                 demandPopin="true"
+                                width="6rem"
                             >
                                 <Text text="GM%" />
                             </Column>
                             <Column
                                 hAlign="Center"
                                 demandPopin="true"
+                                width="6rem"
                             >
                                 <Text text="Status" />
                             </Column>

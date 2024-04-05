@@ -10,7 +10,7 @@
     xmlns:upload="sap.m.upload"
     xmlns:f="sap.f"
     xmlns:forms="sap.ui.layout.form"
->
+> 
      <!-- <f:ShellBar
         title="PMG"
         homeIcon="/css/johnson_img.png"
@@ -455,7 +455,7 @@
 									<uxap:blocks>
 									  <core:Fragment
                                 id="idV2FragAttach"
-                                fragmentName="pj.zpmg.view.fragments.attachments"
+                                fragmentName="pj.zpmg.view.fragments.View2.attachments"
                                 type="XML"
                             />
 										</uxap:blocks>

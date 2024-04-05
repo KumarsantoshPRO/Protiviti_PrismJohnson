@@ -1,0 +1,104 @@
+<core:FragmentDefinition
+    xmlns="sap.m"
+    xmlns:core="sap.ui.core"
+    xmlns:forms="sap.ui.layout.form"
+>
+    <forms:SimpleForm
+        editable="true"
+        layout="ResponsiveLayout"
+        labelSpanXL="0"
+        labelSpanL="0"
+        labelSpanM="0"
+        labelSpanS="0"
+        adjustLabelSpan="true"
+        emptySpanXL="0"
+        emptySpanL="0"
+        emptySpanM="0"
+        emptySpanS="0"
+        columnsXL="1"
+        columnsL="1"
+        columnsM="1"
+        singleContainerFullSize="true"
+        class="sapUiNoMarginBottom"
+    >
+        <core:Title />
+        <Label
+            design="Bold"
+            text="Landed Price(Sqft)"
+        />
+        <Text text="{oRequestModel>/Wlandpricesqft}" />
+        <Label
+            design="Bold"
+            text="Ex Factory Price(Sqft)"
+        />
+        <Text text="{oRequestModel>/Wexfacsqft}" />
+        <Label
+            design="Bold"
+            text="Discount"
+            visible="{=${oRequestModel>/Vtweg} === '19'? false : true}"
+        />
+        <Text
+            text="{path:'oRequestModel>/Wdiscb', formatter:'.formatter.addPerBox'}"
+            visible="{=${oRequestModel>/Vtweg} === '19'? false : true}"
+        />
+        <Label
+            design="Bold"
+            text="Discount"
+            visible="{=${oRequestModel>/Vtweg} === '19'? true : false}"
+        />
+        <Text
+            text="{path:'oRequestModel>/Wdisc', formatter:'.formatter.addPercentageSymbol'}"
+            visible="{=${oRequestModel>/Vtweg} === '19'? true : false}"
+        />
+        <!-- <Label
+                                        text="Scheme Discount(Value and %)"
+                                    />
+                                    <Text text="{oRequestModel>/sd}" />
+                                    <Text text="{oRequestModel>/sd2}" /> -->
+        <Label
+            design="Bold"
+            text="Payment Term discount(%)"
+        />
+        <!-- Value and  -->
+        <Text
+            text="{path:'oRequestModel>/CashDiscountper', formatter:'.formatter.addPercentageSymbol'}"
+        />
+        <!-- <Text
+                                        text="{path:'oRequestModel>/Wcashdisc', formatter:'.formatter.makeItPositive'}"
+                                    /> -->
+        <core:Title />
+        <Label
+            design="Bold"
+            text="SVC/BP(Sqft)"
+        />
+        <Text text="{oRequestModel>/Wbuyingprice}" />
+        <Label
+            design="Bold"
+            text="Freight Sqft(if applicable)"
+        />
+        <Text text="{oRequestModel>/Wfrgtsqft}" />
+        <Label
+            design="Bold"
+            text="ORC"
+            visible="{=${oRequestModel>/Vtweg} === '19'? false: true}"
+        />
+        <Text
+            text="{path:'oRequestModel>/Worc', formatter:'.formatter.addPerBox'}"
+            visible="{=${oRequestModel>/Vtweg} === '19'? false: true}"
+        />
+        <Label
+            design="Bold"
+            text="ORC"
+            visible="{=${oRequestModel>/Vtweg} === '19'? true: false}"
+        />
+        <Text
+            text="{path:'oRequestModel>/Worcper', formatter:'.formatter.addPercentageSymbol'}"
+            visible="{=${oRequestModel>/Vtweg} === '19'? true: false}"
+        />
+        <Label
+            design="Bold"
+            text="S and D cost"
+        />
+        <Text text="{oRequestModel>/Wsd}" />
+    </forms:SimpleForm>
+</core:FragmentDefinition>

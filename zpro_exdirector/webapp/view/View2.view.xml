@@ -370,6 +370,13 @@
                                         demandPopin="true"
                                         hAlign="End"
                                     >
+                                        <Text text="Revised BP(Sqft)" />
+                                    </Column>
+                                    <Column
+                                        minScreenWidth="Desktop"
+                                        demandPopin="true"
+                                        hAlign="End"
+                                    >
                                         <Text text="Gross Margin(%)" />
                                     </Column>
                                 </columns>
@@ -406,6 +413,9 @@
                                             <Text
                                                 visible="false"
                                                 text="{ProductModel>Zvolumepft}"
+                                            />
+                                             <Text
+                                                text="{path:'ProductModel>ApprovedBuyingprice'}"
                                             />
                                             <Text
                                                 text="{path:'ProductModel>Grossmargper'}"

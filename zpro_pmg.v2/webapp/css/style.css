@@ -1,5 +1,12 @@
 /* Enter your custom styles here */
-#__xmlview0--idTblProductDetails-header, #__xmlview0--idIconTabBarNoIcons--header, #__xmlview0--idV2OPSAttach-header{
+/* #__xmlview0--idTblProductDetails-header, #__xmlview0--idIconTabBarNoIcons--header, #__xmlview0--idV2OPSAttach-header, #__xmlview0--id.FullDetails.Panel-header{
     color: brown;
     background-color: white;
+} */
+/* #__form0--Form--RFLayout, #__form1--Form--RFLayout, #__form2--Form--RFLayout, #__form3--Form--RFLayout, #__form4--Form--RFLayout, #__form5--Form--RFLayout{
+    background-color: rgb(255, 255, 255);
+} */
+
+.zoom {
+    zoom: -1;
 }

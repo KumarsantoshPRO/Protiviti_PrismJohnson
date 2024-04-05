@@ -6,8 +6,9 @@
     xmlns="sap.m"
     xmlns:tnt="sap.tnt"
 >
-  
-    <Page class="sapUiLargeMarginBottom">
+    <Page
+        class="sapUiResponsivePadding--header sapUiResponsivePadding--subHeader sapUiResponsivePadding--content sapUiResponsivePadding--footer sapUiResponsivePadding--floatingFooter"
+    >
         <content>
             <IconTabBar
                 id="idIconTabBar"
@@ -105,7 +106,7 @@
                                     <ToolbarSpacer id="id.main.TblTS" />
                                     <Input
                                         id="id.orderNumber.Input"
-                                        placeholder="Search Order Number"
+                                        placeholder="Search PAF No"
                                         submit="onOrderNumber"
                                         liveChange="onOrderNumber"
                                         width="15%"
@@ -120,57 +121,76 @@
                             </OverflowToolbar>
                         </headerToolbar>
                         <columns>
-                            <Column hAlign="End">
-                                <Text text="Order No" />
+                            <Column
+                                hAlign="End"
+                                width="5rem"
+                            >
+                                <Text text="PAF No" />
                             </Column>
-                            <Column hAlign="End">
+                            <Column
+                                hAlign="End"
+                                width="5rem"
+                            >
                                 <Text text="Region" />
                             </Column>
-                            <Column hAlign="Center">
+                            <Column
+                                hAlign="Center"
+                                width="16rem"
+                            >
                                 <Text text="Customer" />
                             </Column>
-                            <Column hAlign="Center">
+                            <Column
+                                hAlign="Center"
+                                width="6rem"
+                            >
                                 <Text text="Customer ID" />
                             </Column>
                             <Column
                                 hAlign="Center"
                                 demandPopin="true"
+                                width="5rem"
                             >
                                 <Text text="Order type" />
                             </Column>
                             <Column
                                 hAlign="End"
                                 demandPopin="true"
+                                width="5rem"
                             >
                                 <Text text="Total Order" />
                             </Column>
                             <Column
                                 hAlign="End"
                                 demandPopin="true"
+                                width="5rem"
                             >
                                 <Text text="Current Order" />
                             </Column>
                             <Column
                                 hAlign="Center"
                                 demandPopin="true"
+                                width="8rem"
                             >
                                 <Text text="Request Date" />
                             </Column>
                             <Column
                                 hAlign="End"
                                 demandPopin="true"
+                                width="4rem"
                             >
                                 <Text text="Validity" />
                             </Column>
                             <Column
                                 hAlign="End"
                                 demandPopin="true"
+                                width="6rem"
                             >
                                 <Text text="GM%" />
                             </Column>
                             <Column
                                 hAlign="Center"
                                 demandPopin="true"
+                                width="6rem"
                             >
                                 <Text text="Status" />
                             </Column>
@@ -200,7 +220,9 @@
                                     <Text
                                         text="{ parts: ['JSONModelForTable>Erdat'], formatter: '.formatter.getFormattedDate' }"
                                     />
-                                    <Text text="{path:'JSONModelForTable>Validity', formatter:'.formatter.removeLeadingZeros'}" />
+                                    <Text
+                                        text="{path:'JSONModelForTable>Validity', formatter:'.formatter.removeLeadingZeros'}"
+                                    />
                                     <tnt:InfoLabel
                                         text="{JSONModelForTable>Wgrossmargper} %"
                                         renderMode="Loose"

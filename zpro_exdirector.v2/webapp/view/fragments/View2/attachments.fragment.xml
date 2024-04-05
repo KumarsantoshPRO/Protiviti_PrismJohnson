@@ -6,18 +6,18 @@
 >
     <upload:UploadSet
         id="idV2UploadSet"
-        
-       mode="None"
-    uploadButtonInvisible="true"
+        mode="None"
+        uploadButtonInvisible="true"
         maxFileNameLength="30"
         maxFileSize="200"
         uploadUrl="../../../../upload"
         items="{path: 'LocalJSONModelForAttachment>/attachments/Nav_File_Upload/results', templateShareable: false}"
-      
     >
         <upload:toolbar>
             <OverflowToolbar id="idV2OFT">
-            <Title text="All attachments: {path:'oRequestModel>Pafno',  formatter:'.formatter.removeLeadingZeros'}"></Title>
+                <Title
+                    text="All attachments: {path:'LocalJSONModelForAttachment>/Pafno',  formatter:'.formatter.removeLeadingZeros'}"
+                />
                 <ToolbarSpacer id="idV2TBS" />
                 <!-- <Button
                     id="idV2UploadSetBtnUploadSelected"

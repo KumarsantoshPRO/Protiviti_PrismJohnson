@@ -94,7 +94,7 @@
                                     <ToolbarSpacer id="id.main.TblTS" />
                                     <Input
                                         id="id.orderNumber.Input"
-                                        placeholder="Search Order Number"
+                                        placeholder="Search PAF No"
                                         submit="onOrderNumber"
                                         liveChange="onOrderNumber"
                                         width="15%"
@@ -110,8 +110,9 @@
                         </headerToolbar>
                         <columns>
                             <Column
-                                width="10em"
+                                
                                 hAlign="End"
+                                width="4rem"
                             >
                                 <Text
                                     text="{i18n.View1>View1.Column.orderNo}"
@@ -121,6 +122,7 @@
                                 minScreenWidth="Tablet"
                                 demandPopin="true"
                                 hAlign="End"
+                                width="4rem"
                             >
                                 <Text text="{i18n.View1>View1.Column.region}" />
                             </Column>
@@ -128,6 +130,7 @@
                                 minScreenWidth="Tablet"
                                 demandPopin="true"
                                 hAlign="Center"
+                                width="14rem"
                             >
                                 <Text
                                     text="{i18n.View1>View1.Column.customer}"
@@ -137,6 +140,7 @@
                                 minScreenWidth="Desktop"
                                 demandPopin="true"
                                 hAlign="Center"
+                                width="6rem"
                             >
                                 <Text
                                     text="{i18n.View1>View1.Column.customerId}"
@@ -146,6 +150,7 @@
                                 minScreenWidth="Desktop"
                                 demandPopin="true"
                                 hAlign="End"
+                                width="6rem"
                             >
                                 <Text
                                     text="{i18n.View1>View1.Column.totalOrder}"
@@ -155,6 +160,7 @@
                                 minScreenWidth="Desktop"
                                 demandPopin="true"
                                 hAlign="End"
+                                width="6rem"
                             >
                                 <Text
                                     text="{i18n.View1>View1.Column.currentOrder}"
@@ -164,12 +170,13 @@
                                 minScreenWidth="Desktop"
                                 demandPopin="true"
                                 hAlign="Center"
+                                width="6rem"
                             >
                                 <Text
                                     text="{i18n.View1>View1.Column.requestedDate}"
                                 />
                             </Column>
-                            <Column hAlign="Center">
+                            <Column hAlign="Center" width="6rem">
                                 <Text text="{i18n.View1>View1.Column.status}" />
                             </Column>
                         </columns>

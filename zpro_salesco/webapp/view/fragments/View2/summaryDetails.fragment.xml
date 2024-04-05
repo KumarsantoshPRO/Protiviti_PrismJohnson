@@ -34,13 +34,13 @@
             />
 
             <Label
-                id="idV2LblSchDis"
-                text="{i18nV2>view2.simpleForm.label.SchDis}"
+                id="idV2LblOrc"
+                text="{i18nV2>view2.simpleForm.label.Orc}"
             />
             <Input
                 editable="false"
-                id="idV2InpSchDis"
-                placeholder="{i18nV2>view2.simpleForm.label.SchDis}"
+                id="idV2InpOrc"
+                placeholder="{i18nV2>view2.simpleForm.label.Orc}"
             />
             <core:Title id="idV2T4" />
             <Label

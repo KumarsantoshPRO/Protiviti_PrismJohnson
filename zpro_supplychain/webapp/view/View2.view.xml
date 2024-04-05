@@ -24,7 +24,7 @@
         </uxap:headerTitle>
         <uxap:sections>
             <uxap:ObjectPageSection
-                title="{i18n.View2>View2.ObjectPageSection.title}"
+                title="{i18n.View2>View2.ObjectPageSection.title.GeneralDetails}"
             >
                 <uxap:subSections>
                     <uxap:ObjectPageSubSection>
@@ -70,7 +70,7 @@
                 </uxap:subSections>
             </uxap:ObjectPageSection>
             <uxap:ObjectPageSection
-                title="{i18n.View2>View2.ObjectPageSection.title}"
+                title="{i18n.View2>View2.ObjectPageSection.title.ProductDetails}"
             >
                 <uxap:subSections>
                     <uxap:ObjectPageSubSection>
@@ -139,6 +139,7 @@
                                                 minScreenWidth="Tablet"
                                                 demandPopin="true"
                                                 hAlign="End"
+                                                visible="false"
                                             >
                                                 <Label
                                                     text="{i18n.View2>View2.table.discountper}"
@@ -149,6 +150,7 @@
                                                 minScreenWidth="Tablet"
                                                 demandPopin="true"
                                                 hAlign="End"
+                                                  visible="false"
                                             >
                                                 <Label
                                                     text="{i18n.View2>View2.table.netexfactoryNEF}"
@@ -167,6 +169,7 @@
                                                 id="id.bp.Column"
                                                 demandPopin="true"
                                                 hAlign="Center"
+                                                width="8rem"
                                             >
                                                 <Label
                                                     text="{i18n.View2>View2.table.approvedFreight}"
@@ -207,6 +210,8 @@
                                                     />
                                                     <Input
                                                         value="{oRequestModel>ApprovedFrightprice}"
+                                                        textAlign="End"
+                                                        liveChange="onApprovedFrightpriceInputLiveChange"
                                                     />
                                                 </cells>
                                             </ColumnListItem>

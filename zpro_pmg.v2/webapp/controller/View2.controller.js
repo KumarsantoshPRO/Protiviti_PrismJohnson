@@ -10,12 +10,13 @@ sap.ui.define([
     "pj/zpmg/model/formatter",
     "sap/m/MessageBox",
     "sap/m/PDFViewer",
-    'sap/ui/core/Fragment'
+    'sap/ui/core/Fragment',
+    "sap/m/MessageToast"
 ],
     /**
      * @param {typeof sap.ui.core.mvc.Controller} Controller
      */
-    function (Controller, JSONModel, Core, Dialog, Button, Label, mobileLibrary, TextArea, formatter, MessageBox, PDFViewer, Fragment) {
+    function (Controller, JSONModel, Core, Dialog, Button, Label, mobileLibrary, TextArea, formatter, MessageBox, PDFViewer, Fragment, MessageToast) {
         "use strict";
         var ButtonType = mobileLibrary.ButtonType;
         var DialogType = mobileLibrary.DialogType;
@@ -30,54 +31,57 @@ sap.ui.define([
                 this.getView().setModel(oSouceModel, "SouceModel");
 
                 this.getOwnerComponent().getRouter().attachRoutePatternMatched(this.onRouteMatched, this);
-                this.getData();
+                // this.getData();
                 this.pafNoTemp;
                 this._Posnr;
                 this._rowIndex;
 
-                 //Start: Upload, View and Download Attachment
-                 var dataModelForAttachments = this.getOwnerComponent().getModel("attachments").getData();
-                 this.getView().setModel(new JSONModel(dataModelForAttachments), "LocalJSONModelForAttachment");
-                  
-                 this.opdfViewer = new PDFViewer();
-                 this.getView().addDependent(this.opdfViewer);
-                 //End: Upload, View and Download Attachment
+                //Start: Upload, View and Download Attachment
+                var dataModelForAttachments = this.getOwnerComponent().getModel("attachments").getData();
+                this.getView().setModel(new JSONModel(dataModelForAttachments), "LocalJSONModelForAttachment");
+
+                this.opdfViewer = new PDFViewer();
+                this.getView().addDependent(this.opdfViewer);
+                //End: Upload, View and Download Attachment
             },
 
             // Attach route matched method
             onRouteMatched: function (oEvent) {
+                this.getView().byId("idV2OPSAttach").setVisible(false);
                 var pafID = oEvent.getParameter("arguments").pafID;
                 if (pafID !== "Page1" || pafID !== undefined) {
                     if (pafID) {
-                        this.getView().byId("idPage").setTitle("PAF NO : " + pafID.replace(/^0+/, ''));
-
+                        // this.getView().byId("idObjectHeader").setObjectTitle("PAF NO : " + pafID.replace(/^0+/, ''));
+                        this.getView().byId("idPage").setTitle("Details of PAF No: " + pafID.replace(/^0+/, ''));
                         this.getRequestDetails(pafID);
                         this.pafID = pafID;
                         // Attachments
                         var sPathUpload = "/ETFILE_UPLOAD_HSet('" + pafID + "')";
+                        this.getView().setBusy(true);
                         this.getView().getModel("ZFILE_UPLOAD_SRV_01").read(sPathUpload, {
                             urlParameters: {
                                 "$expand": "Nav_File_Upload"
                             },
                             async: false,
                             success: function (Data) {
-                              
-                                if(Data.Nav_File_Upload.results.length > 0){
-                                this.getView().byId("idV2OPSAttach").setVisible(true);
-                                var attachments = Data;
-                                this.getView().getModel("LocalJSONModelForAttachment").setData({ "attachments": attachments });
-                                this.getView().getModel("LocalJSONModelForAttachment").refresh(true);
-                            }
-    
+                                this.getView().setBusy(false);
+                                if (Data.Nav_File_Upload.results.length > 0) {
+                                    this.getView().byId("idV2OPSAttach").setVisible(true);
+                                    var attachments = Data;
+                                    this.getView().getModel("LocalJSONModelForAttachment").setData({ "attachments": attachments });
+                                    this.getView().getModel("LocalJSONModelForAttachment").refresh(true);
+                                }
+
                             }.bind(this),
                             error: function (oError) {
-                                MessageBox.error(JSON.parse(oError.responseText).error.message.value, {
+                                this.getView().setBusy(false);
+                                MessageBox.error(JSON.parse(oError.responseText).error.innererror.errordetails[0].message, {
                                     actions: [sap.m.MessageBox.Action.OK],
                                     onClose: function (oAction) {
-    
+
                                     }
                                 });
-    
+
                             }.bind(this)
                         });
 
@@ -90,7 +94,7 @@ sap.ui.define([
                 this.getView().setBusy(true);
                 var sPath = "/ET_PMG_REQUEST_ITEMSet('" + pafID + "')"
 
-               
+
 
                 this.getOwnerComponent().getModel().read(sPath, {
 
@@ -98,8 +102,7 @@ sap.ui.define([
                         "$expand": "NAV_PMG_ITEM_PRODUCT"
                     },
                     success: function (oData) {
-                        var oModel = this.getView().getModel("oRequestModel");
-
+                        var oModel = new JSONModel();
                         // Grossmargper
                         // oData.NAV_PMG_ITEM_PRODUCT.results
                         var len = oData.NAV_PMG_ITEM_PRODUCT.results.length;
@@ -107,32 +110,47 @@ sap.ui.define([
                         oData.Wbuyingprice = 0;
                         for (let index = 0; index < len; index++) {
                             var nGrossMargin = Number(oData.NAV_PMG_ITEM_PRODUCT.results[index].Grossmargper);
-                            var nBuyingpricesqft= Number(oData.NAV_PMG_ITEM_PRODUCT.results[index].Buyingpricesqft);
+                            var nBuyingpricesqft = Number(oData.NAV_PMG_ITEM_PRODUCT.results[index].Buyingpricesqft);
                             oData.Wgrossmargper = Number(oData.Wgrossmargper) + nGrossMargin;
-                            oData.Wbuyingprice =  Number(oData.Wbuyingprice) + nBuyingpricesqft;
+                            oData.Wbuyingprice = Number(oData.Wbuyingprice) + nBuyingpricesqft;
                         }
                         oData.Wgrossmargper = (oData.Wgrossmargper / len).toFixed(2);
                         oData.Wbuyingprice = (oData.Wbuyingprice / len).toFixed(2);
-                        
-                        oData.Discb = ((oData.Wexfacsqft/100)*oData.Disc).toFixed(2);
-                        oData.Worc = ((oData.Wexfacsqft/100)*oData.Worcper).toFixed(2);
+
+                        oData.Discb = ((oData.Wexfacsqft / 100) * oData.Disc).toFixed(2);
+                        if (oData.Worcper !== '0.00') {
+                            oData.Worc = ((oData.Wexfacsqft / 100) * oData.Worcper).toFixed(2);
+                        }
                         // oData.Discb = oData.Discb;
                         oModel.setData(oData);
                         this.getView().setModel(oModel, "oRequestModel");
 
                         var oPrdModel = this.getView().getModel("ProductModel");
+
                         oPrdModel.setData(oData.NAV_PMG_ITEM_PRODUCT.results);
+                        if (oData.Vtweg === '19') {
+                            this.getView().byId("id.discount.column.Label").setText("Discount(%)");
+                        } else {
+                            this.getView().byId("id.discount.column.Label").setText("Discount(Box)");
+                        }
+
                         this.getView().setModel(oPrdModel, "ProductModel");
                         this.getView().setBusy(false);
 
                     }.bind(this),
                     error: function (oError) {
                         this.getView().setBusy(false);
+                        MessageBox.error(JSON.parse(oError.responseText).error.innererror.errordetails[0].message, {
+                            actions: [sap.m.MessageBox.Action.OK],
+                            onClose: function (oAction) {
+
+                            }
+                        });
                     }.bind(this)
                 });
             },
 
-         
+
 
             getSourceDetails: function (pafNo) {
                 this.getView().setBusy(true);
@@ -171,15 +189,24 @@ sap.ui.define([
                     }.bind(this),
                     error: function (oError) {
                         this.getView().setBusy(false);
+                        MessageBox.error(JSON.parse(oError.responseText).error.innererror.errordetails[0].message, {
+                            actions: [sap.m.MessageBox.Action.OK],
+                            onClose: function (oAction) {
+
+                            }
+                        });
                     }.bind(this)
                 });
             },
 
             onSourceHelp: function (oEvent) {
-              
+
                 var pathIndex = Number(oEvent.getSource().getParent().getBindingContextPath().split("/")[1]);
                 this._rowIndex = pathIndex;
-                this._Posnr = pathIndex + 1;
+                
+                var path = oEvent.getSource().getParent().getBindingContextPath() + "/Posnr";
+
+                this._Posnr = this.getView().getModel("ProductModel").getProperty(path)
 
                 if (!this._sourceFrag) {
                     this._sourceFrag = sap.ui.xmlfragment("pj.zpmg.view.fragments.source", this);
@@ -209,22 +236,26 @@ sap.ui.define([
             onSourceValueHelpConfirm: function (oEvent) {
 
                 var oSelectedItem = oEvent.getParameter("selectedItem"),
+                    sSelectedName = oSelectedItem.getProperty("description"),
                     sSelectedValue = oSelectedItem.getProperty("title");
 
                 var payload = {
                     "Pafno": this.pafID,
-                    "Posnr": this._Posnr.toString(),
+                    "Posnr": this._Posnr,
+                    "Action": "VENDOR",
                     "NAV_PMG_ITEM_PRODUCT": [
                         {
                             "Pafno": this.pafID,
-                            "Posnr": this._Posnr.toString(),
-                            "Source": sSelectedValue
+                            "Posnr": this._Posnr,
+                            "Source": sSelectedValue,
+                            "Sname": sSelectedName
                         }
                     ]
                 }
 
                 this.getOwnerComponent().getModel().create('/ET_PMG_REQUEST_ITEMSet', payload, {
                     success: function (oData, response) {
+
                         var vSVC_BP = oData.NAV_PMG_ITEM_PRODUCT.results[0].Buyingpricesqft,
                             vGross_Margin = oData.NAV_PMG_ITEM_PRODUCT.results[0].Grossmargper,
                             vSource = oData.NAV_PMG_ITEM_PRODUCT.results[0].Source;
@@ -248,9 +279,14 @@ sap.ui.define([
                         this.getView().getModel("ProductModel").refresh(true);
                         this.getView().setBusy(false);
                     }.bind(this),
-                    error: function (error) {
+                    error: function (oError) {
                         this.getView().setBusy(false);
-                        MessageBox.error(error.responseText);
+                        MessageBox.error(JSON.parse(oError.responseText).error.innererror.errordetails[0].message, {
+                            actions: [sap.m.MessageBox.Action.OK],
+                            onClose: function (oAction) {
+
+                            }
+                        });
                     }.bind(this)
                 });
             },
@@ -272,9 +308,14 @@ sap.ui.define([
                         this.getView().getModel("ProductModel").refresh(true);
                         this.getView().setBusy(false);
                     }.bind(this),
-                    error: function (error) {
+                    error: function (oError) {
                         this.getView().setBusy(false);
-                        MessageBox.error(error.responseText);
+                        MessageBox.error(JSON.parse(oError.responseText).error.innererror.errordetails[0].message, {
+                            actions: [sap.m.MessageBox.Action.OK],
+                            onClose: function (oAction) {
+
+                            }
+                        });
                     }.bind(this)
                 });
 
@@ -287,6 +328,7 @@ sap.ui.define([
             getData: function () {
 
                 var oGetDataModel = new JSONModel();
+                this.getView().setModel(oGetDataModel, "oRequestModel");
                 // {
                 //     "customer": "Bharath Marble",
                 //     "vol":"23000",
@@ -341,7 +383,7 @@ sap.ui.define([
                 //     "val2":"9.2",
                 //     "gm2":"9%"  
                 // });
-                this.getView().setModel(oGetDataModel, "oRequestModel");
+
             },
 
             onBack: function () {
@@ -350,258 +392,156 @@ sap.ui.define([
             },
 
             onForward: function () {
-                if (!this.oRejectDialog) {
-                  
-                    var nGM = Number(this.getView().getModel("oRequestModel").getProperty("/Wgrossmargper"));
-                  var bEditable,
-                  sState;
-                    if (nGM < 10) {
-                        var sHeaderMessage = "Gross Margin is less than 10%";
-                        var sInfoMessage = "Request will be forwarded to the Executive Director"
-                        bEditable = true;
-                        sState = "None";
-                    }else if(nGM > 10 && nGM < 30) {
-                        var sHeaderMessage = "Gross Margin is in between 11%-30%";
-                        var sInfoMessage = "Request will be forwarded to the National Sales Head"
-                        bEditable = true;
-                        sState = "None";
-                    }else if(nGM > 30 && nGM < 50) {
-                        var sHeaderMessage = "Gross Margin is in between 31%-50%";
-                        var sInfoMessage = "Request will be forwarded to the Vertical Head"
-                        bEditable = true;
-                        sState = "None";
-                    }else if(nGM > 50 && nGM < 100) {
-                        var sHeaderMessage = "Gross Margin is in between 51%-100%";
-                        var sInfoMessage = "Request will be forwarded to the PMG"
-                        bEditable = true;
-                        sState = "None";
-                    }else{
-                        var sHeaderMessage = "Gross Margin is wrong";
-                        var sInfoMessage = "Request you to connect with IT team"
-                        bEditable = false;
-                        sState = "Error";
-                    }
-
-
-                    this.oRejectDialog = new Dialog({
-                        title: sHeaderMessage,
-                        type: DialogType.Message,
-                        state: sState,
-
-                        content: [
-                            new Label({
-                                text: sInfoMessage,
-                            }),
-                            new TextArea({
-                                width: "100%",
-                                placeholder: "Type the reason for acceptance",
-                                editable: bEditable
-                            })
-                        ],
-                        beginButton: new Button({
-                            text: "Cancel",
-                            press: function () {
-                                this.oRejectDialog.close();
-                            }.bind(this)
-                        }),
-                        endButton: new Button({
-                            type: ButtonType.Emphasized,
-                            text: "Submit",
-                            press: function (oEvent) {
-                                 
-                                var remarks = oEvent.getSource().getParent().getAggregation("content")[1].getValue();
-                                var payload = {
-                                    "Pafno": "",
-                                    "Action": "FOR",
-                                    "Remark": remarks
-                                }
-                                this._sendPayload(payload);
-                            }.bind(this)
-                        })
-                    });
+                var nGM = Number(this.getView().getModel("oRequestModel").getProperty("/Wgrossmargper"));
+                var bEditable,
+                    sState;
+                if (nGM < 10) {
+                    var sHeaderMessage = "Gross Margin is less than 10%";
+                    var sInfoMessage = "Request will be forwarded to the Executive Director"
+                    bEditable = true;
+                    sState = "None";
+                } else if (nGM > 10 && nGM < 30) {
+                    var sHeaderMessage = "Gross Margin is in between 11%-30%";
+                    var sInfoMessage = "Request will be forwarded to the National Sales Head"
+                    bEditable = true;
+                    sState = "None";
+                } else if (nGM > 30 && nGM < 50) {
+                    var sHeaderMessage = "Gross Margin is in between 31%-50%";
+                    var sInfoMessage = "Request will be forwarded to the Vertical Head"
+                    bEditable = true;
+                    sState = "None";
+                } else if (nGM > 50 && nGM < 100) {
+                    var sHeaderMessage = "Gross Margin is in between 51%-100%";
+                    var sInfoMessage = "Request will be forwarded to the PMG"
+                    bEditable = true;
+                    sState = "None";
+                } else {
+                    var sHeaderMessage = "Gross Margin is wrong";
+                    var sInfoMessage = "Request you to connect with IT team"
+                    bEditable = false;
+                    sState = "Error";
                 }
-                this.oRejectDialog.open();
+
+
+
+                var pafNo = this.getView().getModel("oRequestModel").getProperty("/Pafno"),
+                    remarks = this.getView().byId("id.remarks.TextArea").getValue();
+
+                var payload = {
+                    "Pafno": pafNo,
+                    "Action": "FOR",
+                    "Remark": remarks
+                };
+
+
+
+                MessageBox.information(sInfoMessage, {
+                    title: sHeaderMessage,
+                    actions: [sap.m.MessageBox.Action.OK, sap.m.MessageBox.Action.CANCEL],
+                    onClose: function (oAction) {
+                        if (oAction === 'OK') {
+                            this._sendPayload(payload);
+                        }
+                    }.bind(this)
+                    // details: function () {
+                    //     return new Promise(function (resolve, reject) {
+                    //         setTimeout(function () {
+                    //             resolve(sInfoMessage);
+                    //         }, 500); // Simulate network request delay
+                    //     });
+                    // }
+                });
             },
             bpRenegotiation: function () {
+                var pafNo = this.getView().getModel("oRequestModel").getProperty("/Pafno"),
+                    remarks = this.getView().byId("id.remarks.TextArea").getValue();
 
-                this.oRejectDialog = new Dialog({
-                    title: "Remarks",
-                    type: DialogType.Message,
+                var payload = {
+                    "Pafno": pafNo,
+                    "Action": "BPRENG",
+                    "Remark": remarks
+                }
 
-                    content: [
-                        new Label({
-                            text: "Feedback",
-                        }),
-                        new TextArea({
-                            width: "100%",
-                            placeholder: ""
-                        })
-                    ],
-                    beginButton: new Button({
-                        text: "Cancel",
-                        press: function () {
-                            this.oRejectDialog.close();
-
-
-                            this.oRejectDialog.close();
-                        }.bind(this)
-                    }),
-                    endButton: new Button({
-                        type: ButtonType.Emphasized,
-                        text: "Submit",
-                        press: function (oEvent) {
-
-                            var remarks = oEvent.getSource().getParent().getAggregation("content")[1].getValue();
-                            var payload = {
-                                "Pafno": "",
-                                "Action": "BPRENG",
-                                "Remark": remarks
-                            }
-                            this._sendPayload(payload);
-
-                        }.bind(this)
-                    })
-                });
-
-                this.oRejectDialog.open();
+                this._sendPayload(payload);
             },
             freightRenegotiation: function () {
-                this.oRejectDialog = new Dialog({
-                    title: "Remarks",
-                    type: DialogType.Message,
 
-                    content: [
-                        new Label({
-                            text: "Feedback",
-                        }),
-                        new TextArea({
-                            width: "100%",
-                            placeholder: ""
-                        })
-                    ],
-                    beginButton: new Button({
-                        text: "Cancel",
-                        press: function () {
-                            this.oRejectDialog.close();
+                var pafNo = this.getView().getModel("oRequestModel").getProperty("/Pafno"),
+                    remarks = this.getView().byId("id.remarks.TextArea").getValue();
 
+                var payload = {
+                    "Pafno": pafNo,
+                    "Action": "FRIGHTRENG",
+                    "Remark": remarks
+                }
 
-                            this.oRejectDialog.close();
-                        }.bind(this)
-                    }),
-                    endButton: new Button({
-                        type: ButtonType.Emphasized,
-                        text: "Submit",
-                        press: function (oEvent) {
-
-                            var remarks = oEvent.getSource().getParent().getAggregation("content")[1].getValue();
-                            var payload = {
-                                "Pafno": "",
-                                "Action": "FRIGHTRENG",
-                                "Remark": remarks
-                            }
-                            this._sendPayload(payload);
-
-                        }.bind(this)
-                    })
-                });
-
-                this.oRejectDialog.open();
-
+                this._sendPayload(payload);
 
             },
             reject: function () {
-                this.oRejectDialog = new Dialog({
-                    title: "Remarks",
-                    type: DialogType.Message,
+                var pafNo = this.getView().getModel("oRequestModel").getProperty("/Pafno"),
+                    remarks = this.getView().byId("id.remarks.TextArea").getValue();
 
-                    content: [
-                        new Label({
-                            text: "Feedback",
-                        }),
-                        new TextArea({
-                            width: "100%",
-                            placeholder: ""
-                        })
-                    ],
-                    beginButton: new Button({
-                        text: "Cancel",
-                        press: function () {
-                            this.oRejectDialog.close();
+                var payload = {
+                    "Pafno": pafNo,
+                    "Action": "REJECT",
+                    "Remark": remarks
+                }
 
-
-                            this.oRejectDialog.close();
-                        }.bind(this)
-                    }),
-                    endButton: new Button({
-                        type: ButtonType.Emphasized,
-                        text: "Submit",
-                        press: function (oEvent) {
-
-                            var remarks = oEvent.getSource().getParent().getAggregation("content")[1].getValue();
-                            var payload = {
-                                "Pafno": "",
-                                "Action": "REJECT",
-                                "Remark": remarks
-                            }
-                            this._sendPayload(payload);
-
-                        }.bind(this)
-                    })
-                });
-
-                this.oRejectDialog.open();
+                this._sendPayload(payload);
 
 
             },
             Approved: function () {
 
-                this.oRejectDialog = new Dialog({
-                    title: "Remarks",
-                    type: DialogType.Message,
 
-                    content: [
-                        new Label({
-                            text: "Feedback",
-                        }),
-                        new TextArea({
-                            width: "100%",
-                            placeholder: ""
-                        })
-                    ],
-                    beginButton: new Button({
-                        text: "Cancel",
-                        press: function () {
-                            this.oRejectDialog.close();
+                var pafNo = this.getView().getModel("oRequestModel").getProperty("/Pafno"),
+                    remarks = this.getView().byId("id.remarks.TextArea").getValue();
 
+                var payload = {
+                    "Pafno": pafNo,
+                    "Action": "ACCEPT",
+                    "Remark": remarks
+                }
 
-                            this.oRejectDialog.close();
-                        }.bind(this)
-                    }),
-                    endButton: new Button({
-                        type: ButtonType.Emphasized,
-                        text: "Submit",
-                        press: function (oEvent) {
-
-                            var remarks = oEvent.getSource().getParent().getAggregation("content")[1].getValue();
-                            var payload = {
-                                "Pafno": "",
-                                "Action": "ACCEPT",
-                                "Remark": remarks
-                            }
-                            this._sendPayload(payload);
-
-                        }.bind(this)
-                    })
-                });
-
-                this.oRejectDialog.open();
+                this._sendPayload(payload);
             },
+            onGenerate: function () {
+                var items = this.getView().getModel("ProductModel").getData(),
+                    validity = this.byId(sap.ui.core.Fragment.createId("idFragment", "id.validity.Input")).getValue(),
+                    pafNo = this.getView().getModel("oRequestModel").getProperty("/Pafno");
+                debugger;
+                var payload = {
+                    "Pafno": pafNo,
+                    "Validity": validity,
+                    "Action": "GENERATE",
+                    "NAV_PMG_ITEM_PRODUCT": items
+                }
 
+                this._sendPayload(payload);
+            },
             _sendPayload: function (payload) {
-debugger;
-                payload.Pafno = this.getView().getModel("oRequestModel").getData().Pafno;
-
-                //   ProductModel 
+                var sMessage;
+                switch (payload.Action) {
+                    case 'ACCEPT':
+                        sMessage = "PAF is released"
+                        break;
+                    case 'REJECT':
+                        sMessage = "PAF is rejected"
+                        break;
+                    case 'FOR':
+                        sMessage = "PAF forwarded"
+                        break;
+                    case 'FRIGHTRENG':
+                        sMessage = "PAF sent for Freight Renegotiation"
+                        break;
+                    case 'BPRENG':
+                        sMessage = "PAF sent for BP Renegotiation"
+                        break;
+                    default:
+                        sMessage = "Unexpected Error"
+                        break;
+                }
 
                 var aTablePayload = this.getView().getModel("ProductModel").getData(),
                     len = aTablePayload.length,
@@ -629,13 +569,33 @@ debugger;
                     this.getView().setBusy(true);
                     this.getOwnerComponent().getModel().create('/ET_PMG_REQUEST_ITEMSet', payload, {
                         success: function (oData, response) {
-                            this.oRouter = this.getOwnerComponent().getRouter();
-                            this.oRouter.navTo("page1", {});
+                            this.getView().getModel("ProductModel").setData(oData.NAV_PMG_ITEM_PRODUCT.results);
+                            this.getView().getModel("ProductModel").refresh();
+                            this.getView().getModel("oRequestModel").getData().Validity = oData.Validity;
+                            this.getView().getModel("oRequestModel").getData().Pafvto = oData.Pafvto;
+                            this.getView().getModel("oRequestModel").refresh(true);
+                            if (payload.Action === "GENERATE") {
+                                //  
+                            } else {
+                                MessageBox.success(sMessage, {
+                                    actions: [sap.m.MessageBox.Action.OK],
+                                    onClose: function (oAction) {
+                                        this.oRouter = this.getOwnerComponent().getRouter();
+                                        this.oRouter.navTo("page1", {});
+
+                                    }.bind(this)
+                                });
+                            }
                             this.getView().setBusy(false);
                         }.bind(this),
-                        error: function (error) {
+                        error: function (oError) {
                             this.getView().setBusy(false);
-                            MessageBox.error(error.responseText);
+                            MessageBox.error(JSON.parse(oError.responseText).error.innererror.errordetails[0].message, {
+                                actions: [sap.m.MessageBox.Action.OK],
+                                onClose: function (oAction) {
+
+                                }
+                            });
                         }.bind(this)
                     });
                 } else {
@@ -643,7 +603,7 @@ debugger;
                     this.oRejectDialog.close();
                 }
             },
-             //Start: View and Download Attachment
+            //Start: View and Download Attachment
             onViewAttachmentObjectStatusPress: function (oEvent) {
 
                 var sFile = oEvent.getSource().getParent().getProperty("thumbnailUrl"),
@@ -715,7 +675,85 @@ debugger;
                         document.body.removeChild(oLink);
                     });
                 oEvent.getSource().getParent().getParent().destroy()
+            },
+            //End: View and Download Attachment
+
+
+            onValidityInputLiveChange: function (oEvent) {
+                var sValue = oEvent.getSource().getValue();
+                if (sValue.includes(".")) {
+
+
+                    MessageToast.show("Decimal not allowed");
+                    sValue = sValue.substring(0, sValue.length - 1);
+                    oEvent.getSource().setValue(sValue);
+
+                }
+                if (isNaN(sValue)) {
+                    MessageBox.error("Only numeric values allowed");
+                    oEvent.getSource().setValue("");
+                }
+            },
+            onSourceInputLiveChange: function (oEvent) {
+                var sValue = oEvent.getSource().getValue();
+
+                if (sValue.includes(".")) {
+                    if (sValue.split(".")[1].length > 2) {
+                        MessageToast.show("Only 2 Decimal allowed");
+                        sValue = sValue.substring(0, sValue.length - 1);
+                        oEvent.getSource().setValue(sValue);
+                    }
+                }
+                if (isNaN(sValue)) {
+                    MessageBox.error("Only numeric values allowed");
+                    oEvent.getSource().setValue("");
+                }
+            },
+            onDiscountInputLiveChange: function (oEvent) {
+                var sValue = oEvent.getSource().getValue();
+
+                if (sValue.includes(".")) {
+                    if (sValue.split(".")[1].length > 2) {
+                        MessageToast.show("Only 2 Decimal allowed");
+                        sValue = sValue.substring(0, sValue.length - 1);
+                        oEvent.getSource().setValue(sValue);
+                    }
+                }
+                if (isNaN(sValue)) {
+                    MessageBox.error("Only numeric values allowed");
+                    oEvent.getSource().setValue("");
+                }
+            },
+            onBuyingpricesqftInputLiveChange: function (oEvent) {
+                var sValue = oEvent.getSource().getValue();
+
+                if (sValue.includes(".")) {
+                    if (sValue.split(".")[1].length > 2) {
+                        MessageToast.show("Only 2 Decimal allowed");
+                        sValue = sValue.substring(0, sValue.length - 1);
+                        oEvent.getSource().setValue(sValue);
+                    }
+                }
+                if (isNaN(sValue)) {
+                    MessageBox.error("Only numeric values allowed");
+                    oEvent.getSource().setValue("");
+                }
+            },
+            onCommboxInputLiveChange: function (oEvent) {
+                var sValue = oEvent.getSource().getValue();
+
+                if (sValue.includes(".")) {
+                    if (sValue.split(".")[1].length > 2) {
+                        MessageToast.show("Only 2 Decimal allowed");
+                        sValue = sValue.substring(0, sValue.length - 1);
+                        oEvent.getSource().setValue(sValue);
+                    }
+                }
+                if (isNaN(sValue)) {
+                    MessageBox.error("Only numeric values allowed");
+                    oEvent.getSource().setValue("");
+                }
             }
-             //End: View and Download Attachment
+
         });
     });

@@ -365,6 +365,14 @@
                                     >
                                         <Text text="Volume(Sqft In Lakhs)" />
                                     </Column>
+
+                                    <Column
+                                        minScreenWidth="Desktop"
+                                        demandPopin="true"
+                                        hAlign="End"
+                                    >
+                                        <Text text="Revised BP(Sqft)" />
+                                    </Column>
                                     <Column
                                         minScreenWidth="Desktop"
                                         demandPopin="true"
@@ -406,6 +414,9 @@
                                             <Text
                                                 visible="false"
                                                 text="{ProductModel>Zvolumepft}"
+                                            />
+                                            <Text
+                                                text="{path:'ProductModel>ApprovedBuyingprice'}"
                                             />
                                             <Text
                                                 text="{path:'ProductModel>Grossmargper'}"

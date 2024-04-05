@@ -3,13 +3,16 @@ sap.ui.define([
     "sap/ui/model/json/JSONModel",
     'sap/m/MessageBox',
     'zpj/pro/sk/sd/salescoordinator/zprosalesco/utils/View2/valueHelps',
+    "sap/m/MessageToast",
 ],
     /**
      * @param {typeof sap.ui.core.mvc.Controller} Controller
      */
     function (Controller,
         JSONModel,
-        MessageBox, valueHelps) {
+        MessageBox,
+        valueHelps,
+        MessageToast) {
         "use strict";
 
         return Controller.extend("zpj.pro.sk.sd.salescoordinator.zprosalesco.controller.Main", {
@@ -67,9 +70,10 @@ sap.ui.define([
                     filters: aFilter,
                     template: this._oTemp
                 });
+
             },
             onValueHelpConfirm: function (evt) {
-
+                debugger;
                 var oSelectedItem = evt.getParameter("selectedItem");
                 var sSelectedValue = oSelectedItem.getProperty("title");
                 this.byId(sap.ui.core.Fragment.createId("id.tableProductDetails.Fragment", "id.SalesOffice.Input")).setValue(sSelectedValue);
@@ -87,7 +91,7 @@ sap.ui.define([
                 aFilters.push(oFilterDomname);
                 aFilters.push(oFilterDomname1);
                 // aFilters.push(oFilterDomname2);
-                this._submitCall(sTerm, aFilters, sValue1, sValue2, sMessage);
+                // this._submitCall(sTerm, aFilters, sValue1, sValue2, sMessage);
             },
             onSuggest: function (oEvent) {
                 var sTerm = oEvent.getParameter("suggestValue"),
@@ -96,7 +100,10 @@ sap.ui.define([
                     oFilterDomname,
                     oFilterDomname1,
                     oFilterDomname2;
-
+                if (sTerm.includes(",")) {
+                    var nItems = sTerm.split(",").length;
+                    sTerm = sTerm.split(",")[sTerm.split(",").length - 1];
+                }
                 oFilterDomname = new sap.ui.model.Filter([new sap.ui.model.Filter("Domname", sap.ui.model.FilterOperator.EQ, "TVKBZ")], false);
                 oFilterDomname1 = new sap.ui.model.Filter([new sap.ui.model.Filter("Domname1", sap.ui.model.FilterOperator.EQ, sTerm)], false);
                 oFilterDomname2 = new sap.ui.model.Filter([new sap.ui.model.Filter("Domname2", sap.ui.model.FilterOperator.EQ, "")], false);
@@ -140,10 +147,14 @@ sap.ui.define([
                 this.byId(sap.ui.core.Fragment.createId("id.tableProductDetails.Fragment", "id.main.TblBtnDelet")).setVisible(false);
 
                 var vSalesOffice = this.byId(sap.ui.core.Fragment.createId("id.tableProductDetails.Fragment", "id.SalesOffice.Input")).getValue(),
+
                     vPAFNo = this.byId(sap.ui.core.Fragment.createId("id.tableProductDetails.Fragment", "id.PafNo.Input")).getValue(),
                     vMessage = "Enter 'Sales Office' to proceed";
+                this.sDate = this.byId(sap.ui.core.Fragment.createId("id.tableProductDetails.Fragment", "id.Date.DatePicker")).getValue();
+                
                 if (!vSalesOffice) {
                     this.byId(sap.ui.core.Fragment.createId("id.tableProductDetails.Fragment", "id.SalesOffice.Input")).setValueState("Error");
+                    this.byId(sap.ui.core.Fragment.createId("id.tableProductDetails.Fragment", "id.SalesOffice.Input")).setValueStateText("Enter Sales Office");
                     this.getView().setModel(new JSONModel({}), "ModelForTable");
                     this.getView().setModel(new JSONModel({}), "count");
                     this.getView().getModel("ModelForTable").refresh(true)
@@ -158,6 +169,7 @@ sap.ui.define([
                         this.byId(sap.ui.core.Fragment.createId("id.tableProductDetails.Fragment", "id.main.IconTabBar")).setSelectedKey("All");
                         var dataCount = this.getOwnerComponent().getModel("payload").getData().count;
                         this.getView().setModel(new JSONModel(dataCount), "count");
+                        vSalesOffice = vSalesOffice.replace(/\s/g, "");
                         var oFilterSalOffice = new sap.ui.model.Filter([new sap.ui.model.Filter("Vkbur", sap.ui.model.FilterOperator.EQ, vSalesOffice)], false);
                         var oFilterPafNo = new sap.ui.model.Filter([new sap.ui.model.Filter("Pafno", sap.ui.model.FilterOperator.EQ, vPAFNo)], false);
                         this._getRequestData("", "count", oFilterSalOffice, oFilterPafNo);
@@ -239,6 +251,30 @@ sap.ui.define([
                 this.getView().getModel().read(sPath, {
                     filters: aFilter,
                     success: function (Data) {
+                        if (that.sDate) {
+                            var aItems = [];
+                            var nTemp = 0;
+
+                            var sDateFromFE = new Date(that.sDate).getDate().toString() + new Date(that.sDate).getMonth().toString() + new Date(that.sDate).getFullYear().toString();
+                            for (let index = 0; index < Data.results.length; index++) {
+                                var sDateFromBE = new Date(Data.results[index].Erdat).getDate().toString() + new Date(Data.results[index].Erdat).getMonth().toString() + new Date(Data.results[index].Erdat).getFullYear().toString();
+                                if (sDateFromBE === sDateFromFE) {
+                                    aItems.push(Data.results[index]);
+                                    nTemp = 1
+                                }
+                            }
+                        
+                        if (nTemp === 1) {
+                            Data.results = aItems;
+                        }else{
+                            Data.results = []; 
+                        }
+                    }
+                        // else {
+                        //     if (that.sDate) {
+                        //         MessageToast.show("Please check the date");
+                        //     }
+                        // }
 
                         that.getView().setBusy(false);
                         if (sForWhat === "count") {
@@ -315,7 +351,7 @@ sap.ui.define([
 
 
                     },
-                    error: function (sError) {
+                    error: function (oError) {
                         that.getView().setBusy(false);
                         MessageBox.error(JSON.parse(oError.responseText).error.innererror.errordetails[0].message, {
                             actions: [sap.m.MessageBox.Action.OK],
@@ -437,7 +473,7 @@ sap.ui.define([
                                         });
 
                                     },
-                                    error: function (sError) {
+                                    error: function (oError) {
                                         that.getView().setBusy(false);
                                         MessageBox.error(JSON.parse(oError.responseText).error.innererror.errordetails[0].message, {
                                             actions: [sap.m.MessageBox.Action.OK],

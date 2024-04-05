@@ -2,6 +2,13 @@
 sap.ui.define([], function () {
     "use strict";
     return {
+        getFormattedDate: function (date) {
+
+            var dateFormat = sap.ui.core.format.DateFormat.getDateInstance({
+                pattern: "dd/MM/yyyy"
+            });
+            return dateFormat.format(new Date(date));
+        },
         makeItPositive: function (sString) {
             debugger;
             if (sString) {
@@ -122,22 +129,7 @@ sap.ui.define([], function () {
             return colorCode;
         },
 
-        getFormattedDate: function (sDate) {
-            if (sDate !== undefined && sDate !== null) {
-                // var aMonths = ["Jan", "Feb", "Mar", "Apr", "May", "Jun", "July", "Aug", "Sep", "Oct", "Nov", "Dec"];
-                // return aMonths[sDate.getMonth()] + " " + sDate.getDate() + ", " + sDate.getFullYear();
-                var aMonths = ["01", "02", "03", "04", "05", "06", "07", "08", "09", "10", "11", "12"];
-          
-                if (sDate.getDate() < 10) {
-                    var aDay = ["01", "02", "03", "04", "05", "06", "07", "08", "09"]
-                    return aDay[sDate.getDate()] + "/" + aMonths[sDate.getMonth()] + "/" + sDate.getFullYear();
-                } else {
-                    return sDate.getDate() + "/" + aMonths[sDate.getMonth()] + "/" + sDate.getFullYear();
-                }
-            } else {
-                return sDate;
-            }
-        },
+      
 
     }
 });

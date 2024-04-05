@@ -143,12 +143,12 @@ sap.ui.define([
 
 
                     },
-                    error: function (sError) {
+                    error: function (oError) {
                         that.getView().setBusy(false);
-                        MessageBox.error(JSON.parse(sError.responseText).error.message.value, {
+                        MessageBox.error(JSON.parse(oError.responseText).error.innererror.errordetails[0].message, {
                             actions: [sap.m.MessageBox.Action.OK],
                             onClose: function (oAction) {
-                                window.location.reload()
+
                             }
                         });
                     }

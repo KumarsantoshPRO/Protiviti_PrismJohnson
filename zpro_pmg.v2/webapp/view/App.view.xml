@@ -7,5 +7,5 @@
     xmlns:f="sap.f"
 >
  
-    <App id="app" />
+    <App id="app" class="zoom"/>
 </mvc:View>

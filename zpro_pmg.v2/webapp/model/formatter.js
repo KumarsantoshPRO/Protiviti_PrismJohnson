@@ -2,6 +2,14 @@
 sap.ui.define([], function () {
     "use strict";
     return {
+        getFormattedDate: function (date) {
+
+            var dateFormat = sap.ui.core.format.DateFormat.getDateInstance({
+                pattern: "dd/MM/yyyy"
+            });
+            return dateFormat.format(new Date(date));
+        },
+
         makeItPositive: function (sString) {
             debugger;
             if (sString) {
@@ -14,6 +22,15 @@ sap.ui.define([], function () {
                 return sString;
             }
         },
+        getDiscountAmtorBox: function(sValue1, sValue2){
+           
+            if(sValue1 === '0.00'){
+                return sValue2;
+            }else{
+                return sValue1;
+            }
+
+        },
         removeLeadingZeros: function (sString) {
 
             if (sString) {
@@ -21,25 +38,7 @@ sap.ui.define([], function () {
             }
 
         },
-        getStatus: function (status) {
-            var temp = "";
-            if (status === 'A' || status === 'a') {
-                temp = "Approved";
-            } else if (status === 'R' || status === 'r') {
-                temp = "Rejected";
-            } else if (status === 'P' || status === 'p') {
-                temp = "Pending";
-            } else if (status === 'D' || status === 'd') {
-                temp = "Delayed";
-            } else if (status === 'DL' || status === 'dl') {
-                temp = "Deleted";
-            } else {
-                temp = "";
-            }
-
-            return temp;
-
-        },
+       
 
         getOrderType: function (sType) {
             var sOrderType = "";
@@ -93,6 +92,8 @@ sap.ui.define([], function () {
             } else if (status === 'D') {
                 colorCode = 1;
             }
+
+     
             // else if(status==='Forwarded')
             // {
             //     colorCode=9;
@@ -122,22 +123,13 @@ sap.ui.define([], function () {
             return colorCode;
         },
 
-        getFormattedDate: function (sDate) {
-            if (sDate !== undefined && sDate !== null) {
-                // var aMonths = ["Jan", "Feb", "Mar", "Apr", "May", "Jun", "July", "Aug", "Sep", "Oct", "Nov", "Dec"];
-                // return aMonths[sDate.getMonth()] + " " + sDate.getDate() + ", " + sDate.getFullYear();
-                var aMonths = ["01", "02", "03", "04", "05", "06", "07", "08", "09", "10", "11", "12"];
-          
-                if (sDate.getDate() < 10) {
-                    var aDay = ["01", "02", "03", "04", "05", "06", "07", "08", "09"]
-                    return aDay[sDate.getDate()] + "/" + aMonths[sDate.getMonth()] + "/" + sDate.getFullYear();
-                } else {
-                    return sDate.getDate() + "/" + aMonths[sDate.getMonth()] + "/" + sDate.getFullYear();
-                }
-            } else {
-                return sDate;
-            }
+        
+        addPercentageSymbol: function(sString){
+            return sString + "%";
         },
+        addPerBox: function(sString){
+            return sString + " Per Box";
+        }
 
     }
 });

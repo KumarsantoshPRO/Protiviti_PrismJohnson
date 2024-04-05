@@ -156,6 +156,7 @@
                         id="id.excelExport.Link"   
                         text="Download Excel Template"
                         press="onExport"
+                        visible="false"
                     />
                 </contentLeft>
                 <contentRight>

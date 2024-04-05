@@ -296,7 +296,10 @@
                                         demandPopin="true"
                                         hAlign="Center"
                                     >
-                                        <Text text="Material Freight Groups" />
+                                        <Label
+                                            wrapping="true"
+                                            text="Material Freight Groups"
+                                        />
                                     </Column>
                                     <Column
                                         minScreenWidth="Tablet"
@@ -349,6 +352,7 @@
                                     >
                                         <Text text="SVC/BP(Sqft)" />
                                     </Column>
+
                                     <Column
                                         minScreenWidth="Desktop"
                                         demandPopin="true"
@@ -364,6 +368,13 @@
                                         visible="false"
                                     >
                                         <Text text="Volume(Sqft In Lakhs)" />
+                                    </Column>
+                                    <Column
+                                        minScreenWidth="Desktop"
+                                        demandPopin="true"
+                                        hAlign="End"
+                                    >
+                                        <Text text="Revised BP(Sqft)" />
                                     </Column>
                                     <Column
                                         minScreenWidth="Desktop"
@@ -406,6 +417,9 @@
                                             <Text
                                                 visible="false"
                                                 text="{ProductModel>Zvolumepft}"
+                                            />
+                                            <Text
+                                                text="{path:'ProductModel>ApprovedBuyingprice'}"
                                             />
                                             <Text
                                                 text="{path:'ProductModel>Grossmargper'}"

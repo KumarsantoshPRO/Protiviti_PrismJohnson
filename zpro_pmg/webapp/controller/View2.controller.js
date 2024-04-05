@@ -56,13 +56,14 @@ sap.ui.define([
                         this.pafID = pafID;
                         // Attachments
                         var sPathUpload = "/ETFILE_UPLOAD_HSet('" + pafID + "')";
+                        this.getView().setBusy(true);
                         this.getView().getModel("ZFILE_UPLOAD_SRV_01").read(sPathUpload, {
                             urlParameters: {
                                 "$expand": "Nav_File_Upload"
                             },
                             async: false,
                             success: function (Data) {
-
+                                this.getView().setBusy(false);
                                 if (Data.Nav_File_Upload.results.length > 0) {
                                     this.getView().byId("idV2OPSAttach").setVisible(true);
                                     var attachments = Data;
@@ -72,10 +73,11 @@ sap.ui.define([
 
                             }.bind(this),
                             error: function (oError) {
-                                MessageBox.error(JSON.parse(oError.responseText).error.message.value, {
+                                this.getView().setBusy(false);
+                                MessageBox.error(JSON.parse(oError.responseText).error.innererror.errordetails[0].message, {
                                     actions: [sap.m.MessageBox.Action.OK],
                                     onClose: function (oAction) {
-
+        
                                     }
                                 });
 
@@ -129,6 +131,12 @@ sap.ui.define([
                     }.bind(this),
                     error: function (oError) {
                         this.getView().setBusy(false);
+                        MessageBox.error(JSON.parse(oError.responseText).error.innererror.errordetails[0].message, {
+                            actions: [sap.m.MessageBox.Action.OK],
+                            onClose: function (oAction) {
+
+                            }
+                        });
                     }.bind(this)
                 });
             },
@@ -172,6 +180,12 @@ sap.ui.define([
                     }.bind(this),
                     error: function (oError) {
                         this.getView().setBusy(false);
+                        MessageBox.error(JSON.parse(oError.responseText).error.innererror.errordetails[0].message, {
+                            actions: [sap.m.MessageBox.Action.OK],
+                            onClose: function (oAction) {
+
+                            }
+                        });
                     }.bind(this)
                 });
             },
@@ -228,7 +242,7 @@ sap.ui.define([
  
                 this.getOwnerComponent().getModel().create('/ET_PMG_REQUEST_ITEMSet', payload, {
                     success: function (oData, response) {
-                        debugger;
+                     
                         var vSVC_BP = oData.NAV_PMG_ITEM_PRODUCT.results[0].Buyingpricesqft,
                             vGross_Margin = oData.NAV_PMG_ITEM_PRODUCT.results[0].Grossmargper,
                             vSource = oData.NAV_PMG_ITEM_PRODUCT.results[0].Source;
@@ -252,9 +266,14 @@ sap.ui.define([
                         this.getView().getModel("ProductModel").refresh(true);
                         this.getView().setBusy(false);
                     }.bind(this),
-                    error: function (error) {
+                    error: function (oError) {
                         this.getView().setBusy(false);
-                        MessageBox.error(error.responseText);
+                        MessageBox.error(JSON.parse(oError.responseText).error.innererror.errordetails[0].message, {
+                            actions: [sap.m.MessageBox.Action.OK],
+                            onClose: function (oAction) {
+
+                            }
+                        });
                     }.bind(this)
                 });
             },
@@ -276,9 +295,14 @@ sap.ui.define([
                         this.getView().getModel("ProductModel").refresh(true);
                         this.getView().setBusy(false);
                     }.bind(this),
-                    error: function (error) {
+                    error: function (oError) {
                         this.getView().setBusy(false);
-                        MessageBox.error(error.responseText);
+                        MessageBox.error(JSON.parse(oError.responseText).error.innererror.errordetails[0].message, {
+                            actions: [sap.m.MessageBox.Action.OK],
+                            onClose: function (oAction) {
+
+                            }
+                        });
                     }.bind(this)
                 });
 
@@ -354,7 +378,7 @@ sap.ui.define([
             },
 
             onForward: function () {
-                if (!this.oRejectDialog) {
+                if (!this.oForwardDialog) {
 
                     var nGM = Number(this.getView().getModel("oRequestModel").getProperty("/Wgrossmargper"));
                     var bEditable,
@@ -387,7 +411,7 @@ sap.ui.define([
                     }
 
 
-                    this.oRejectDialog = new Dialog({
+                    this.oForwardDialog = new Dialog({
                         title: sHeaderMessage,
                         type: DialogType.Message,
                         state: sState,
@@ -405,7 +429,7 @@ sap.ui.define([
                         beginButton: new Button({
                             text: "Cancel",
                             press: function () {
-                                this.oRejectDialog.close();
+                                this.oForwardDialog.close();
                             }.bind(this)
                         }),
                         endButton: new Button({
@@ -424,11 +448,11 @@ sap.ui.define([
                         })
                     });
                 }
-                this.oRejectDialog.open();
+                this.oForwardDialog.open();
             },
             bpRenegotiation: function () {
 
-                this.oRejectDialog = new Dialog({
+                this.oRenegotiationDialog = new Dialog({
                     title: "Remarks",
                     type: DialogType.Message,
 
@@ -444,10 +468,10 @@ sap.ui.define([
                     beginButton: new Button({
                         text: "Cancel",
                         press: function () {
-                            this.oRejectDialog.close();
+                            this.oRenegotiationDialog.close();
 
 
-                            this.oRejectDialog.close();
+                         
                         }.bind(this)
                     }),
                     endButton: new Button({
@@ -467,10 +491,10 @@ sap.ui.define([
                     })
                 });
 
-                this.oRejectDialog.open();
+                this.oRenegotiationDialog.open();
             },
             freightRenegotiation: function () {
-                this.oRejectDialog = new Dialog({
+                this.oFrightDialog = new Dialog({
                     title: "Remarks",
                     type: DialogType.Message,
 
@@ -486,10 +510,10 @@ sap.ui.define([
                     beginButton: new Button({
                         text: "Cancel",
                         press: function () {
-                            this.oRejectDialog.close();
+                         
 
 
-                            this.oRejectDialog.close();
+                            this.oFrightDialog.close();
                         }.bind(this)
                     }),
                     endButton: new Button({
@@ -509,7 +533,7 @@ sap.ui.define([
                     })
                 });
 
-                this.oRejectDialog.open();
+                this.oFrightDialog.open();
 
 
             },
@@ -559,7 +583,7 @@ sap.ui.define([
             },
             Approved: function () {
 
-                this.oRejectDialog = new Dialog({
+                this.oApproveDialog = new Dialog({
                     title: "Remarks",
                     type: DialogType.Message,
 
@@ -575,10 +599,10 @@ sap.ui.define([
                     beginButton: new Button({
                         text: "Cancel",
                         press: function () {
-                            this.oRejectDialog.close();
+                            this.oApproveDialog.close();
 
 
-                            this.oRejectDialog.close();
+                           
                         }.bind(this)
                     }),
                     endButton: new Button({
@@ -598,11 +622,11 @@ sap.ui.define([
                     })
                 });
 
-                this.oRejectDialog.open();
+                this.oApproveDialog.open();
             },
 
             _sendPayload: function (payload) {
-                debugger;
+    
                 payload.Pafno = this.getView().getModel("oRequestModel").getData().Pafno;
 
                 //   ProductModel 
@@ -637,9 +661,14 @@ sap.ui.define([
                             this.oRouter.navTo("page1", {});
                             this.getView().setBusy(false);
                         }.bind(this),
-                        error: function (error) {
+                        error: function (oError) {
                             this.getView().setBusy(false);
-                            MessageBox.error(error.responseText);
+                            MessageBox.error(JSON.parse(oError.responseText).error.innererror.errordetails[0].message, {
+                                actions: [sap.m.MessageBox.Action.OK],
+                                onClose: function (oAction) {
+    
+                                }
+                            });
                         }.bind(this)
                     });
                 } else {

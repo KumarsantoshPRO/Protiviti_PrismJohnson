@@ -1,11 +1,16 @@
 sap.ui.define([
     "sap/ui/core/mvc/Controller",
-    "sap/ui/model/json/JSONModel"
+    "sap/ui/model/json/JSONModel",
+    "sap/m/MessageToast",
+    "sap/m/MessageBox"
 ],
     /**
      * @param {typeof sap.ui.core.mvc.Controller} Controller
      */
-    function (Controller, JSONModel) {
+    function (Controller,
+	JSONModel,
+	MessageToast,
+	MessageBox) {
         "use strict";
 
         return Controller.extend("pj.zpurchasemanager.controller.View2", {
@@ -47,10 +52,10 @@ sap.ui.define([
                         }.bind(this),
                         error: function (oError) {
                             this.getView().setBusy(false);
-                            MessageBox.error(JSON.parse(oError.responseText).error.message.value, {
+                            MessageBox.error(JSON.parse(oError.responseText).error.innererror.errordetails[0].message, {
                                 actions: [sap.m.MessageBox.Action.OK],
                                 onClose: function (oAction) {
-
+    
                                 }
                             });
 
@@ -111,16 +116,22 @@ sap.ui.define([
                         async: false,
                         success: function (oData) {
                             this.getView().setBusy(false);
-                            sap.m.MessageBox.success("Renegotiation sent successfully", {
+                            sap.m.MessageBox.success("BP Renegotiation approved", {
                                 onClose: function () {
                                     this.oRouter.navTo("page1", {});
                                 }.bind(this)
                             });
                            
                         }.bind(this),
-                        error: function (err) {
+                        error: function (oError) {
 
                             this.getView().setBusy(false);
+                            MessageBox.error(JSON.parse(oError.responseText).error.innererror.errordetails[0].message, {
+                                actions: [sap.m.MessageBox.Action.OK],
+                                onClose: function (oAction) {
+    
+                                }
+                            });
 
                         }
                     });
@@ -151,21 +162,41 @@ sap.ui.define([
                     async: false,
                     success: function (oData) {
 
-                        sap.m.MessageBox.success("Renegotiation decision sent successfully", {
+                        sap.m.MessageBox.success("BP Renegotiation rejected", {
                             onClose: function () {
                                 this.oRouter.navTo("page1", {});
                             }.bind(this)
                         });
                         
                     },
-                    error: function (err) {
+                    error: function (oError) {
 
+                        MessageBox.error(JSON.parse(oError.responseText).error.innererror.errordetails[0].message, {
+                            actions: [sap.m.MessageBox.Action.OK],
+                            onClose: function (oAction) {
 
+                            }
+                        });
 
                     }
                 });
 
 
+            },
+            onApprovedBuyingpriceInputLiveChange: function (oEvent) {
+                var sValue = oEvent.getSource().getValue();
+                debugger;
+                if (sValue.includes(".")) {
+                    if (sValue.split(".")[1].length > 2) {
+                        MessageToast.show("Only 2 Decimal allowed");
+                        sValue = sValue.substring(0, sValue.length - 1);
+                        oEvent.getSource().setValue(sValue);
+                    }
+                }
+                if (isNaN(sValue)) {
+                    MessageBox.error("Only numeric values allowed");
+                    oEvent.getSource().setValue("");
+                }
             }
         });
     });

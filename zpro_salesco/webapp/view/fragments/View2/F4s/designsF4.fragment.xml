@@ -1,7 +1,19 @@
-<core:FragmentDefinition xmlns="sap.m" xmlns:core="sap.ui.core">
-	<SelectDialog id="idSDDesignsF4"  noDataText="{i18nV2>view2.F4.NoValueFound}" search="onValueHelpSearchDesing" confirm="onDesignsHelpConfirm">
-		<items>
-			<StandardListItem id="idSLDesignsValueHelp" title="{Ddtext}"/>
-		</items>
-	</SelectDialog>	
+<core:FragmentDefinition
+    xmlns="sap.m"
+    xmlns:core="sap.ui.core"
+>
+    <SelectDialog
+        id="idSDDesignsF4"
+        noDataText="{i18nV2>view2.F4.NoValueFound}"
+        search="onValueHelpSearchDesing"
+        confirm="onDesignsHelpConfirm"
+    >
+        <items>
+            <StandardListItem
+                id="idSLDesignsValueHelp"
+                title="{Ddtext}"
+            />
+            <!-- info="{=${Ddtext} === 'Multiple'?'Select for multi Designs':''}" infoState="Error" -->
+        </items>
+    </SelectDialog>
 </core:FragmentDefinition>

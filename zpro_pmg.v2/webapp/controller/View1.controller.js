@@ -16,7 +16,8 @@ sap.ui.define([
                 this.getOwnerComponent().getRouter().attachRoutePatternMatched(this._onRouteMatched, this);
             },
             _onRouteMatched: function (oEvent) {
-                 
+
+                
                 var sID = oEvent.getParameter("arguments").ID;
                 if (sID === "Page1" || sID === undefined || sID === "") {
                     this.getView().byId("idIconTabBar").setSelectedKey("All");

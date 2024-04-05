@@ -74,7 +74,6 @@
                         hAlign="Center"
                         width="10rem"
                     >
-                  
                         <Label
                             required="true"
                             wrapping="true"
@@ -87,7 +86,7 @@
                         minScreenWidth="Tablet"
                         demandPopin="true"
                         hAlign="Center"
-                       width="10rem"
+                        width="10rem"
                     >
                         <Label
                             id="idV2TblClmTxtSize"
@@ -141,7 +140,7 @@
                         minScreenWidth="Desktop"
                         demandPopin="true"
                         hAlign="Center"
-                       width="10rem"
+                        width="10rem"
                     >
                         <Label
                             required="true"
@@ -155,7 +154,7 @@
                         minScreenWidth="Desktop"
                         demandPopin="true"
                         hAlign="Center"
-                       width="10rem"
+                        width="10rem"
                     >
                         <Label
                             required="true"
@@ -173,12 +172,39 @@
                     >
                         <Label
                             required="true"
-                              wrapping="true"
+                            wrapping="true"
                             id="idV2TxtTblClmQlt"
                             text="{i18nV2>view2.table.column.text.quality}"
                         />
                     </Column>
 
+                    <Column
+                        id="idV2TblClmPart"
+                        minScreenWidth="Desktop"
+                        demandPopin="true"
+                        hAlign="Center"
+                        width="10rem"
+                    >
+                        <Label
+                            required="true"
+                            id="idV2TxtTblCLmPart"
+                            text="{i18nV2>view2.table.column.text.part}"
+                        />
+                    </Column>
+                    <Column
+                        id="idV2TblExFacDepo"
+                        minScreenWidth="Desktop"
+                        demandPopin="true"
+                        hAlign="Center"
+                        width="10rem"
+                    >
+                        <Label
+                            id="idV2TxtTblCLmExFacDepo"
+                            required="true"
+                            text="{i18nV2>view2.table.column.text.ExFacDepo}"
+                        />
+                    </Column>
+                    <!-- come back here -->
                     <Column
                         id="idV2TblClmExFac"
                         minScreenWidth="Desktop"
@@ -300,19 +326,6 @@
                     </Column>
 
                     <Column
-                        id="idV2TblClmPart"
-                        minScreenWidth="Desktop"
-                        demandPopin="true"
-                        hAlign="Center"
-                        width="10rem"
-                    >
-                        <Label
-                            required="true"
-                            id="idV2TxtTblCLmPart"
-                            text="{i18nV2>view2.table.column.text.part}"
-                        />
-                    </Column>
-                    <Column
                         id="idV2TblClmLand"
                         minScreenWidth="Desktop"
                         demandPopin="true"
@@ -357,6 +370,7 @@
                         vAlign="Middle"
                     >
                         <cells>
+                            <!-- 0 -->
                             <Input
                                 id="idV2TblCLIInpMatFreGrp"
                                 showValueHelp="true"
@@ -377,14 +391,14 @@
                                     />
                                 </suggestionItems>
                             </Input>
-
+                            <!-- 1 -->
                             <Input
                                 id="idV2TblCLIInpSize"
                                 class="sapUiSmallMarginEnd"
                                 editable="false"
                                 value="{path:'JSONModelPayload>Szmm'}"
                             />
-
+                            <!-- 2 -->
                             <Input
                                 id="idV2TblCLIInpDesigns"
                                 showValueHelp="true"
@@ -397,7 +411,7 @@
                                 suggest=".onSuggest"
                                 suggestionItems="{JSONModelForSuggest>/}"
                                 submit="onDesignsInputSubmit"
-                                 liveChange="onLiveChange"
+                                liveChange="onLiveChange"
                             >
                                 <suggestionItems>
                                     <core:Item
@@ -405,7 +419,7 @@
                                     />
                                 </suggestionItems>
                             </Input>
-
+                            <!-- 3 -->
                             <Input
                                 id="idV2TblCLIInpSuppPlant"
                                 showValueHelp="true"
@@ -418,7 +432,7 @@
                                 suggest=".onSuggest"
                                 suggestionItems="{JSONModelForSuggest>/}"
                                 submit="onSupplyPlantInputSubmit"
-                                 liveChange="onLiveChange"
+                                liveChange="onLiveChange"
                             >
                                 <suggestionItems>
                                     <core:Item
@@ -426,9 +440,8 @@
                                     />
                                 </suggestionItems>
                             </Input>
-
+                            <!-- 4 -->
                             <Input
-                          
                                 id="idV2TblCLIInpManPlant"
                                 showValueHelp="true"
                                 valueHelpRequest="onManufacturingAmtHelp"
@@ -440,7 +453,7 @@
                                 suggest=".onSuggest"
                                 suggestionItems="{JSONModelForSuggest>/}"
                                 submit="onManufacturingPlantInputSubmit"
-                                 liveChange="onLiveChange"
+                                liveChange="onLiveChange"
                             >
                                 <suggestionItems>
                                     <core:Item
@@ -448,7 +461,7 @@
                                     />
                                 </suggestionItems>
                             </Input>
-
+                            <!-- 5 -->
                             <Input
                                 id="idV2TblCLIInpCurVol"
                                 maxLength="10"
@@ -456,7 +469,7 @@
                                 value="{JSONModelPayload>CurVolFt}"
                                 editable="{GlobalEditableModel>/Editable}"
                             />
-
+                            <!-- 6 -->
                             <Input
                                 id="idV2TblCLIInpTotVol"
                                 maxLength="10"
@@ -464,7 +477,7 @@
                                 value="{JSONModelPayload>TotalVol}"
                                 editable="{GlobalEditableModel>/Editable}"
                             />
-
+                            <!-- 7 -->
                             <Select
                                 forceSelection="false"
                                 items="{LocalJSONModels>/quality}"
@@ -472,12 +485,35 @@
                                 editable="{GlobalEditableModel>/Editable}"
                             >
                                 <core:Item
-                                  
                                     key="{LocalJSONModels>key}"
                                     text="{LocalJSONModels>text}"
                                 />
                             </Select>
-
+                            <!-- 8 -->
+                            <Select
+                                forceSelection="false"
+                                items="{LocalJSONModels>/part}"
+                                selectedKey="{JSONModelPayload>Mvgr5}"
+                                editable="{GlobalEditableModel>/Editable}"
+                            >
+                                <core:Item
+                                    key="{LocalJSONModels>key}"
+                                    text="{LocalJSONModels>text}"
+                                />
+                            </Select>
+                            <!-- 9 -->
+                            <Select
+                                forceSelection="false"
+                                items="{LocalJSONModels>/exFacDepo}"
+                                selectedKey="{JSONModelPayload>Isexdep}"
+                                editable="{GlobalEditableModel>/Editable}"
+                            >
+                                <core:Item
+                                    key="{LocalJSONModels>key}"
+                                    text="{LocalJSONModels>text}"
+                                />
+                            </Select>
+                            <!-- 10 -->
                             <Input
                                 id="idV2TblCLIInpExFac"
                                 editable="false"
@@ -486,15 +522,14 @@
                             />
                             <!-- value=  '{=${JSONModelPayload>/Exdepsqft} === "0.00" ?${JSONModelPayload>Exfacsqft}:${JSONModelPayload>/Exdepsqft}}' -->
                             <!-- value="{JSONModelPayload>Exfac}" -->
-                            <!-- come back here -->
+                            <!-- 11 -->
                             <Input
                                 id="idV2TblCLIInpDiscount"
                                 liveChange="onInvoiceLiveValidation"
                                 value="{JSONModelPayload>Disc}"
                                 editable="{GlobalEditableModel>/Editable}"
                             />
-                            
-
+                            <!-- 12 -->
                             <Input
                                 id="idV2TblCLIInpSchDis"
                                 liveChange="onNumberValidation"
@@ -502,7 +537,7 @@
                                 editable="{GlobalEditableModel>/Editable}"
                                 visible="false"
                             />
-
+                            <!-- 13 -->
                             <Input
                                 id="idV2TblCLIInpSchPer"
                                 liveChange="onNumberValidation"
@@ -510,7 +545,7 @@
                                 editable="{GlobalEditableModel>/Editable}"
                                 visible="false"
                             />
-
+                            <!-- 14 non mandatory -->
                             <Input
                                 id="idV2TblCLIInpORCEnt"
                                 liveChange="onNumberValidation"
@@ -518,28 +553,28 @@
                                 value="{JSONModelPayload>Commbox}"
                                 editable="{GlobalEditableModel>/Editable}"
                             />
-
+                            <!-- 15 non mandatory-->
                             <Input
                                 id="idV2TblCLIInpORCPer"
-                               liveChange="onOrcPerLiveValidation"
+                                liveChange="onOrcPerLiveValidation"
                                 value="{JSONModelPayload>Commboxp}"
                                 editable="{GlobalEditableModel>/Editable}"
                             />
-
+                            <!-- 16 non mandatory-->
                             <Input
                                 id="idV2TblCLIInpFre"
                                 liveChange="onNumberValidation"
                                 value="{JSONModelPayload>Frgtsqft}"
                                 editable="{GlobalEditableModel>/Editable}"
                             />
-
+                            <!-- 17 non mandatory-->
                             <Input
                                 id="idV2TblCLIInpCompName"
                                 value="{JSONModelPayload>Compname}"
                                 editable="{GlobalEditableModel>/Editable}"
-                                 liveChange="onLiveChange"
+                                liveChange="onLiveChange"
                             />
-
+                            <!-- 18 non mandatory-->
                             <Input
                                 id="idV2TblCLIInpCompLanPrice"
                                 liveChange="onNumberValidation"
@@ -547,33 +582,22 @@
                                 editable="{GlobalEditableModel>/Editable}"
                             />
 
-                            <Select
-                                forceSelection="false"
-                                items="{LocalJSONModels>/part}"
-                                selectedKey="{JSONModelPayload>Mvgr5}"
-                                editable="{GlobalEditableModel>/Editable}"
-                            >
-                                <core:Item
-                             
-                                    key="{LocalJSONModels>key}"
-                                    text="{LocalJSONModels>text}"
-                                />
-                            </Select>
+                            <!-- 19 non editable-->
 
                             <Input
                                 id="idV2TblCLIInpLanded"
                                 editable="false"
                                 value="{JSONModelPayload>LandedPriceSqft}"
-                                 liveChange="onLiveChange"
+                                liveChange="onLiveChange"
                             />
-
+                            <!-- 20 non editable-->
                             <Input
                                 id="idV2TblCLIInpNEF"
                                 editable="false"
                                 value="{JSONModelPayload>Nefsqft}"
-                                 liveChange="onLiveChange"
+                                liveChange="onLiveChange"
                             />
-
+                            <!-- 21 Button-->
                             <Button
                                 id="idV2TblBtnDel"
                                 icon="sap-icon://delete"

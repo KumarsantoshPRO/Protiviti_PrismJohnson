@@ -10,6 +10,7 @@ sap.ui.define(['sap/m/MessageBox'], function (MessageBox) {
         "TotalVol": "Total Volume (Sqft)",
         "Exfac": "Ex Factory (SqFt)",
         "Disc": "On-Invoice discount",
+        "Discb": "On-Invoice discount",
         "Schemedisc": "Schemes discount per SqFt(If Applicable)",
         "SchemediscPer": "Schemes %",
         "Commbox": "ORC Entity",
@@ -20,6 +21,7 @@ sap.ui.define(['sap/m/MessageBox'], function (MessageBox) {
         // "": "Competitor receipt",
         "Zzprodh4": "Quality",
         "Mvgr5": "Part A/B",
+        "Isexdep": "Ex Factory/Depot",
         "LandedPriceSqft": "Landed",
         "Nef": "Net Ex factory(NEF)"
     };
@@ -39,7 +41,7 @@ sap.ui.define(['sap/m/MessageBox'], function (MessageBox) {
 
         // Header, General Information(Simple form)- Validation
         headerPayloadValidation: function (oControl) {
-          
+
             var oResourceModel = oControl.getView().getModel("i18nV2").getResourceBundle();
 
             if (!oControl.getView().getModel("JSONModelPayload").getData().Kunnr) {
@@ -64,7 +66,7 @@ sap.ui.define(['sap/m/MessageBox'], function (MessageBox) {
             //     return 0;
             // } 
             else if (!oControl.getView().getModel("JSONModelPayload").getData().Validity) {
-              
+
                 MessageBox.error("Please enter " + oResourceModel.getText("view2.simpleForm.label.validity"));
                 this.headerPayloadState(oControl, "Validity");
                 return 0;
@@ -93,11 +95,12 @@ sap.ui.define(['sap/m/MessageBox'], function (MessageBox) {
                 MessageBox.error("Please select " + oResourceModel.getText("view2.simpleForm.label.vertical"));
                 this.headerPayloadState(oControl, "Spart");
                 return 0;
-            } else if (!oControl.getView().getModel("JSONModelPayload").getData().Isexdep) {
-                MessageBox.error("Please select " + oResourceModel.getText("view2.simpleForm.label.ex"));
-                this.headerPayloadState(oControl, "Isexdep");
-                return 0;
             }
+            // else if (!oControl.getView().getModel("JSONModelPayload").getData().Isexdep) {
+            //     MessageBox.error("Please select " + oResourceModel.getText("view2.simpleForm.label.ex"));
+            //     this.headerPayloadState(oControl, "Isexdep");
+            //     return 0;
+            // }
             else {
 
                 return 1;
@@ -105,7 +108,7 @@ sap.ui.define(['sap/m/MessageBox'], function (MessageBox) {
 
         },
         headerPayloadState: function (oControl, sOdataProperty) {
-           
+
             for (const key in oHeadeFieldsNIds) {
                 if (oHeadeFieldsNIds.hasOwnProperty.call(oHeadeFieldsNIds, key)) {
                     const element = oHeadeFieldsNIds[key];
@@ -121,7 +124,7 @@ sap.ui.define(['sap/m/MessageBox'], function (MessageBox) {
         },
         // Items, Additional Product Details(Table) - Validation
         itemsPayloadValidation: function (aData, oControl, sAction) {
-            
+
             var vColumnNo = 0;
             var oTable = oControl.byId(sap.ui.core.Fragment.createId("idV2FragAddPrdDetails", "idV2TblProducts"))
             var vTemp = 0;
@@ -130,9 +133,9 @@ sap.ui.define(['sap/m/MessageBox'], function (MessageBox) {
                 for (let k = 0; k < oTable.getAggregation("items")[j].getAggregation("cells").length; k++) {
 
 
-                    if (k === 20 || k === 12 || k === 13 || k === 14 || k === 15 || k === 16) {
+                    if (k === 2 || k === 14 || k === 15 || k === 16 || k === 17 || k === 18 || k === 21) {
                         // Non mandatory items
-                    } else if (k === 7 || k === 17) {
+                    } else if (k === 7 || k === 8 || k === 9) {
                         // Select
                         if (oTable.getAggregation("items")[j].getAggregation("cells")[k].getSelectedKey() === '') {
                             oTable.getAggregation("items")[j].getAggregation("cells")[k].setValueState("Error")
@@ -194,6 +197,10 @@ sap.ui.define(['sap/m/MessageBox'], function (MessageBox) {
                     vTemp = 0;
                     this.itemsErrorMessage('Disc', vLine, sAction);
                 }
+                else if (aData[i].Discb === '') {
+                    vTemp = 0;
+                    this.itemsErrorMessage('Discb', vLine, sAction);
+                }
                 else if (aData[i].Schemedisc === '') {
                     vTemp = 0;
                     this.itemsErrorMessage('Schemedisc', vLine, sAction);
@@ -216,6 +223,11 @@ sap.ui.define(['sap/m/MessageBox'], function (MessageBox) {
                 else if (aData[i].Mvgr5 === '') {
                     vTemp = 0;
                     this.itemsErrorMessage('Mvgr5', vLine, sAction);
+                }
+                else if (aData[i].Isexdep === '') {
+                   
+                    vTemp = 0;
+                    this.itemsErrorMessage('Isexdep', vLine, sAction);
                 }
                 else if (aData[i].LandedPriceSqft === '') {
                     vTemp = 0;

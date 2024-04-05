@@ -1,0 +1,77 @@
+<core:FragmentDefinition
+    xmlns="sap.m"
+    xmlns:core="sap.ui.core"
+    xmlns:forms="sap.ui.layout.form"
+    xmlns:tnt="sap.tnt"
+>
+    <forms:SimpleForm
+        editable="true"
+        layout="ResponsiveLayout"
+        labelSpanXL="0"
+        labelSpanL="0"
+        labelSpanM="0"
+        labelSpanS="0"
+        adjustLabelSpan="true"
+        emptySpanXL="0"
+        emptySpanL="0"
+        emptySpanM="0"
+        emptySpanS="0"
+        columnsXL="1"
+        columnsL="1"
+        columnsM="1"
+        singleContainerFullSize="true"
+        class="sapUiNoMarginBottom"
+    >
+        <core:Title />
+        <Label
+            design="Bold"
+            text="Gross Margin(%)"
+        />
+        <tnt:InfoLabel
+            text="{path:'oRequestModel>/Wgrossmargper'}"
+            renderMode="Loose"
+            colorScheme="{path:'oRequestModel>/Wgrossmargper', formatter:'.formatter.getColor'}"
+        />
+        <!-- <Text text="{oRequestModel>/grmg}"/> -->
+        <!-- <Label  design="Bold" text="Bench Mark Gross Margin" />
+                                    <Text
+                                        text="{oRequestModel>/MD_BenchMarkGrossMargin}"
+                                    /> -->
+        <Label
+            design="Bold"
+            text="Recommended GM(%)"
+        />
+        <Text text="{oRequestModel>/MD_RecommendedGM}" />
+        <!-- <Label  design="Bold" text="Recommended Discount %" />
+                                    <Text
+                                        text="{oRequestModel>/MD_RecommendedDis}"
+                                    /> -->
+        <Label
+            design="Bold"
+            text="Target Equivalent GM per Sqft"
+        />
+        <Text text="{oRequestModel>/MD_TargetEquivalentGMpersqft}" />
+        <core:Title />
+        <Label
+            design="Bold"
+            text="Current Equivalent GM per Sqft"
+        />
+        <Text text="{oRequestModel>/MD_CurrentEquivalentGMpersqft}" />
+        <Label
+            design="Bold"
+            text="Effect on Current Equivalent GM per Sqft"
+        />
+        <Text text="{oRequestModel>/MD_EffectOnCurrentEquivalentGMpersqft}" />
+        <!-- <Label  design="Bold" text="Vertical Gross Margin" />
+											<Text text="{oRequestModel>/vgm}" /> -->
+        <!-- <Label  design="Bold" text="Discount %" />
+                                    <Text
+                                        text="{oRequestModel>/MD_DiscountPer}"
+                                    /> -->
+        <Label
+            design="Bold"
+            text="Recommended Action"
+        />
+        <Text text="{oRequestModel>/MD_RecommendedAction}" />
+    </forms:SimpleForm>
+</core:FragmentDefinition>

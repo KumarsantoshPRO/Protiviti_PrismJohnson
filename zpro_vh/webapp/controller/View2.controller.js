@@ -9,7 +9,7 @@ sap.ui.define([
     "sap/m/TextArea",
     "zpj/pro/sd/sk/zprovertihead/model/formatter",
     "sap/m/MessageBox",
-    
+
 ],
     /**
      * @param {typeof sap.ui.core.mvc.Controller} Controller
@@ -53,7 +53,7 @@ sap.ui.define([
                 this.getView().setBusy(true);
                 var sPath = "/ZPAF_VH_HEADERSet('" + pafID + "')"
 
-               
+
 
                 this.getOwnerComponent().getModel().read(sPath, {
 
@@ -64,11 +64,11 @@ sap.ui.define([
                         var oModel = this.getView().getModel("oRequestModel");
                         debugger;
                         if (oData.Status === 'A' || oData.Status === 'R') {
-                            
+
                             this.getView().byId("id.Approve.Button").setVisible(false);
                             this.getView().byId("id.Reject.Button").setVisible(false);
                         } else {
-                             
+
                             this.getView().byId("id.Approve.Button").setVisible(true);
                             this.getView().byId("id.Reject.Button").setVisible(true);
                         }
@@ -79,15 +79,15 @@ sap.ui.define([
                         oData.Wbuyingprice = 0;
                         for (let index = 0; index < len; index++) {
                             var nGrossMargin = Number(oData.NAV_VH_ITEM_PRODUCT.results[index].Grossmargper);
-                            var nBuyingpricesqft= Number(oData.NAV_VH_ITEM_PRODUCT.results[index].Buyingpricesqft);
+                            var nBuyingpricesqft = Number(oData.NAV_VH_ITEM_PRODUCT.results[index].Buyingpricesqft);
                             oData.Wgrossmargper = Number(oData.Wgrossmargper) + nGrossMargin;
-                            oData.Wbuyingprice =  Number(oData.Wbuyingprice) + nBuyingpricesqft;
+                            oData.Wbuyingprice = Number(oData.Wbuyingprice) + nBuyingpricesqft;
                         }
                         oData.Wgrossmargper = (oData.Wgrossmargper / len).toFixed(2);
                         oData.Wbuyingprice = (oData.Wbuyingprice / len).toFixed(2);
-                        
-                        oData.Discb = ((oData.Wexfacsqft/100)*oData.Disc).toFixed(2);
-                        oData.Worc = ((oData.Wexfacsqft/100)*oData.Worcper).toFixed(2);
+
+                        oData.Discb = ((oData.Wexfacsqft / 100) * oData.Disc).toFixed(2);
+                        oData.Worc = ((oData.Wexfacsqft / 100) * oData.Worcper).toFixed(2);
                         // oData.Discb = oData.Discb;
                         oModel.setData(oData);
                         this.getView().setModel(oModel, "oRequestModel");
@@ -100,11 +100,17 @@ sap.ui.define([
                     }.bind(this),
                     error: function (oError) {
                         this.getView().setBusy(false);
+                        MessageBox.error(JSON.parse(oError.responseText).error.innererror.errordetails[0].message, {
+                            actions: [sap.m.MessageBox.Action.OK],
+                            onClose: function (oAction) {
+
+                            }
+                        });
                     }.bind(this)
                 });
             },
 
-        
+
             getSourceDetails: function (pafNo) {
                 this.getView().setBusy(true);
                 var newFilArray = new Array();
@@ -134,7 +140,7 @@ sap.ui.define([
                 newValHelpModel.read("/ET_VALUE_HELPSSet", {
                     filters: newFilArray,
                     success: function (oData) {
-                      
+
                         var oModel = this.getView().getModel("SouceModel");
                         oModel.setData(oData.results);
                         this.getView().setModel(oModel, "SouceModel");
@@ -143,12 +149,18 @@ sap.ui.define([
                     }.bind(this),
                     error: function (oError) {
                         this.getView().setBusy(false);
+                        MessageBox.error(JSON.parse(oError.responseText).error.innererror.errordetails[0].message, {
+                            actions: [sap.m.MessageBox.Action.OK],
+                            onClose: function (oAction) {
+
+                            }
+                        });
                     }.bind(this)
                 });
             },
 
             onSourceHelp: function (oEvent) {
-               
+
                 var pathIndex = Number(oEvent.getSource().getParent().getBindingContextPath().split("/")[1]);
                 this._rowIndex = pathIndex;
                 this._Posnr = pathIndex + 1;
@@ -220,9 +232,14 @@ sap.ui.define([
                         this.getView().getModel("ProductModel").refresh(true);
                         this.getView().setBusy(false);
                     }.bind(this),
-                    error: function (error) {
+                    error: function (oError) {
                         this.getView().setBusy(false);
-                        MessageBox.error(error.responseText);
+                        MessageBox.error(JSON.parse(oError.responseText).error.innererror.errordetails[0].message, {
+                            actions: [sap.m.MessageBox.Action.OK],
+                            onClose: function (oAction) {
+
+                            }
+                        });
                     }.bind(this)
                 });
             },
@@ -244,9 +261,14 @@ sap.ui.define([
                         this.getView().getModel("ProductModel").refresh(true);
                         this.getView().setBusy(false);
                     }.bind(this),
-                    error: function (error) {
+                    error: function (oError) {
                         this.getView().setBusy(false);
-                        MessageBox.error(error.responseText);
+                        MessageBox.error(JSON.parse(oError.responseText).error.innererror.errordetails[0].message, {
+                            actions: [sap.m.MessageBox.Action.OK],
+                            onClose: function (oAction) {
+
+                            }
+                        });
                     }.bind(this)
                 });
 
@@ -324,7 +346,7 @@ sap.ui.define([
             onForward: function () {
                 if (!this.oRejectDialog) {
                     var nGM = Number(this.getView().getModel("oRequestModel").CS_GrossMargin)
-                    
+
                     if (nGM < 10) {
                         var sHeaderMessage = "Gross Margin is less than 10%";
                         var sInfoMessage = "Request will be forwarded to the Executive Director"
@@ -363,7 +385,7 @@ sap.ui.define([
                                     "Action": "FOR",
                                     "Remark": remarks
                                 }
-                                this._sendPayload(payload);
+                                this._sendPayload(payload, "Forwarded");
                             }.bind(this)
                         })
                     });
@@ -405,7 +427,7 @@ sap.ui.define([
                                 "Action": "BPRENG",
                                 "Remark": remarks
                             }
-                            this._sendPayload(payload);
+                            this._sendPayload(payload, "BP Renegotiated");
 
                         }.bind(this)
                     })
@@ -447,7 +469,7 @@ sap.ui.define([
                                 "Action": "FRIGHTRENG",
                                 "Remark": remarks
                             }
-                            this._sendPayload(payload);
+                            this._sendPayload(payload, "Fright Renegotiated");
 
                         }.bind(this)
                     })
@@ -491,7 +513,7 @@ sap.ui.define([
                                 "Action": "REJECT",
                                 "Remark": remarks
                             }
-                            this._sendPayload(payload);
+                            this._sendPayload(payload, "Rejected");
 
                         }.bind(this)
                     })
@@ -536,7 +558,8 @@ sap.ui.define([
                                 "Action": "ACCEPT",
                                 "Remark": remarks
                             }
-                            this._sendPayload(payload);
+
+                            this._sendPayload(payload, "Approved");
 
                         }.bind(this)
                     })
@@ -545,7 +568,7 @@ sap.ui.define([
                 this.oRejectDialog.open();
             },
 
-            _sendPayload: function (payload) {
+            _sendPayload: function (payload, sAction) {
 
                 payload.Pafno = this.getView().getModel("oRequestModel").getData().Pafno;
 
@@ -574,19 +597,31 @@ sap.ui.define([
 
                 // }
                 // if (vValidation === 1) {
-                    this.getView().setBusy(true);
-                    debugger;
-                    this.getOwnerComponent().getModel().create('/ZPAF_VH_HEADERSet', payload, {
-                        success: function (oData, response) {
-                            this.oRouter = this.getOwnerComponent().getRouter();
-                            this.oRouter.navTo("page1", {});
-                            this.getView().setBusy(false);
-                        }.bind(this),
-                        error: function (error) {
-                            this.getView().setBusy(false);
-                            MessageBox.error(error.responseText);
-                        }.bind(this)
-                    });
+                this.getView().setBusy(true);
+
+                this.getOwnerComponent().getModel().create('/ZPAF_VH_HEADERSet', payload, {
+                    success: function (oData, response) {
+
+                        MessageBox.success("PAF " + sAction + " Successfully", {
+                            actions: [sap.m.MessageBox.Action.OK],
+                            onClose: function (oAction) {
+                                this.oRouter = this.getOwnerComponent().getRouter();
+                                this.oRouter.navTo("page1", {});
+                            }.bind(this)
+                        });
+
+                        this.getView().setBusy(false);
+                    }.bind(this),
+                    error: function (oError) {
+                        this.getView().setBusy(false);
+                        MessageBox.error(JSON.parse(oError.responseText).error.innererror.errordetails[0].message, {
+                            actions: [sap.m.MessageBox.Action.OK],
+                            onClose: function (oAction) {
+
+                            }
+                        });
+                    }.bind(this)
+                });
                 // } else {
                 //     MessageBox.error("Please select Source(vendor)");
                 //     this.oRejectDialog.close();

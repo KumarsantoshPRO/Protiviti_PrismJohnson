@@ -9,7 +9,7 @@ sap.ui.define([
     "sap/m/TextArea",
     "zpj/pro/sd/sk/zproexdirector/model/formatter",
     "sap/m/MessageBox",
-    
+
 ],
     /**
      * @param {typeof sap.ui.core.mvc.Controller} Controller
@@ -53,7 +53,7 @@ sap.ui.define([
                 this.getView().setBusy(true);
                 var sPath = "/ZPAF_ED_HEADERSet('" + pafID + "')"
 
-               
+
 
                 this.getOwnerComponent().getModel().read(sPath, {
 
@@ -63,11 +63,11 @@ sap.ui.define([
                     success: function (oData) {
                         var oModel = this.getView().getModel("oRequestModel");
                         if (oData.Status === 'A' || oData.Status === 'R') {
-                            
+
                             this.getView().byId("id.Approve.Button").setVisible(false);
                             this.getView().byId("id.Reject.Button").setVisible(false);
                         } else {
-                             
+
                             this.getView().byId("id.Approve.Button").setVisible(true);
                             this.getView().byId("id.Reject.Button").setVisible(true);
                         }
@@ -78,15 +78,15 @@ sap.ui.define([
                         oData.Wbuyingprice = 0;
                         for (let index = 0; index < len; index++) {
                             var nGrossMargin = Number(oData.NAV_ED_ITEM_PRODUCT.results[index].Grossmargper);
-                            var nBuyingpricesqft= Number(oData.NAV_ED_ITEM_PRODUCT.results[index].Buyingpricesqft);
+                            var nBuyingpricesqft = Number(oData.NAV_ED_ITEM_PRODUCT.results[index].Buyingpricesqft);
                             oData.Wgrossmargper = Number(oData.Wgrossmargper) + nGrossMargin;
-                            oData.Wbuyingprice =  Number(oData.Wbuyingprice) + nBuyingpricesqft;
+                            oData.Wbuyingprice = Number(oData.Wbuyingprice) + nBuyingpricesqft;
                         }
                         oData.Wgrossmargper = (oData.Wgrossmargper / len).toFixed(2);
                         oData.Wbuyingprice = (oData.Wbuyingprice / len).toFixed(2);
-                        
-                        oData.Discb = ((oData.Wexfacsqft/100)*oData.Disc).toFixed(2);
-                        oData.Worc = ((oData.Wexfacsqft/100)*oData.Worcper).toFixed(2);
+
+                        oData.Discb = ((oData.Wexfacsqft / 100) * oData.Disc).toFixed(2);
+                        oData.Worc = ((oData.Wexfacsqft / 100) * oData.Worcper).toFixed(2);
                         // oData.Discb = oData.Discb;
                         oModel.setData(oData);
                         this.getView().setModel(oModel, "oRequestModel");
@@ -99,11 +99,17 @@ sap.ui.define([
                     }.bind(this),
                     error: function (oError) {
                         this.getView().setBusy(false);
+                        MessageBox.error(JSON.parse(oError.responseText).error.innererror.errordetails[0].message, {
+                            actions: [sap.m.MessageBox.Action.OK],
+                            onClose: function (oAction) {
+
+                            }
+                        });
                     }.bind(this)
                 });
             },
 
-        
+
             getSourceDetails: function (pafNo) {
                 this.getView().setBusy(true);
                 var newFilArray = new Array();
@@ -141,12 +147,18 @@ sap.ui.define([
                     }.bind(this),
                     error: function (oError) {
                         this.getView().setBusy(false);
+                        MessageBox.error(JSON.parse(oError.responseText).error.innererror.errordetails[0].message, {
+                            actions: [sap.m.MessageBox.Action.OK],
+                            onClose: function (oAction) {
+
+                            }
+                        });
                     }.bind(this)
                 });
             },
 
             onSourceHelp: function (oEvent) {
-                debugger;
+              
                 var pathIndex = Number(oEvent.getSource().getParent().getBindingContextPath().split("/")[1]);
                 this._rowIndex = pathIndex;
                 this._Posnr = pathIndex + 1;
@@ -218,9 +230,14 @@ sap.ui.define([
                         this.getView().getModel("ProductModel").refresh(true);
                         this.getView().setBusy(false);
                     }.bind(this),
-                    error: function (error) {
+                    error: function (oError) {
                         this.getView().setBusy(false);
-                        MessageBox.error(error.responseText);
+                        MessageBox.error(JSON.parse(oError.responseText).error.innererror.errordetails[0].message, {
+                            actions: [sap.m.MessageBox.Action.OK],
+                            onClose: function (oAction) {
+
+                            }
+                        });
                     }.bind(this)
                 });
             },
@@ -242,9 +259,14 @@ sap.ui.define([
                         this.getView().getModel("ProductModel").refresh(true);
                         this.getView().setBusy(false);
                     }.bind(this),
-                    error: function (error) {
+                    error: function (oError) {
                         this.getView().setBusy(false);
-                        MessageBox.error(error.responseText);
+                        MessageBox.error(JSON.parse(oError.responseText).error.innererror.errordetails[0].message, {
+                            actions: [sap.m.MessageBox.Action.OK],
+                            onClose: function (oAction) {
+
+                            }
+                        });
                     }.bind(this)
                 });
 
@@ -319,142 +341,9 @@ sap.ui.define([
                 this.oRouter.navTo("", {});
             },
 
-            onForward: function () {
-                if (!this.oRejectDialog) {
-                    var nGM = Number(this.getView().getModel("oRequestModel").CS_GrossMargin)
-                    debugger;
-                    if (nGM < 10) {
-                        var sHeaderMessage = "Gross Margin is less than 10%";
-                        var sInfoMessage = "Request will be forwarded to the Executive Director"
-                    }
-
-
-                    this.oRejectDialog = new Dialog({
-                        title: sHeaderMessage,
-                        type: DialogType.Message,
-
-                        content: [
-                            new Label({
-                                text: sInfoMessage,
-                            }),
-                            new TextArea({
-                                width: "100%",
-                                placeholder: "Type the reason for acceptance"
-                            })
-                        ],
-                        beginButton: new Button({
-                            text: "Cancel",
-                            press: function () {
-                                this.oRejectDialog.close();
-
-
-                                this.oRejectDialog.close();
-                            }.bind(this)
-                        }),
-                        endButton: new Button({
-                            type: ButtonType.Emphasized,
-                            text: "Submit",
-                            press: function () {
-                                var remarks = oEvent.getSource().getParent().getAggregation("content")[1].getValue();
-                                var payload = {
-                                    "Pafno": "",
-                                    "Action": "FOR",
-                                    "Remark": remarks
-                                }
-                                this._sendPayload(payload);
-                            }.bind(this)
-                        })
-                    });
-                }
-                this.oRejectDialog.open();
-            },
-            bpRenegotiation: function () {
-
-                this.oRejectDialog = new Dialog({
-                    title: "Remarks",
-                    type: DialogType.Message,
-
-                    content: [
-                        new Label({
-                            text: "Feedback",
-                        }),
-                        new TextArea({
-                            width: "100%",
-                            placeholder: ""
-                        })
-                    ],
-                    beginButton: new Button({
-                        text: "Cancel",
-                        press: function () {
-                            this.oRejectDialog.close();
-
-
-                            this.oRejectDialog.close();
-                        }.bind(this)
-                    }),
-                    endButton: new Button({
-                        type: ButtonType.Emphasized,
-                        text: "Submit",
-                        press: function (oEvent) {
-
-                            var remarks = oEvent.getSource().getParent().getAggregation("content")[1].getValue();
-                            var payload = {
-                                "Pafno": "",
-                                "Action": "BPRENG",
-                                "Remark": remarks
-                            }
-                            this._sendPayload(payload);
-
-                        }.bind(this)
-                    })
-                });
-
-                this.oRejectDialog.open();
-            },
-            freightRenegotiation: function () {
-                this.oRejectDialog = new Dialog({
-                    title: "Remarks",
-                    type: DialogType.Message,
-
-                    content: [
-                        new Label({
-                            text: "Feedback",
-                        }),
-                        new TextArea({
-                            width: "100%",
-                            placeholder: ""
-                        })
-                    ],
-                    beginButton: new Button({
-                        text: "Cancel",
-                        press: function () {
-                            this.oRejectDialog.close();
-
-
-                            this.oRejectDialog.close();
-                        }.bind(this)
-                    }),
-                    endButton: new Button({
-                        type: ButtonType.Emphasized,
-                        text: "Submit",
-                        press: function (oEvent) {
-
-                            var remarks = oEvent.getSource().getParent().getAggregation("content")[1].getValue();
-                            var payload = {
-                                "Pafno": "",
-                                "Action": "FRIGHTRENG",
-                                "Remark": remarks
-                            }
-                            this._sendPayload(payload);
-
-                        }.bind(this)
-                    })
-                });
-
-                this.oRejectDialog.open();
-
-
-            },
+           
+             
+             
             reject: function () {
                 this.oRejectDialog = new Dialog({
                     title: "Remarks",
@@ -489,7 +378,7 @@ sap.ui.define([
                                 "Action": "REJECT",
                                 "Remark": remarks
                             }
-                            this._sendPayload(payload);
+                            this._sendPayload(payload, "Rejected");
 
                         }.bind(this)
                     })
@@ -534,7 +423,7 @@ sap.ui.define([
                                 "Action": "ACCEPT",
                                 "Remark": remarks
                             }
-                            this._sendPayload(payload);
+                            this._sendPayload(payload, "Approved");
 
                         }.bind(this)
                     })
@@ -543,24 +432,30 @@ sap.ui.define([
                 this.oRejectDialog.open();
             },
 
-            _sendPayload: function (payload) {
+            _sendPayload: function (payload, sAction) {
 
                 payload.Pafno = this.getView().getModel("oRequestModel").getData().Pafno;
 
-           
-                    this.getView().setBusy(true);
-                    this.getOwnerComponent().getModel().create('/ZPAF_ED_HEADERSet', payload, {
-                        success: function (oData, response) {
-                            this.oRouter = this.getOwnerComponent().getRouter();
-                            this.oRouter.navTo("page1", {});
-                            this.getView().setBusy(false);
-                        }.bind(this),
-                        error: function (error) {
-                            this.getView().setBusy(false);
-                            MessageBox.error(error.responseText);
-                        }.bind(this)
-                    });
-            
+
+                this.getView().setBusy(true);
+                this.getOwnerComponent().getModel().create('/ZPAF_ED_HEADERSet', payload, {
+                    success: function (oData, response) {
+                        MessageBox.success("PAF " + sAction + " Successfully", {
+                            actions: [sap.m.MessageBox.Action.OK],
+                            onClose: function (oAction) {
+                                this.oRouter = this.getOwnerComponent().getRouter();
+                                this.oRouter.navTo("page1", {});
+
+                            }.bind(this)
+                        });
+                        this.getView().setBusy(false);
+                    }.bind(this),
+                    error: function (error) {
+                        this.getView().setBusy(false);
+                        MessageBox.error(error.responseText);
+                    }.bind(this)
+                });
+
             }
         });
     });
