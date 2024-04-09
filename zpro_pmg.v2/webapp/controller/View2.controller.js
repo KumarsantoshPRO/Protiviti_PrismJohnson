@@ -203,7 +203,7 @@ sap.ui.define([
 
                 var pathIndex = Number(oEvent.getSource().getParent().getBindingContextPath().split("/")[1]);
                 this._rowIndex = pathIndex;
-                
+
                 var path = oEvent.getSource().getParent().getBindingContextPath() + "/Posnr";
 
                 this._Posnr = this.getView().getModel("ProductModel").getProperty(path)
@@ -264,17 +264,17 @@ sap.ui.define([
                         this.getView().getModel("ProductModel").getData()[this._rowIndex].Grossmargper = vGross_Margin;
                         this.getView().getModel("ProductModel").getData()[this._rowIndex].Source = vSource;
 
-                        var len = this.getView().getModel("ProductModel").getData().length;
-                        this.getView().getModel("oRequestModel").getData().Wgrossmargper = 0;
-                        for (let index = 0; index < len; index++) {
-                            var nGrossMargin = Number(this.getView().getModel("ProductModel").getData()[index].Grossmargper);
+                        // var len = this.getView().getModel("ProductModel").getData().length;
+                        // this.getView().getModel("oRequestModel").getData().Wgrossmargper = 0;
+                        // for (let index = 0; index < len; index++) {
+                        //     var nGrossMargin = Number(this.getView().getModel("ProductModel").getData()[index].Grossmargper);
 
 
-                            this.getView().getModel("oRequestModel").getData().Wgrossmargper = this.getView().getModel("oRequestModel").getData().Wgrossmargper + nGrossMargin;
+                        //     this.getView().getModel("oRequestModel").getData().Wgrossmargper = this.getView().getModel("oRequestModel").getData().Wgrossmargper + nGrossMargin;
 
 
-                        }
-                        this.getView().getModel("oRequestModel").getData().Wgrossmargper = this.getView().getModel("oRequestModel").getData().Wgrossmargper / len;
+                        // }
+                        // this.getView().getModel("oRequestModel").getData().Wgrossmargper = this.getView().getModel("oRequestModel").getData().Wgrossmargper / len;
                         this.getView().getModel("oRequestModel").refresh(true);
                         this.getView().getModel("ProductModel").refresh(true);
                         this.getView().setBusy(false);
@@ -510,7 +510,7 @@ sap.ui.define([
                 var items = this.getView().getModel("ProductModel").getData(),
                     validity = this.byId(sap.ui.core.Fragment.createId("idFragment", "id.validity.Input")).getValue(),
                     pafNo = this.getView().getModel("oRequestModel").getProperty("/Pafno");
-                debugger;
+
                 var payload = {
                     "Pafno": pafNo,
                     "Validity": validity,
@@ -519,6 +519,7 @@ sap.ui.define([
                 }
 
                 this._sendPayload(payload);
+
             },
             _sendPayload: function (payload) {
                 var sMessage;
@@ -586,6 +587,7 @@ sap.ui.define([
                                     }.bind(this)
                                 });
                             }
+                            this.calculateHeader();
                             this.getView().setBusy(false);
                         }.bind(this),
                         error: function (oError) {
@@ -753,6 +755,43 @@ sap.ui.define([
                     MessageBox.error("Only numeric values allowed");
                     oEvent.getSource().setValue("");
                 }
+            },
+
+            calculateHeader: function () {
+
+                var tableData = this.getView().getModel("ProductModel").getData(),
+                    noItems = tableData.length,
+                    wDiscount = 0,
+                    wDiscountb = 0,
+                    wNEF = 0,
+                    wFreight = 0,
+                    wORC = 0,
+                    wORCP = 0,
+                wGrossMargin = 0;
+
+                for (let index = 0; index < noItems; index++) {
+                    if (this.getView().getModel("oRequestModel").getProperty("/Vtweg") === '19') {
+                        wDiscount = wDiscount + Number(tableData[index].Discount);
+                        wORCP = wORCP + Number(tableData[index].Commboxp);
+                    } else {
+                        debugger;
+                        wDiscountb = wDiscountb + Number(tableData[index].Discountb);
+                        wORC = wORC + Number(tableData[index].Commbox);
+                    }
+                    wNEF = wNEF + Number(tableData[index].Netexsqft);
+                    wFreight = wFreight + Number(tableData[index].Frghtsqft);
+                    wGrossMargin = wGrossMargin + Number(tableData[index].Grossmargper);
+                }
+
+                this.getView().getModel("oRequestModel").setProperty("/Wdisc", (wDiscount / noItems).toFixed(2).toString());
+                this.getView().getModel("oRequestModel").setProperty("/Wdiscb", (wDiscountb / noItems).toFixed(2).toString());
+                this.getView().getModel("oRequestModel").setProperty("/Wnefsqft", (wNEF / noItems).toFixed(2).toString());
+                this.getView().getModel("oRequestModel").setProperty("/Wfrgtsqft", (wFreight / noItems).toFixed(2).toString());
+                this.getView().getModel("oRequestModel").setProperty("/Worc", (wORC / noItems).toFixed(2).toString());
+                this.getView().getModel("oRequestModel").setProperty("/Worcper", (wORCP / noItems).toFixed(2).toString());
+                this.getView().getModel("oRequestModel").setProperty("/Wgrossmargper", (wGrossMargin / noItems).toFixed(2).toString());
+
+                this.getView().getModel("oRequestModel").refresh(true);
             }
 
         });

@@ -70,36 +70,15 @@
                     </uxap:ObjectPageSubSection>
                 </uxap:subSections>
             </uxap:ObjectPageSection>
-            <uxap:ObjectPageSection
-                id="idV2OPSAttach"
-                titleUppercase="true"
-                title="{i18nV2>view2.sections.attachments.title}"
-                 
-            >
-                <!-- Attachment -->
-                <uxap:subSections>
-                    <uxap:ObjectPageSubSection
-                        id="idV2OPSubAttach"
-                        title="{i18nV2>view2.sections.attachments.title}"
-                        titleUppercase="true"
-                    >
-                        <uxap:blocks>
-                            <core:Fragment
-                                id="idV2FragAttach"
-                                fragmentName="zpj.pro.sk.sd.salescoordinator.zprosalesco.view.fragments.View2.attachments"
-                                type="XML"
-                            />
-                        </uxap:blocks>
-                    </uxap:ObjectPageSubSection>
-                </uxap:subSections>
-            </uxap:ObjectPageSection>
+
+         <!-- Summary Detail -->
             <uxap:ObjectPageSection
                 id="idV2OPSSumDetail"
                 titleUppercase="true"
                 title="{i18nV2>view2.sections.sumDetails.title}"
                
             >
-                <!-- Summary Detail -->
+              
                 <uxap:subSections>
                     <uxap:ObjectPageSubSection
                         id="idV2OPSubSumDetail"
@@ -116,6 +95,32 @@
                     </uxap:ObjectPageSubSection>
                 </uxap:subSections>
             </uxap:ObjectPageSection>
+
+            <!-- Attachment -->
+            <uxap:ObjectPageSection
+                id="idV2OPSAttach"
+                titleUppercase="true"
+                title="{i18nV2>view2.sections.attachments.title}"
+                 
+            >
+                
+                <uxap:subSections>
+                    <uxap:ObjectPageSubSection
+                        id="idV2OPSubAttach"
+                        title="{i18nV2>view2.sections.attachments.title}"
+                        titleUppercase="true"
+                    >
+                        <uxap:blocks>
+                            <core:Fragment
+                                id="idV2FragAttach"
+                                fragmentName="zpj.pro.sk.sd.salescoordinator.zprosalesco.view.fragments.View2.attachments"
+                                type="XML"
+                            />
+                        </uxap:blocks>
+                    </uxap:ObjectPageSubSection>
+                </uxap:subSections>
+            </uxap:ObjectPageSection>
+     
         </uxap:sections>
 
         <uxap:footer>

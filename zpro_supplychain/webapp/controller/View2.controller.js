@@ -94,13 +94,18 @@ sap.ui.define([
                     "NAV_SC_HEADER": []
                 }
                 var nLen = this.getView().getModel("oRequestModel").getData().NAV_SC_HEADER.results.length;
+                
                 for (let index = 0; index < nLen; index++) {
-                    delete this.getView().getModel("oRequestModel").getData().NAV_SC_HEADER.results[index].__metadata
+                    delete this.getView().getModel("oRequestModel").getData().NAV_SC_HEADER.results[index].__metadata;
+                    var ApprovedFrightprice = this.getView().getModel("oRequestModel").getData().NAV_SC_HEADER.results[index].ApprovedFrightprice
+                    if (ApprovedFrightprice === null || ApprovedFrightprice === undefined || ApprovedFrightprice === '') {
+                        ApprovedFrightprice = '0.00';
+                    } 
                     payload.NAV_SC_HEADER.push(
                         {
                             "Pafno": this.getView().getModel("oRequestModel").getData().Pafno,
-                            "Posnr": (index + 1).toString(),
-                            "ApprovedFrightprice": this.getView().getModel("oRequestModel").getData().NAV_SC_HEADER.results[index].ApprovedFrightprice
+                            "Posnr": this.getView().getModel("oRequestModel").getData().NAV_SC_HEADER.results[index].Posnr,
+                            "ApprovedFrightprice": ApprovedFrightprice
                         }
                     )
                 }

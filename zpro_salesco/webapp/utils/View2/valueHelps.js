@@ -159,33 +159,7 @@ sap.ui.define([], function () {
             });
             oControl.oFragmentSizes.open();
         },
-        // Designs 
-        onDesignsHelp: function (oControl, Mfrgr) {
-            var oResourceModel = oControl.getView().getModel("i18nV2").getResourceBundle();
-            if (!oControl.oFragmentDesign) {
-                oControl.oFragmentDesign = sap.ui.xmlfragment("zpj.pro.sk.sd.salescoordinator.zprosalesco.view.fragments.View2.F4s.designsF4", oControl);
-                oControl.oFragmentDesign.setTitle(oResourceModel.getText("view2.F4.title.designs"));
-                oControl.getView().addDependent(oControl.SalesOfficerag);
-                oControl._DesignsTemp = sap.ui.getCore().byId("idSLDesignsValueHelp").clone();
-                oControl._oTempDesign = sap.ui.getCore().byId("idSLDesignsValueHelp").clone();
-            }
-            var aFilter = [];
-           
-           
-            var oFilterDomname = new sap.ui.model.Filter([new sap.ui.model.Filter("Domname", sap.ui.model.FilterOperator.EQ, "ZMATSOURCE")], false);
-            var oFilterDomname1 = new sap.ui.model.Filter([new sap.ui.model.Filter("Domname1", sap.ui.model.FilterOperator.EQ, "")], false);
-            var oFilterDomname2 = new sap.ui.model.Filter([new sap.ui.model.Filter("Domname2", sap.ui.model.FilterOperator.EQ, Mfrgr)], false);
-            aFilter.push(oFilterDomname);
-            aFilter.push(oFilterDomname1);
-            aFilter.push(oFilterDomname2);
-            oControl.oFragmentDesign.setModel(oControl.getView().getModel());
-            sap.ui.getCore().byId("idSDDesignsF4").bindAggregation("items", {
-                path: "/ET_VALUE_HELPSSet",
-                filters: aFilter,
-                template: oControl._DesignsTemp
-            });
-            oControl.oFragmentDesign.open();
-        },
+       
         // Supply Plant
         onSupplyPlantHelp: function (oControl) {
             var oResourceModel = oControl.getView().getModel("i18nV2").getResourceBundle();
@@ -210,7 +184,7 @@ sap.ui.define([], function () {
                 template: oControl._SalesOfficeTemp
             });
             oControl.oFragmentSupply.open();
-        },
+        }, 
         // Manufacturing Amount
         onManufacturingAmtHelp: function (oControl) {
             var oResourceModel = oControl.getView().getModel("i18nV2").getResourceBundle();

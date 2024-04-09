@@ -8,9 +8,9 @@ sap.ui.define([
      * @param {typeof sap.ui.core.mvc.Controller} Controller
      */
     function (Controller,
-	JSONModel,
-	MessageToast,
-	MessageBox) {
+        JSONModel,
+        MessageToast,
+        MessageBox) {
         "use strict";
 
         return Controller.extend("pj.zpurchasemanager.controller.View2", {
@@ -55,7 +55,7 @@ sap.ui.define([
                             MessageBox.error(JSON.parse(oError.responseText).error.innererror.errordetails[0].message, {
                                 actions: [sap.m.MessageBox.Action.OK],
                                 onClose: function (oAction) {
-    
+
                                 }
                             });
 
@@ -65,7 +65,7 @@ sap.ui.define([
             },
 
             onBack: function () {
-              
+
                 this.oRouter.navTo("page1", {});
             },
             onRenegotiationButtonPress: function () {
@@ -100,11 +100,17 @@ sap.ui.define([
                     var nLen = this.getView().getModel("oRequestModel").getData().NAV_PM_REQUEST.results.length;
                     for (let index = 0; index < nLen; index++) {
                         delete this.getView().getModel("oRequestModel").getData().NAV_PM_REQUEST.results[index].__metadata
+                        var ApprovedBuyingprice = this.getView().getModel("oRequestModel").getData().NAV_PM_REQUEST.results[index].ApprovedBuyingprice
+                      
+                        if (ApprovedBuyingprice === null || ApprovedBuyingprice === undefined || ApprovedBuyingprice === '') {
+                            ApprovedBuyingprice = '0.00';
+                        } 
+                        debugger;
                         payload.NAV_PM_REQUEST.push(
                             {
                                 "Pafno": this.getView().getModel("oRequestModel").getData().Pafno,
-                                "Posnr": (index + 1).toString(),
-                                "ApprovedBuyingprice": this.getView().getModel("oRequestModel").getData().NAV_PM_REQUEST.results[index].ApprovedBuyingprice
+                                "Posnr": this.getView().getModel("oRequestModel").getData().NAV_PM_REQUEST.results[index].Posnr,
+                                "ApprovedBuyingprice": ApprovedBuyingprice
                             }
                         )
                     }
@@ -121,7 +127,7 @@ sap.ui.define([
                                     this.oRouter.navTo("page1", {});
                                 }.bind(this)
                             });
-                           
+
                         }.bind(this),
                         error: function (oError) {
 
@@ -129,7 +135,7 @@ sap.ui.define([
                             MessageBox.error(JSON.parse(oError.responseText).error.innererror.errordetails[0].message, {
                                 actions: [sap.m.MessageBox.Action.OK],
                                 onClose: function (oAction) {
-    
+
                                 }
                             });
 
@@ -167,7 +173,7 @@ sap.ui.define([
                                 this.oRouter.navTo("page1", {});
                             }.bind(this)
                         });
-                        
+
                     },
                     error: function (oError) {
 
@@ -185,7 +191,7 @@ sap.ui.define([
             },
             onApprovedBuyingpriceInputLiveChange: function (oEvent) {
                 var sValue = oEvent.getSource().getValue();
-                debugger;
+               
                 if (sValue.includes(".")) {
                     if (sValue.split(".")[1].length > 2) {
                         MessageToast.show("Only 2 Decimal allowed");

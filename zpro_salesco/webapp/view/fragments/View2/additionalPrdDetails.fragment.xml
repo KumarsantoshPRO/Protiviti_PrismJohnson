@@ -7,7 +7,7 @@
     <VBox id="idV2VB">
         <FlexBox
             id="idV2FB"
-            direction="RowReverse"
+            direction="RowReverse" 
             alignItems="Start"
         >
             <Button
@@ -380,10 +380,10 @@
                                 value="{path:'JSONModelPayload>Mfrgr'}"
                                 editable="{GlobalEditableModel>/Editable}"
                                 showSuggestion="true"
-                                suggest=".onSuggest"
+                                suggest=".onSuggest_MaterialFreightGroups"
                                 suggestionItems="{JSONModelForSuggest>/}"
                                 submit="onMaterialFreightGroupInputSubmit"
-                                liveChange="onLiveChange"
+                                liveChange="onMaterialFreightGroupsLiveChange"
                             >
                                 <suggestionItems>
                                     <core:Item
@@ -408,10 +408,10 @@
                                 value="{JSONModelPayload>Mvgr2}"
                                 editable="{GlobalEditableModel>/Editable}"
                                 showSuggestion="true"
-                                suggest=".onSuggest"
+                                suggest=".onSuggest_Designs"
                                 suggestionItems="{JSONModelForSuggest>/}"
                                 submit="onDesignsInputSubmit"
-                                liveChange="onLiveChange"
+                                liveChange="onDesignsLiveChange"
                             >
                                 <suggestionItems>
                                     <core:Item
@@ -423,16 +423,16 @@
                             <Input
                                 id="idV2TblCLIInpSuppPlant"
                                 showValueHelp="true"
-                                valueHelpRequest="onSupplyPlantHelp"
+                                valueHelpRequest="onSupplyPlantHelp" 
                                 class="sapUiSmallMarginEnd"
                                 placeholder="Supplying Plant"
                                 value="{JSONModelPayload>Werks}"
                                 editable="{GlobalEditableModel>/Editable}"
                                 showSuggestion="true"
-                                suggest=".onSuggest"
+                                suggest=".onSuggest_SupplyPlant"
                                 suggestionItems="{JSONModelForSuggest>/}"
                                 submit="onSupplyPlantInputSubmit"
-                                liveChange="onLiveChange"
+                                liveChange="onSupplyPlantLiveChange" 
                             >
                                 <suggestionItems>
                                     <core:Item

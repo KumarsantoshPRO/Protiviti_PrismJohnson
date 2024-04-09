@@ -140,7 +140,7 @@
                         text="ORC(%)"
                     />
                 </Column>
-                   <Column
+                <Column
                     minScreenWidth="Desktop"
                     demandPopin="true"
                     hAlign="Center"
@@ -152,7 +152,7 @@
                         text="Quality"
                     />
                 </Column>
-                   <Column
+                <Column
                     minScreenWidth="Desktop"
                     demandPopin="true"
                     hAlign="Center"
@@ -181,7 +181,7 @@
                     minScreenWidth="Tablet"
                     demandPopin="true"
                     hAlign="End"
-                    width="6rem"
+                    width="8rem"
                 >
                     <Label
                         id="id.discount.column.Label"
@@ -245,9 +245,6 @@
                         tooltip="Gross Margin(%)"
                     />
                 </Column>
-
-                
-             
             </columns>
 
             <items>
@@ -271,7 +268,7 @@
                         />
                         <Text text="{path:'ProductModel>Exfacsqft'}" />
                         <Text text="{path:'ProductModel>Exdepsqft'}" />
-                           <Input
+                        <Input
                             value="{path:'ProductModel>Commbox'}"
                             textAlign="End"
                             liveChange="onCommboxInputLiveChange"
@@ -281,7 +278,7 @@
                             textAlign="End"
                         />
                         <Text text="{path:'ProductModel>Zzprodh4'}" />
-                         <Text text="{path:'ProductModel>Frghtsqft'}" />
+                        <Text text="{path:'ProductModel>Frghtsqft'}" />
                         <Text
                             visible="false"
                             text="{ProductModel>Volume}"
@@ -316,9 +313,6 @@
                             text="{ProductModel>Zvolumepft}"
                         />
                         <Text text="{path:'ProductModel>Grossmargper'}" />
-
-                     
-                        
                     </cells>
                 </ColumnListItem>
             </items>

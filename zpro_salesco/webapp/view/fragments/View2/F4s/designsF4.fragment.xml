@@ -6,6 +6,7 @@
         id="idSDDesignsF4"
         noDataText="{i18nV2>view2.F4.NoValueFound}"
         search="onValueHelpSearchDesing"
+        liveChange="onValueHelpSearchDesing"
         confirm="onDesignsHelpConfirm"
     >
         <items>

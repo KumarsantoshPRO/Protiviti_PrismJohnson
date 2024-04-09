@@ -15,6 +15,9 @@ sap.ui.define([
     'zpj/pro/sk/sd/salescoordinator/zprosalesco/utils/View2/validation',
     'zpj/pro/sk/sd/salescoordinator/zprosalesco/utils/View2/salesOffice',
     'zpj/pro/sk/sd/salescoordinator/zprosalesco/utils/View2/customerCode',
+    'zpj/pro/sk/sd/salescoordinator/zprosalesco/utils/View2/materialFreightGroup',
+    'zpj/pro/sk/sd/salescoordinator/zprosalesco/utils/View2/designs',
+    'zpj/pro/sk/sd/salescoordinator/zprosalesco/utils/View2/supplyPlant',
     "sap/m/PDFViewer",
     'sap/ui/core/Fragment',
     'sap/ui/core/format/DateFormat',
@@ -42,6 +45,9 @@ sap.ui.define([
         validation,
         salesOffice,
         customerCode,
+        materialFreightGroup,
+        Designs,
+        supplyPlant,
         PDFViewer,
         Fragment,
         DateFormat,
@@ -268,8 +274,6 @@ sap.ui.define([
                         if (oAction === "Yes") {
                             var oRouter = this.getOwnerComponent().getRouter();
                             oRouter.navTo("RouteMain", {});
-                        } else {
-
                         }
                     }.bind(this)
                 });
@@ -532,45 +536,98 @@ sap.ui.define([
             },
             //End: Sales Office
 
-            // Material Freight Group
-            onMaterialFreightGroupsHelp: function (oEvent) {
-                var Division = this.getView().getModel("JSONModelPayload").getProperty("/Spart");
-                if (Division) {
-                    this.bindingContextPath = oEvent.getSource().getParent().getBindingContextPath();
-                    valueHelps.onMaterialFreightGroupsHelp(this, Division);
-                    this.byId(sap.ui.core.Fragment.createId("idV2FragGenInfo", "idV2SLVertical")).setValueState("None")
-                } else {
-                    MessageBox.error("Please select vertical first");
-                    this.byId(sap.ui.core.Fragment.createId("idV2FragGenInfo", "idV2SLVertical")).setValueState("Error")
-                }
-            },
-            // Sizes
-            onSizesHelp: function (oEvent) {
-                valueHelps.onSizesHelp(this);
-            },
-            // Designs 
-            onDesignsHelp: function (oEvent) {
 
-                var sPath = oEvent.getSource().getParent().getBindingContextPath();
-                var Mfrgr = this.getView().getModel("JSONModelPayload").getContext(sPath).getProperty("Mfrgr");
-                this.Mfrgr = oEvent.getSource().getParent().getBindingContextPath() + "/Mfrgr";
-                this.bindingContextPath = oEvent.getSource().getParent().getBindingContextPath() + "/Mvgr2";
-                if (Mfrgr) {
-                    valueHelps.onDesignsHelp(this, Mfrgr);
-                } else {
-                    MessageBox.error("Please select 'Material Freight Group' first");
-                }
+            // Start: Material Freight Group
+
+            // on Value Help(F4)
+            onMaterialFreightGroupsHelp: function (oEvent) {
+                materialFreightGroup.onMaterialFreightGroupsHelp(oEvent, this);
             },
-            // Supply Plant
+            // on F4 search/liveChange
+            onMaterialFreightGroupsValueHelpSearch: function (oEvent) {
+                materialFreightGroup.onMaterialFreightGroupsValueHelpSearch(oEvent, this);
+            },
+            // on F4 confirm
+            onMaterialFreightGroupsHelpConfirm: function (oEvent) {
+                materialFreightGroup.onMaterialFreightGroupsHelpConfirm(oEvent, this);
+            },
+            // On Suggest
+            onSuggest_MaterialFreightGroups: function (oEvent) {
+                materialFreightGroup.onSuggest_MaterialFreightGroups(oEvent, this);
+            },
+            // Submit action
+            onMaterialFreightGroupInputSubmit: function (oEvent) {
+                materialFreightGroup.onMaterialFreightGroupInputSubmit(oEvent, this);
+            },
+            // On live change
+            onMaterialFreightGroupsLiveChange: function (oEvent) {
+                materialFreightGroup.onMaterialFreightGroupsLiveChange(oEvent);
+            },
+
+            // End: Material Freight Group
+
+            // Start: Designs
+
+            // on Value Help(F4)
+            onDesignsHelp: function (oEvent) {
+                Designs.onDesignsHelp(oEvent, this);
+            },
+            // on F4 search/liveChange
+            onValueHelpSearchDesing: function (oEvent) {
+                Designs.onValueHelpSearchDesing(oEvent, this);
+            },
+            // on F4 confirm
+            onDesignsHelpConfirm: function (oEvent) {
+                Designs.onDesignsHelpConfirm(oEvent, this);
+            },
+            // On Suggest
+            onSuggest_Designs: function (oEvent) {
+                Designs.onSuggest_Designs(oEvent, this);
+            },
+
+            // Submit action
+            onDesignsInputSubmit: function (oEvent) {
+                Designs.onDesignsInputSubmit(oEvent, this);
+            },
+            // On live change
+            onDesignsLiveChange: function (oEvent) {
+                Designs.onDesignsLiveChange(oEvent);
+            },
+            // End: Designs
+
+            //Start: Supply Plant
+
+            // on Value Help(F4)
             onSupplyPlantHelp: function (oEvent) {
-                this.bindingContextPath = oEvent.getSource().getParent().getBindingContextPath() + "/Werks";
-                valueHelps.onSupplyPlantHelp(this);
+                supplyPlant.onSupplyPlantHelp(oEvent, this);
             },
-            // Manufacturing Amount
+            // on F4 search/liveChange
+            onSupplyPlantValueHelpSearch: function (oEvent) {
+                supplyPlant.onSupplyPlantValueHelpSearch(oEvent, this)
+            },
+            // on F4 confirm
+            onSupplyPlantHelpConfirm: function (oEvent) {
+                supplyPlant.onSupplyPlantHelpConfirm(oEvent, this);
+            },
+
+            // On Suggest
+            onSuggest_SupplyPlant: function (oEvent) {
+                supplyPlant.onSuggest_SupplyPlant(oEvent, this);
+            },
+            // Submit action
+            onSupplyPlantInputSubmit: function (oEvent) {
+                supplyPlant.onSupplyPlantInputSubmit(oEvent, this);
+
+            },
+
+            //End: Supply Plant
+
+            //Start: Manufacturing Plant
             onManufacturingAmtHelp: function (oEvent) {
                 this.bindingContextPath = oEvent.getSource().getParent().getBindingContextPath() + "/Prodh1";
                 valueHelps.onManufacturingAmtHelp(this);
             },
+            //End: Manufacturing Plant
 
             onValueHelpSearch: function (evt) {
                 var aFilter = [];
@@ -608,28 +665,7 @@ sap.ui.define([
                 aFilter.push(oFilterDomname);
                 valueHelps.onCustomerCodeHelpSearch(oSelectDialog, aFilter, sPath, this);
             },
-            onValueHelpSearchDesing: function (evt) {
-                var aFilter = [];
-                var sValue = evt.getParameter("value");
-                var sPath = "/ET_VALUE_HELPSSet";
-                // come back here
-                var oSelectDialog = sap.ui.getCore().byId(evt.getParameter('id'));
-                var Mfrgr = this.getView().getModel("JSONModelPayload").getProperty(this.Mfrgr);
-                var oFilterDomname = new sap.ui.model.Filter([new sap.ui.model.Filter("Domname", sap.ui.model.FilterOperator.EQ, "ZMATSOURCE")], false);
-                var oFilterDomname1 = new sap.ui.model.Filter([new sap.ui.model.Filter("Domname1", sap.ui.model.FilterOperator.EQ, sValue)], false);
-                var oFilterDomname2 = new sap.ui.model.Filter([new sap.ui.model.Filter("Domname2", sap.ui.model.FilterOperator.EQ, Mfrgr)], false)
 
-
-                aFilter.push(oFilterDomname);
-                aFilter.push(oFilterDomname1);
-                aFilter.push(oFilterDomname2);
-
-                oSelectDialog.bindAggregation("items", {
-                    path: sPath,
-                    filters: aFilter,
-                    template: this._oTempDesign
-                });
-            },
 
             onValueHelpConfirm: function (evt) {
 
@@ -637,167 +673,12 @@ sap.ui.define([
                 valueHelps.valueHelpConfirm(oSelectedItem, this, this.bindingContextPath);
             },
 
-            onMaterialFreightGroupsHelpConfirm: function (oEvent) {
-                var oSelectedItem = oEvent.getParameter("selectedItem");
-                var sSelectedValue = oSelectedItem.getProperty("title");
-
-                var aModelData = this.getView().getModel("JSONModelPayload").getProperty("/ET_SALES_COORD_ISET/results");
-                var bindingContextPathMFG = this.bindingContextPath + "/Mfrgr";
-                var bindingContextPathSize = this.bindingContextPath + "/Szmm";
-                for (var i = 0; i < aModelData.length; i++) {
-                    if (sSelectedValue === aModelData[i].Mfrgr && i != Number(this.bindingContextPath.split("/")[3])) {
-                        MessageBox.error(sSelectedValue + " this 'Material Freigth Group' already selected");
-
-                        this.getView().getModel("JSONModelPayload").setProperty(bindingContextPathMFG, "");
-                        this.getView().getModel("JSONModelPayload").setProperty(bindingContextPathSize, "");
-                        i = aModelData.length;
-                    } else {
-                        this.getView().getModel("JSONModelPayload").setProperty(bindingContextPathMFG, sSelectedValue);
-                        var aFilter = [];
-                        var oFilterDomname = new sap.ui.model.Filter([new sap.ui.model.Filter("Domname", sap.ui.model.FilterOperator.EQ, "SIZE")], false);
-                        var oFilterDomname2 = new sap.ui.model.Filter([new sap.ui.model.Filter("Domname2", sap.ui.model.FilterOperator.EQ, sSelectedValue)], false);
-                        aFilter.push(oFilterDomname);
-                        aFilter.push(oFilterDomname2);
-                        var sPath = "/ET_VALUE_HELPSSet"
-                        var that = this;
-                        this.getView().setBusy(true);
-                        this.getView().getModel().read(sPath, {
-                            filters: aFilter,
-                            // urlParameters: {
-                            //     "$expand": ""
-                            // },
-                            success: function (Data) {
-                                that.getView().setBusy(false);
-                                that.getView().getModel("JSONModelPayload").setProperty(bindingContextPathSize, Data.results[0].Ddtext);
-                            },
-                            error: function (oError) {
-                                that.getView().setBusy(false);
-                                MessageBox.error(JSON.parse(oError.responseText).error.innererror.errordetails[0].message, {
-                                    actions: [sap.m.MessageBox.Action.OK],
-                                    onClose: function (oAction) {
-
-                                    }
-                                });
-                            }
-                        });
-                    }
-                    // }
-                }
-
-
-
-
-            },
-
-            onDesignsHelpConfirm: function (oEvent) {
-                var oSelectedItem = oEvent.getParameter("selectedItem");
-                var sSelectedValue = oSelectedItem.getProperty("title");
-                this.getView().getModel("JSONModelPayload").setProperty(this.bindingContextPath, sSelectedValue);
-            },
-            onSupplyPlantHelpConfirm(oEvent) {
-                var oSelectedItem = oEvent.getParameter("selectedItem");
-                var sSelectedValue = oSelectedItem.getProperty("title");
-                this.getView().getModel("JSONModelPayload").setProperty(this.bindingContextPath, sSelectedValue);
-            },
             onManufacturingAmtHelpConfirm: function (oEvent) {
                 var oSelectedItem = oEvent.getParameter("selectedItem");
                 var sSelectedValue = oSelectedItem.getProperty("title");
                 this.getView().getModel("JSONModelPayload").setProperty(this.bindingContextPath, sSelectedValue);
             },
-            // Submit action - Material Freight Group
-            onMaterialFreightGroupInputSubmit: function (oEvent) {
 
-                var sTerm = oEvent.getParameter("value"),
-                    sSelectedValue = sTerm,
-                    aFilters = [],
-                    Division = this.getView().getModel("JSONModelPayload").getProperty("/Spart"),
-                    oFilterDomname = new sap.ui.model.Filter([new sap.ui.model.Filter("Domname", sap.ui.model.FilterOperator.EQ, "ZPRICECAT")], false),
-                    oFilterDomname1 = new sap.ui.model.Filter([new sap.ui.model.Filter("Domname1", sap.ui.model.FilterOperator.EQ, sTerm)], false),
-                    oFilterDomname2 = new sap.ui.model.Filter([new sap.ui.model.Filter("Domname2", sap.ui.model.FilterOperator.EQ, Division)], false),
-                    bindingContextPath = oEvent.getSource().getParent().getBindingContextPath(),
-                    sValue1 = bindingContextPath + "/Mfrgr",
-                    sValue2 = bindingContextPath + "/Szmm",
-                    sMessage = "Entered Material Freight Group is wrong";
-
-                aFilters.push(oFilterDomname);
-                aFilters.push(oFilterDomname1);
-                aFilters.push(oFilterDomname2);
-
-                var aModelData = this.getView().getModel("JSONModelPayload").getProperty("/ET_SALES_COORD_ISET/results");
-                var bindingContextPathMFG = sValue1;
-                var bindingContextPathSize = sValue2;
-
-                var vMFGStatus = 0;
-                for (var i = 0; i < aModelData.length; i++) {
-                    if (sSelectedValue === aModelData[i].Mfrgr && i != Number(bindingContextPath.split("/")[3])) {
-
-                        if (this.getView().getModel("JSONModelPayload").getProperty(bindingContextPathMFG) !== '') {
-                            MessageBox.error(sSelectedValue + " this 'Material Freigth Group' already selected");
-                            vMFGStatus = 1;
-                            this.getView().getModel("JSONModelPayload").setProperty(bindingContextPathMFG, "");
-                            this.getView().getModel("JSONModelPayload").setProperty(bindingContextPathSize, "");
-                            this.getView().getModel("JSONModelPayload").refresh(true);
-                            i = aModelData.length;
-                        }
-                    }
-                }
-
-
-                if (vMFGStatus === 0) {
-                    if (Division) {
-                        this._submitCall(sTerm, aFilters, sValue1, sValue2, sMessage);
-                        this.byId(sap.ui.core.Fragment.createId("idV2FragGenInfo", "idV2SLVertical")).setValueState("None")
-                    } else {
-                        MessageBox.error("Please select vertical first");
-                        this.getView().getModel("JSONModelPayload").setProperty(sValue1, "");
-                        this.getView().getModel("JSONModelPayload").setProperty(sValue2, "");
-                        this.byId(sap.ui.core.Fragment.createId("idV2FragGenInfo", "idV2SLVertical")).setValueState("Error")
-                    }
-
-                }
-
-                this.getView().getModel("JSONModelPayload").refresh(true);
-
-
-            },
-            // Submit action - Designs
-            onDesignsInputSubmit: function (oEvent) {
-                var sTerm = oEvent.getParameter("value"),
-                    aFilters = [],
-                    sContextPath = oEvent.getSource().getParent().getBindingContextPath(),
-                    Mfrgr = this.getView().getModel("JSONModelPayload").getContext(sContextPath).getProperty("Mfrgr"),
-                    oFilterDomname = new sap.ui.model.Filter([new sap.ui.model.Filter("Domname", sap.ui.model.FilterOperator.EQ, "ZMATSOURCE")], false),
-                    oFilterDomname1 = new sap.ui.model.Filter([new sap.ui.model.Filter("Domname1", sap.ui.model.FilterOperator.EQ, sTerm)], false),
-                    oFilterDomname2 = new sap.ui.model.Filter([new sap.ui.model.Filter("Domname2", sap.ui.model.FilterOperator.EQ, Mfrgr)], false),
-                    sValue1 = sContextPath + "/Mvgr2",
-                    sValue2 = "",
-                    sMessage = "Entered Design is wrong";
-                aFilters.push(oFilterDomname);
-                aFilters.push(oFilterDomname1);
-                aFilters.push(oFilterDomname2);
-                if (Mfrgr) {
-                    this._submitCall(sTerm, aFilters, sValue1, sValue2, sMessage);
-                } else {
-                    MessageBox.error("Please select Material Frieght Group first");
-                    this.getView().getModel("JSONModelPayload").setProperty(sValue1, "");
-
-                }
-
-            },
-            // Submit action - Supply plant
-            onSupplyPlantInputSubmit: function (oEvent) {
-                var sTerm = oEvent.getParameter("value"),
-                    aFilters = [],
-                    sContextPath = oEvent.getSource().getParent().getBindingContextPath(),
-                    oFilterDomname = new sap.ui.model.Filter([new sap.ui.model.Filter("Domname", sap.ui.model.FilterOperator.EQ, "T001W")], false),
-                    oFilterDomname1 = new sap.ui.model.Filter([new sap.ui.model.Filter("Domname1", sap.ui.model.FilterOperator.EQ, sTerm)], false),
-                    sValue1 = sContextPath + "/Werks",
-                    sValue2 = "",
-                    sMessage = "Entered Supply Plant is wrong";
-                aFilters.push(oFilterDomname);
-                aFilters.push(oFilterDomname1);
-                this._submitCall(sTerm, aFilters, sValue1, sValue2, sMessage);
-            },
             // Submit action - Manufacturing Plant
             onManufacturingPlantInputSubmit: function (oEvent) {
                 var sTerm = oEvent.getParameter("value"),
@@ -1095,8 +976,9 @@ sap.ui.define([
                                             MessageBox.success("Request saved successfully with PAF Number:" + oData.Pafno.replace(/^0+/, '') + "", {
                                                 actions: [sap.m.MessageBox.Action.OK],
                                                 onClose: function (oAction) {
-                                                    window.location.reload();
-                                                }
+                                                    var oRouter = this.getOwnerComponent().getRouter();
+                                                    oRouter.navTo("RouteMain", {});
+                                                }.bind(this)
                                             });
                                         },
                                         error: function (oError) {
@@ -1269,8 +1151,8 @@ sap.ui.define([
                 if (vPayTermDiscount === NaN || vPayTermDiscount === 0 || vPayTermDiscount === '' || vPayTermDiscount === undefined) {
                     vPayTermDiscount = 'Not Available'
                 }
-                this.byId(sap.ui.core.Fragment.createId("idV2FragSumDeatil", "idV2InpInvcDis")).setValue(vInvoiceDiscount.toString()+vInvoiceType);
-                this.byId(sap.ui.core.Fragment.createId("idV2FragSumDeatil", "idV2InpOrc")).setValue(vOrc.toString()+vOrcType);
+                this.byId(sap.ui.core.Fragment.createId("idV2FragSumDeatil", "idV2InpInvcDis")).setValue(vInvoiceDiscount.toString() + vInvoiceType);
+                this.byId(sap.ui.core.Fragment.createId("idV2FragSumDeatil", "idV2InpOrc")).setValue(vOrc.toString() + vOrcType);
                 this.byId(sap.ui.core.Fragment.createId("idV2FragSumDeatil", "idV2InpfraightCost")).setValue(vFreightDiscount.toString());
                 this.byId(sap.ui.core.Fragment.createId("idV2FragSumDeatil", "idV2InpPayTermDis")).setValue(vPayTermDiscount.toString());
             },
