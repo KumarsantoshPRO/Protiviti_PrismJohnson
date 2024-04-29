@@ -22,16 +22,7 @@
                         visible="false"
                     />
                     <ToolbarSpacer />
-                    <TextArea
-                        id="id.remarks.TextArea"
-                        width="40%"
-                        height="70%"
-                        wrapping="Hard"
-                        placeholder="Enter Remarks"
-                        growing="true"
-                        valueState="Information"
-                        valueStateText="Enter Remarks"
-                    />
+
                     <Button
                         text="Generate"
                         icon="sap-icon://cause"
@@ -82,12 +73,12 @@
                     minScreenWidth="Tablet"
                     demandPopin="true"
                     hAlign="Center"
-                    width="6rem"
+                    width="12rem"
                 >
                     <Label
                         design="Bold"
                         wrapping="true"
-                        text="Source"
+                        text="Vendor"
                     />
                 </Column>
                 <Column
@@ -245,6 +236,19 @@
                         tooltip="Gross Margin(%)"
                     />
                 </Column>
+                <Column
+                    minScreenWidth="Desktop"
+                    demandPopin="true"
+                    hAlign="End"
+                    width="4rem"
+                >
+                    <Label
+                        design="Bold"
+                        wrapping="true"
+                        text="Remarks"
+                        tooltip="Remarks"
+                    />
+                </Column>
             </columns>
 
             <items>
@@ -253,16 +257,16 @@
                         <Text text="{ProductModel>Mfrgr}" />
                         <Text text="{ProductModel>Szcm}" />
                         <Text text="{ProductModel>Design}" />
-
+                        <!-- value="{ProductModel>Source}"  -->
                         <Input
-                            value="{ProductModel>Source}"
+                            value="{parts: ['ProductModel>Sname','ProductModel>Source'], formatter:'.formatter.showSource'}"
                             id="idSource.Input"
-                            valueStateText="Enter Source"
+                            valueStateText="Enter Vendor"
                             showValueHelp="true"
                             editable="{=${ProductModel>Isown} === 'X' ? false: true}"
                             valueHelpRequest="onSourceHelp"
                             class="sapUiSmallMarginEnd"
-                            placeholder="Source"
+                            placeholder="Vendor"
                             textAlign="End"
                             liveChange="onSourceInputLiveChange"
                         />
@@ -313,6 +317,7 @@
                             text="{ProductModel>Zvolumepft}"
                         />
                         <Text text="{path:'ProductModel>Grossmargper'}" />
+                        <Text text="{path:'ProductModel>Remark'}" />
                     </cells>
                 </ColumnListItem>
             </items>

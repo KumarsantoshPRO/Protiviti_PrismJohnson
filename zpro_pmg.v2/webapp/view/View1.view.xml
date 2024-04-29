@@ -5,6 +5,7 @@
     xmlns:f="sap.f"
     xmlns="sap.m"
     xmlns:tnt="sap.tnt"
+    xmlns:fb="sap.ui.comp.filterbar"
 >
     <Page
         class="sapUiResponsivePadding--header sapUiResponsivePadding--subHeader sapUiResponsivePadding--content sapUiResponsivePadding--footer sapUiResponsivePadding--floatingFooter"
@@ -82,6 +83,127 @@
                     />
                 </items>
                 <content>
+                    <fb:FilterBar
+                        id="id.FilterBar"
+                        persistencyKey="myPersKey"
+                        useToolbar="false"
+                        search=".onSearch"
+                        showFilterConfiguration="false"
+                        clear="onFilterBarClear"
+                        showClearOnFB="true"
+                    >
+                        <fb:filterGroupItems>
+                            <fb:FilterGroupItem
+                                name="SalesOffice"
+                                label="Sales Office"
+                                groupName="Group1"
+                                visibleInFilterBar="true"
+                                mandatory="true"
+                            >
+                                <fb:control>
+                                    <Input
+                                        id="id.SalesOffice.Input"
+                                        placeholder="Sales Office"
+                                        submit="onSearch"
+                                    />
+                                </fb:control>
+                            </fb:FilterGroupItem>
+                            <fb:FilterGroupItem
+                                name="Status"
+                                label="Status"
+                                groupName="Group1"
+                                visibleInFilterBar="true"
+                                mandatory="true"
+                                visible="false"
+                            >
+                                <fb:control>
+                                    <ComboBox
+                                        id="id.Status.ComboBox"
+                                        selectedKey="P"
+                                    >
+                                        <core:Item
+                                            key="P"
+                                            text="Pending"
+                                        />
+                                        <core:Item
+                                            key="A"
+                                            text="Approved"
+                                        />
+                                        <core:Item
+                                            key="R"
+                                            text="Rejected"
+                                        />
+                                        <core:Item
+                                            key="DL"
+                                            text="Deleted"
+                                        />
+                                    </ComboBox>
+                                </fb:control>
+                            </fb:FilterGroupItem>
+                            <fb:FilterGroupItem
+                                name="Division"
+                                label="Division"
+                                groupName="Group1"
+                                visibleInFilterBar="true"
+                            >
+                                <fb:control>
+                                    <Select
+                                        id="id.Division.ComboBox"
+                                        forceSelection="false"
+                                        change="onSearch"
+                                    >
+                                        <core:Item
+                                            key="10"
+                                            text="Johnson"
+                                        />
+                                        <core:Item
+                                            key="20"
+                                            text="Porselano"
+                                        />
+                                        <core:Item
+                                            key="30"
+                                            text="Marbonite"
+                                        />
+                                        <core:Item
+                                            key="40"
+                                            text="Endura"
+                                        />
+                                    </Select>
+                                </fb:control>
+                            </fb:FilterGroupItem>
+                            <fb:FilterGroupItem
+                                name="PafNo"
+                                label="Paf No"
+                                groupName="Group1"
+                                visibleInFilterBar="true"
+                            >
+                                <fb:control>
+                                    <Input
+                                        id="id.PafNo.Input"
+                                        placeholder="PAF No."
+                                        submit="onSearch"
+                                    />
+                                </fb:control>
+                            </fb:FilterGroupItem>
+
+                            <fb:FilterGroupItem
+                                name="date"
+                                label="Date"
+                                groupName="Group1"
+                                visibleInFilterBar="true"
+                            >
+                                <fb:control>
+                                    <DatePicker
+                                        id="id.Date.DatePicker"
+                                        valueFormat="MM/dd/yyyy"
+                                        displayFormat="dd/MM/YYYY"
+                                        change="onSearch"
+                                        placeholder="e.g: 31/12/2020"
+                                    />
+                                </fb:control>
+                            </fb:FilterGroupItem>
+                        </fb:filterGroupItems>
+                    </fb:FilterBar>
                     <Table
                         id="productsTable"
                         alternateRowColors="true"
@@ -129,9 +251,9 @@
                             </Column>
                             <Column
                                 hAlign="End"
-                                width="5rem"
+                                width="8rem"
                             >
-                                <Text text="Region" />
+                                <Text text="Sales Office" />
                             </Column>
                             <Column
                                 hAlign="Center"
@@ -150,7 +272,7 @@
                                 demandPopin="true"
                                 width="5rem"
                             >
-                                <Text text="Order type" />
+                                <Text text="Type Of Order" />
                             </Column>
                             <Column
                                 hAlign="End"
@@ -184,6 +306,7 @@
                                 hAlign="End"
                                 demandPopin="true"
                                 width="6rem"
+                                visible="false"
                             >
                                 <Text text="GM%" />
                             </Column>
@@ -205,7 +328,9 @@
                                     <Text
                                         text="{path:'JSONModelForTable>Pafno', formatter:'.formatter.removeLeadingZeros'}"
                                     />
-                                    <Text text="{JSONModelForTable>Vkbur}" />
+                                    <Text
+                                        text="{JSONModelForTable>Soname}({JSONModelForTable>Vkbur})"
+                                    />
                                     <Text text="{JSONModelForTable>Name}" />
                                     <Text text="{JSONModelForTable>Kunnr}" />
                                     <Text

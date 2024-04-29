@@ -7,7 +7,7 @@
     <VBox id="idV2VB">
         <FlexBox
             id="idV2FB"
-            direction="RowReverse" 
+            direction="RowReverse"
             alignItems="Start"
         >
             <Button
@@ -299,6 +299,31 @@
                             text="{i18nV2>view2.table.column.text.freight}"
                         />
                     </Column>
+
+                    <Column
+                        id="idV2TblClmLand"
+                        minScreenWidth="Desktop"
+                        demandPopin="true"
+                        hAlign="Center"
+                        width="10rem"
+                    >
+                        <Label
+                            id="idV2TxtTblClmLand"
+                            text="{i18nV2>view2.table.column.text.landed}"
+                        />
+                    </Column>
+                    <Column
+                        id="idV2TblClmNEF"
+                        minScreenWidth="Desktop"
+                        demandPopin="true"
+                        hAlign="Center"
+                        width="12rem"
+                    >
+                        <Label
+                            id="idV2TxtTblClmNEF"
+                            text="{i18nV2>view2.table.column.text.netExFactory}"
+                        />
+                    </Column>
                     <Column
                         id="idV2TblClmComp"
                         minScreenWidth="Desktop"
@@ -324,32 +349,19 @@
                             text="{i18nV2>view2.table.column.text.compLandPrice}"
                         />
                     </Column>
-
                     <Column
-                        id="idV2TblClmLand"
+                        id="idV2TblClmRemark"
                         minScreenWidth="Desktop"
                         demandPopin="true"
                         hAlign="Center"
-                        width="10rem"
+                        width="12rem"
+                     
                     >
                         <Label
-                            id="idV2TxtTblClmLand"
-                            text="{i18nV2>view2.table.column.text.landed}"
+                            id="idV2TxtTblClmRemarks"
+                            text="{i18nV2>view2.table.column.text.remarks}"
                         />
                     </Column>
-                    <Column
-                        id="idV2TblClmNEF"
-                        minScreenWidth="Desktop"
-                        demandPopin="true"
-                        hAlign="Center"
-                        width="10rem"
-                    >
-                        <Label
-                            id="idV2TxtTblClmNEF"
-                            text="{i18nV2>view2.table.column.text.netExFactory}"
-                        />
-                    </Column>
-
                     <Column
                         id="idV2TblClmDel"
                         minScreenWidth="Desktop"
@@ -423,7 +435,7 @@
                             <Input
                                 id="idV2TblCLIInpSuppPlant"
                                 showValueHelp="true"
-                                valueHelpRequest="onSupplyPlantHelp" 
+                                valueHelpRequest="onSupplyPlantHelp"
                                 class="sapUiSmallMarginEnd"
                                 placeholder="Supplying Plant"
                                 value="{JSONModelPayload>Werks}"
@@ -432,7 +444,7 @@
                                 suggest=".onSuggest_SupplyPlant"
                                 suggestionItems="{JSONModelForSuggest>/}"
                                 submit="onSupplyPlantInputSubmit"
-                                liveChange="onSupplyPlantLiveChange" 
+                                liveChange="onSupplyPlantLiveChange"
                             >
                                 <suggestionItems>
                                     <core:Item
@@ -450,10 +462,10 @@
                                 value="{JSONModelPayload>Prodh1}"
                                 editable="{GlobalEditableModel>/Editable}"
                                 showSuggestion="true"
-                                suggest=".onSuggest"
+                                suggest=".onSuggest_ManufacturingPlant"
                                 suggestionItems="{JSONModelForSuggest>/}"
                                 submit="onManufacturingPlantInputSubmit"
-                                liveChange="onLiveChange"
+                                liveChange="onManufacturingPlantLiveChange"
                             >
                                 <suggestionItems>
                                     <core:Item
@@ -495,6 +507,7 @@
                                 items="{LocalJSONModels>/part}"
                                 selectedKey="{JSONModelPayload>Mvgr5}"
                                 editable="{GlobalEditableModel>/Editable}"
+                                change="onPartSelectChange"
                             >
                                 <core:Item
                                     key="{LocalJSONModels>key}"
@@ -502,10 +515,11 @@
                                 />
                             </Select>
                             <!-- 9 -->
+                            <!--  -->
                             <Select
                                 forceSelection="false"
                                 items="{LocalJSONModels>/exFacDepo}"
-                                selectedKey="{JSONModelPayload>Isexdep}"
+                                selectedKey="{path:'JSONModelPayload>Isexdep'}"
                                 editable="{GlobalEditableModel>/Editable}"
                             >
                                 <core:Item
@@ -563,26 +577,12 @@
                             <!-- 16 non mandatory-->
                             <Input
                                 id="idV2TblCLIInpFre"
-                                liveChange="onNumberValidation"
+                                liveChange="onFrgtValidation"
                                 value="{JSONModelPayload>Frgtsqft}"
                                 editable="{GlobalEditableModel>/Editable}"
-                            />
-                            <!-- 17 non mandatory-->
-                            <Input
-                                id="idV2TblCLIInpCompName"
-                                value="{JSONModelPayload>Compname}"
-                                editable="{GlobalEditableModel>/Editable}"
-                                liveChange="onLiveChange"
-                            />
-                            <!-- 18 non mandatory-->
-                            <Input
-                                id="idV2TblCLIInpCompLanPrice"
-                                liveChange="onNumberValidation"
-                                value="{JSONModelPayload>Complanprice}"
-                                editable="{GlobalEditableModel>/Editable}"
-                            />
+                            /> 
 
-                            <!-- 19 non editable-->
+                            <!-- 17 non editable-->
 
                             <Input
                                 id="idV2TblCLIInpLanded"
@@ -590,14 +590,35 @@
                                 value="{JSONModelPayload>LandedPriceSqft}"
                                 liveChange="onLiveChange"
                             />
-                            <!-- 20 non editable-->
+                            <!-- 18 non editable-->
                             <Input
                                 id="idV2TblCLIInpNEF"
                                 editable="false"
                                 value="{JSONModelPayload>Nefsqft}"
                                 liveChange="onLiveChange"
                             />
-                            <!-- 21 Button-->
+
+                            <!-- 19 non mandatory-->
+                            <Input
+                                id="idV2TblCLIInpCompName"
+                                value="{JSONModelPayload>Compname}"
+                                editable="{GlobalEditableModel>/Editable}"
+                                liveChange="onLiveChange"
+                            />
+                            <!-- 20 non mandatory-->
+                            <Input
+                                id="idV2TblCLIInpCompLanPrice"
+                                liveChange="onNumberValidation"
+                                value="{JSONModelPayload>Complanprice}"
+                                editable="{GlobalEditableModel>/Editable}"
+                            />
+                            <!-- 21 non mandatory-->
+                            <Input
+                                id="idV2TblCLInpRemarks"
+                                value="{JSONModelPayload>Remark}"
+                                editable="{GlobalEditableModel>/Editable}"
+                            />
+                            <!-- 22 Button-->
                             <Button
                                 id="idV2TblBtnDel"
                                 icon="sap-icon://delete"

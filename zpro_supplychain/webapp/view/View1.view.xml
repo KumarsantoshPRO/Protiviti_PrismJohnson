@@ -200,7 +200,7 @@
                                     />
                                     <Text
                                         id="idV1TblCLITxtRegion"
-                                        text="{ModelForTable>Vkbur}"
+                                        text="{ModelForTable>Soname}({ModelForTable>Vkbur})"
                                     />
                                     <Text
                                         id="idV1TblCLITtCustomer"

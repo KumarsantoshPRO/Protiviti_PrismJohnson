@@ -107,6 +107,13 @@
                 >
                     <Text text="Gross Margin(%)" />
                 </Column>
+                <Column
+                    minScreenWidth="Desktop"
+                    demandPopin="true"
+                    hAlign="Center"
+                >
+                    <Text text="Remarks" />
+                </Column>
             </columns>
 
             <items>
@@ -116,7 +123,7 @@
                         <Text text="{ProductModel>Szcm}" />
                         <Text text="{ProductModel>Design}" />
 
-                        <Text text="{ProductModel>Source}" />
+                        <Text text="{ProductModel>Sname}" />
                         <Text
                             visible="false"
                             text="{ProductModel>Volume}"
@@ -136,6 +143,7 @@
                             text="{path:'ProductModel>ApprovedBuyingprice'}"
                         />
                         <Text text="{path:'ProductModel>Grossmargper'}" />
+                        <Text text="{path:'ProductModel>Remark'}" />
                     </cells>
                 </ColumnListItem>
             </items>

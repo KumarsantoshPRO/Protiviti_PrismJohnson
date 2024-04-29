@@ -87,16 +87,20 @@
         {
             "key":"B",
             "text":"B"
+        },
+        {
+            "key":"L",
+            "text":"L"
         }
     ],
     "exFacDepo":[
 
         {
-            "key":"F",
+            "key":"X",
             "text":"Ex Factory"
         },
         {
-            "key":"D",
+            "key":" ",
             "text":"Ex Depot"
         }
     ]

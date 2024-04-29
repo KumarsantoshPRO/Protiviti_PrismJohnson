@@ -48,6 +48,7 @@
                                 singleContainerFullSize="false"
                             >
                                 <Label
+                                    design="Bold"
                                     text="{i18n.View2>View2.SimpleForm.customer}"
                                 />
                                 <Text
@@ -55,15 +56,17 @@
                                 />
 
                                 <Label
+                                    design="Bold"
                                     text="{i18n.View2>View2.SimpleForm.validity}"
                                 />
                                 <Text
                                     text="{path:'oRequestModel>/Validity',  formatter:'sap.formatter.removeLeadingZeros'}"
                                 />
                                 <Label
+                                    design="Bold"
                                     text="{i18n.View2>View2.SimpleForm.remarks}"
                                 />
-                                <Text text="{oRequestModel>/Remark}" />
+                                <Text text="{oRequestModel>/PmgRemark}" />
                             </forms:SimpleForm>
                         </uxap:blocks>
                     </uxap:ObjectPageSubSection>
@@ -150,7 +153,7 @@
                                                 minScreenWidth="Tablet"
                                                 demandPopin="true"
                                                 hAlign="End"
-                                                  visible="false"
+                                                visible="false"
                                             >
                                                 <Label
                                                     text="{i18n.View2>View2.table.netexfactoryNEF}"
@@ -174,6 +177,16 @@
                                                 <Label
                                                     text="{i18n.View2>View2.table.approvedFreight}"
                                                     required="true"
+                                                />
+                                            </Column>
+                                            <Column
+                                                id="id.remark.Column"
+                                                demandPopin="true"
+                                                hAlign="Center"
+                                                width="8rem"
+                                            >
+                                                <Label
+                                                    text="{i18n.View2>View2.table.remarks}"
                                                 />
                                             </Column>
                                         </columns>
@@ -212,6 +225,9 @@
                                                         value="{oRequestModel>ApprovedFrightprice}"
                                                         textAlign="End"
                                                         liveChange="onApprovedFrightpriceInputLiveChange"
+                                                    />
+                                                    <Text
+                                                        text="{oRequestModel>Remark}"
                                                     />
                                                 </cells>
                                             </ColumnListItem>

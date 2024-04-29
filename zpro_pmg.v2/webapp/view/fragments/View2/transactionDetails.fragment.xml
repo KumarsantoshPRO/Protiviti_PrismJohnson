@@ -27,7 +27,6 @@
         <Label
             text="Customer"
             design="Bold"
-           
         />
 
         <Text
@@ -38,30 +37,30 @@
         <Label
             text="Sales Office"
             design="Bold"
-           
         />
-        <Text text="{oRequestModel>/Vkbur}" />
+        <Text text="{oRequestModel>/Soname}({oRequestModel>/Vkbur})" />
 
         <Label
             text="Distribution Channel "
             design="Bold"
-           
         />
 
-        <Text text="{oRequestModel>/Vtweg} " />
+        <Text
+            text="{path:'oRequestModel>/Vtweg', formatter:'.formatter.getOrderType'} "
+        />
 
         <Label
             text="Payment Term"
             design="Bold"
-           
         />
 
-        <Text text=" {oRequestModel>/Zterm}" />
+        <Text
+            text=" {path:'oRequestModel>/Zterm', formatter:'.formatter.getPaymentTerm'}"
+        />
 
         <Label
             text="Current Volume(Sqft)"
             design="Bold"
-           
         />
 
         <Text text="{oRequestModel>/WcurVol}" />
@@ -69,7 +68,6 @@
         <Label
             text="Total Volume(Sqft)"
             design="Bold"
-           
         />
         <Text text="{oRequestModel>/WtotVol}" />
 
@@ -79,7 +77,6 @@
             text="Discount"
             design="Bold"
             visible="{=${oRequestModel>/Wdisc}==='0.00'?false:true}"
-           
         />
 
         <Text
@@ -91,7 +88,6 @@
             text="Discount"
             design="Bold"
             visible="{=${oRequestModel>/Wdiscb}==='0.00'?false:true}"
-           
         />
         <Text
             text="{path:'oRequestModel>/Wdiscb', formatter:'.formatter.addPerBox'}"
@@ -101,28 +97,31 @@
         <Label
             text="Net Ex Factory(Sqft)"
             design="Bold"
-           
         />
         <Text text="{oRequestModel>/Wnefsqft}" />
 
         <Label
             text="Freight Sqft(if applicable)"
             design="Bold"
-           
         />
         <Text text="{oRequestModel>/Wfrgtsqft}" />
 
         <Label
-            text="Remarks(if any)"
+            text="Remarks"
             design="Bold"
-           
         />
-        <Text text="{oRequestModel>/Remarks}" />
+        <Input
+            id="id.remarks.Input"
+            value="{oRequestModel>/PmgRemark}"
+            placeholder="Enter Remarks"
+            valueState="Information"
+            valueStateText="Enter Remarks"
+        />
+        <!-- <Text text="{oRequestModel>/Remarks}" /> -->
 
         <Label
             text="Status"
             design="Bold"
-           
         />
 
         <tnt:InfoLabel
@@ -135,7 +134,6 @@
             text="Validity(Days)"
             design="Bold"
             required="true"
-           
         />
 
         <Input
@@ -149,7 +147,7 @@
         />
 
         <Text
-            text="Valid upto:{path:'oRequestModel>/Pafvto',  formatter: '.formatter.getFormattedDate' }"
+            text="Till:{path:'oRequestModel>/Pafvto',  formatter: '.formatter.getFormattedDate' }"
         />
     </forms:SimpleForm>
 </core:FragmentDefinition>

@@ -143,7 +143,10 @@ sap.ui.define(['sap/m/MessageBox', "sap/ui/model/json/JSONModel", "sap/ui/model/
                 });
 
             }
+        },
+        // On live change
+        onSalesOfficeLiveChange: function (oEvent) {
+            oEvent.getSource().setValueState("None");
         }
-
     }
 });

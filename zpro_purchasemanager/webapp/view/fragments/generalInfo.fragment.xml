@@ -32,6 +32,6 @@
             design="Bold"
             text="{i18n.View2>View2.SimpleForm.remarks}"
         />
-        <Text text="{oRequestModel>/Remark}" />
+        <Text text="{oRequestModel>/PmgRemark}" />  
     </forms:SimpleForm>
 </core:FragmentDefinition>

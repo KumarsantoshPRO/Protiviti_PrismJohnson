@@ -67,9 +67,13 @@ sap.ui.define(['sap/m/MessageBox', "sap/ui/model/json/JSONModel", "sap/ui/model/
             var aModelData = that.getView().getModel("JSONModelPayload").getProperty("/ET_SALES_COORD_ISET/results");
             var bindingContextPathMFG = that.bindingContextPath + "/Mfrgr";
             var bindingContextPathSize = that.bindingContextPath + "/Szmm";
+
+            var bindingContextPathPart = that.bindingContextPath + "/Mvgr5";
+            var sPart = that.getView().getModel("JSONModelPayload").getProperty(bindingContextPathPart);
+
             for (var i = 0; i < aModelData.length; i++) {
-                if (sSelectedValue === aModelData[i].Mfrgr && i != Number(that.bindingContextPath.split("/")[3])) {
-                    MessageBox.error(sSelectedValue + " that 'Material Freigth Group' already selected");
+                if (sSelectedValue === aModelData[i].Mfrgr  && sPart === aModelData[i].Mvgr5  && i != Number(that.bindingContextPath.split("/")[3])) {
+                    MessageBox.error("Material Freigth Group:- '" + sSelectedValue + "' and Part:-'" + sPart + "' combination already selected");
 
                     that.getView().getModel("JSONModelPayload").setProperty(bindingContextPathMFG, "");
                     that.getView().getModel("JSONModelPayload").setProperty(bindingContextPathSize, "");
@@ -165,7 +169,9 @@ sap.ui.define(['sap/m/MessageBox', "sap/ui/model/json/JSONModel", "sap/ui/model/
                 bindingContextPath = oEvent.getSource().getParent().getBindingContextPath(),
                 sValue1 = bindingContextPath + "/Mfrgr",
                 sValue2 = bindingContextPath + "/Szmm",
-                sMessage = "Entered Material Freight Group is wrong";
+                sMessage = "Entered Material Freight Group is wrong",
+                bindingContextPathPart = bindingContextPath + "/Mvgr5",
+                sPart = that.getView().getModel("JSONModelPayload").getProperty(bindingContextPathPart);
 
             aFilters.push(oFilterDomname);
             aFilters.push(oFilterDomname1);
@@ -177,14 +183,15 @@ sap.ui.define(['sap/m/MessageBox', "sap/ui/model/json/JSONModel", "sap/ui/model/
 
             var vMFGStatus = 0;
             for (var i = 0; i < aModelData.length; i++) {
-                if (sSelectedValue === aModelData[i].Mfrgr && i != Number(bindingContextPath.split("/")[3])) {
+                if (sSelectedValue === aModelData[i].Mfrgr && sPart === aModelData[i].Mvgr5 && i != Number(bindingContextPath.split("/")[3])) {
 
                     if (that.getView().getModel("JSONModelPayload").getProperty(bindingContextPathMFG) !== '') {
-                        MessageBox.error(sSelectedValue + " that 'Material Freigth Group' already selected");
+                        MessageBox.error("Material Freigth Group:- '" + sSelectedValue + "' and Part:-'" + sPart + "' combination already selected");
                         vMFGStatus = 1;
                         that.getView().getModel("JSONModelPayload").setProperty(bindingContextPathMFG, "");
                         that.getView().getModel("JSONModelPayload").setProperty(bindingContextPathSize, "");
-                        that.getView().getModel("JSONModelPayload").refresh(true);
+                        that.getView().getModel("JSONModelPayload").setProperty(bindingContextPathPart, "");
+                        // that.getView().getModel("JSONModelPayload").refresh(true);
                         i = aModelData.length;
                     }
                 }
@@ -243,7 +250,7 @@ sap.ui.define(['sap/m/MessageBox', "sap/ui/model/json/JSONModel", "sap/ui/model/
                 }
             }
 
-            that.getView().getModel("JSONModelPayload").refresh(true);
+            // that.getView().getModel("JSONModelPayload").refresh(true);
 
         },
         // On live change

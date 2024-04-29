@@ -60,7 +60,6 @@
                                             <Column
                                                 demandPopin="true"
                                                 hAlign="Center"
-                                               
                                             >
                                                 <Label
                                                     text="{i18n.View2>View2.table.materialfreightgroups}"
@@ -118,7 +117,7 @@
                                                 minScreenWidth="Tablet"
                                                 demandPopin="true"
                                                 hAlign="End"
-                                                 visible="false"
+                                                visible="false"
                                             >
                                                 <Label
                                                     text="{i18n.View2>View2.table.netexfactoryNEF}"
@@ -128,7 +127,7 @@
                                                 minScreenWidth="Tablet"
                                                 demandPopin="true"
                                                 hAlign="End"
-                                                 visible="false"
+                                                visible="false"
                                             >
                                                 <Label
                                                     text="{i18n.View2>View2.table.frightsqft}"
@@ -151,6 +150,16 @@
                                                 <Label
                                                     text="{i18n.View2>View2.table.approvedbuyingprice}"
                                                     required="true"
+                                                />
+                                            </Column>
+                                            <Column
+                                                id="id.remark.Column"
+                                                demandPopin="true"
+                                                hAlign="Center"
+                                                width="8rem"
+                                            >
+                                                <Label
+                                                    text="{i18n.View2>View2.table.remarks}"
                                                 />
                                             </Column>
                                         </columns>
@@ -192,6 +201,9 @@
                                                         value="{oRequestModel>ApprovedBuyingprice}"
                                                         textAlign="End"
                                                         liveChange="onApprovedBuyingpriceInputLiveChange"
+                                                    />
+                                                    <Text
+                                                        text="{oRequestModel>Remark}"
                                                     />
                                                 </cells>
                                             </ColumnListItem>

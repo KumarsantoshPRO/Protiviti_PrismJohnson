@@ -143,7 +143,7 @@
                                 hAlign="End"
                                 width="4rem"
                             >
-                                <Text text="Region" />
+                                <Text text="Sales Office" />
                             </Column>
                             <Column
                                 hAlign="Center"
@@ -217,7 +217,7 @@
                                     <Text
                                         text="{path:'JSONModelForTable>Pafno', formatter:'.formatter.removeLeadingZeros'}"
                                     />
-                                    <Text text="{JSONModelForTable>Vkbur}" />
+                                    <Text text="{JSONModelForTable>Soname}" />
                                     <Text text="{JSONModelForTable>Name}" />
                                     <Text text="{JSONModelForTable>Kunnr}" />
                                     <Text

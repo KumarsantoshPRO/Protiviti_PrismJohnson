@@ -28,8 +28,8 @@
                 text="{i18nV2>view2.simpleForm.label.InvcDis}"
             />
             <Input
-                editable="false"
                 id="idV2InpInvcDis"
+                editable="false"
                 placeholder="{i18nV2>view2.simpleForm.label.InvcDis}"
             />
 
@@ -38,8 +38,8 @@
                 text="{i18nV2>view2.simpleForm.label.Orc}"
             />
             <Input
-                editable="false"
                 id="idV2InpOrc"
+                editable="false"
                 placeholder="{i18nV2>view2.simpleForm.label.Orc}"
             />
             <core:Title id="idV2T4" />
@@ -48,8 +48,8 @@
                 text="{i18nV2>view2.simpleForm.label.fraightCost}"
             />
             <Input
-                editable="false"
                 id="idV2InpfraightCost"
+                editable="false"
                 placeholder="{i18nV2>view2.simpleForm.label.fraightCost}"
             />
             <Label
@@ -57,8 +57,8 @@
                 text="{i18nV2>view2.simpleForm.label.PayTermDis}"
             />
             <Input
-                editable="false"
                 id="idV2InpPayTermDis"
+                editable="false"
                 placeholder="{i18nV2>view2.simpleForm.label.PayTermDis}"
             />
         </form:content>

@@ -65,7 +65,47 @@ sap.formatter = {
         return colorCode;
 
     },
+    showOrderType: function (sString) {
 
+        if (sString) {
+            switch (sString) {
+                case '11':
+                    return 'Project - 11';
+                    break;
+                case '17':
+                    return 'National Project - 17';
+                    break;
+                case '19':
+                    return 'Dealer - 19';
+                    break;
+                default:
+                    break;
+            }
+
+        } else {
+            return sString;
+        }
+
+    },
+    showSalesOffice: function (Soname, Vkbur) {
+
+        if (Soname) {
+            return Soname + "(" + Vkbur + ")";
+        } else {
+            return Vkbur;
+        }
+
+    },
+
+    exFactoryorDepot: function (sString) {
+        if(sString === "X" || sString === "x"){
+            return "X";
+        }else{
+            return null;
+        }
+
+       
+    }
     // nonVisible: function (sVal) {
     //     if (sVal) {
     //         return !sVal;

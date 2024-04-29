@@ -8,7 +8,7 @@ sap.ui.define(['sap/m/MessageBox'], function (MessageBox) {
         "Prodh1": "Manufacturing Plant",
         "CurVolFt": "Current Volume (Sqft)",
         "TotalVol": "Total Volume (Sqft)",
-        "Exfac": "Ex Factory (SqFt)",
+        // "Exfac": "Ex Factory (SqFt)",
         "Disc": "On-Invoice discount",
         "Discb": "On-Invoice discount",
         "Schemedisc": "Schemes discount per SqFt(If Applicable)",
@@ -23,7 +23,7 @@ sap.ui.define(['sap/m/MessageBox'], function (MessageBox) {
         "Mvgr5": "Part A/B",
         "Isexdep": "Ex Factory/Depot",
         "LandedPriceSqft": "Landed",
-        "Nef": "Net Ex factory(NEF)"
+        "Nefsqft": "Net Ex factory(NEF)"
     };
     var oHeadeFieldsNIds = {
         "Kunnr": "idV2InpCustCode",
@@ -33,15 +33,14 @@ sap.ui.define(['sap/m/MessageBox'], function (MessageBox) {
         // "VALIDITY_DAYS": "idV2InpValidDays",
         "Vtweg": "idV2SLDistChannel",
         "Vkbur": "idV2InpSalesOffice",
-        "Spart": "idV2SLVertical",
-        "Isexdep": "idV2RBExFactory"
+        "Spart": "idV2SLVertical"
     };
 
     return {
 
         // Header, General Information(Simple form)- Validation
         headerPayloadValidation: function (oControl) {
-
+            
             var oResourceModel = oControl.getView().getModel("i18nV2").getResourceBundle();
 
             if (!oControl.getView().getModel("JSONModelPayload").getData().Kunnr) {
@@ -86,11 +85,12 @@ sap.ui.define(['sap/m/MessageBox'], function (MessageBox) {
                 this.headerPayloadState(oControl, "Vtweg");
 
                 return 0;
-            } else if (!oControl.getView().getModel("JSONModelPayload").getData().Vkbur) {
-                MessageBox.error("Please enter " + oResourceModel.getText("view2.simpleForm.label.salOffice"));
-                this.headerPayloadState(oControl, "Vkbur");
-                return 0;
             }
+            // else if (!oControl.getView().getModel("JSONModelPayload").getData().Vkbur) {
+            //     MessageBox.error("Please enter " + oResourceModel.getText("view2.simpleForm.label.salOffice"));
+            //     this.headerPayloadState(oControl, "Vkbur");
+            //     return 0;
+            // }
             else if (!oControl.getView().getModel("JSONModelPayload").getData().Spart) {
                 MessageBox.error("Please select " + oResourceModel.getText("view2.simpleForm.label.vertical"));
                 this.headerPayloadState(oControl, "Spart");
@@ -133,7 +133,7 @@ sap.ui.define(['sap/m/MessageBox'], function (MessageBox) {
                 for (let k = 0; k < oTable.getAggregation("items")[j].getAggregation("cells").length; k++) {
 
 
-                    if (k === 2 || k === 14 || k === 15 || k === 16 || k === 17 || k === 18 || k === 21) {
+                    if (k === 2 || k === 14 || k === 15 || k === 16 || k === 19 || k === 20 || k === 21 || k === 22) {
                         // Non mandatory items
                     } else if (k === 7 || k === 8 || k === 9) {
                         // Select
@@ -161,54 +161,55 @@ sap.ui.define(['sap/m/MessageBox'], function (MessageBox) {
 
                 var vLine = i + 1;
 
-                if (aData[i].Mfrgr === '') {
+                if (!aData[i].Mfrgr) {
                     vTemp = 0;
                     this.itemsErrorMessage('Mfrgr', vLine, sAction);
                 }
-                else if (aData[i].Szmm === '') {
-                    vTemp = 0;
-                    this.itemsErrorMessage('Szmm', vLine, sAction);
-                }
-                else if (aData[i].Mvgr2 === '') {
+                // else if (!aData[i].Szmm) {
+                //     vTemp = 0;
+                //     this.itemsErrorMessage('Szmm', vLine, sAction);
+                // }
+                else if (!aData[i].Mvgr2) {
                     vTemp = 0;
                     this.itemsErrorMessage('Mvgr2', vLine, sAction);
                 }
-                else if (aData[i].Werks === '') {
+                else if (!aData[i].Werks) {
                     vTemp = 0;
                     this.itemsErrorMessage('Werks', vLine, sAction);
                 }
-                else if (aData[i].Prodh1 === '') {
+                else if (!aData[i].Prodh1) {
                     vTemp = 0;
                     this.itemsErrorMessage('Prodh1', vLine, sAction);
                 }
-                else if (aData[i].CurVolFt === '') {
+                else if (!aData[i].CurVolFt) {
                     vTemp = 0;
                     this.itemsErrorMessage('CurVolFt', vLine, sAction);
                 }
-                else if (aData[i].TotalVol === '') {
+                else if (!aData[i].TotalVol) {
                     vTemp = 0;
                     this.itemsErrorMessage('TotalVol', vLine, sAction);
                 }
-                else if (aData[i].Exfac === '') {
-                    vTemp = 0;
-                    this.itemsErrorMessage('Exfac', vLine, sAction);
-                }
-                else if (aData[i].Disc === '') {
+                // else if (!aData[i].Exfac) {
+                //     vTemp = 0;
+                //     this.itemsErrorMessage('Exfac', vLine, sAction);
+                // }
+                else if (!aData[i].Disc) {
                     vTemp = 0;
                     this.itemsErrorMessage('Disc', vLine, sAction);
+
+                    // else {
+                    //     vTemp = 0;
+                    //     this.itemsErrorMessage('Discb', vLine, sAction);
+                    // }
                 }
-                else if (aData[i].Discb === '') {
-                    vTemp = 0;
-                    this.itemsErrorMessage('Discb', vLine, sAction);
-                }
-                else if (aData[i].Schemedisc === '') {
-                    vTemp = 0;
-                    this.itemsErrorMessage('Schemedisc', vLine, sAction);
-                }
-                else if (aData[i].SchemediscPer === '') {
-                    vTemp = 0;
-                    this.itemsErrorMessage('SchemediscPer', vLine, sAction);
-                }
+                // else if (!aData[i].Schemedisc) {
+                //     vTemp = 0;
+                //     this.itemsErrorMessage('Schemedisc', vLine, sAction);
+                // }
+                // else if (!aData[i].SchemediscPer) {
+                //     vTemp = 0;
+                //     this.itemsErrorMessage('SchemediscPer', vLine, sAction);
+                // }
 
                 // else if (aData[i].Frgtsqft === '') { this.itemsErrorMessage('Frgtsqft', vLine, sAction); }
                 // else if (aData[i].Commbox === '') { this.itemsErrorMessage('Commbox', vLine, sAction); }
@@ -216,27 +217,27 @@ sap.ui.define(['sap/m/MessageBox'], function (MessageBox) {
                 // else if (aData[i].Compname === '') { this.itemsErrorMessage('Compname', vLine, sAction); }
                 // else if (aData[i].Complanprice === '') { this.itemsErrorMessage('Complanprice', vLine, sAction); }
 
-                else if (aData[i].Zzprodh4 === '') {
+                else if (!aData[i].Zzprodh4) {
                     vTemp = 0;
                     this.itemsErrorMessage('Zzprodh4', vLine, sAction);
                 }
-                else if (aData[i].Mvgr5 === '') {
+                else if (!aData[i].Mvgr5) {
                     vTemp = 0;
                     this.itemsErrorMessage('Mvgr5', vLine, sAction);
                 }
-                else if (aData[i].Isexdep === '') {
-                   
-                    vTemp = 0;
-                    this.itemsErrorMessage('Isexdep', vLine, sAction);
-                }
-                else if (aData[i].LandedPriceSqft === '') {
-                    vTemp = 0;
-                    this.itemsErrorMessage('LandedPriceSqft', vLine, sAction);
-                }
-                else if (aData[i].Nef === '') {
-                    vTemp = 0;
-                    this.itemsErrorMessage('Nef', vLine, sAction);
-                }
+                // else if (!aData[i].Isexdep) {
+
+                //     vTemp = 0;
+                //     this.itemsErrorMessage('Isexdep', vLine, sAction);
+                // }
+                // else if (!aData[i].LandedPriceSqft) {
+                //     vTemp = 0;
+                //     this.itemsErrorMessage('LandedPriceSqft', vLine, sAction);
+                // }
+                // else if (aData[i].Nefsqft === '') {
+                //     vTemp = 0;
+                //     this.itemsErrorMessage('Nefsqft', vLine, sAction);
+                // }
                 else {
                     vTemp = 1;
                 }

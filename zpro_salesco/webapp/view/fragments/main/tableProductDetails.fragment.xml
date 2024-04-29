@@ -193,10 +193,10 @@
                     </Column>
                     <Column
                         id="id.main.TblClmRegion"
-                        hAlign="End"
+                        hAlign="Center"
                         minScreenWidth="Tablet"
                         demandPopin="true"
-                        width="4rem"
+                        width="10rem"
                     >
                         <Label
                             wrapping="true"
@@ -232,10 +232,10 @@
                     </Column>
                     <Column
                         id="id.main.TblClmTypeOfOrder"
-                        hAlign="End"
+                        hAlign="Center"
                         minScreenWidth="Desktop"
                         demandPopin="true"
-                        width="5rem"
+                        width="8rem"
                     >
                         <Label
                             wrapping="true"
@@ -318,7 +318,7 @@
                             />
                             <Text
                                 id="idV1TblCLITxtRegion"
-                                text="{ModelForTable>Vkbur}"
+                                text="{ModelForTable>Soname}({ModelForTable>Vkbur})"
                             />
                             <Text
                                 id="idV1TblCLITtCustomer"
@@ -330,7 +330,7 @@
                             />
                             <Text
                                 id="idV1TblCLITxtOrdType"
-                                text="{ parts: ['ModelForTable>Vtweg']}"
+                                text="{path:'ModelForTable>Vtweg',  formatter:'sap.formatter.showOrderType'}"
                             />
                             <Text
                                 id="idV1TblCLITxtOrdTot"

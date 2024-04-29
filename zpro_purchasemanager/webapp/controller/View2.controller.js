@@ -46,7 +46,7 @@ sap.ui.define([
                                 this.getView().byId("id.negotiationnotpossible.Button").setVisible(true);
                                 this.getView().byId("id.renegotiation.Button").setVisible(true);
                             }
-
+                            
                             this.getView().setModel(new JSONModel(Data), "oRequestModel");
                             this.getView().setBusy(false);
                         }.bind(this),
@@ -101,11 +101,11 @@ sap.ui.define([
                     for (let index = 0; index < nLen; index++) {
                         delete this.getView().getModel("oRequestModel").getData().NAV_PM_REQUEST.results[index].__metadata
                         var ApprovedBuyingprice = this.getView().getModel("oRequestModel").getData().NAV_PM_REQUEST.results[index].ApprovedBuyingprice
-                      
+
                         if (ApprovedBuyingprice === null || ApprovedBuyingprice === undefined || ApprovedBuyingprice === '') {
                             ApprovedBuyingprice = '0.00';
-                        } 
-                        debugger;
+                        }
+                         
                         payload.NAV_PM_REQUEST.push(
                             {
                                 "Pafno": this.getView().getModel("oRequestModel").getData().Pafno,
@@ -191,7 +191,7 @@ sap.ui.define([
             },
             onApprovedBuyingpriceInputLiveChange: function (oEvent) {
                 var sValue = oEvent.getSource().getValue();
-               
+
                 if (sValue.includes(".")) {
                     if (sValue.split(".")[1].length > 2) {
                         MessageToast.show("Only 2 Decimal allowed");

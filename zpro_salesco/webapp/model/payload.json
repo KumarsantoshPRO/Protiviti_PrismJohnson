@@ -35,8 +35,10 @@
         "Frgtsqft": null,
         "Compname": null,
         "Complanprice": null,
+        "Remark":null,
         "Zzprodh4": "",
-        "Mvgr5": ""
+        "Mvgr5": "",
+        "Isexdep":""
     },
   
     "count":{

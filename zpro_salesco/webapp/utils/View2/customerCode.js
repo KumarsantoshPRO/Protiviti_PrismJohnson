@@ -23,6 +23,10 @@ sap.ui.define(['sap/m/MessageBox', "sap/ui/model/json/JSONModel", "sap/ui/model/
             });
 
             that.CustomerCodeFrag.open();
+
+
+
+
         },
 
         // on Value Help - Search/liveChange
@@ -203,8 +207,12 @@ sap.ui.define(['sap/m/MessageBox', "sap/ui/model/json/JSONModel", "sap/ui/model/
                 });
 
             }
-        
-        }
+
+        },
+        // On live change
+        onCustomerCodeLiveChange: function (oEvent) {
+            oEvent.getSource().setValueState("None");
+        },
 
     }
 });

@@ -270,7 +270,7 @@ sap.ui.define([
                             Data.results = []; 
                         }
                     }
-                        // else {
+                        // else { 
                         //     if (that.sDate) {
                         //         MessageToast.show("Please check the date");
                         //     }

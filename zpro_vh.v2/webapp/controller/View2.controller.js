@@ -343,229 +343,104 @@ sap.ui.define([
                 this.oRouter.navTo("", {});
             },
 
-            onForward: function () {
-                if (!this.oRejectDialog) {
-                    var nGM = Number(this.getView().getModel("oRequestModel").CS_GrossMargin)
-
-                    if (nGM < 10) {
-                        var sHeaderMessage = "Gross Margin is less than 10%";
-                        var sInfoMessage = "Request will be forwarded to the Executive Director"
-                    }
-
-
-                    this.oRejectDialog = new Dialog({
-                        title: sHeaderMessage,
-                        type: DialogType.Message,
-
-                        content: [
-                            new Label({
-                                text: sInfoMessage,
-                            }),
-                            new TextArea({
-                                width: "100%",
-                                placeholder: "Type the reason for acceptance"
-                            })
-                        ],
-                        beginButton: new Button({
-                            text: "Cancel",
-                            press: function () {
-                                this.oRejectDialog.close();
-
-
-                                this.oRejectDialog.close();
-                            }.bind(this)
-                        }),
-                        endButton: new Button({
-                            type: ButtonType.Emphasized,
-                            text: "Submit",
-                            press: function () {
-                                var remarks = oEvent.getSource().getParent().getAggregation("content")[1].getValue();
-                                var payload = {
-                                    "Pafno": "",
-                                    "Action": "FOR",
-                                    "Remark": remarks
-                                }
-                                this._sendPayload(payload, "Forwarded");
-                            }.bind(this)
-                        })
-                    });
-                }
-                this.oRejectDialog.open();
-            },
-            bpRenegotiation: function () {
-
-                this.oRejectDialog = new Dialog({
-                    title: "Remarks",
-                    type: DialogType.Message,
-
-                    content: [
-                        new Label({
-                            text: "Feedback",
-                        }),
-                        new TextArea({
-                            width: "100%",
-                            placeholder: ""
-                        })
-                    ],
-                    beginButton: new Button({
-                        text: "Cancel",
-                        press: function () {
-                            this.oRejectDialog.close();
-
-
-                            this.oRejectDialog.close();
-                        }.bind(this)
-                    }),
-                    endButton: new Button({
-                        type: ButtonType.Emphasized,
-                        text: "Submit",
-                        press: function (oEvent) {
-
-                            var remarks = oEvent.getSource().getParent().getAggregation("content")[1].getValue();
-                            var payload = {
-                                "Pafno": "",
-                                "Action": "BPRENG",
-                                "Remark": remarks
-                            }
-                            this._sendPayload(payload, "BP Renegotiated");
-
-                        }.bind(this)
-                    })
-                });
-
-                this.oRejectDialog.open();
-            },
-            freightRenegotiation: function () {
-                this.oRejectDialog = new Dialog({
-                    title: "Remarks",
-                    type: DialogType.Message,
-
-                    content: [
-                        new Label({
-                            text: "Feedback",
-                        }),
-                        new TextArea({
-                            width: "100%",
-                            placeholder: ""
-                        })
-                    ],
-                    beginButton: new Button({
-                        text: "Cancel",
-                        press: function () {
-                            this.oRejectDialog.close();
-
-
-                            this.oRejectDialog.close();
-                        }.bind(this)
-                    }),
-                    endButton: new Button({
-                        type: ButtonType.Emphasized,
-                        text: "Submit",
-                        press: function (oEvent) {
-
-                            var remarks = oEvent.getSource().getParent().getAggregation("content")[1].getValue();
-                            var payload = {
-                                "Pafno": "",
-                                "Action": "FRIGHTRENG",
-                                "Remark": remarks
-                            }
-                            this._sendPayload(payload, "Fright Renegotiated");
-
-                        }.bind(this)
-                    })
-                });
-
-                this.oRejectDialog.open();
-
-
-            },
+         
             reject: function () {
-                this.oRejectDialog = new Dialog({
-                    title: "Remarks",
-                    type: DialogType.Message,
+                // this.oRejectDialog = new Dialog({
+                //     title: "Remarks",
+                //     type: DialogType.Message,
 
-                    content: [
-                        new Label({
-                            text: "Feedback",
-                        }),
-                        new TextArea({
-                            width: "100%",
-                            placeholder: ""
-                        })
-                    ],
-                    beginButton: new Button({
-                        text: "Cancel",
-                        press: function () {
-                            this.oRejectDialog.close();
-
-
-                            this.oRejectDialog.close();
-                        }.bind(this)
-                    }),
-                    endButton: new Button({
-                        type: ButtonType.Emphasized,
-                        text: "Submit",
-                        press: function (oEvent) {
-
-                            var remarks = oEvent.getSource().getParent().getAggregation("content")[1].getValue();
-                            var payload = {
-                                "Pafno": "",
-                                "Action": "REJECT",
-                                "Remark": remarks
-                            }
-                            this._sendPayload(payload, "Rejected");
-
-                        }.bind(this)
-                    })
-                });
-
-                this.oRejectDialog.open();
+                //     content: [
+                //         new Label({
+                //             text: "Feedback",
+                //         }),
+                //         new TextArea({
+                //             width: "100%",
+                //             placeholder: ""
+                //         })
+                //     ],
+                //     beginButton: new Button({
+                //         text: "Cancel",
+                //         press: function () {
+                //             this.oRejectDialog.close();
 
 
+                //             this.oRejectDialog.close();
+                //         }.bind(this)
+                //     }),
+                //     endButton: new Button({
+                //         type: ButtonType.Emphasized,
+                //         text: "Submit",
+                //         press: function (oEvent) {
+
+                //             var remarks = oEvent.getSource().getParent().getAggregation("content")[1].getValue();
+                //             var payload = {
+                //                 "Pafno": "",
+                //                 "Action": "REJECT",
+                //                 "Remark": remarks
+                //             }
+                //             this._sendPayload(payload, "Rejected");
+
+                //         }.bind(this)
+                //     })
+                // });
+
+                // this.oRejectDialog.open(); 
+
+                var payload = {
+                    "Pafno": "",
+                    "Action": "REJECT"
+                }
+                this._sendPayload(payload, "Rejected");
             },
             Approved: function () {
 
-                this.oRejectDialog = new Dialog({
-                    title: "Remarks",
-                    type: DialogType.Message,
+                // this.oRejectDialog = new Dialog({
+                //     title: "Remarks",
+                //     type: DialogType.Message,
 
-                    content: [
-                        new Label({
-                            text: "Feedback",
-                        }),
-                        new TextArea({
-                            width: "100%",
-                            placeholder: ""
-                        })
-                    ],
-                    beginButton: new Button({
-                        text: "Cancel",
-                        press: function () {
-                            this.oRejectDialog.close();
+                //     content: [
+                //         new Label({
+                //             text: "Feedback",
+                //         }),
+                //         new TextArea({
+                //             width: "100%",
+                //             placeholder: ""
+                //         })
+                //     ],
+                //     beginButton: new Button({
+                //         text: "Cancel",
+                //         press: function () {
+                //             this.oRejectDialog.close();
 
 
-                            this.oRejectDialog.close();
-                        }.bind(this)
-                    }),
-                    endButton: new Button({
-                        type: ButtonType.Emphasized,
-                        text: "Submit",
-                        press: function (oEvent) {
+                //             this.oRejectDialog.close();
+                //         }.bind(this)
+                //     }),
+                //     endButton: new Button({
+                //         type: ButtonType.Emphasized,
+                //         text: "Submit",
+                //         press: function (oEvent) {
 
-                            var remarks = oEvent.getSource().getParent().getAggregation("content")[1].getValue();
-                            var payload = {
-                                "Pafno": "",
-                                "Action": "ACCEPT",
-                                "Remark": remarks
-                            }
+                //             var remarks = oEvent.getSource().getParent().getAggregation("content")[1].getValue();
+                //             var payload = {
+                //                 "Pafno": "",
+                //                 "Action": "ACCEPT",
+                //                 "Remark": remarks
+                //             }
 
-                            this._sendPayload(payload, "Approved");
+                //             this._sendPayload(payload, "Approved");
 
-                        }.bind(this)
-                    })
-                });
+                //         }.bind(this)
+                //     })
+                // });
 
-                this.oRejectDialog.open();
+                // this.oRejectDialog.open();
+                var payload = {
+                    "Pafno": "",
+                    "Action": "ACCEPT" 
+                }
+
+                this._sendPayload(payload, "Approved");
             },
 
             _sendPayload: function (payload, sAction) {

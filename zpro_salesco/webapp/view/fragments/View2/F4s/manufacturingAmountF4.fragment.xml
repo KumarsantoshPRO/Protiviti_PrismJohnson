@@ -1,5 +1,5 @@
 <core:FragmentDefinition xmlns="sap.m" xmlns:core="sap.ui.core">
-	<SelectDialog id="idSDManufacturingAmountF4" noDataText="{i18nV2>view2.F4.NoValueFound}" search="onValueHelpSearch" confirm="onManufacturingAmtHelpConfirm">
+	<SelectDialog id="idSDManufacturingAmountF4" noDataText="{i18nV2>view2.F4.NoValueFound}" search="onManufacturingPlantValueHelpSearch" liveChange="onManufacturingPlantValueHelpSearch"  confirm="onManufacturingAmtHelpConfirm">
 		<items>
 			<StandardListItem id="idSLManufacturingAmountValueHelp" title="{DomvalueL}" description="{Ddtext}"/>
 		</items>

@@ -127,8 +127,8 @@
                             <Column hAlign="End"  width="4rem">
                                 <Text text="PAF No" />
                             </Column>
-                            <Column hAlign="End" width="4rem">
-                                <Text text="Region" />
+                            <Column hAlign="Center" width="10rem">
+                                <Text text="Sales Office" />
                             </Column>
                             <Column hAlign="Center" width="14rem">
                                 <Text text="Customer" />
@@ -196,7 +196,7 @@
                                     <Text
                                         text="{path:'JSONModelForTable>Pafno', formatter:'.formatter.removeLeadingZeros'}"
                                     />
-                                    <Text text="{JSONModelForTable>Vkbur}" />
+                                    <Text text="{JSONModelForTable>Soname}" />
                                     <Text text="{JSONModelForTable>Name}" />
                                     <Text text="{JSONModelForTable>Kunnr}" />
                                     <Text

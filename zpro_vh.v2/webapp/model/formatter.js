@@ -47,18 +47,56 @@ sap.ui.define([], function () {
             return temp;
 
         },
+       
+        getOrderType: function (sString) {
+            if (sString) {
+                switch (sString) {
+                    case '11':
+                        return 'Project - 11';
+                        break;
+                    case '17':
+                        return 'National Project - 17';
+                        break;
+                    case '19':
+                        return 'Dealer - 19';
+                        break;
+                    default:
+                        break;
+                }
 
-        getOrderType: function (sType) {
-            var sOrderType = "";
-            if (sType === '11' || sType === "17") {
-                sOrderType = "Project";
-            } else if (sType === '19') {
-                sOrderType = "Retail";
             } else {
-                sOrderType = "";
+                return sString;
             }
+        },
+        getPaymentTerm: function (sString) {
+            if (sString) {
+                switch (sString) {
+                    case 'HR01':
+                        return 'CD-4%-25 (Advance) - HR01';
+                        break;
+                    case 'HR07':
+                        return "CD-3%-07 Days Payment - HR07";
+                        break;
+                    case "HR10":
+                        return "CD-3%-10 Days Payment - HR10";
+                        break;
+                    case "HR25":
+                        return "CD-2%-25 Days Payment - HR25";
+                        break;
+                    case "HR30":
+                        return "30 Days Payment - HR30";
+                        break;
+                    case "HR45":
+                        return "45 Days Payment - HR45";
+                        break;
 
-            return sOrderType;
+                    default:
+                        break;
+                }
+
+            } else {
+                return sString;
+            }
         },
         getStatus: function (status) {
             var temp = "";

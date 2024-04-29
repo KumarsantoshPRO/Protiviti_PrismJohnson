@@ -425,12 +425,12 @@ sap.ui.define([
 
 
                 var pafNo = this.getView().getModel("oRequestModel").getProperty("/Pafno"),
-                    remarks = this.getView().byId("id.remarks.TextArea").getValue();
+                    remarks = this.byId(sap.ui.core.Fragment.createId("idFragment", "id.remarks.Input")).getValue();
 
                 var payload = {
                     "Pafno": pafNo,
                     "Action": "FOR",
-                    "Remark": remarks
+                    "PmgRemark": remarks
                 };
 
 
@@ -454,12 +454,12 @@ sap.ui.define([
             },
             bpRenegotiation: function () {
                 var pafNo = this.getView().getModel("oRequestModel").getProperty("/Pafno"),
-                    remarks = this.getView().byId("id.remarks.TextArea").getValue();
+                    remarks = this.byId(sap.ui.core.Fragment.createId("idFragment", "id.remarks.Input")).getValue();
 
                 var payload = {
                     "Pafno": pafNo,
                     "Action": "BPRENG",
-                    "Remark": remarks
+                    "PmgRemark": remarks
                 }
 
                 this._sendPayload(payload);
@@ -467,12 +467,12 @@ sap.ui.define([
             freightRenegotiation: function () {
 
                 var pafNo = this.getView().getModel("oRequestModel").getProperty("/Pafno"),
-                    remarks = this.getView().byId("id.remarks.TextArea").getValue();
+                    remarks = this.byId(sap.ui.core.Fragment.createId("idFragment", "id.remarks.Input")).getValue();
 
                 var payload = {
                     "Pafno": pafNo,
                     "Action": "FRIGHTRENG",
-                    "Remark": remarks
+                    "PmgRemark": remarks
                 }
 
                 this._sendPayload(payload);
@@ -480,12 +480,12 @@ sap.ui.define([
             },
             reject: function () {
                 var pafNo = this.getView().getModel("oRequestModel").getProperty("/Pafno"),
-                    remarks = this.getView().byId("id.remarks.TextArea").getValue();
+                    remarks = this.byId(sap.ui.core.Fragment.createId("idFragment", "id.remarks.Input")).getValue();
 
                 var payload = {
                     "Pafno": pafNo,
                     "Action": "REJECT",
-                    "Remark": remarks
+                    "PmgRemark": remarks
                 }
 
                 this._sendPayload(payload);
@@ -496,12 +496,12 @@ sap.ui.define([
 
 
                 var pafNo = this.getView().getModel("oRequestModel").getProperty("/Pafno"),
-                    remarks = this.getView().byId("id.remarks.TextArea").getValue();
+                    remarks = this.byId(sap.ui.core.Fragment.createId("idFragment", "id.remarks.Input")).getValue();
 
                 var payload = {
                     "Pafno": pafNo,
                     "Action": "ACCEPT",
-                    "Remark": remarks
+                    "PmgRemark": remarks
                 }
 
                 this._sendPayload(payload);
@@ -509,15 +509,17 @@ sap.ui.define([
             onGenerate: function () {
                 var items = this.getView().getModel("ProductModel").getData(),
                     validity = this.byId(sap.ui.core.Fragment.createId("idFragment", "id.validity.Input")).getValue(),
-                    pafNo = this.getView().getModel("oRequestModel").getProperty("/Pafno");
+                    pafNo = this.getView().getModel("oRequestModel").getProperty("/Pafno"),
+                    headerRemark = this.byId(sap.ui.core.Fragment.createId("idFragment", "id.remarks.Input")).getValue();
 
                 var payload = {
                     "Pafno": pafNo,
                     "Validity": validity,
                     "Action": "GENERATE",
+                    "PmgRemark": headerRemark,
                     "NAV_PMG_ITEM_PRODUCT": items
                 }
-
+              
                 this._sendPayload(payload);
 
             },
@@ -574,9 +576,10 @@ sap.ui.define([
                             this.getView().getModel("ProductModel").refresh();
                             this.getView().getModel("oRequestModel").getData().Validity = oData.Validity;
                             this.getView().getModel("oRequestModel").getData().Pafvto = oData.Pafvto;
+                            this.getView().getModel("oRequestModel").getData().PmgRemark = oData.PmgRemark;
                             this.getView().getModel("oRequestModel").refresh(true);
                             if (payload.Action === "GENERATE") {
-                                //  
+                                MessageBox.success("Values generated");
                             } else {
                                 MessageBox.success(sMessage, {
                                     actions: [sap.m.MessageBox.Action.OK],
@@ -767,17 +770,20 @@ sap.ui.define([
                     wFreight = 0,
                     wORC = 0,
                     wORCP = 0,
-                wGrossMargin = 0;
+                    wGrossMargin = 0,
+                    wBuyingpricesqft = 0;
 
                 for (let index = 0; index < noItems; index++) {
                     if (this.getView().getModel("oRequestModel").getProperty("/Vtweg") === '19') {
                         wDiscount = wDiscount + Number(tableData[index].Discount);
                         wORCP = wORCP + Number(tableData[index].Commboxp);
                     } else {
-                        debugger;
+                       
                         wDiscountb = wDiscountb + Number(tableData[index].Discountb);
                         wORC = wORC + Number(tableData[index].Commbox);
+
                     }
+                    wBuyingpricesqft = wBuyingpricesqft +Number(tableData[index].Buyingpricesqft)
                     wNEF = wNEF + Number(tableData[index].Netexsqft);
                     wFreight = wFreight + Number(tableData[index].Frghtsqft);
                     wGrossMargin = wGrossMargin + Number(tableData[index].Grossmargper);
@@ -790,8 +796,8 @@ sap.ui.define([
                 this.getView().getModel("oRequestModel").setProperty("/Worc", (wORC / noItems).toFixed(2).toString());
                 this.getView().getModel("oRequestModel").setProperty("/Worcper", (wORCP / noItems).toFixed(2).toString());
                 this.getView().getModel("oRequestModel").setProperty("/Wgrossmargper", (wGrossMargin / noItems).toFixed(2).toString());
-
-                this.getView().getModel("oRequestModel").refresh(true);
+                this.getView().getModel("oRequestModel").setProperty("/Wbuyingprice", (wBuyingpricesqft / noItems).toFixed(2).toString());
+                this.getView().getModel("oRequestModel").refresh(true); 
             }
 
         });

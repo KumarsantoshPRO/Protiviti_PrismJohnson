@@ -39,19 +39,19 @@
             text="Sales Office"
             design="Bold"
         />
-        <Text text="{oRequestModel>/Vkbur}" />
+        <Text text="{oRequestModel>/Soname}({oRequestModel>/Vkbur})" />
         <Label
             text="Distribution Channel "
             design="Bold"
         />
 
-        <Text text="{oRequestModel>/Vtweg} " />
+        <Text text="{path:'oRequestModel>/Vtweg', formatter:'.formatter.getOrderType'} " />
         <Label
             text="Payment Term"
             design="Bold"
         />
 
-        <Text text=" {oRequestModel>/Zterm}" />
+        <Text text=" {path:'oRequestModel>/Zterm',  formatter:'.formatter.getPaymentTerm'}" />
 
         <!-- </VBox>
 
@@ -104,10 +104,10 @@
         />
         <Text text="{oRequestModel>/Wfrgtsqft}" />
         <Label
-            text="Remarks(if any)"
+            text="PMG Remarks"
             design="Bold"
         />
-        <Text text="{oRequestModel>/Remarks}" />
+        <Text text="{oRequestModel>/PmgRemark}" />
 
         <Label
             text="Status"

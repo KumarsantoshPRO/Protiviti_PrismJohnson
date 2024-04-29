@@ -46,7 +46,7 @@
                 suggestionItemSelected="onCustomerCodeInputSuggestionSelect"
                 submit="onCustomerCodeInputSubmit"
                 change="onCustomerCodeInputChange"
-                liveChange="onLiveChange"
+                liveChange="onCustomerCodeLiveChange"
             >
                 <suggestionColumns>
                     <Column
@@ -84,35 +84,32 @@
                 value="{JSONModelPayload>/Name}"
                 id="idV2InpCustName"
                 editable="false"
-              
             />
             <Label
                 id="idV2LblDistChnl"
                 text="{i18nV2>view2.simpleForm.label.distChnl}"
                 required="true"
             />
-            <ComboBox
+            <Select
                 id="idV2SLDistChannel"
                 forceSelection="false"
                 items="{LocalJSONModels>/distributonChannel}"
                 selectedKey="{JSONModelPayload>/Vtweg}"
                 valueStateText="Select {i18nV2>view2.simpleForm.label.distChnl}"
                 editable="{GlobalModel>/Editable}"
-                selectionChange="onDistributionChannelChange"
-                 
-    
+                change="onDistributionChannelChange" 
             >
                 <core:Item
                     id="idV2SLItemDistChannel"
                     key="{LocalJSONModels>key}"
                     text="{LocalJSONModels>text}"
                 />
-            </ComboBox>
+            </Select>
             <Label
                 id="idV2LblPayTerm"
                 text="{i18nV2>view2.simpleForm.label.payTerm}"
             />
-            <ComboBox
+            <Select
                 id="idV2SLPaymentTerm"
                 forceSelection="false"
                 items="{LocalJSONModels>/paymentTerms}"
@@ -126,7 +123,7 @@
                     key="{LocalJSONModels>key}"
                     text="{LocalJSONModels>text}"
                 />
-            </ComboBox>
+            </Select>
 
             <Label
                 id="idV2LblValidity"
@@ -140,7 +137,7 @@
                 maxLength="3"
                 value="{path:'JSONModelPayload>/Validity'}"
                 editable="{GlobalModel>/Editable}"
-                liveChange="onLiveChange"
+                liveChange="onValidityNumber"
             />
 
             <!-- <Label
@@ -172,46 +169,51 @@
                 text="{i18nV2>view2.simpleForm.label.salOffice}"
                 required="true"
             />
-            <Input
-                id="idV2InpSalesOffice"
-                showValueHelp="true"
-                valueHelpRequest="onSalesOfficeHelp"
-                class="sapUiSmallMarginEnd"
-                placeholder="{i18nV2>view2.simpleForm.label.salOffice}"
-                valueStateText="Enter {i18nV2>view2.simpleForm.label.salOffice}"
-                value="{JSONModelPayload>/Vkbur}"
-                editable="{GlobalModel>/Editable}"
-                showSuggestion="true"
-                suggest=".onSuggest_salesOffice"
-                suggestionItems="{JSONModelForSuggest>/}"
-                submit="onSalesOfficeInputSubmit"
-                liveChange="onLiveChange"
-            >
-                <!-- submit="onSalesOfficeInputSubmit" -->
-                <suggestionItems>
-                    <core:Item text="{JSONModelForSuggest>DomvalueL}" />
-                </suggestionItems>
-            </Input>
+  
+                <Input
+                    id="idV2InpSalesOffice"
+                    showValueHelp="true"
+                    valueHelpRequest="onSalesOfficeHelp"
+                    class="sapUiSmallMarginEnd"
+                    placeholder="{i18nV2>view2.simpleForm.label.salOffice}"
+                    valueStateText="Enter {i18nV2>view2.simpleForm.label.salOffice}"
+                    value="{parts: ['JSONModelPayload>/Soname','JSONModelPayload>/Vkbur'], formatter:'sap.formatter.showSalesOffice'}"
+                    editable="{GlobalModel>/Editable}"
+                    showSuggestion="true"
+                    suggest=".onSuggest_salesOffice"
+                    suggestionItems="{JSONModelForSuggest>/}"
+                    submit="onSalesOfficeInputSubmit"
+                    liveChange="onSalesOfficeLiveChange"
+                 
+                >
+                    <!-- submit="onSalesOfficeInputSubmit" -->
+                    <suggestionItems>
+                        <core:Item text="{JSONModelForSuggest>DomvalueL}" />
+                    </suggestionItems>
+                </Input>
+      
+                
+ 
             <Label
                 id="idV2LblVertical"
                 text="{i18nV2>view2.simpleForm.label.vertical}"
                 required="true"
             />
-            <ComboBox
+            <Select
                 id="idV2SLVertical"
                 forceSelection="false"
                 items="{LocalJSONModels>/vertical}"
                 selectedKey="{JSONModelPayload>/Spart}"
                 valueStateText="Select {i18nV2>view2.simpleForm.label.vertical}"
                 editable="{GlobalModel>/Editable}"
-                change="onVerticalComboBoxChange"
+                change="onVerticalSelectChange"
             >
                 <core:Item
                     id="idV2SLItemVertical"
                     key="{LocalJSONModels>key}"
                     text="{LocalJSONModels>text}"
                 />
-            </ComboBox>
+            </Select>
             <Label
                 id="idV2LblTranIns"
                 text="{i18nV2>view2.simpleForm.label.TranIns}"
