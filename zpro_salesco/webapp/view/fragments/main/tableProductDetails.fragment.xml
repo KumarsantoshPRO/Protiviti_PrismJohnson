@@ -76,18 +76,44 @@
                                 placeholder="Sales Office"
                                 showValueHelp="true"
                                 valueHelpRequest="onSalesOfficeHelp"
-                                showSuggestion="true"
-                                suggest=".onSuggest"
-                                suggestionItems="{JSONModelForSuggest>/}"
                                 change="onSalesOfficeInputSubmit"
                                 submit="onSearch"
+                                textFormatMode="ValueKey"
+                                showSuggestion="true"
+                                showTableSuggestionValueHelp="false"
+                                suggest=".onSuggest"
+                                suggestionRows="{JSONModelForSuggest>/}"
+                                suggestionItemSelected="onSalesOfficeSuggestionSelect"
                             >
-                                <!-- submit="onSalesOfficeInputSubmit" -->
-                                <suggestionItems>
-                                    <core:Item
-                                        text="{JSONModelForSuggest>DomvalueL}"
-                                    />
-                                </suggestionItems>
+                                <suggestionColumns>
+                                    <Column
+                                        popinDisplay="Inline"
+                                        demandPopin="true"
+                                    >
+                                        <Label text="Sales Office Code" />
+                                    </Column>
+                                    <Column
+                                        popinDisplay="Inline"
+                                        demandPopin="true"
+                                    >
+                                        <Label text="Sales Office Name" />
+                                    </Column>
+
+                                    <!-- <core:Item
+                        text="{JSONModelForSuggest_custCode>DomvalueL}"
+                        key="{JSONModelForSuggest_custCode>Ddtext}"
+                    /> -->
+                                </suggestionColumns>
+                                <suggestionRows>
+                                    <ColumnListItem>
+                                        <Label
+                                            text="{JSONModelForSuggest>DomvalueL}"
+                                        />
+                                        <Label
+                                            text="{JSONModelForSuggest>Ddtext}"
+                                        />
+                                    </ColumnListItem>
+                                </suggestionRows>
                             </Input>
                         </fb:control>
                     </fb:FilterGroupItem>
@@ -118,7 +144,6 @@
                                 displayFormat="dd/MM/YYYY"
                                 change="onSearch"
                                 placeholder="e.g: 31/12/2020"
-
                             />
                         </fb:control>
                     </fb:FilterGroupItem>

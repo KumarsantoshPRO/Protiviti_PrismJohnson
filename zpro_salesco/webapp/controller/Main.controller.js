@@ -116,7 +116,7 @@ sap.ui.define([
                     this.getView().getModel().read(sPath, {
                         filters: aFilters,
                         success: function (Data) {
-
+                            debugger; 
                             if (Data.results.length > 0) {
                                 var JSONModelForSuggest = new JSONModel(Data.results);
                                 this.getView().setModel(JSONModelForSuggest, "JSONModelForSuggest");
@@ -151,7 +151,7 @@ sap.ui.define([
                     vPAFNo = this.byId(sap.ui.core.Fragment.createId("id.tableProductDetails.Fragment", "id.PafNo.Input")).getValue(),
                     vMessage = "Enter 'Sales Office' to proceed";
                 this.sDate = this.byId(sap.ui.core.Fragment.createId("id.tableProductDetails.Fragment", "id.Date.DatePicker")).getValue();
-                
+
                 if (!vSalesOffice) {
                     this.byId(sap.ui.core.Fragment.createId("id.tableProductDetails.Fragment", "id.SalesOffice.Input")).setValueState("Error");
                     this.byId(sap.ui.core.Fragment.createId("id.tableProductDetails.Fragment", "id.SalesOffice.Input")).setValueStateText("Enter Sales Office");
@@ -263,13 +263,13 @@ sap.ui.define([
                                     nTemp = 1
                                 }
                             }
-                        
-                        if (nTemp === 1) {
-                            Data.results = aItems;
-                        }else{
-                            Data.results = []; 
+
+                            if (nTemp === 1) {
+                                Data.results = aItems;
+                            } else {
+                                Data.results = [];
+                            }
                         }
-                    }
                         // else { 
                         //     if (that.sDate) {
                         //         MessageToast.show("Please check the date");

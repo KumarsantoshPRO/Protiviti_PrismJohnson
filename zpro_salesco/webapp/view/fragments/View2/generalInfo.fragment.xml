@@ -38,12 +38,14 @@
                 class="sapUiSmallMarginEnd"
                 placeholder="{i18nV2>view2.simpleForm.label.custCode}"
                 editable="{GlobalModel>/Editable}"
+
                 textFormatMode="ValueKey"
                 showSuggestion="true"
                 showTableSuggestionValueHelp="false"
                 suggest=".onSuggest_custCode"
                 suggestionRows="{JSONModelForSuggest_custCode>/}"
                 suggestionItemSelected="onCustomerCodeInputSuggestionSelect"
+                
                 submit="onCustomerCodeInputSubmit"
                 change="onCustomerCodeInputChange"
                 liveChange="onCustomerCodeLiveChange"
@@ -139,7 +141,15 @@
                 editable="{GlobalModel>/Editable}"
                 liveChange="onValidityNumber"
             />
-
+            <!--Start: Divya's changes -->
+     <Label 
+                text="{i18nV2>view2.simpleForm.label.projectnameaddress}"
+            />
+            <TextArea
+                value="{JSONModelPayload>/Proj}"
+                editable="{GlobalModel>/Editable}" 
+            />
+             <!--End: Divya's changes -->
             <!-- <Label
                 id="idV2LblValidDay"
                 text="{i18nV2>view2.simpleForm.label.validDays}"
