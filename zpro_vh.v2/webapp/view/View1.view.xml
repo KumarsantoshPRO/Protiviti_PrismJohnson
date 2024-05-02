@@ -12,6 +12,7 @@
     xmlns:f="sap.f"
     xmlns="sap.m"
     xmlns:tnt="sap.tnt"
+    xmlns:fb="sap.ui.comp.filterbar"
 >
     <!-- <f:ShellBar
         title="PMG"
@@ -94,6 +95,109 @@
                     />
                 </items>
                 <content>
+                <fb:FilterBar
+                        id="id.FilterBar"
+                        persistencyKey="myPersKey"
+                        useToolbar="false"
+                        search=".onSearch"
+                        showFilterConfiguration="false"
+                        clear="onFilterBarClear"
+                        showClearOnFB="true"
+                    >
+                        <fb:filterGroupItems>
+                            <fb:FilterGroupItem
+                                name="SalesOffice"
+                                label="Sales Office"
+                                groupName="Group1"
+                                visibleInFilterBar="true"
+                            
+                            >
+                          
+                              <fb:control>
+                                    <Input
+                                        id="id.SalesOffice.Input"
+                                        placeholder="Sales Office"
+                                        submit="onSearch"
+                                        showValueHelp="true"
+                                        valueHelpRequest="onSalesOfficeHelp"
+                                        change="onSalesOfficeInputSubmit"
+                                        textFormatMode="ValueKey"
+                                        showSuggestion="true"
+                                        showTableSuggestionValueHelp="false"
+                                        suggest=".onSuggest"
+                                        suggestionRows="{JSONModelForSuggest>/}"
+                                        suggestionItemSelected="onSalesOfficeSuggestionSelect"
+                                    >
+                                        <suggestionColumns>
+                                            <Column
+                                                popinDisplay="Inline"
+                                                demandPopin="true"
+                                            >
+                                                <Label
+                                                    text="Sales Office Code"
+                                                />
+                                            </Column>
+                                            <Column
+                                                popinDisplay="Inline"
+                                                demandPopin="true"
+                                            >
+                                                <Label
+                                                    text="Sales Office Name"
+                                                />
+                                            </Column>
+
+                                            <!-- <core:Item
+                        text="{JSONModelForSuggest_custCode>DomvalueL}"
+                        key="{JSONModelForSuggest_custCode>Ddtext}"
+                    /> -->
+                                        </suggestionColumns>
+                                        <suggestionRows>
+                                            <ColumnListItem>
+                                                <Label
+                                                    text="{JSONModelForSuggest>DomvalueL}"
+                                                />
+                                                <Label
+                                                    text="{JSONModelForSuggest>Ddtext}"
+                                                />
+                                            </ColumnListItem>
+                                        </suggestionRows>
+                                    </Input>
+                                </fb:control>
+                            </fb:FilterGroupItem>
+                            <fb:FilterGroupItem
+                                name="Status"
+                                label="Status"
+                                groupName="Group1"
+                                visibleInFilterBar="true"
+                                mandatory="true"
+                                visible="false"
+                            >
+                                <fb:control>
+                                    <ComboBox
+                                        id="id.Status.ComboBox"
+                                        selectedKey="P"
+                                    >
+                                        <core:Item
+                                            key="P"
+                                            text="Pending"
+                                        />
+                                        <core:Item
+                                            key="A"
+                                            text="Approved"
+                                        />
+                                        <core:Item
+                                            key="R"
+                                            text="Rejected"
+                                        />
+                                        <core:Item
+                                            key="DL"
+                                            text="Deleted"
+                                        />
+                                    </ComboBox>
+                                </fb:control>
+                            </fb:FilterGroupItem>
+                                                        </fb:filterGroupItems>
+                    </fb:FilterBar>
                     <Table
                         id="productsTable"
                         alternateRowColors="true"
@@ -141,7 +245,7 @@
                             </Column>
                             <Column
                                 hAlign="End"
-                                width="4rem"
+                                width="10rem"
                             >
                                 <Text text="Sales Office" />
                             </Column>
