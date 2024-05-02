@@ -1,0 +1,167 @@
+<core:FragmentDefinition
+    xmlns="sap.m"
+    xmlns:core="sap.ui.core"
+    xmlns:forms="sap.ui.layout.form"
+>
+    <ScrollContainer
+        width="100%"
+        vertical="true"
+        focusable="true"
+    >
+        <Table
+            id="idTblProductDetails"
+            items="{ProductModel>/}"
+        >
+            <headerToolbar>
+                <Toolbar>
+                    <Title text="Products Details" />
+                </Toolbar>
+            </headerToolbar>
+            <columns>
+                <Column
+                    minScreenWidth="Tablet"
+                    demandPopin="true"
+                    hAlign="Center"
+                >
+                    <Label
+                        wrapping="true"
+                        text="Material Freight Groups"
+                    />
+                </Column>
+                <Column
+                    minScreenWidth="Tablet"
+                    demandPopin="true"
+                    hAlign="End"
+                >
+                    <Text text="Size" />
+                </Column>
+                <Column
+                    minScreenWidth="Tablet"
+                    demandPopin="true"
+                    hAlign="Center"
+                >
+                    <Text text="Designs" />
+                </Column>
+                <Column
+                    minScreenWidth="Tablet"
+                    demandPopin="true"
+                    hAlign="Center"
+                >
+                    <Text text="Vendor" />
+                </Column>
+
+                <Column
+                    minScreenWidth="Tablet"
+                    demandPopin="true"
+                    hAlign="Center"
+                    visible="false"
+                >
+                    <Text text="Volume" />
+                </Column>
+                 <Column
+                   
+                >
+                    <Text text="Freight" />
+                </Column>
+                 <Column
+                    
+                >
+                    <Text text="Revised freight" />
+                </Column>
+                <Column
+                    minScreenWidth="Tablet"
+                    demandPopin="true"
+                    hAlign="End"
+                >
+                    <Text text="Discount(%)" />
+                </Column>
+                <Column
+                    minScreenWidth="Desktop"
+                    demandPopin="true"
+                    hAlign="End"
+                >
+                    <Text text="Net Ex Factory(Sqft)" />
+                </Column>
+                <Column
+                    minScreenWidth="Desktop"
+                    demandPopin="true"
+                    hAlign="End"
+                >
+                    <Text text="SVC/BP(Sqft)" />
+                </Column>
+
+                <Column
+                    minScreenWidth="Desktop"
+                    demandPopin="true"
+                    hAlign="Center"
+                    visible="false"
+                >
+                    <Text text="Gross Margin" />
+                </Column>
+                <Column
+                    minScreenWidth="Desktop"
+                    demandPopin="true"
+                    hAlign="Center"
+                    visible="false"
+                >
+                    <Text text="Volume(Sqft In Lakhs)" />
+                </Column>
+                <Column
+                    minScreenWidth="Desktop"
+                    demandPopin="true"
+                    hAlign="End"
+                >
+                    <Text text="Revised BP(Sqft)" />
+                </Column>
+                <Column
+                    minScreenWidth="Desktop"
+                    demandPopin="true"
+                    hAlign="End"
+                >
+                    <Text text="Gross Margin(%)" />
+                </Column>
+                   <Column
+                    minScreenWidth="Desktop"
+                    demandPopin="true"
+                    hAlign="Center"
+                >
+                    <Text text="Remarks" />
+                </Column>
+            </columns>
+
+            <items>
+                <ColumnListItem vAlign="Middle">
+                    <cells>
+                        <Text text="{ProductModel>Mfrgr}" />
+                        <Text text="{ProductModel>Szcm}" />
+                        <Text text="{ProductModel>Design}" />
+
+                        <Text text="{ProductModel>Sname}" />
+                        <Text
+                            visible="false"
+                            text="{ProductModel>Volume}"
+                        />
+                        <Text text="{ProductModel>ApprovedFrightprice}" />
+                        <Text text="{ProductModel>Frghtsqft}" />
+                        <Text text="{ProductModel>Discount}" />
+                        <Text text="{ProductModel>Netexsqft}" />
+                        <Text text="{ProductModel>Buyingpricesqft}" />
+                        <Text
+                            visible="false"
+                            text="{ProductModel>Grossmarg}"
+                        />
+                        <Text
+                            visible="false"
+                            text="{ProductModel>Zvolumepft}"
+                        />
+                        <Text
+                            text="{path:'ProductModel>ApprovedBuyingprice'}"
+                        />
+                        <Text text="{path:'ProductModel>Grossmargper'}" />
+                        <Text text="{path:'ProductModel>Remark'}" />
+                    </cells>
+                </ColumnListItem>
+            </items>
+        </Table>
+    </ScrollContainer>
+</core:FragmentDefinition>

@@ -8,7 +8,7 @@
         layout="ResponsiveLayout"
         labelSpanXL="0"
         labelSpanL="0"
-        labelSpanM="0" 
+        labelSpanM="0"
         labelSpanS="0"
         adjustLabelSpan="true"
         emptySpanXL="0"
@@ -24,8 +24,6 @@
     <core:Title />
         <Label  design="Bold" text="Competitor Name" />
         <Text text="{oRequestModel>/Compname}" />
-        <Label  design="Bold" text="Project Name and Address" />
-        <Input value="{oRequestModel>/Proj}" />
         <core:Title />
         <Label  design="Bold" text="Competitor Landed Price" />
         <Text text="{oRequestModel>/Complanprice}" />

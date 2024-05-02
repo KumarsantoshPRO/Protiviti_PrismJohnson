@@ -11,7 +11,7 @@
         id="ObjectPageLayout"
         upperCaseAnchorBar="false"
         showFooter="true"
-    >
+    > 
         <uxap:headerTitle>
             <uxap:ObjectPageDynamicHeaderTitle>
                 <uxap:expandedHeading>
@@ -129,6 +129,22 @@
                                                 />
                                             </Column>
                                             <Column
+                                                demandPopin="true"
+                                                hAlign="Center"
+                                            >
+                                                <Label
+                                                    text="{i18n.View2>View2.table.currvol}"
+                                                />
+                                            </Column>
+                                            <Column
+                                                demandPopin="true"
+                                                hAlign="Center"
+                                            >
+                                                <Label
+                                                    text="{i18n.View2>View2.table.totvol}"
+                                                />
+                                            </Column>
+                                            <!-- <Column
                                                 minScreenWidth="Tablet"
                                                 demandPopin="true"
                                                 hAlign="End"
@@ -136,9 +152,9 @@
                                                 <Label
                                                     text="{i18n.View2>View2.table.volumnft}"
                                                 />
-                                            </Column>
+                                            </Column> -->
 
-                                            <Column
+                                            <!-- <Column
                                                 minScreenWidth="Tablet"
                                                 demandPopin="true"
                                                 hAlign="End"
@@ -147,9 +163,9 @@
                                                 <Label
                                                     text="{i18n.View2>View2.table.discountper}"
                                                 />
-                                            </Column>
+                                            </Column> -->
 
-                                            <Column
+                                            <!-- <Column
                                                 minScreenWidth="Tablet"
                                                 demandPopin="true"
                                                 hAlign="End"
@@ -158,7 +174,7 @@
                                                 <Label
                                                     text="{i18n.View2>View2.table.netexfactoryNEF}"
                                                 />
-                                            </Column>
+                                            </Column> -->
                                             <Column
                                                 minScreenWidth="Tablet"
                                                 demandPopin="true"
@@ -195,8 +211,7 @@
                                             <ColumnListItem>
                                                 <cells>
                                                     <Text
-                                                        text="{oRequestModel>Mfrgr}"
-                                                    />
+                                                        text="{oRequestModel>Mfrgr} ({oRequestModel>Mfrname})"                                                    />
                                                     <Text
                                                         text="{oRequestModel>Zsmm}"
                                                     />
@@ -207,16 +222,16 @@
                                                     <Text
                                                         text="{oRequestModel>Sname}"
                                                     />
+                                                    <!-- <Text
+                                                        text="{oRequestModel>Zvolumepft}"
+                                                    /> -->
+
+                                                    <Text
+                                                        text="{oRequestModel>Zvolume}"
+                                                    />
+
                                                     <Text
                                                         text="{oRequestModel>Zvolumepft}"
-                                                    />
-
-                                                    <Text
-                                                        text="{oRequestModel>Discountper}"
-                                                    />
-
-                                                    <Text
-                                                        text="{oRequestModel>Nef}"
                                                     />
                                                     <Text
                                                         text="{oRequestModel>Frightsqft}"

@@ -510,13 +510,15 @@ sap.ui.define([
                 var items = this.getView().getModel("ProductModel").getData(),
                     validity = this.byId(sap.ui.core.Fragment.createId("idFragment", "id.validity.Input")).getValue(),
                     pafNo = this.getView().getModel("oRequestModel").getProperty("/Pafno"),
-                    headerRemark = this.byId(sap.ui.core.Fragment.createId("idFragment", "id.remarks.Input")).getValue();
+                    headerRemark = this.byId(sap.ui.core.Fragment.createId("idFragment", "id.remarks.Input")).getValue(),
+                    proj= this.getView().getModel("oRequestModel").getProperty("/Proj");
 
                 var payload = {
                     "Pafno": pafNo,
                     "Validity": validity,
                     "Action": "GENERATE",
                     "PmgRemark": headerRemark,
+                    "Proj":proj,
                     "NAV_PMG_ITEM_PRODUCT": items
                 }
               
@@ -771,7 +773,8 @@ sap.ui.define([
                     wORC = 0,
                     wORCP = 0,
                     wGrossMargin = 0,
-                    wBuyingpricesqft = 0;
+                    wBuyingpricesqft = 0,
+                    vTotalValume = 0; 
 
                 for (let index = 0; index < noItems; index++) {
                     if (this.getView().getModel("oRequestModel").getProperty("/Vtweg") === '19') {
@@ -783,20 +786,22 @@ sap.ui.define([
                         wORC = wORC + Number(tableData[index].Commbox);
 
                     }
-                    wBuyingpricesqft = wBuyingpricesqft +Number(tableData[index].Buyingpricesqft)
-                    wNEF = wNEF + Number(tableData[index].Netexsqft);
-                    wFreight = wFreight + Number(tableData[index].Frghtsqft);
+                    wBuyingpricesqft = wBuyingpricesqft +(Number(tableData[index].Buyingpricesqft)*Number(tableData[index].Totalvolume));
+                    wNEF = wNEF + (Number(tableData[index].Netexsqft)*Number(tableData[index].Totalvolume));
+                    wFreight = wFreight + (Number(tableData[index].Frghtsqft)*Number(tableData[index].Totalvolume));
+                    
+                    vTotalValume = vTotalValume + Number(tableData[index].Totalvolume);
                     wGrossMargin = wGrossMargin + Number(tableData[index].Grossmargper);
                 }
-
+ 
                 this.getView().getModel("oRequestModel").setProperty("/Wdisc", (wDiscount / noItems).toFixed(2).toString());
                 this.getView().getModel("oRequestModel").setProperty("/Wdiscb", (wDiscountb / noItems).toFixed(2).toString());
-                this.getView().getModel("oRequestModel").setProperty("/Wnefsqft", (wNEF / noItems).toFixed(2).toString());
-                this.getView().getModel("oRequestModel").setProperty("/Wfrgtsqft", (wFreight / noItems).toFixed(2).toString());
+                this.getView().getModel("oRequestModel").setProperty("/Wnefsqft", (wNEF / vTotalValume).toFixed(2).toString());
+                this.getView().getModel("oRequestModel").setProperty("/Wfrgtsqft", (wFreight / vTotalValume).toFixed(2).toString());
                 this.getView().getModel("oRequestModel").setProperty("/Worc", (wORC / noItems).toFixed(2).toString());
                 this.getView().getModel("oRequestModel").setProperty("/Worcper", (wORCP / noItems).toFixed(2).toString());
                 this.getView().getModel("oRequestModel").setProperty("/Wgrossmargper", (wGrossMargin / noItems).toFixed(2).toString());
-                this.getView().getModel("oRequestModel").setProperty("/Wbuyingprice", (wBuyingpricesqft / noItems).toFixed(2).toString());
+                this.getView().getModel("oRequestModel").setProperty("/Wbuyingprice", (wBuyingpricesqft / vTotalValume).toFixed(2).toString());
                 this.getView().getModel("oRequestModel").refresh(true); 
             }
 

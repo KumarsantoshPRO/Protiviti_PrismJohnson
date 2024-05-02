@@ -1051,7 +1051,10 @@ sap.ui.define([
             },
 
             onGenerate: function () {
-                var vSalesOffice = this.byId(sap.ui.core.Fragment.createId("idV2FragGenInfo", "idV2InpSalesOffice")).getValue();
+
+                var vSalesOffice = this.byId(sap.ui.core.Fragment.createId("idV2FragGenInfo", "idV2InpSalesOffice")).getValue().match(/\d+/)[0];
+
+                // var vSalesOffice = this.getView().getModel("JSONModelPayload").getData().Vkbur
 
                 if (vSalesOffice) {
                     this.byId(sap.ui.core.Fragment.createId("idV2FragGenInfo", "idV2InpSalesOffice")).setValueState("None");
@@ -1196,13 +1199,14 @@ sap.ui.define([
                 var vOrc = 0;
                 var vFreightDiscount = 0;
                 var vPayTermDiscount = 0;
+                var vTotalValume = 0;
                 var aItemsData = this.getView().getModel("JSONModelPayload").getData().ET_SALES_COORD_ISET.results;
                 for (let index = 0; index < aItemsData.length; index++) {
                     // Disc and Discb conversion
                     var vInvoiceType;
                     var vOrcType;
                     if (this.getView().getModel("JSONModelPayload").getProperty("/Vtweg") !== '19') {
-                        vInvoiceDiscount = vInvoiceDiscount + Number(aItemsData[index].Discb);
+                        vInvoiceDiscount = vInvoiceDiscount + Number(aItemsData[index].Disc);
                         vInvoiceType = "Per Box"
                     } else {
                         vInvoiceDiscount = vInvoiceDiscount + Number(aItemsData[index].Disc);
@@ -1219,11 +1223,12 @@ sap.ui.define([
 
 
                     vPayTermDiscount = vPayTermDiscount + Number(aItemsData[index].CashDiscount);
-                    vFreightDiscount = vFreightDiscount + Number(aItemsData[index].Frgtsqft);
+                    vFreightDiscount = vFreightDiscount + (Number(aItemsData[index].Frgtsqft) * Number(aItemsData[index].TotalVol));
+                    vTotalValume = vTotalValume + Number(aItemsData[index].TotalVol);
                 }
                 vInvoiceDiscount = (vInvoiceDiscount / aItemsData.length).toFixed(2);
                 vOrc = (vOrc / aItemsData.length).toFixed(2);
-                vFreightDiscount = (vFreightDiscount / aItemsData.length).toFixed(2);
+                vFreightDiscount = (vFreightDiscount / vTotalValume).toFixed(2);
                 vPayTermDiscount = (vPayTermDiscount / aItemsData.length).toFixed(2);
                 if (vInvoiceDiscount === NaN || vInvoiceDiscount === 0 || vInvoiceDiscount === '' || vInvoiceDiscount === undefined) {
                     vInvoiceDiscount = 'Not Available'
@@ -1546,7 +1551,7 @@ sap.ui.define([
                 validation.headerPayloadValidation(this);
                 var aData = this.getView().getModel("JSONModelPayload").getData().ET_SALES_COORD_ISET.results;
                 validation.itemsPayloadValidation(aData, this, "Proceed");
-                debugger;
+
                 // this.byId(sap.ui.core.Fragment.createId("idV2FragGenInfo", "idV2SLDistChannel")).fireChange();
                 // this.byId(sap.ui.core.Fragment.createId("idV2FragGenInfo", "idV2InpSalesOffice")).fireSubmit();
                 // var aTableItems = this.byId(sap.ui.core.Fragment.createId("idV2FragGenInfo", "idV2TblProducts")).getBinding('items');

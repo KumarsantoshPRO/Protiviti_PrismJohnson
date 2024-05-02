@@ -31,6 +31,7 @@ sap.ui.define([
                 this.getView().setModel(oModelVisibleFlag, "modelVisibleFlag");
 
             },
+            // Start: Sales Office
             onSalesOfficeHelp: function () {
                 if (!this.SalesOfficerag) {
                     this.SalesOfficerag = sap.ui.xmlfragment("zpj.pro.sk.sd.salescoordinator.zprosalesco.view.fragments.main.salesOfficeF4", this);
@@ -137,7 +138,7 @@ sap.ui.define([
 
                 }
             },
-
+  // End: Sales Office
             onSearch: function () {
                 // Come back here
                 this.getView().getModel("modelVisibleFlag").setProperty("/Visible", true);
@@ -464,15 +465,16 @@ sap.ui.define([
                                 that.getView().setBusy(true);
                                 that.getView().getModel().read(sPath, {
                                     success: function (Data) {
-                                        this.getView().setBusy(false);
+                                        that.getView().setBusy(false);
                                         MessageBox.success("Order No:'" + oOrderNumber + "' Deleted", {
                                             actions: ["Ok"],
                                             onClose: function (oAction) {
                                                 window.location.reload();
+                                                // that.byId(sap.ui.core.Fragment.createId("id.tableProductDetails.Fragment", "id.main.IconTabBar")).setSelectedKey("All");
                                             }
                                         });
 
-                                    },
+                                    } ,
                                     error: function (oError) {
                                         that.getView().setBusy(false);
                                         MessageBox.error(JSON.parse(oError.responseText).error.innererror.errordetails[0].message, {

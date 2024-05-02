@@ -236,6 +236,18 @@
                         tooltip="Gross Margin(%)"
                     />
                 </Column>
+                 <Column
+                    minScreenWidth="Desktop"
+                    demandPopin="true"
+                    hAlign="End"
+                    width="6rem"
+                >
+                    <Label
+                        design="Bold"
+                        wrapping="true"
+                        text="Desired BP"
+                    /> 
+                </Column>
                 <Column
                     minScreenWidth="Desktop"
                     demandPopin="true"
@@ -317,6 +329,11 @@
                             text="{ProductModel>Zvolumepft}"
                         />
                         <Text text="{path:'ProductModel>Grossmargper'}" />
+                        <Input
+                            value="{ProductModel>Desiredbp}"
+                            textAlign="End"
+                            liveChange="onBuyingpricesqftInputLiveChange"
+                        />
                         <Text text="{path:'ProductModel>Remark'}" />
                     </cells>
                 </ColumnListItem>

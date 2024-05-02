@@ -89,7 +89,7 @@
                                                 hAlign="Center"
                                             >
                                                 <Label
-                                                    text="{i18n.View2>View2.table.source}"
+                                                    text="{i18n.View2>View2.table.vendor}"
                                                 />
                                             </Column>
                                             <Column
@@ -98,32 +98,28 @@
                                                 hAlign="End"
                                             >
                                                 <Label
-                                                    text="{i18n.View2>View2.table.volumnft}"
+                                                    text="{i18n.View2>View2.table.currvol}"
+                                                />
+                                            </Column>
+                                            <Column
+                                                minScreenWidth="Tablet"
+                                                demandPopin="true"
+                                                hAlign="End"
+                                            >
+                                                <Label
+                                                    text="{i18n.View2>View2.table.totvol}"
                                                 />
                                             </Column>
 
                                             <Column
-                                                minScreenWidth="Tablet"
                                                 demandPopin="true"
-                                                hAlign="End"
-                                                visible="false"
+                                                hAlign="Center"
                                             >
                                                 <Label
-                                                    text="{i18n.View2>View2.table.discountper}"
+                                                    text="{i18n.View2>View2.table.buyingPrice}"
                                                 />
                                             </Column>
-
-                                            <Column
-                                                minScreenWidth="Tablet"
-                                                demandPopin="true"
-                                                hAlign="End"
-                                                visible="false"
-                                            >
-                                                <Label
-                                                    text="{i18n.View2>View2.table.netexfactoryNEF}"
-                                                />
-                                            </Column>
-                                            <Column
+                                            <!-- <Column
                                                 minScreenWidth="Tablet"
                                                 demandPopin="true"
                                                 hAlign="End"
@@ -132,14 +128,13 @@
                                                 <Label
                                                     text="{i18n.View2>View2.table.frightsqft}"
                                                 />
-                                            </Column>
+                                            </Column> -->
+
                                             <Column
+                                                hAlign="End"
                                                 demandPopin="true"
-                                                hAlign="Center"
                                             >
-                                                <Label
-                                                    text="{i18n.View2>View2.table.buyingPrice}"
-                                                />
+                                                <Label text="Desired BP" />
                                             </Column>
                                             <Column
                                                 id="id.bp.Column"
@@ -168,7 +163,7 @@
                                             <ColumnListItem>
                                                 <cells>
                                                     <Text
-                                                        text="{oRequestModel>Mfrgr}"
+                                                        text="{oRequestModel>Mfrgr} ({oRequestModel>Mfrname})"
                                                     />
                                                     <Text
                                                         text="{oRequestModel>Zsmm}"
@@ -181,21 +176,37 @@
                                                         text="{oRequestModel>Sname}"
                                                     />
                                                     <Text
+                                                        maxLength="10"
+                                                        liveChange="onNumberValidation"
                                                         text="{oRequestModel>Zvolumepft}"
+                                                        editable="{GlobalEditableModel>/Editable}"
+                                                    />
+                                                    <!-- 6 -->
+                                                    <Text
+                                                        maxLength="10"
+                                                        liveChange="onNumberValidation"
+                                                        text="{oRequestModel>Ztotvolume}"
+                                                        editable="{GlobalEditableModel>/Editable}"
                                                     />
 
-                                                    <Text
+                                                    <!-- <Text
                                                         text="{oRequestModel>Discountper}"
-                                                    />
+                                                    /> -->
 
-                                                    <Text
+                                                    <!-- <Text
                                                         text="{oRequestModel>Nefsqft}"
-                                                    />
-                                                    <Text
+                                                    /> -->
+                                                    <!-- <Text
                                                         text="{oRequestModel>Frightsqft}"
-                                                    />
+                                                    /> -->
                                                     <Text
                                                         text="{oRequestModel>Buyingpricesqft}"
+                                                    />
+
+                                                    <Text
+                                                        text="{oRequestModel>Desiredbp}"
+                                                        textAlign="End"
+                                                        liveChange="onBuyingpricesqftInputLiveChange"
                                                     />
                                                     <Input
                                                         value="{oRequestModel>ApprovedBuyingprice}"

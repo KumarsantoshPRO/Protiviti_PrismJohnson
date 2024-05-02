@@ -1,5 +1,12 @@
+<!-- <mvc:View controllerName="zpj.pro.sd.sk.zprovertihead.controller.View1"
+    xmlns:mvc="sap.ui.core.mvc" displayBlock="true"
+    xmlns="sap.m">
+    <Page id="page" title="{i18n>title}">
+        <content />
+    </Page>
+</mvc:View> -->
 <mvc:View
-    controllerName="pj.zpmg.controller.View1"
+    controllerName="zpj.pro.sd.sk.zprovertihead.controller.View1"
     xmlns:core="sap.ui.core"
     xmlns:mvc="sap.ui.core.mvc"
     xmlns:f="sap.f"
@@ -7,6 +14,11 @@
     xmlns:tnt="sap.tnt"
     xmlns:fb="sap.ui.comp.filterbar"
 >
+    <!-- <f:ShellBar
+        title="PMG"
+        homeIcon="/css/johnson_img.png"
+    /> -->
+
     <Page
         class="sapUiResponsivePadding--header sapUiResponsivePadding--subHeader sapUiResponsivePadding--content sapUiResponsivePadding--footer sapUiResponsivePadding--floatingFooter"
     >
@@ -83,7 +95,7 @@
                     />
                 </items>
                 <content>
-                    <fb:FilterBar
+                <fb:FilterBar
                         id="id.FilterBar"
                         persistencyKey="myPersKey"
                         useToolbar="false"
@@ -97,153 +109,32 @@
                                 name="SalesOffice"
                                 label="Sales Office"
                                 groupName="Group1"
+                                widht="50px"
                                 visibleInFilterBar="true"
+                            
                             >
+                            <form:content>
                                 <fb:control>
                                     <Input
                                         id="id.SalesOffice.Input"
                                         placeholder="Sales Office"
-                                        submit="onSearch"
-                                        showValueHelp="true"
                                         valueHelpRequest="onSalesOfficeHelp"
-                                        change="onSalesOfficeInputSubmit"
-                                        textFormatMode="ValueKey"
-                                        showSuggestion="true"
-                                        showTableSuggestionValueHelp="false"
-                                        suggest=".onSuggest"
-                                        suggestionRows="{JSONModelForSuggest>/}"
-                                        suggestionItemSelected="onSalesOfficeSuggestionSelect"
+                                          submit="onSalesOfficeInputSubmit"
+                                        showValueHelp="true"
+                                         showSuggestion="true"
+                                 suggest=".onSuggest"
                                     >
-                                        <suggestionColumns>
-                                            <Column
-                                                popinDisplay="Inline"
-                                                demandPopin="true"
-                                            >
-                                                <Label
-                                                    text="Sales Office Code"
-                                                />
-                                            </Column>
-                                            <Column
-                                                popinDisplay="Inline"
-                                                demandPopin="true"
-                                            >
-                                                <Label
-                                                    text="Sales Office Name"
-                                                />
-                                            </Column>
-
-                                            <!-- <core:Item
-                        text="{JSONModelForSuggest_custCode>DomvalueL}"
-                        key="{JSONModelForSuggest_custCode>Ddtext}"
-                    /> -->
-                                        </suggestionColumns>
-                                        <suggestionRows>
-                                            <ColumnListItem>
-                                                <Label
-                                                    text="{JSONModelForSuggest>DomvalueL}"
-                                                />
-                                                <Label
-                                                    text="{JSONModelForSuggest>Ddtext}"
-                                                />
-                                            </ColumnListItem>
-                                        </suggestionRows>
-                                    </Input>
+                                    <suggestionItems>
+                                        <core:Item
+                                            text="{JSONModelForSuggest>DomvalueL}"
+                                        />
+                                    </suggestionItems>
+                               
+                                </form:content>
                                 </fb:control>
                             </fb:FilterGroupItem>
-                            <fb:FilterGroupItem
-                                name="Status"
-                                label="Status"
-                                groupName="Group1"
-                                visibleInFilterBar="true"
-                                mandatory="true"
-                                visible="false"
-                            >
-                                <fb:control>
-                                    <ComboBox
-                                        id="id.Status.ComboBox"
-                                        selectedKey="P"
-                                    >
-                                        <core:Item
-                                            key="P"
-                                            text="Pending"
-                                        />
-                                        <core:Item
-                                            key="A"
-                                            text="Approved"
-                                        />
-                                        <core:Item
-                                            key="R"
-                                            text="Rejected"
-                                        />
-                                        <core:Item
-                                            key="DL"
-                                            text="Deleted"
-                                        />
-                                    </ComboBox>
-                                </fb:control>
-                            </fb:FilterGroupItem>
-                            <fb:FilterGroupItem
-                                name="Division"
-                                label="Division"
-                                groupName="Group1"
-                                visibleInFilterBar="true"
-                            >
-                                <fb:control>
-                                    <Select
-                                        id="id.Division.ComboBox"
-                                        forceSelection="false"
-                                        change="onSearch"
-                                    >
-                                        <core:Item
-                                            key="10"
-                                            text="Johnson"
-                                        />
-                                        <core:Item
-                                            key="20"
-                                            text="Porselano"
-                                        />
-                                        <core:Item
-                                            key="30"
-                                            text="Marbonite"
-                                        />
-                                        <core:Item
-                                            key="40"
-                                            text="Endura"
-                                        />
-                                    </Select>
-                                </fb:control>
-                            </fb:FilterGroupItem>
-                            <fb:FilterGroupItem
-                                name="PafNo"
-                                label="Paf No"
-                                groupName="Group1"
-                                visibleInFilterBar="true"
-                            >
-                                <fb:control>
-                                    <Input
-                                        id="id.PafNo.Input"
-                                        placeholder="PAF No."
-                                        submit="onSearch"
-                                    />
-                                </fb:control>
-                            </fb:FilterGroupItem>
-
-                            <fb:FilterGroupItem
-                                name="date"
-                                label="Date"
-                                groupName="Group1"
-                                visibleInFilterBar="true"
-                            >
-                                <fb:control>
-                                    <DatePicker
-                                        id="id.Date.DatePicker"
-                                        valueFormat="MM/dd/yyyy"
-                                        displayFormat="dd/MM/YYYY"
-                                        change="onSearch"
-                                        placeholder="e.g: 31/12/2020"
-                                    />
-                                </fb:control>
-                            </fb:FilterGroupItem>
+                           
+                           
                         </fb:filterGroupItems>
                     </fb:FilterBar>
                     <Table
@@ -287,19 +178,19 @@
                         <columns>
                             <Column
                                 hAlign="End"
-                                width="5rem"
+                                width="4rem"
                             >
                                 <Text text="PAF No" />
                             </Column>
                             <Column
                                 hAlign="End"
-                                width="8rem"
+                                width="4rem"
                             >
                                 <Text text="Sales Office" />
                             </Column>
                             <Column
                                 hAlign="Center"
-                                width="16rem"
+                                width="14rem"
                             >
                                 <Text text="Customer" />
                             </Column>
@@ -312,35 +203,35 @@
                             <Column
                                 hAlign="Center"
                                 demandPopin="true"
-                                width="5rem"
+                                width="6rem"
                             >
-                                <Text text="Type Of Order" />
+                                <Text text="Order type" />
                             </Column>
                             <Column
                                 hAlign="End"
                                 demandPopin="true"
-                                width="5rem"
+                                width="6rem"
                             >
                                 <Text text="Total Order" />
                             </Column>
                             <Column
                                 hAlign="End"
                                 demandPopin="true"
-                                width="5rem"
+                                width="6rem"
                             >
                                 <Text text="Current Order" />
                             </Column>
                             <Column
                                 hAlign="Center"
                                 demandPopin="true"
-                                width="8rem"
+                                width="6rem"
                             >
                                 <Text text="Request Date" />
                             </Column>
                             <Column
                                 hAlign="End"
                                 demandPopin="true"
-                                width="4rem"
+                                width="6rem"
                             >
                                 <Text text="Validity" />
                             </Column>
@@ -348,7 +239,6 @@
                                 hAlign="End"
                                 demandPopin="true"
                                 width="6rem"
-                                visible="false"
                             >
                                 <Text text="GM%" />
                             </Column>
@@ -370,9 +260,7 @@
                                     <Text
                                         text="{path:'JSONModelForTable>Pafno', formatter:'.formatter.removeLeadingZeros'}"
                                     />
-                                    <Text
-                                        text="{JSONModelForTable>Soname}({JSONModelForTable>Vkbur})"
-                                    />
+                                    <Text text="{JSONModelForTable>Soname}" />
                                     <Text text="{JSONModelForTable>Name}" />
                                     <Text text="{JSONModelForTable>Kunnr}" />
                                     <Text
