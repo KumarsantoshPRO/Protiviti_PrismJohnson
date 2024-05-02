@@ -1,0 +1,59 @@
+<core:FragmentDefinition
+    xmlns="sap.m"
+    xmlns:core="sap.ui.core"
+    xmlns:form="sap.ui.layout.form"
+    xmlns:upload="sap.m.upload"
+>
+    <upload:UploadSet
+        id="idV2UploadSet"
+        mode="None"
+        uploadButtonInvisible="true"
+        maxFileNameLength="30"
+        maxFileSize="200"
+        uploadUrl="../../../../upload"
+        items="{path: 'LocalJSONModelForAttachment>/attachments/Nav_File_Upload/results', templateShareable: false}"
+    >
+        <upload:toolbar>
+            <OverflowToolbar id="idV2OFT">
+                <Title
+                    text="All attachments: {path:'LocalJSONModelForAttachment>/Pafno',  formatter:'.formatter.removeLeadingZeros'}"
+                />
+                <ToolbarSpacer id="idV2TBS" />
+                <!-- <Button
+                    id="idV2UploadSetBtnUploadSelected"
+                    text="Upload selected"
+                    press="onUploadSelectedButton"
+                /> -->
+                <!-- <upload:UploadSetToolbarPlaceholder id="idV2USTP" /> -->
+            </OverflowToolbar>
+        </upload:toolbar>
+        <upload:items>
+            <upload:UploadSetItem
+                id="idV2USI"
+                fileName="{LocalJSONModelForAttachment>Filename}"
+                mediaType="{LocalJSONModelForAttachment>mediaType}"
+                url="{LocalJSONModelForAttachment>Url}"
+                thumbnailUrl="{LocalJSONModelForAttachment>Attachment}"
+                visibleEdit="false"
+                visibleRemove="false"
+            >
+                <!-- <upload:markers>
+                    <ObjectMarker
+                        id="idV2OM"
+                     
+                    />
+                </upload:markers> -->
+                <upload:statuses>
+                    <ObjectStatus
+                        id="idV2OS"
+                        title="PAF NO - {path:'LocalJSONModelForAttachment>Pafno',  formatter:'.formatter.removeLeadingZeros'}"
+                        text="View attachment"
+                        press="onViewAttachmentObjectStatusPress"
+                        icon=""
+                        active="true"
+                    />
+                </upload:statuses>
+            </upload:UploadSetItem>
+        </upload:items>
+    </upload:UploadSet>
+</core:FragmentDefinition>

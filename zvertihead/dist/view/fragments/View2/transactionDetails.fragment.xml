@@ -1,0 +1,149 @@
+<core:FragmentDefinition
+    xmlns="sap.m"
+    xmlns:core="sap.ui.core"
+    xmlns:forms="sap.ui.layout.form"
+    xmlns:tnt="sap.tnt"
+>
+    <forms:SimpleForm
+        editable="true"
+        layout="ResponsiveLayout"
+        labelSpanXL="0"
+        labelSpanL="0"
+        labelSpanM="0"
+        labelSpanS="0"
+        adjustLabelSpan="true"
+        emptySpanXL="0"
+        emptySpanL="0"
+        emptySpanM="0"
+        emptySpanS="0"
+        columnsXL="1"
+        columnsL="1"
+        columnsM="1"
+        singleContainerFullSize="true"
+        class="sapUiNoMarginBottom"
+    >
+        <!-- <HBox alignContent="Center" alignItems="Center"  >
+            <VBox width="33%"> -->
+        <!-- <core:Title
+            icon="sap-icon://customer"
+            text="{oRequestModel>/Kunnr}, {oRequestModel>/Name}"
+        />-->
+        <core:Title />
+
+        <Label
+            text="Customer"
+            design="Bold"
+        />
+        <Text text="{oRequestModel>/Kunnr}, {oRequestModel>/Name}" />
+        <Label
+            text="Sales Office"
+            design="Bold"
+        />
+        <Text text="{oRequestModel>/Soname}({oRequestModel>/Vkbur})" />
+        <Label
+            text="Distribution Channel "
+            design="Bold"
+        />
+
+        <Text text="{path:'oRequestModel>/Vtweg', formatter:'.formatter.getOrderType'} " />
+        <Label
+            text="Payment Term"
+            design="Bold"
+        />
+
+        <Text text=" {path:'oRequestModel>/Zterm',  formatter:'.formatter.getPaymentTerm'}" />
+
+        <!-- </VBox>
+
+            <VBox width="33%"> -->
+
+        <Label
+            text="Current Volume(Sqft)"
+            design="Bold"
+        />
+        <Text text="{oRequestModel>/WcurVol}" />
+
+        <Label
+            text="Total Volume(Sqft)"
+            design="Bold"
+        />
+        <Text text="{oRequestModel>/WtotVol}" />
+
+        <core:Title />
+        <Label
+            text="Discount"
+            design="Bold"
+            visible="{=${oRequestModel>/Wdisc}==='0.00'?false:true}"
+        />
+
+        <Text
+            text="{path:'oRequestModel>/Wdisc', formatter:'.formatter.addPercentageSymbol'}"
+            visible="{=${oRequestModel>/Wdisc}==='0.00'?false:true}"
+        />
+        <Label
+            text="Discount"
+            design="Bold"
+            visible="{=${oRequestModel>/Wdiscb}==='0.00'?false:true}"
+        />
+        <Text
+            text="{path:'oRequestModel>/Wdiscb', formatter:'.formatter.addPerBox'}"
+            visible="{=${oRequestModel>/Wdiscb}==='0.00'?false:true}"
+        />
+        <Label
+            text="Net Ex Factory(Sqft)"
+            design="Bold"
+        />
+        <Text text="{oRequestModel>/Wnefsqft}" />
+        <!-- </VBox> -->
+
+        <!-- <VBox width="33%"> -->
+
+        <Label
+            text="Freight Sqft(if applicable)"
+            design="Bold"
+        />
+        <Text text="{oRequestModel>/Wfrgtsqft}" />
+        <Label
+            text="PMG Remarks"
+            design="Bold"
+        />
+        <Text text="{oRequestModel>/PmgRemark}" />
+
+        <Label
+            text="Status"
+            design="Bold"
+        />
+        <!-- <Text
+                    text="{path:'oRequestModel>/Status',formatter:'.formatter.getStatus'}"
+                   
+                /> -->
+
+        <tnt:InfoLabel
+            text="{ parts: ['oRequestModel>/Status'], formatter: '.formatter.getStatus' }"
+            renderMode="Loose"
+            colorScheme="{ parts: ['oRequestModel>/Status'], formatter: '.formatter.getStatusColor' }"
+        />
+
+        <Label
+            text="Validity(Days)"
+            design="Bold"
+            required="true"
+        />
+        <HBox>
+            <Input
+                id="id.validity.Input"
+                value="{path:'oRequestModel>/Validity', formatter:'.formatter.removeLeadingZeros'}"
+                width="25%"
+                valueState="Information"
+                valueStateText="You can change Validity"
+                editable="false"
+            />
+
+            <Text
+                text="Valid upto:{path:'oRequestModel>/Pafvto',  formatter: '.formatter.getFormattedDate' }"
+            />
+        </HBox>
+        <!-- </VBox>
+        </HBox> -->
+    </forms:SimpleForm>
+</core:FragmentDefinition>
