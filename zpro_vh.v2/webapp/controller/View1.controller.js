@@ -17,7 +17,7 @@ sap.ui.define(
             this.onFilterBarClear();
             this.onSearch();
             // this.getView().byId("id.FilterBar").fireSearch();
-;        }
+      }
        
       },
       _getRequestData: function (e, a) { // DR change for filter
@@ -82,21 +82,6 @@ sap.ui.define(
             }.bind(this),
           });
       },
-      // onSalesOfficeHelp: function () {
-      //   f.onSalesOfficeHelp(this);
-      // },
-      // onMaterialFreightGroupInputSubmit: function (e) {
-      //   s.onMaterialFreightGroupInputSubmit(e, this);
-      // },
-      // onMaterialFreightGroupsHelpConfirm: function (e) {
-      //   s.onMaterialFreightGroupsHelpConfirm(e, this);
-      // },
-      // onSuggest_MaterialFreightGroups: function (e) {
-      //   s.onSuggest_MaterialFreightGroups(e, this);
-      // },
-      // onSuggest_salesOffice: function (e) {
-      //   f.onSuggest_salesOffice(e, this);
-      // },
      
  
       onSearch: function () {
