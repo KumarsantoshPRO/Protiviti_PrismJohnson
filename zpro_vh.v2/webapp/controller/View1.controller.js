@@ -144,7 +144,7 @@ sap.ui.define(
       },
       onSalesOfficeHelp: function () {
         if (!this.SalesOfficerag) {
-          this.SalesOfficerag = sap.ui.xmlfragment("zpj.pro.sd.sk.zprovertihead.view.fragments.View1.salesOfficeF4", this);
+          this.SalesOfficerag = sap.ui.xmlfragment("zpj.pro.sd.sk.zprovertihead.fragments.View1.salesOfficeF4", this);
           this.getView().addDependent(this.SalesOfficerag);
           this._SalesOfficeTemp = sap.ui.getCore().byId("idSLSalesOfficeValueHelp").clone();
           this._oTemp = sap.ui.getCore().byId("idSLSalesOfficeValueHelp").clone();
@@ -233,7 +233,7 @@ sap.ui.define(
       },
       onSalesOfficeHelp: function () {
         if (!this.SalesOfficerag) {
-          this.SalesOfficerag = sap.ui.xmlfragment("zpj.pro.sd.sk.zprovertihead.view.fragments.View1.salesOfficeF4", this);
+          this.SalesOfficerag = sap.ui.xmlfragment("zpj.pro.sd.sk.zprovertihead.fragments.View1.salesOfficeF4", this);
           this.getView().addDependent(this.SalesOfficerag);
           this._SalesOfficeTemp = sap.ui.getCore().byId("idSLSalesOfficeValueHelp").clone();
           this._oTemp = sap.ui.getCore().byId("idSLSalesOfficeValueHelp").clone();
