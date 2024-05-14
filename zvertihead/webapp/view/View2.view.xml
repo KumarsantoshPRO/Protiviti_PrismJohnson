@@ -1,5 +1,5 @@
 <mvc:View
-    controllerName="pj.zpmg.controller.View2"
+    controllerName="zpj.pro.sd.sk.zprovertihead.controller.View2"
     xmlns:mvc="sap.ui.core.mvc"
     xmlns:core="sap.ui.core"
     xmlns:uxap="sap.uxap"
@@ -18,11 +18,6 @@
         titleLevel="H1"
         class="sapUiResponsivePadding--header sapUiResponsivePadding--subHeader sapUiResponsivePadding--content sapUiResponsivePadding--footer sapUiResponsivePadding--floatingFooter"
     >
-        <!-- <uxap:ObjectPageHeader
-            id="idObjectHeader"
-            objectTitle=""
-        /> -->
-
         <IconTabBar
             id="idIconTabBarNoIcons"
             expanded="{device>/isNoPhone}"
@@ -36,7 +31,7 @@
                 >
                     <core:Fragment
                         id="idFragment"
-                        fragmentName="pj.zpmg.view.fragments.View2.transactionDetails"
+                        fragmentName="zpj.pro.sd.sk.zprovertihead.view.fragments.View2.transactionDetails"
                         type="XML"
                     />
                 </IconTabFilter>
@@ -46,7 +41,7 @@
                     iconColor="Contrast"
                 >
                     <core:Fragment
-                        fragmentName="pj.zpmg.view.fragments.View2.customerHistory"
+                        fragmentName="zpj.pro.sd.sk.zprovertihead.view.fragments.View2.customerHistory"
                         type="XML"
                     />
                 </IconTabFilter>
@@ -56,7 +51,7 @@
                     iconColor="Contrast"
                 >
                     <core:Fragment
-                        fragmentName="pj.zpmg.view.fragments.View2.costDetails"
+                        fragmentName="zpj.pro.sd.sk.zprovertihead.view.fragments.View2.costDetails"
                         type="XML"
                     />
                 </IconTabFilter>
@@ -67,7 +62,7 @@
                     iconColor="Contrast"
                 >
                     <core:Fragment
-                        fragmentName="pj.zpmg.view.fragments.View2.regionDetails"
+                        fragmentName="zpj.pro.sd.sk.zprovertihead.view.fragments.View2.regionDetails"
                         type="XML"
                     />
                 </IconTabFilter>
@@ -77,7 +72,7 @@
                     iconColor="Contrast"
                 >
                     <core:Fragment
-                        fragmentName="pj.zpmg.view.fragments.View2.marginDetails"
+                        fragmentName="zpj.pro.sd.sk.zprovertihead.view.fragments.View2.marginDetails"
                         type="XML"
                     />
                 </IconTabFilter>
@@ -87,7 +82,7 @@
                     iconColor="Contrast"
                 >
                     <core:Fragment
-                        fragmentName="pj.zpmg.view.fragments.View2.compitatorsDetails"
+                        fragmentName="zpj.pro.sd.sk.zprovertihead.view.fragments.View2.compitatorsDetails"
                         type="XML"
                     />
                 </IconTabFilter>
@@ -95,7 +90,7 @@
         </IconTabBar>
 
         <core:Fragment
-            fragmentName="pj.zpmg.view.fragments.View2.productsDetails"
+            fragmentName="zpj.pro.sd.sk.zprovertihead.view.fragments.View2.productsDetails"
             type="XML"
         />
 
@@ -104,12 +99,13 @@
             headerText="Attachments"
             id="idV2OPSAttach"
             class="sapUiMediumMarginTop"
+            visible="false"
         >
             <content>
                 <VBox class="sapUiLargeMarginBeginEnd">
                     <core:Fragment
                         id="idV2FragAttach"
-                        fragmentName="pj.zpmg.view.fragments.View2.attachments"
+                        fragmentName="zpj.pro.sd.sk.zprovertihead.view.fragments.View2.attachments"
                         type="XML"
                     />
                 </VBox>
@@ -117,38 +113,17 @@
         </Panel>
 
         <footer>
-            <Bar id="id.actionButtons.Bar" visible="false">
+            <Bar>
                 <contentRight>
                     <Button
-                        id="id.forward.Button"
-                        text="Forward"
-                        icon="sap-icon://forward"
-                        press=".onForward"
-                        ariaHasPopup="Dialog"
-                    />
-                    <Button
-                        id="id.renegotiation.button"
-                        text="BP Renegotiation"
-                        press=".bpRenegotiation"
-                        ariaHasPopup="Dialog"
-                        type="Emphasized"
-                    />
-                    <Button
-                        id="id.freightRenegotiation.button"
-                        text="Freight Renegotiation"
-                        press=".freightRenegotiation"
-                        ariaHasPopup="Dialog"
-                        type="Emphasized"
-                    />
-                    <Button
-                        id="id.reject.button"
+                        id="id.Approve.Button"
                         text="Reject"
                         press=".reject"
                         ariaHasPopup="Dialog"
                         type="Reject"
                     />
                     <Button
-                        id="id.approve.button"
+                        id="id.Reject.Button"
                         text="Approve"
                         press=".Approved"
                         ariaHasPopup="Dialog"

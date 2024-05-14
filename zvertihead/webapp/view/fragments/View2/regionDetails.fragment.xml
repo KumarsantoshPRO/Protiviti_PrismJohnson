@@ -1,0 +1,52 @@
+<core:FragmentDefinition
+    xmlns="sap.m"
+    xmlns:core="sap.ui.core"
+    xmlns:forms="sap.ui.layout.form"
+>
+    <forms:SimpleForm
+        editable="true"
+        layout="ResponsiveLayout"
+        labelSpanXL="0"
+        labelSpanL="0"
+        labelSpanM="0"
+        labelSpanS="0"
+        adjustLabelSpan="true"
+        emptySpanXL="0"
+        emptySpanL="0"
+        emptySpanM="0"
+        emptySpanS="0"
+        columnsXL="1"
+        columnsL="1"
+        columnsM="1"
+        singleContainerFullSize="true"
+        class="sapUiNoMarginBottom"
+    >
+       <core:Title   />
+        <Label
+            design="Bold"
+            text="Region"
+        />
+        <Text text="{oRequestModel>/RD_Region}" />
+        <Label
+            design="Bold"
+            text="Volume(Sqft In Lakhs)"
+        />
+        <Text text="{oRequestModel>/RD_Volume}" />
+        <Label
+            design="Bold"
+            text="Value(INR Lakhs)"
+        />
+        <Text text="{oRequestModel>/RD_Value}" />
+        <core:Title />
+        <Label
+            design="Bold"
+            text="Gross Margin(%)"
+        />
+        <Text text="{oRequestModel>/RD_GrossMarginPer}" />
+        <Label
+            design="Bold"
+            text="Gross Margin(Per Sqft)"
+        />
+        <Text text="{oRequestModel>/RD_GrossMargin}" />
+    </forms:SimpleForm>
+</core:FragmentDefinition>

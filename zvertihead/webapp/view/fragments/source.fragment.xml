@@ -1,0 +1,7 @@
+<core:FragmentDefinition xmlns="sap.m" xmlns:core="sap.ui.core">
+	<SelectDialog id="idSDSourceF4" title="Sources" noDataText="No value found" search="onSourceValueHelpSearch" confirm="onSourceValueHelpConfirm">
+		<items>
+			<StandardListItem id="idSLSourceValueHelp" title="{ZCUSTOMER_AUTOMATIONDISCOUNT_SRV>DomvalueL}" description="{ZCUSTOMER_AUTOMATIONDISCOUNT_SRV>Ddtext}"/>
+		</items>
+	</SelectDialog>
+</core:FragmentDefinition>

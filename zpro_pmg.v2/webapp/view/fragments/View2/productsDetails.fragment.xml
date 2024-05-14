@@ -292,6 +292,7 @@
                         <Input
                             value="{path:'ProductModel>Commboxp'}"
                             textAlign="End"
+                            liveChange="onCommboxpInputLiveChange"
                         />
                         <Text text="{path:'ProductModel>Zzprodh4'}" />
                         <Text text="{path:'ProductModel>Frghtsqft'}" />

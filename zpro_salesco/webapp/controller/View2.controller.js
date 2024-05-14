@@ -1206,18 +1206,18 @@ sap.ui.define([
                     var vInvoiceType;
                     var vOrcType;
                     if (this.getView().getModel("JSONModelPayload").getProperty("/Vtweg") !== '19') {
-                        vInvoiceDiscount = vInvoiceDiscount + Number(aItemsData[index].Disc);
+                        vInvoiceDiscount = vInvoiceDiscount + (Number(aItemsData[index].Disc) * Number(aItemsData[index].TotalVol));
                         vInvoiceType = "Per Box"
                     } else {
-                        vInvoiceDiscount = vInvoiceDiscount + Number(aItemsData[index].Disc);
+                        vInvoiceDiscount = vInvoiceDiscount + (Number(aItemsData[index].Disc) * (Number(aItemsData[index].TotalVol)) / 100);
                         vInvoiceType = "%"
                     }
 
                     if (this.getView().getModel("JSONModelPayload").getProperty("/Vtweg") === '19') {
-                        vOrc = vOrc + Number(aItemsData[index].Commboxp);
+                        vOrc = vOrc + (Number(aItemsData[index].Commboxp) * (Number(aItemsData[index].TotalVol)) / 100);
                         vOrcType = "%"
                     } else {
-                        vOrc = vOrc + Number(aItemsData[index].Commbox);
+                        vOrc = vOrc + (Number(aItemsData[index].Commbox) * Number(aItemsData[index].TotalVol));
                         vOrcType = "Per Box"
                     }
 
@@ -1226,8 +1226,9 @@ sap.ui.define([
                     vFreightDiscount = vFreightDiscount + (Number(aItemsData[index].Frgtsqft) * Number(aItemsData[index].TotalVol));
                     vTotalValume = vTotalValume + Number(aItemsData[index].TotalVol);
                 }
-                vInvoiceDiscount = (vInvoiceDiscount / aItemsData.length).toFixed(2);
-                vOrc = (vOrc / aItemsData.length).toFixed(2);
+                vInvoiceDiscount = (vInvoiceDiscount / vTotalValume).toFixed(2);
+                vOrc = (vOrc / vTotalValume).toFixed(2);
+                debugger;
                 vFreightDiscount = (vFreightDiscount / vTotalValume).toFixed(2);
                 vPayTermDiscount = (vPayTermDiscount / aItemsData.length).toFixed(2);
                 if (vInvoiceDiscount === NaN || vInvoiceDiscount === 0 || vInvoiceDiscount === '' || vInvoiceDiscount === undefined) {
@@ -1242,8 +1243,19 @@ sap.ui.define([
                 if (vPayTermDiscount === NaN || vPayTermDiscount === 0 || vPayTermDiscount === '' || vPayTermDiscount === undefined) {
                     vPayTermDiscount = 'Not Available'
                 }
-                this.byId(sap.ui.core.Fragment.createId("idV2FragSumDeatil", "idV2InpInvcDis")).setValue(vInvoiceDiscount.toString() + vInvoiceType);
-                this.byId(sap.ui.core.Fragment.createId("idV2FragSumDeatil", "idV2InpOrc")).setValue(vOrc.toString() + vOrcType);
+                if (vInvoiceType === "%") {
+                    vInvoiceDiscount = vInvoiceDiscount * 100;
+                    this.byId(sap.ui.core.Fragment.createId("idV2FragSumDeatil", "idV2InpInvcDis")).setValue(vInvoiceDiscount.toString() + vInvoiceType);
+                } else {
+                    this.byId(sap.ui.core.Fragment.createId("idV2FragSumDeatil", "idV2InpInvcDis")).setValue(vInvoiceDiscount.toString() + vInvoiceType);
+                }
+                if (vOrcType === "%") {
+                    vOrc = vOrc * 100;
+                    this.byId(sap.ui.core.Fragment.createId("idV2FragSumDeatil", "idV2InpOrc")).setValue(vOrc.toString() + vOrcType);
+                } else {
+                    this.byId(sap.ui.core.Fragment.createId("idV2FragSumDeatil", "idV2InpOrc")).setValue(vOrc.toString() + vOrcType);
+                }
+
                 this.byId(sap.ui.core.Fragment.createId("idV2FragSumDeatil", "idV2InpfraightCost")).setValue(vFreightDiscount.toString());
                 this.byId(sap.ui.core.Fragment.createId("idV2FragSumDeatil", "idV2InpPayTermDis")).setValue(vPayTermDiscount.toString());
             },

@@ -28,9 +28,9 @@
             text="Gross Margin(%)"
         />
         <tnt:InfoLabel
-            text="{path:'oRequestModel>/Wgmper'}"
+            text="{path:'oRequestModel>/Wgrossmargper'}"
             renderMode="Loose"
-            colorScheme="{path:'oRequestModel>/Wgmper', formatter:'.formatter.getColor'}"
+            colorScheme="{path:'oRequestModel>/Wgrossmargper', formatter:'.formatter.getColor'}"
         />
         <!-- <Text text="{oRequestModel>/grmg}"/> -->
         <!-- <Label  design="Bold" text="Bench Mark Gross Margin" />
