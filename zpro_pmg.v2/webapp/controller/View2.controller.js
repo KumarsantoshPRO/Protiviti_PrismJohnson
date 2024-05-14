@@ -258,12 +258,13 @@ sap.ui.define([
 
                         var vSVC_BP = oData.NAV_PMG_ITEM_PRODUCT.results[0].Buyingpricesqft,
                             vGross_Margin = oData.NAV_PMG_ITEM_PRODUCT.results[0].Grossmargper,
-                            vSource = oData.NAV_PMG_ITEM_PRODUCT.results[0].Source;
+                            vSource = oData.NAV_PMG_ITEM_PRODUCT.results[0].Source,
+                            sName = oData.NAV_PMG_ITEM_PRODUCT.results[0].Sname;
 
                         this.getView().getModel("ProductModel").getData()[this._rowIndex].Buyingpricesqft = vSVC_BP;
                         this.getView().getModel("ProductModel").getData()[this._rowIndex].Grossmargper = vGross_Margin;
                         this.getView().getModel("ProductModel").getData()[this._rowIndex].Source = vSource;
-
+                        this.getView().getModel("ProductModel").getData()[this._rowIndex].Sname = sName;
                         // var len = this.getView().getModel("ProductModel").getData().length;
                         // this.getView().getModel("oRequestModel").getData().Wgmper = 0;
                         // for (let index = 0; index < len; index++) {
@@ -579,6 +580,7 @@ sap.ui.define([
                             this.getView().getModel("oRequestModel").getData().Validity = oData.Validity;
                             this.getView().getModel("oRequestModel").getData().Pafvto = oData.Pafvto;
                             this.getView().getModel("oRequestModel").getData().PmgRemark = oData.PmgRemark;
+                            this.getView().getModel("oRequestModel").getData().Wgmper = oData.Wgmper;
                             this.getView().getModel("oRequestModel").refresh(true);
                             if (payload.Action === "GENERATE") {
                                 MessageBox.success("Values generated");
