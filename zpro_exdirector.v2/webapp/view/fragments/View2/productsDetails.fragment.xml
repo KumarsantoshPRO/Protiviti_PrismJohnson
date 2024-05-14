@@ -60,6 +60,20 @@
                     demandPopin="true"
                     hAlign="End"
                 >
+                    <Text text="Freight" />
+                </Column>
+                <Column
+                    minScreenWidth="Tablet"
+                    demandPopin="true"
+                    hAlign="End"
+                >
+                    <Text text="Revised freight" />
+                </Column>
+                <Column
+                    minScreenWidth="Tablet"
+                    demandPopin="true"
+                    hAlign="End"
+                >
                     <Text text="Discount(%)" />
                 </Column>
                 <Column
@@ -127,6 +141,8 @@
                             visible="false"
                             text="{ProductModel>Volume}"
                         />
+                         <Text text="{ProductModel>ApprovedFrightprice}" />
+                        <Text text="{ProductModel>Frghtsqft}" />
                         <Text text="{ProductModel>Discount}" />
                         <Text text="{ProductModel>Netexsqft}" />
                         <Text text="{ProductModel>Buyingpricesqft}" />

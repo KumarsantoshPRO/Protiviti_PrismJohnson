@@ -343,7 +343,17 @@ sap.ui.define([
                 this.oRouter.navTo("", {});
             },
 
-         
+            // onNavBack: function () {
+            //     var oHistory = History.getInstance();
+            //     var sPreviousHash = oHistory.getPreviousHash();
+              
+            //     if (sPreviousHash !== undefined) {
+            //       window.history.go(-1);
+            //     } else {
+            //       var oRouter = this.getOwnerComponent().getRouter();
+            //       oRouter.navTo("overview", {}, true);
+            //     }
+            //   },
             reject: function () {
                 // this.oRejectDialog = new Dialog({
                 //     title: "Remarks",
