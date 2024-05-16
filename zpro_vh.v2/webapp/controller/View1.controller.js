@@ -69,7 +69,7 @@ sap.ui.define(
                 var n = s.results;
                 
                 this.getView().setModel(new t(n), "JSONModelForTable");
-                debugger;
+                
               }
               this.getView().getModel("count").refresh(true);
             }.bind(this),
@@ -85,7 +85,7 @@ sap.ui.define(
      
  
       onSearch: function () {
-        debugger;
+        
         this.sVkbur = this.getView().byId("id.SalesOffice.Input").getValue();
         this.getView().byId("idIconTabBar").setSelectedKey("All");
         this.getView().byId("id.orderNumber.Input").setValue("");
@@ -174,7 +174,7 @@ sap.ui.define(
         s.bindAggregation("items", { path: i, filters: t, template: this._oTemp });
       },
       onValueHelpConfirm: function (e) {
-        debugger;
+        
         var t = e.getParameter("selectedItem");
         var a = t.getProperty("title");
         this.byId(sap.ui.core.Fragment.createId("id.tableProductDetails.Fragment", "id.SalesOffice.Input")).setValue(a);

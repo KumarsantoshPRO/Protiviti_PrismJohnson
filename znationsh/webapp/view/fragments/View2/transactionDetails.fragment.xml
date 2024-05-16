@@ -83,7 +83,7 @@
         <Text
             text="{path:'oRequestModel>/Wdisc', formatter:'.formatter.addPercentageSymbol'}"
             visible="{=${oRequestModel>/Wdisc}==='0.00'?false:true}"
-        /> 
+        />
         <Label
             text="Discount"
             design="Bold"

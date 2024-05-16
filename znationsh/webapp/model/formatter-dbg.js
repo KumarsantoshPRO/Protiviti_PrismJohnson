@@ -2,6 +2,7 @@
 sap.ui.define([], function () {
     "use strict";
     return {
+
         getFormattedDate: function (date) {
 
             var dateFormat = sap.ui.core.format.DateFormat.getDateInstance({
@@ -98,7 +99,7 @@ sap.ui.define([], function () {
                 return sString;
             }
         },
-        
+
         getColor: function (sString) {
             if (Number(sString) > 12) {
                 return 8;
@@ -148,25 +149,7 @@ sap.ui.define([], function () {
 
             return colorCode;
         },
-        addPercentageSymbol: function(sValue){
-            if(sValue){
-                return sValue+" %"
-            }
-        },
-        addPerBox: function(sValue){
-            if(sValue){
-                return sValue+" Per Box"
-            }
-        },
-        getDiscount: function (sDiscountPer, sDiscountPerBox) {
-          
-            if (sDiscountPer === "0.00") {
-                return sDiscountPerBox + " Per Box"
-                
-            } else {
-                return sDiscountPer + "  %"
-            }
-        },            
+
 
     }
 });

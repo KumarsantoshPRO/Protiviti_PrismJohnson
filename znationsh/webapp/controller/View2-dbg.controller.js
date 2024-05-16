@@ -7,7 +7,7 @@ sap.ui.define([
     "sap/m/Label",
     "sap/m/library",
     "sap/m/TextArea",
-    "zpj/pro/sd/sk/zprovertihead/model/formatter",
+    "zpj/pro/sd/sk/zpronatsaleshead/model/formatter",
     "sap/m/MessageBox",
 
 ],
@@ -19,7 +19,7 @@ sap.ui.define([
         var ButtonType = mobileLibrary.ButtonType;
         var DialogType = mobileLibrary.DialogType;
 
-        return Controller.extend("zpj.pro.sd.sk.zprovertihead.controller.View2", {
+        return Controller.extend("zpj.pro.sd.sk.zpronatsaleshead.controller.View2", {
             formatter: formatter,
             onInit: function () {
                 var oProductModel = new JSONModel();
@@ -51,18 +51,17 @@ sap.ui.define([
 
             getRequestDetails: function (pafID) {
                 this.getView().setBusy(true);
-                var sPath = "/ZPAF_VH_HEADERSet('" + pafID + "')"
+                var sPath = "/ZPAF_NSH_HEADERSet('" + pafID + "')"
 
 
 
                 this.getOwnerComponent().getModel().read(sPath, {
 
                     urlParameters: {
-                        "$expand": "NAV_VH_ITEM_PRODUCT"
+                        "$expand": "NAV_NSH_ITEM_PRODUCT"
                     },
                     success: function (oData) {
                         var oModel = this.getView().getModel("oRequestModel");
-                        
                         if (oData.Status === 'A' || oData.Status === 'R') {
 
                             this.getView().byId("id.Approve.Button").setVisible(false);
@@ -73,27 +72,27 @@ sap.ui.define([
                             this.getView().byId("id.Reject.Button").setVisible(true);
                         }
                         // Grossmargper
-                        // oData.NAV_VH_ITEM_PRODUCT.results
-                        var len = oData.NAV_VH_ITEM_PRODUCT.results.length;
+                        // oData.NAV_NSH_ITEM_PRODUCT.results
+                        var len = oData.NAV_NSH_ITEM_PRODUCT.results.length;
                         oData.Wgrossmargper = 0;
-                        // oData.Wbuyingprice = 0;
+                        oData.Wbuyingprice = 0;
                         for (let index = 0; index < len; index++) {
-                            var nGrossMargin = Number(oData.NAV_VH_ITEM_PRODUCT.results[index].Grossmargper);
-                            var nBuyingpricesqft = Number(oData.NAV_VH_ITEM_PRODUCT.results[index].Buyingpricesqft);
+                            var nGrossMargin = Number(oData.NAV_NSH_ITEM_PRODUCT.results[index].Grossmargper);
+                            var nBuyingpricesqft = Number(oData.NAV_NSH_ITEM_PRODUCT.results[index].Buyingpricesqft);
                             oData.Wgrossmargper = Number(oData.Wgrossmargper) + nGrossMargin;
-                            // oData.Wbuyingprice = Number(oData.Wbuyingprice) + nBuyingpricesqft;
+                            oData.Wbuyingprice = Number(oData.Wbuyingprice) + nBuyingpricesqft;
                         }
                         oData.Wgrossmargper = (oData.Wgrossmargper / len).toFixed(2);
-                        // oData.Wbuyingprice = (oData.Wbuyingprice / len).toFixed(2);
+                        oData.Wbuyingprice = (oData.Wbuyingprice / len).toFixed(2);
 
                         oData.Discb = ((oData.Wexfacsqft / 100) * oData.Disc).toFixed(2);
-                        // oData.Worc = ((oData.Wexfacsqft / 100) * oData.Worcper).toFixed(2);
+                        oData.Worc = ((oData.Wexfacsqft / 100) * oData.Worcper).toFixed(2);
                         // oData.Discb = oData.Discb;
                         oModel.setData(oData);
                         this.getView().setModel(oModel, "oRequestModel");
 
                         var oPrdModel = this.getView().getModel("ProductModel");
-                        oPrdModel.setData(oData.NAV_VH_ITEM_PRODUCT.results);
+                        oPrdModel.setData(oData.NAV_NSH_ITEM_PRODUCT.results);
                         this.getView().setModel(oPrdModel, "ProductModel");
                         this.getView().setBusy(false);
 
@@ -140,7 +139,6 @@ sap.ui.define([
                 newValHelpModel.read("/ET_VALUE_HELPSSet", {
                     filters: newFilArray,
                     success: function (oData) {
-
                         var oModel = this.getView().getModel("SouceModel");
                         oModel.setData(oData.results);
                         this.getView().setModel(oModel, "SouceModel");
@@ -160,13 +158,13 @@ sap.ui.define([
             },
 
             onSourceHelp: function (oEvent) {
-
+                debugger;
                 var pathIndex = Number(oEvent.getSource().getParent().getBindingContextPath().split("/")[1]);
                 this._rowIndex = pathIndex;
                 this._Posnr = pathIndex + 1;
 
                 if (!this._sourceFrag) {
-                    this._sourceFrag = sap.ui.xmlfragment("zpj.pro.sd.sk.zprovertihead.view.fragments.source", this);
+                    this._sourceFrag = sap.ui.xmlfragment("zpj.pro.sd.sk.zpronatsaleshead.view.fragments.source", this);
                     this.getView().addDependent(this._sourceFrag);
                     this._CustomerCodeTemp = sap.ui.getCore().byId("idSLSourceValueHelp").clone();
                     this._oTemp = sap.ui.getCore().byId("idSLSourceValueHelp").clone();
@@ -198,7 +196,7 @@ sap.ui.define([
                 var payload = {
                     "Pafno": this.pafID,
                     "Posnr": this._Posnr.toString(),
-                    "NAV_VH_ITEM_PRODUCT": [
+                    "NAV_NSH_ITEM_PRODUCT": [
                         {
                             "Pafno": this.pafID,
                             "Posnr": this._Posnr.toString(),
@@ -207,11 +205,11 @@ sap.ui.define([
                     ]
                 }
 
-                this.getOwnerComponent().getModel().create('/ZPAF_VH_HEADERSet', payload, {
+                this.getOwnerComponent().getModel().create('/ZPAF_NSH_HEADERSet', payload, {
                     success: function (oData, response) {
-                        var vSVC_BP = oData.NAV_VH_ITEM_PRODUCT.results[0].Buyingpricesqft,
-                            vGross_Margin = oData.NAV_VH_ITEM_PRODUCT.results[0].Grossmargper,
-                            vSource = oData.NAV_VH_ITEM_PRODUCT.results[0].Source;
+                        var vSVC_BP = oData.NAV_NSH_ITEM_PRODUCT.results[0].Buyingpricesqft,
+                            vGross_Margin = oData.NAV_NSH_ITEM_PRODUCT.results[0].Grossmargper,
+                            vSource = oData.NAV_NSH_ITEM_PRODUCT.results[0].Source;
 
                         this.getView().getModel("ProductModel").getData()[this._rowIndex].Buyingpricesqft = vSVC_BP;
                         this.getView().getModel("ProductModel").getData()[this._rowIndex].Grossmargper = vGross_Margin;
@@ -250,13 +248,13 @@ sap.ui.define([
                 this.getView().getModel("ProductModel").refresh(true);
                 var newEntry = {
                     "Pafno": this.pafID,
-                    "NAV_VH_ITEM_PRODUCT": newProductArr
+                    "NAV_NSH_ITEM_PRODUCT": newProductArr
                 };
 
-                this.getOwnerComponent().getModel().create('/ZPAF_VH_HEADERSet', newEntry, {
+                this.getOwnerComponent().getModel().create('/ZPAF_NSH_HEADERSet', newEntry, {
                     success: function (oData, response) {
                         var oPrdModel = this.getView().getModel("ProductModel");
-                        oPrdModel.setData(oData.NAV_VH_ITEM_PRODUCT.results);
+                        oPrdModel.setData(oData.NAV_NSH_ITEM_PRODUCT.results);
                         this.getView().setModel(oPrdModel, "ProductModel");
                         this.getView().getModel("ProductModel").refresh(true);
                         this.getView().setBusy(false);
@@ -343,17 +341,9 @@ sap.ui.define([
                 this.oRouter.navTo("", {});
             },
 
-            // onNavBack: function () {
-            //     var oHistory = History.getInstance();
-            //     var sPreviousHash = oHistory.getPreviousHash();
-              
-            //     if (sPreviousHash !== undefined) {
-            //       window.history.go(-1);
-            //     } else {
-            //       var oRouter = this.getOwnerComponent().getRouter();
-            //       oRouter.navTo("overview", {}, true);
-            //     }
-            //   },
+          
+          
+            
             reject: function () {
                 // this.oRejectDialog = new Dialog({
                 //     title: "Remarks",
@@ -394,13 +384,15 @@ sap.ui.define([
                 //     })
                 // });
 
-                // this.oRejectDialog.open(); 
+                // this.oRejectDialog.open();
 
                 var payload = {
                     "Pafno": "",
                     "Action": "REJECT"
                 }
                 this._sendPayload(payload, "Rejected");
+
+
             },
             Approved: function () {
 
@@ -437,7 +429,6 @@ sap.ui.define([
                 //                 "Action": "ACCEPT",
                 //                 "Remark": remarks
                 //             }
-
                 //             this._sendPayload(payload, "Approved");
 
                 //         }.bind(this)
@@ -445,11 +436,11 @@ sap.ui.define([
                 // });
 
                 // this.oRejectDialog.open();
+
                 var payload = {
                     "Pafno": "",
                     "Action": "ACCEPT" 
                 }
-
                 this._sendPayload(payload, "Approved");
             },
 
@@ -457,36 +448,10 @@ sap.ui.define([
 
                 payload.Pafno = this.getView().getModel("oRequestModel").getData().Pafno;
 
-                //   ProductModel 
-
-                // var aTablePayload = this.getView().getModel("ProductModel").getData(),
-                //     len = aTablePayload.length,
-                //     vValidation = 0;
-
-                // for (let index = 0; index < len; index++) {
-                //     for (const key in aTablePayload[index]) {
-                //         if (Object.hasOwnProperty.call(aTablePayload[index], key)) {
-                //             if (key === 'Source') {
-                //                 const element = aTablePayload[index]['Source'];
-                //                 if (element === '') {
-                //                     vValidation = 0;
-                //                     this.getView().byId("idTblProductDetails").getItems()[index].getAggregation("cells")[3].setValueState("Error");
-                //                     // this.getView().byId("idTblProductDetails").getItems()[index].getAggregation("cells")[3]
-                //                 } else {
-                //                     vValidation = 1;
-                //                     this.getView().byId("idTblProductDetails").getItems()[index].getAggregation("cells")[3].setValueState("None")
-                //                 }
-                //             }
-                //         }
-                //     }
-
-                // }
-                // if (vValidation === 1) {
+                
                 this.getView().setBusy(true);
-
-                this.getOwnerComponent().getModel().create('/ZPAF_VH_HEADERSet', payload, {
+                this.getOwnerComponent().getModel().create('/ZPAF_NSH_HEADERSet', payload, {
                     success: function (oData, response) {
-
                         MessageBox.success("PAF " + sAction + " Successfully", {
                             actions: [sap.m.MessageBox.Action.OK],
                             onClose: function (oAction) {
@@ -494,7 +459,6 @@ sap.ui.define([
                                 this.oRouter.navTo("page1", {});
                             }.bind(this)
                         });
-
                         this.getView().setBusy(false);
                     }.bind(this),
                     error: function (oError) {
@@ -507,10 +471,7 @@ sap.ui.define([
                         });
                     }.bind(this)
                 });
-                // } else {
-                //     MessageBox.error("Please select Source(vendor)");
-                //     this.oRejectDialog.close();
-                // }
+
             }
         });
     });

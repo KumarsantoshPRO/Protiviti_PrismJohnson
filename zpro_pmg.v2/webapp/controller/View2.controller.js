@@ -107,15 +107,15 @@ sap.ui.define([
                         // oData.NAV_PMG_ITEM_PRODUCT.results
                         var len = oData.NAV_PMG_ITEM_PRODUCT.results.length;
                         oData.Wgmper = 0;
-                        oData.Wbuyingprice = 0;
+                        // oData.Wbuyingprice = 0;
                         for (let index = 0; index < len; index++) {
                             var nGrossMargin = Number(oData.NAV_PMG_ITEM_PRODUCT.results[index].Grossmargper);
                             var nBuyingpricesqft = Number(oData.NAV_PMG_ITEM_PRODUCT.results[index].Buyingpricesqft);
                             oData.Wgmper = Number(oData.Wgmper) + nGrossMargin;
-                            oData.Wbuyingprice = Number(oData.Wbuyingprice) + nBuyingpricesqft;
+                            // oData.Wbuyingprice = Number(oData.Wbuyingprice) + nBuyingpricesqft;
                         }
                         oData.Wgmper = (oData.Wgmper / len).toFixed(2);
-                        oData.Wbuyingprice = (oData.Wbuyingprice / len).toFixed(2);
+                        // oData.Wbuyingprice = (oData.Wbuyingprice / len).toFixed(2);
 
                         oData.Discb = ((oData.Wexfacsqft / 100) * oData.Disc).toFixed(2);
                         if (oData.Worcper !== '0.00') {
@@ -791,24 +791,22 @@ sap.ui.define([
                         wDiscount = wDiscount + ((Number(tableData[index].Discount) / 100) * Number(tableData[index].Totalvolume));
                         wORCP = wORCP + ((Number(tableData[index].Commboxp) / 100) * Number(tableData[index].Totalvolume));
                     } else {
-
                         wDiscountb = wDiscountb + (Number(tableData[index].Discountb) * Number(tableData[index].Totalvolume));
                         wORC = wORC + (Number(tableData[index].Commbox) * Number(tableData[index].Totalvolume));
-
                     }
                     wBuyingpricesqft = wBuyingpricesqft + (Number(tableData[index].Buyingpricesqft) * Number(tableData[index].Totalvolume));
                     wNEF = wNEF + (Number(tableData[index].Netexsqft) * Number(tableData[index].Totalvolume));
                     wFreight = wFreight + (Number(tableData[index].Frghtsqft) * Number(tableData[index].Totalvolume));
-
                     vTotalValume = vTotalValume + Number(tableData[index].Totalvolume);
                     wGrossMargin = wGrossMargin + Number(tableData[index].Grossmargper);
                 }
 
-                this.getView().getModel("oRequestModel").setProperty("/Wdisc", ((wDiscount / vTotalValume)*100).toFixed(2).toString());
+                this.getView().getModel("oRequestModel").setProperty("/Wdisc", ((wDiscount / vTotalValume)).toFixed(2).toString());
                 this.getView().getModel("oRequestModel").setProperty("/Wdiscb", (wDiscountb / vTotalValume).toFixed(2).toString());
                 this.getView().getModel("oRequestModel").setProperty("/Wnefsqft", (wNEF / vTotalValume).toFixed(2).toString());
                 this.getView().getModel("oRequestModel").setProperty("/Wfrgtsqft", (wFreight / vTotalValume).toFixed(2).toString());
-                this.getView().getModel("oRequestModel").setProperty("/Worc", ((wORC / vTotalValume)*100).toFixed(2).toString());
+                debugger;
+                this.getView().getModel("oRequestModel").setProperty("/Worc", ((wORC / vTotalValume)).toFixed(2).toString());
                 this.getView().getModel("oRequestModel").setProperty("/Worcper", (wORCP / vTotalValume).toFixed(2).toString());
                 // this.getView().getModel("oRequestModel").setProperty("/Wgmper", (wGrossMargin / noItems).toFixed(2).toString());
                 this.getView().getModel("oRequestModel").setProperty("/Wbuyingprice", (wBuyingpricesqft / vTotalValume).toFixed(2).toString());

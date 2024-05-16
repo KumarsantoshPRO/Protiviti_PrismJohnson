@@ -80,15 +80,9 @@
         <Label
             design="Bold"
             text="ORC"
-             
+            visible="{=${oRequestModel>/Vtweg} === '19'? false: true}"
         />
         <Text
-            text="{parts:['oRequestModel>/Worcper','oRequestModel>/Worc'], formatter:'.formatter.getORC'}"/>
-        <!-- <Text
-            text="{parts:['oRequestModel>/Worc'], formatter:'.formatter.addPerBox'}"
-            visible="{=${oRequestModel>/Vtweg} === '19'? false: true}"
-        /> -->
-        <!-- <Text
             text="{path:'oRequestModel>/Worc', formatter:'.formatter.addPerBox'}"
             visible="{=${oRequestModel>/Vtweg} === '19'? false: true}"
         />
@@ -100,7 +94,7 @@
         <Text
             text="{path:'oRequestModel>/Worcper', formatter:'.formatter.addPercentageSymbol'}"
             visible="{=${oRequestModel>/Vtweg} === '19'? true: false}"
-        /> -->
+        />
         <Label
             design="Bold"
             text="S and D cost"

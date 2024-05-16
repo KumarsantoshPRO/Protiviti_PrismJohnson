@@ -10,7 +10,7 @@ sap.ui.define([], function () {
             return dateFormat.format(new Date(date));
         },
         makeItPositive: function (sString) {
-            debugger;
+            
             if (sString) {
                 if (Number(sString) < 0) {
                     return (Number(sString) * -1).toString();
@@ -170,8 +170,17 @@ sap.ui.define([], function () {
             return sString + "%";
         },
         addPerBox: function (sString) {
-            return sString + " Per Box";
-        }
+            return sString + " Per Box"; 
+        },
+        getDiscount: function (sDiscountPer, sDiscountPerBox) {
+          
+            if (sDiscountPer === "0.00") {
+                return sDiscountPerBox + " Per Box"
+                
+            } else {
+                return sDiscountPer + "  %"
+            }
+        },     
 
 
     }

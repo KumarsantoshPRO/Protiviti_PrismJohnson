@@ -59,12 +59,12 @@
                     <Text text="Volume" />
                 </Column>
                  <Column
-                   
+                     hAlign="End"
                 >
                     <Text text="Freight" />
                 </Column>
                  <Column
-                    
+                      hAlign="End"
                 >
                     <Text text="Revised freight" />
                 </Column>
@@ -73,7 +73,7 @@
                     demandPopin="true"
                     hAlign="End"
                 >
-                    <Text text="Discount(%)" />
+                    <Text text="Discount" />
                 </Column>
                 <Column
                     minScreenWidth="Desktop"
@@ -141,9 +141,14 @@
                             visible="false"
                             text="{ProductModel>Volume}"
                         />
+                          <Text text="{ProductModel>Frghtsqft}" />
                         <Text text="{ProductModel>ApprovedFrightprice}" />
-                        <Text text="{ProductModel>Frghtsqft}" />
-                        <Text text="{ProductModel>Discount}" />
+                      
+                        <!-- <Text text="{ProductModel>Discount}" />  -->
+                           <Text
+                            text="{parts:['ProductModel>Discount', 'ProductModel>Discountb'], formatter:'.formatter.getDiscount' }"
+                             
+                        />
                         <Text text="{ProductModel>Netexsqft}" />
                         <Text text="{ProductModel>Buyingpricesqft}" />
                         <Text

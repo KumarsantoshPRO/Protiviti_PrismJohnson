@@ -11,7 +11,7 @@ sap.ui.define([], function () {
             return dateFormat.format(new Date(date));
         },
         makeItPositive: function (sString) {
-            debugger;
+      
             if (sString) {
                 if (Number(sString) < 0) {
                     return (Number(sString) * -1).toString();
@@ -149,7 +149,34 @@ sap.ui.define([], function () {
 
             return colorCode;
         },
-
+        getDiscount: function (sDiscountPer, sDiscountPerBox) {
+          
+            if (sDiscountPer === "0.00") {
+                return sDiscountPerBox + " Per Box"
+                
+            } else {
+                return sDiscountPer + "  %"
+            }
+        },     
+        getORC: function (sOrcPer, sOrcPerBox) {
+    
+            if (sOrcPer === "0.00") {
+                return sOrcPerBox + " Per Box"
+                
+            } else {
+                return sOrcPer + "  %"
+            }
+        },
+        addPercentageSymbol: function(sValue){
+            if(sValue){
+                return sValue+" %"
+            }
+        },
+        addPerBox: function(sValue){
+            if(sValue){
+                return sValue+" Per Box"
+            }
+        }
 
     }
 });
