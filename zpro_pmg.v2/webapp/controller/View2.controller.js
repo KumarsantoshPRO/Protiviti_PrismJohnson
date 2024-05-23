@@ -580,7 +580,7 @@ sap.ui.define([
                             this.getView().getModel("oRequestModel").getData().Validity = oData.Validity;
                             this.getView().getModel("oRequestModel").getData().Pafvto = oData.Pafvto;
                             this.getView().getModel("oRequestModel").getData().PmgRemark = oData.PmgRemark;
-                            debugger;
+                            this.getView().getModel("oRequestModel").getData().Wsd = oData.Wsd;
                             this.getView().getModel("oRequestModel").getData().Wgmper = oData.Wgmper;
                             // this.getView().getModel("oRequestModel").getData().Grossmargper = oData.Grossmargper;
                             this.getView().getModel("oRequestModel").refresh(true);

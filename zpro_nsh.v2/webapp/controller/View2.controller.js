@@ -74,15 +74,15 @@ sap.ui.define([
                         // Grossmargper
                         // oData.NAV_NSH_ITEM_PRODUCT.results
                         var len = oData.NAV_NSH_ITEM_PRODUCT.results.length;
-                        oData.Wgrossmargper = 0;
+                        // oData.Wgrossmargper = 0;
                         // oData.Wbuyingprice = 0;
                         for (let index = 0; index < len; index++) {
                             var nGrossMargin = Number(oData.NAV_NSH_ITEM_PRODUCT.results[index].Grossmargper);
                             var nBuyingpricesqft = Number(oData.NAV_NSH_ITEM_PRODUCT.results[index].Buyingpricesqft);
-                            oData.Wgrossmargper = Number(oData.Wgrossmargper) + nGrossMargin;
+                            // oData.Wgrossmargper = Number(oData.Wgrossmargper) + nGrossMargin;
                             // oData.Wbuyingprice = Number(oData.Wbuyingprice) + nBuyingpricesqft;
                         }
-                        oData.Wgrossmargper = (oData.Wgrossmargper / len).toFixed(2);
+                        // oData.Wgrossmargper = (oData.Wgrossmargper / len).toFixed(2);
                         // oData.Wbuyingprice = (oData.Wbuyingprice / len).toFixed(2);
 
                         oData.Discb = ((oData.Wexfacsqft / 100) * oData.Disc).toFixed(2);
