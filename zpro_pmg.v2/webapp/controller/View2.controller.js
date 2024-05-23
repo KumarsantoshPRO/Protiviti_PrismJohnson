@@ -106,15 +106,15 @@ sap.ui.define([
                         // Grossmargper
                         // oData.NAV_PMG_ITEM_PRODUCT.results
                         var len = oData.NAV_PMG_ITEM_PRODUCT.results.length;
-                        oData.Wgmper = 0;
+                        // oData.Wgmper = 0;
                         // oData.Wbuyingprice = 0;
                         for (let index = 0; index < len; index++) {
                             var nGrossMargin = Number(oData.NAV_PMG_ITEM_PRODUCT.results[index].Grossmargper);
                             var nBuyingpricesqft = Number(oData.NAV_PMG_ITEM_PRODUCT.results[index].Buyingpricesqft);
-                            oData.Wgmper = Number(oData.Wgmper) + nGrossMargin;
+                            // oData.Wgmper = Number(oData.Wgmper) + nGrossMargin;
                             // oData.Wbuyingprice = Number(oData.Wbuyingprice) + nBuyingpricesqft;
                         }
-                        oData.Wgmper = (oData.Wgmper / len).toFixed(2);
+                        // oData.Wgmper = (oData.Wgmper / len).toFixed(2);
                         // oData.Wbuyingprice = (oData.Wbuyingprice / len).toFixed(2);
 
                         oData.Discb = ((oData.Wexfacsqft / 100) * oData.Disc).toFixed(2);
@@ -580,7 +580,9 @@ sap.ui.define([
                             this.getView().getModel("oRequestModel").getData().Validity = oData.Validity;
                             this.getView().getModel("oRequestModel").getData().Pafvto = oData.Pafvto;
                             this.getView().getModel("oRequestModel").getData().PmgRemark = oData.PmgRemark;
+                            debugger;
                             this.getView().getModel("oRequestModel").getData().Wgmper = oData.Wgmper;
+                            // this.getView().getModel("oRequestModel").getData().Grossmargper = oData.Grossmargper;
                             this.getView().getModel("oRequestModel").refresh(true);
                             if (payload.Action === "GENERATE") {
                                 MessageBox.success("Values generated");
@@ -782,9 +784,9 @@ sap.ui.define([
                     wFreight = 0,
                     wORC = 0,
                     wORCP = 0,
-                    wGrossMargin = 0,
                     wBuyingpricesqft = 0,
                     vTotalValume = 0;
+                    // var wGrossMargin = 0;
 
                 for (let index = 0; index < noItems; index++) {
                     if (this.getView().getModel("oRequestModel").getProperty("/Vtweg") === '19') {
@@ -798,16 +800,16 @@ sap.ui.define([
                     wNEF = wNEF + (Number(tableData[index].Netexsqft) * Number(tableData[index].Totalvolume));
                     wFreight = wFreight + (Number(tableData[index].Frghtsqft) * Number(tableData[index].Totalvolume));
                     vTotalValume = vTotalValume + Number(tableData[index].Totalvolume);
-                    wGrossMargin = wGrossMargin + Number(tableData[index].Grossmargper);
+                    // wGrossMargin = wGrossMargin + Number(tableData[index].Grossmargper);
                 }
 
-                this.getView().getModel("oRequestModel").setProperty("/Wdisc", ((wDiscount / vTotalValume)).toFixed(2).toString());
+                this.getView().getModel("oRequestModel").setProperty("/Wdisc", ((wDiscount / vTotalValume) * 100).toFixed(2).toString());
                 this.getView().getModel("oRequestModel").setProperty("/Wdiscb", (wDiscountb / vTotalValume).toFixed(2).toString());
                 this.getView().getModel("oRequestModel").setProperty("/Wnefsqft", (wNEF / vTotalValume).toFixed(2).toString());
                 this.getView().getModel("oRequestModel").setProperty("/Wfrgtsqft", (wFreight / vTotalValume).toFixed(2).toString());
-                debugger;
+         
                 this.getView().getModel("oRequestModel").setProperty("/Worc", ((wORC / vTotalValume)).toFixed(2).toString());
-                this.getView().getModel("oRequestModel").setProperty("/Worcper", (wORCP / vTotalValume).toFixed(2).toString());
+                this.getView().getModel("oRequestModel").setProperty("/Worcper", ((wORCP / vTotalValume) * 100).toFixed(2).toString());
                 // this.getView().getModel("oRequestModel").setProperty("/Wgmper", (wGrossMargin / noItems).toFixed(2).toString());
                 this.getView().getModel("oRequestModel").setProperty("/Wbuyingprice", (wBuyingpricesqft / vTotalValume).toFixed(2).toString());
                 this.getView().getModel("oRequestModel").refresh(true);
