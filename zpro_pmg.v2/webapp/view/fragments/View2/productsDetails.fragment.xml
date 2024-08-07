@@ -12,7 +12,7 @@
             class="sapUiMediumMarginBeginEnd sapUiTinyMarginTop"
             id="idTblProductDetails"
             items="{ProductModel>/}"
-            width="97%"
+             
         >
             <headerToolbar>
                 <Toolbar>
@@ -37,7 +37,7 @@
                     minScreenWidth="Tablet"
                     demandPopin="true"
                     hAlign="Center"
-                    width="6rem"
+                    width="8rem"
                 >
                     <Label
                         design="Bold"
@@ -84,8 +84,8 @@
                 <Column
                     minScreenWidth="Desktop"
                     demandPopin="true"
-                    hAlign="End"
-                    width="5rem"
+                    hAlign="Center"
+                    width="6rem"
                 >
                     <Label
                         design="Bold"
@@ -96,8 +96,8 @@
                 <Column
                     minScreenWidth="Desktop"
                     demandPopin="true"
-                    hAlign="End"
-                    width="4rem"
+                    hAlign="Center"
+                    width="5rem"
                 >
                     <Label
                         design="Bold"
@@ -122,7 +122,7 @@
                     minScreenWidth="Desktop"
                     demandPopin="true"
                     hAlign="End"
-                    width="4rem"
+                    width="7rem"
                     visible="{=${oRequestModel>/Vtweg} === '19'? true: false}"
                 >
                     <Label
@@ -199,12 +199,25 @@
                     minScreenWidth="Desktop"
                     demandPopin="true"
                     hAlign="End"
-                    width="6rem"
+                    width="8rem"
                 >
                     <Label
                         design="Bold"
                         wrapping="true"
                         text="SVC/BP(Sqft)"
+                    />
+                </Column>
+                    <Column
+                    minScreenWidth="Desktop"
+                    demandPopin="true"
+                    hAlign="Center"
+                    width="10rem"
+                >
+                    <Label
+                        design="Bold"
+                        wrapping="true"
+                        text="BP Remarks"
+                         
                     />
                 </Column>
                 <Column
@@ -252,13 +265,26 @@
                     minScreenWidth="Desktop"
                     demandPopin="true"
                     hAlign="End"
-                    width="4rem"
+                    width="6rem"
                 >
                     <Label
                         design="Bold"
                         wrapping="true"
                         text="Remarks"
                         tooltip="Remarks"
+                    />
+                </Column>
+                      <Column
+                    minScreenWidth="Desktop"
+                    demandPopin="true"
+                    hAlign="Center"
+                    width="8rem"
+                >
+                    <Label
+                        design="Bold"
+                        wrapping="true"
+                        text="Manufacturing Plant"
+                        tooltip="Manufacturing Plant"
                     />
                 </Column>
             </columns>
@@ -321,6 +347,11 @@
                             textAlign="End"
                             liveChange="onBuyingpricesqftInputLiveChange"
                         />
+                        <TextArea
+                            value="{ProductModel>Sbremark}"
+                            
+                            
+                        />
                         <Text
                             visible="false"
                             text="{ProductModel>Grossmarg}"
@@ -336,6 +367,7 @@
                             liveChange="onBuyingpricesqftInputLiveChange"
                         />
                         <Text text="{path:'ProductModel>Remark'}" />
+                         <Text text="{path:'ProductModel>Zprodh4'}" />
                     </cells>
                 </ColumnListItem>
             </items>

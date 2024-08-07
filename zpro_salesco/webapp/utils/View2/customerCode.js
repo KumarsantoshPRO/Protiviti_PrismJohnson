@@ -49,9 +49,12 @@ sap.ui.define(['sap/m/MessageBox', "sap/ui/model/json/JSONModel", "sap/ui/model/
 
         // on Value Help - Confirm
         onValueHelpConfirm_custCode: function (oEvent, that) {
+          
+            var JSONModelPayload = that.getView().getModel("JSONModelPayload")
+            
             var oSelectedItem = oEvent.getParameter("selectedItem"),
                 sSelectedValue = oSelectedItem.getProperty("title");
-            that.getView().getModel("JSONModelPayload").setProperty("/Kunnr", sSelectedValue);
+            JSONModelPayload.setProperty("/Kunnr", sSelectedValue);
             that.getView().getModel("JSONModelPayload").setProperty("/Name", oSelectedItem.getProperty("description"));
         },
 
@@ -156,10 +159,14 @@ sap.ui.define(['sap/m/MessageBox', "sap/ui/model/json/JSONModel", "sap/ui/model/
 
         // On change
         onCustomerCodeInputChange: function (that) {
-            that.getView().getModel("JSONModelPayload").setProperty("/Name", "");
+            if(that.getView().getModel("JSONModelPayload")){
+                that.getView().getModel("JSONModelPayload").setProperty("/Name", "");
+            } 
+           
         },
         // on Suggestion select
         onCustomerCodeInputSuggestionSelect: function (oEvent, that) {
+           
             var sSelectedCode = oEvent.getParameter("selectedRow").getAggregation("cells")[0].getProperty("text");
             var sTerm = sSelectedCode,
                 aFilters = [],
@@ -178,13 +185,23 @@ sap.ui.define(['sap/m/MessageBox', "sap/ui/model/json/JSONModel", "sap/ui/model/
                     success: function (Data) {
 
                         if (Data.results.length === 1) {
-                            if (sValue1.includes("Mvgr2")) {
+                            if (sValue1.includes("Mvgr2")) { 
+                                debugger;
                                 that.getView().getModel("JSONModelPayload").setProperty(sValue1, Data.results[0].Ddtext);
                             } else {
+                                if(that.getView().getModel("JSONModelPayload")){
+
+                                
                                 that.getView().getModel("JSONModelPayload").setProperty(sValue1, Data.results[0].DomvalueL);
+                                }else{
+                                    that.getView().byId("idV2InpCustCode").setValue(Data.results[0].DomvalueL);
+                                }
                             }
                             if (sValue2) {
-                                that.getView().getModel("JSONModelPayload").setProperty(sValue2, Data.results[0].Ddtext);
+                                if( that.getView().getModel("JSONModelPayload")){
+                                    that.getView().getModel("JSONModelPayload").setProperty(sValue2, Data.results[0].Ddtext);
+                                }
+                               
                             }
                         } else {
                             that.getView().getModel("JSONModelPayload").setProperty(sValue1, "");

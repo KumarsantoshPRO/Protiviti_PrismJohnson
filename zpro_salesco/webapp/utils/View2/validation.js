@@ -137,6 +137,7 @@ sap.ui.define(['sap/m/MessageBox'], function (MessageBox) {
                         // Non mandatory items
                     } else if (k === 7 || k === 8 || k === 9) {
                         // Select
+                        
                         if (oTable.getAggregation("items")[j].getAggregation("cells")[k].getSelectedKey() === '') {
                             oTable.getAggregation("items")[j].getAggregation("cells")[k].setValueState("Error")
                             oTable.getAggregation("items")[j].getAggregation("cells")[k].setValueStateText("Enter value");
@@ -164,6 +165,8 @@ sap.ui.define(['sap/m/MessageBox'], function (MessageBox) {
                 if (!aData[i].Mfrgr) {
                     vTemp = 0;
                     this.itemsErrorMessage('Mfrgr', vLine, sAction);
+                    i = aData.length;
+                  
                 }
                 // else if (!aData[i].Szmm) {
                 //     vTemp = 0;
@@ -172,22 +175,27 @@ sap.ui.define(['sap/m/MessageBox'], function (MessageBox) {
                 else if (!aData[i].Mvgr2) {
                     vTemp = 0;
                     this.itemsErrorMessage('Mvgr2', vLine, sAction);
+                    i = aData.length;
                 }
                 else if (!aData[i].Werks) {
                     vTemp = 0;
                     this.itemsErrorMessage('Werks', vLine, sAction);
+                    i = aData.length;
                 }
                 else if (!aData[i].Prodh1) {
                     vTemp = 0;
                     this.itemsErrorMessage('Prodh1', vLine, sAction);
+                    i = aData.length;
                 }
                 else if (!aData[i].CurVolFt) {
                     vTemp = 0;
                     this.itemsErrorMessage('CurVolFt', vLine, sAction);
+                    i = aData.length;
                 }
                 else if (!aData[i].TotalVol) {
                     vTemp = 0;
                     this.itemsErrorMessage('TotalVol', vLine, sAction);
+                    i = aData.length;
                 }
                 // else if (!aData[i].Exfac) {
                 //     vTemp = 0;
@@ -196,6 +204,7 @@ sap.ui.define(['sap/m/MessageBox'], function (MessageBox) {
                 else if (!aData[i].Disc) {
                     vTemp = 0;
                     this.itemsErrorMessage('Disc', vLine, sAction);
+                    i = aData.length;
 
                     // else {
                     //     vTemp = 0;
@@ -220,10 +229,12 @@ sap.ui.define(['sap/m/MessageBox'], function (MessageBox) {
                 else if (!aData[i].Zzprodh4) {
                     vTemp = 0;
                     this.itemsErrorMessage('Zzprodh4', vLine, sAction);
+                    i = aData.length;
                 }
                 else if (!aData[i].Mvgr5) {
                     vTemp = 0;
                     this.itemsErrorMessage('Mvgr5', vLine, sAction);
+                    i = aData.length;
                 }
                 // else if (!aData[i].Isexdep) {
 

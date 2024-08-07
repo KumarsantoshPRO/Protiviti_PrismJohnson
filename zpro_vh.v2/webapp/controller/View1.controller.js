@@ -143,11 +143,16 @@ sap.ui.define(
         
       },
       onSalesOfficeHelp: function () {
+        
         if (!this.SalesOfficerag) {
-          this.SalesOfficerag = sap.ui.xmlfragment("zpj.pro.sd.sk.zprovertihead.fragments.View1.salesOfficeF4", this);
+          this.SalesOfficerag = sap.ui.xmlfragment("zpj.pro.sd.sk.zprovertihead.view.fragments.View1.salesOfficeF4", this);
           this.getView().addDependent(this.SalesOfficerag);
           this._SalesOfficeTemp = sap.ui.getCore().byId("idSLSalesOfficeValueHelp").clone();
           this._oTemp = sap.ui.getCore().byId("idSLSalesOfficeValueHelp").clone();
+
+          var sServicelUrl = "/sap/opu/odata/sap/ZCUSTOMER_AUTOMATIONDISCOUNT_SRV/";
+          var oODataModel = new sap.ui.model.odata.v2.ODataModel(sServicelUrl);
+          this.SalesOfficerag.setModel(oODataModel);
         }
         var e = [];
         var t = new sap.ui.model.Filter([new sap.ui.model.Filter("Domname", sap.ui.model.FilterOperator.EQ, "TVKBZ")], false);
@@ -177,7 +182,8 @@ sap.ui.define(
         
         var t = e.getParameter("selectedItem");
         var a = t.getProperty("title");
-        this.byId(sap.ui.core.Fragment.createId("id.tableProductDetails.Fragment", "id.SalesOffice.Input")).setValue(a);
+        this.getView().byId("id.SalesOffice.Input").setValue(a); 
+        // this.byId(sap.ui.core.Fragment.createId("id.tableProductDetails.Fragment", "id.SalesOffice.Input")).setValue(a);
       },
       onSalesOfficeInputSubmit: function (e) {
         var t = e.getParameter("value"),
@@ -231,86 +237,7 @@ sap.ui.define(
             });
         }
       },
-      onSalesOfficeHelp: function () {
-        if (!this.SalesOfficerag) {
-          this.SalesOfficerag = sap.ui.xmlfragment("zpj.pro.sd.sk.zprovertihead.fragments.View1.salesOfficeF4", this);
-          this.getView().addDependent(this.SalesOfficerag);
-          this._SalesOfficeTemp = sap.ui.getCore().byId("idSLSalesOfficeValueHelp").clone();
-          this._oTemp = sap.ui.getCore().byId("idSLSalesOfficeValueHelp").clone();
-          var e = "/sap/opu/odata/sap/ZCUSTOMER_AUTOMATIONDISCOUNT_SRV/";
-          var t = new sap.ui.model.odata.v2.ODataModel(e);
-          this.SalesOfficerag.setModel(t);
-        }
-        var a = [];
-        var i = new sap.ui.model.Filter([new sap.ui.model.Filter("Domname", sap.ui.model.FilterOperator.EQ, "TVKBZ")], false);
-        var s = new sap.ui.model.Filter([new sap.ui.model.Filter("Domname1", sap.ui.model.FilterOperator.EQ, "")], false);
-        var r = new sap.ui.model.Filter([new sap.ui.model.Filter("Domname2", sap.ui.model.FilterOperator.EQ, "")], false);
-        a.push(i);
-        a.push(s);
-        a.push(r);
-        sap.ui
-          .getCore()
-          .byId("idSDSalesOfficeF4")
-          .bindAggregation("items", { path: "/ET_VALUE_HELPSSet", filters: a, template: this._SalesOfficeTemp });
-        this.SalesOfficerag.open();
-      },
-      onValueHelpSearch: function (e) {
-        var t = [];
-        var a = e.getParameter("value");
-        var i = "/ET_VALUE_HELPSSet";
-        var s = sap.ui.getCore().byId(e.getParameter("id"));
-        var r = new sap.ui.model.Filter([new sap.ui.model.Filter("Domname", sap.ui.model.FilterOperator.EQ, "TVKBZ")], false);
-        var l = new sap.ui.model.Filter([new sap.ui.model.Filter("Domname1", sap.ui.model.FilterOperator.EQ, a)], false);
-        t.push(r);
-        t.push(l);
-        s.bindAggregation("items", { path: i, filters: t, template: this._oTemp });
-      },
-      onValueHelpConfirm: function (e) {
-        var t = e.getParameter("selectedItem");
-        var a = t.getProperty("title");
-        this.getView().byId("id.SalesOffice.Input").setValue(a);
-      },
-      onSuggest: function (e) {
-        var a = e.getParameter("suggestValue"),
-          s = [],
-          r = "/ET_VALUE_HELPSSet",
-          l,
-          o,
-          n;
-        if (a.includes(",")) {
-          var u = a.split(",").length;
-          a = a.split(",")[a.split(",").length - 1];
-        }
-        l = new sap.ui.model.Filter([new sap.ui.model.Filter("Domname", sap.ui.model.FilterOperator.EQ, "TVKBZ")], false);
-        o = new sap.ui.model.Filter([new sap.ui.model.Filter("Domname1", sap.ui.model.FilterOperator.EQ, a)], false);
-        n = new sap.ui.model.Filter([new sap.ui.model.Filter("Domname2", sap.ui.model.FilterOperator.EQ, "")], false);
-        s.push(l);
-        s.push(n);
-        s.push(o);
-        if (a) {
-          this.getView().setBusy(true);
-          var p = "/sap/opu/odata/sap/ZCUSTOMER_AUTOMATIONDISCOUNT_SRV/";
-          var d = new sap.ui.model.odata.v2.ODataModel(p);
-          d.read(r, {
-            filters: s,
-            success: function (e) {
-              if (e.results.length > 0) {
-                var a = new t(e.results);
-                this.getView().setModel(a, "JSONModelForSuggest");
-                this.getView().getModel("JSONModelForSuggest").refresh(true);
-              }
-              this.getView().setBusy(false);
-            }.bind(this),
-            error: function (e) {
-              this.getView().setBusy(false);
-              i.error(JSON.parse(e.responseText).error.innererror.errordetails[0].message, {
-                actions: [sap.m.MessageBox.Action.OK],
-                onClose: function (e) {},
-              });
-            }.bind(this),
-          });
-        }
-      },
+ 
     });
   }
 );

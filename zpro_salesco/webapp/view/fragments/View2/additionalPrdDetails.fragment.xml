@@ -422,9 +422,10 @@
                                 showSuggestion="true"
                                 suggest=".onSuggest_Designs"
                                 suggestionItems="{JSONModelForSuggest>/}"
-                                submit="onDesignsInputSubmit"
+                               
                                 liveChange="onDesignsLiveChange"
                             >
+                             <!-- submit="onDesignsInputSubmit" -->
                                 <suggestionItems>
                                     <core:Item
                                         text="{JSONModelForSuggest>Ddtext}"
@@ -495,6 +496,7 @@
                                 items="{LocalJSONModels>/quality}"
                                 selectedKey="{JSONModelPayload>Zzprodh4}"
                                 editable="{GlobalEditableModel>/Editable}"
+                                  change="onQualitySelectChange"
                             >
                                 <core:Item
                                     key="{LocalJSONModels>key}"
@@ -507,7 +509,7 @@
                                 items="{LocalJSONModels>/part}"
                                 selectedKey="{JSONModelPayload>Mvgr5}"
                                 editable="{GlobalEditableModel>/Editable}"
-                                change="onPartSelectChange"
+                                change="onPartSelectChange" 
                             >
                                 <core:Item
                                     key="{LocalJSONModels>key}"

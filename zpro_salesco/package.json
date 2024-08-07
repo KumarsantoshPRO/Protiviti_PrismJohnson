@@ -8,7 +8,7 @@
     "openui5",
     "sapui5"
   ],
-  "main": "webapp/index.html",
+  "main": "webapp/index.html",                     
   "dependencies": {},
   "devDependencies": {
     "@ui5/cli": "^3.0.0",

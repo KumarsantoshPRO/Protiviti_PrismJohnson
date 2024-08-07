@@ -105,6 +105,18 @@ sap.formatter = {
         }
 
        
+    },
+
+    showVerticalText: function(sValue){
+        if(sValue === "10"){
+return "Johnson";
+        }else if(sValue === "20"){
+return "Porselano"
+        }else if(sValue === "30"){
+return "Marbonite"
+        }else if(sValue === "40"){
+return "Endura"
+        }
     }
     // nonVisible: function (sVal) {
     //     if (sVal) {

@@ -132,6 +132,7 @@
                             />
                         </fb:control>
                     </fb:FilterGroupItem>
+                    
                     <fb:FilterGroupItem
                         name="date"
                         label="Date"
@@ -148,7 +149,131 @@
                             />
                         </fb:control>
                     </fb:FilterGroupItem>
-                </fb:filterGroupItems>
+                    <fb:FilterGroupItem
+                        name="Customer Code"
+                        label="{i18nV2>view2.simpleForm.label.custCode}"
+                        groupName="Group1"
+                        visibleInFilterBar="true"
+                    >
+                        <fb:control>
+                           
+                                  <Input
+                id="idV1InpCustCode"
+                value="{JSONModelPayload>/Kunnr}"
+                valueStateText="Enter {i18nV2>view2.simpleForm.label.custCode}"
+                showValueHelp="true"
+                valueHelpRequest="onCustomerCodeHelp"
+                class="sapUiSmallMarginEnd"
+                placeholder="{i18nV2>view2.simpleForm.label.custCode}"
+                editable="{GlobalModel>/Editable}"
+
+                textFormatMode="ValueKey"
+                showSuggestion="true"
+                showTableSuggestionValueHelp="false"
+                suggest=".onSuggest_custCode"
+                suggestionRows="{JSONModelForSuggest_custCode>/}"
+                suggestionItemSelected="onCustomerCodeInputSuggestionSelect"
+                
+                submit="onSearch"
+                change="onCustomerCodeInputChange"
+                liveChange="onCustomerCodeLiveChange"
+            >
+                <suggestionColumns>
+                    <Column
+                        popinDisplay="Inline"
+                        demandPopin="true"
+                    >
+                        <Label text="Customer Code" />
+                    </Column>
+                    <Column
+                        popinDisplay="Inline"
+                        demandPopin="true"
+                    >
+                        <Label text="Customer Name" />
+                    </Column>
+
+                    <!-- <core:Item
+                        text="{JSONModelForSuggest_custCode>DomvalueL}"
+                        key="{JSONModelForSuggest_custCode>Ddtext}"
+                    /> -->
+                </suggestionColumns>
+                <suggestionRows>
+                    <ColumnListItem>
+                        <Label
+                            text="{JSONModelForSuggest_custCode>DomvalueL}"
+                        />
+                        <Label text="{JSONModelForSuggest_custCode>Ddtext}" />
+                    </ColumnListItem>
+                </suggestionRows>
+
+            </Input>
+                        </fb:control>
+                    </fb:FilterGroupItem>
+                    <fb:FilterGroupItem  name="Vertical"
+                        label="Vertical"
+                        groupName="Group1"
+                        visibleInFilterBar="true">
+                        <fb:control>
+                        <Select
+                id="idV1SLVertical"
+                forceSelection="false"
+                 
+               
+            >
+                <core:Item
+  
+                    key="10"
+                    text="Johnson"
+                />
+                  <core:Item
+  
+                    key="20"
+                    text="Porselano"
+                />
+                   <core:Item
+  
+                    key="30"
+                    text="Marbonite"
+                />
+                <core:Item
+  
+                    key="40"
+                    text="Endura"
+                />
+            </Select>
+                        </fb:control>                        
+                        </fb:FilterGroupItem>
+        </fb:filterGroupItems>
+
+                 
+               
+                <!-- <fb:FilterGroupItem>
+             <fb:FilterGroupItem
+                        name="Vertical"
+                        label="{i18nV2>view2.simpleForm.label.vertical}"
+                        groupName="Group1"
+                        visibleInFilterBar="true"
+                    >
+                    <fb:control>
+            <Select
+                id="idV2SLVertical"
+                forceSelection="false"
+                items="{LocalJSONModels>/vertical}"
+                selectedKey="{JSONModelPayload>/Spart}"
+                valueStateText="Select {i18nV2>view2.simpleForm.label.vertical}"
+                editable="{GlobalModel>/Editable}"
+                change="onVerticalSelectChange"
+            >
+                <core:Item
+                    id="idV2SLItemVertical"
+                    key="{LocalJSONModels>key}"
+                    text="{LocalJSONModels>text}"
+                />
+            </Select>
+             </fb:control>
+            </fb:FilterGroupItem>
+             </fb:filterGroupItems>
+              -->
             </fb:FilterBar>
             <Table
                 id="id.main.Products.Table"
@@ -256,6 +381,19 @@
                             text="{i18n.main>main.table.column.text.custNo}"
                         />
                     </Column>
+                     <Column
+                        id="id.main.TblClmVertical"
+                        hAlign="Center"
+                        minScreenWidth="Desktop"
+                        demandPopin="true"
+                        width="5rem"
+                    >
+                        <Label
+                            wrapping="true"
+                            id="id.main.TblClmTxtVertical"
+                            text="{i18n.main>main.table.column.text.vertical}"
+                        />
+                    </Column>
                     <Column
                         id="id.main.TblClmTypeOfOrder"
                         hAlign="Center"
@@ -299,7 +437,7 @@
                         hAlign="Center"
                         minScreenWidth="Desktop"
                         demandPopin="true"
-                        width="5rem"
+                        width="6rem"
                     >
                         <Label
                             wrapping="true"
@@ -354,10 +492,15 @@
                                 id="idV1TblCLITxtCustId"
                                 text="{ModelForTable>Kunnr}"
                             />
+                             <Text
+                                id="idV1TblCLITxtVertical"
+                                text="{path:'ModelForTable>Spart',  formatter:'sap.formatter.showVerticalText'}"
+                            />
                             <Text
                                 id="idV1TblCLITxtOrdType"
                                 text="{path:'ModelForTable>Vtweg',  formatter:'sap.formatter.showOrderType'}"
                             />
+                            
                             <Text
                                 id="idV1TblCLITxtOrdTot"
                                 text="{ModelForTable>WtotalVol}"

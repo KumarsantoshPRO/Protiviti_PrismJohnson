@@ -69,7 +69,7 @@ sap.ui.define([
                                     aItems.push(Data.results[index]);
                                     nTemp = 1
                                 }
-                            }
+                            } 
 
                             if (nTemp === 1) {
                                 Data.results = aItems;
@@ -184,21 +184,21 @@ sap.ui.define([
                     this.getView().byId("id.FilterBar").setVisible(true);
                 } else if (sKey === "Pending") {
                     this._getRequestData("P", "tableData");
-                    this.getView().byId("id.FilterBar").setVisible(false);
+                    this.getView().byId("id.FilterBar").setVisible(true);
                 }
                 else if (sKey === "Approved") {
                     this._getRequestData("A", "tableData");
-                    this.getView().byId("id.FilterBar").setVisible(false);
+                    this.getView().byId("id.FilterBar").setVisible(true);
                 }
                 else if (sKey === "Delayed") {
                     this._getRequestData("D", "tableData");
-                    this.getView().byId("id.FilterBar").setVisible(false);
+                    this.getView().byId("id.FilterBar").setVisible(true);
                 } else if (sKey === "Rejected") {
                     this._getRequestData("R", "tableData");
-                    this.getView().byId("id.FilterBar").setVisible(false);
+                    this.getView().byId("id.FilterBar").setVisible(true);
                 } else if (sKey === "Deleted") {
                     this._getRequestData("DL", "tableData");
-                    this.getView().byId("id.FilterBar").setVisible(false);
+                    this.getView().byId("id.FilterBar").setVisible(true);
                 }
                 //  else if (sKey === "Forwarded") {
                 //     this.getForwardedData();

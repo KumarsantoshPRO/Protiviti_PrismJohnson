@@ -1,108 +1,224 @@
- 
 {
-    
-    "paymentTerms":[
-        {
-            "key": "HR01",
-            "text": "CD-4%-25 (Advance) - HR01"
-        },
-        {
-            "key": "HR07",
-            "text": "CD-3%-07 Days Payment - HR07"
-        },
-        {
-            "key": "HR10",
-            "text": "CD-3%-10 Days Payment - HR10"
-        },
-        {
-            "key": "HR25",
-            "text": "CD-2%-25 Days Payment - HR25"
-        }
-        ,
-        {
-            "key": "HR30",
-            "text": "30 Days Payment - HR30"
-        }
-        ,
-        {
-            "key": "HR45",
-            "text": "45 Days Payment - HR45"
-        }
-    ],
-    "distributonChannel":[
-        {
-            "key":"11",
-            "text":"Project - 11"
-        },
-        {
-            "key":"17",
-            "text":"National Project - 17"
-        },
-        {
-            "key":"19",
-            "text":"Dealer - 19"
-        } 
-    ],
-    "vertical":[
-        {
-            "key":"10",
-            "text":"Johnson"
-        },
-        {
-            "key":"20",
-            "text":"Porselano"
-        },
-        {
-            "key":"30",
-            "text":"Marbonite"
-        },
-        {
-            "key":"40",
-            "text":"Endura"
-        }
-    ],
-    "quality":[
-        {
-            "key":"P",
-            "text":"P"
-        },
-        {
-            "key":"C",
-            "text":"C"
-        },
-        {
-            "key":"E",
-            "text":"E"
-        },
-        {
-            "key":"U",
-            "text":"U"
-        }
-    ],
-    "part":[
-        {
-            "key":"A",
-            "text":"A"
-        },
-        {
-            "key":"B",
-            "text":"B"
-        },
-        {
-            "key":"L",
-            "text":"L"
-        }
-    ],
-    "exFacDepo":[
+  "paymentTerms": [
+    {
+      "key": "HR01",
+      "text": "CD-4% Advance - HR01"
+    },
+    {
+      "key": "HR07",
+      "text": "CD-3%-07 Days Payment - HR07"
+    },
+    {
+      "key": "HR10",
+      "text": "CD-3%-10 Days Payment - HR10"
+    },
+    {
+      "key": "HR25",
+      "text": "CD-2%-25 Days Payment - HR25"
+    },
+    {
+      "key": "HR30",
+      "text": "30 Days Payment - HR30"
+    },
+    {
+      "key": "HR45",
+      "text": "45 Days Payment - HR45"
+    },
+    {
+      "key": "HRJ3",
+      "text": "HRJ3"
+    },
+    {
+      "key": "S001",
+      "text": "Advance Payment - S001"
+    },
+    {
+      "key": "S002",
+      "text": "07 days Payment - S002"
+    },
+    {
+      "key": "S003",
+      "text": "15 days Payment - S003"
+    },
+    {
+      "key": "S004",
+      "text": "30 days Payment - S004"
+    },
+    {
+      "key": "S005",
+      "text": "Part advance & balance against delivery - S005"
+    },
+    {
+      "key": "S006",
+      "text": "7 days payment without PDC - S006"
+    },
+    {
+      "key": "S007",
+      "text": "15 days payment without PDC - S007"
+    },
+    {
+      "key": "S008",
+      "text": "30 days payment without PDC - S008"
+    },
+    {
+      "key": "S009",
+      "text": "30 Days LC from delivery of material - S009"
+    },
+    {
+      "key": "S010",
+      "text": "90 days payment without PDC - S010"
+    },
+    {
+      "key": "S011",
+      "text": "50% Adv & Bal agnst delivery- S011"
+    },
+    {
+      "key": "S013",
+      "text": "60 days payment without PDC - S013"
+    },
+    {
+      "key": "S014",
+      "text": "75 days payment without PDC - S014"
+    },
+    {
+      "key": "S015",
+      "text": "45 days payment without PDC - S015"
+    },
 
-        {
-            "key":"X",
-            "text":"Ex Factory"
-        },
-        {
-            "key":" ",
-            "text":"Ex Depot"
-        }
-    ]
+    {
+      "key": "P017",
+      "text": "Within 40 days from the date of goods receipt - P017"
+    },
+    {
+        "key": "DL45",
+        "text": "DL45"
+      },
+    {
+      "key": "ER07",
+      "text": "East Rgn. Cash Discount- 3%- 7 Days - ER07 "
+    },
+    {
+      "key": "ER15    ",
+      "text": "East Rgn. Cash Discount- 2%- 15 Days- ER15 "
+    },
+    {
+      "key": "ER22    ",
+      "text": "East Rgn. Cash Discount- 4%-22 Days- ER22 "
+    },
+    {
+      "key": "ER29",
+      "text": "East Rgn. Cash Discount- 3%-29 Days- ER29 "
+    },
+    {
+      "key": "ER32",
+      "text": "East Rgn. Cash Discount- 3%-32 Days- ER32 "
+    },
+    {
+      "key": "ER35 ",
+      "text": "East Rgn. 35 Days Payment- ER35 "
+    },
+    {
+      "key": "ER40",
+      "text": "East Rgn. Cash Discount- 1.5 %-40 Days - ER40"
+    },
 
+    {
+      "key": "ER43 ",
+      "text": "East Rgn. Cash Discount- 0%-43 Days- ER43 "
+    },
+    {
+      "key": "ER46 ",
+      "text": "East Rgn. Cash Discount- 2%- 46 Days- ER46"
+    },
+    {
+      "key": "ER50 ",
+      "text": "East Rgn. Cash Discount- 1 %-50 Days- ER50 "
+    },
+    {
+      "key": "ER51",
+      "text": "East Rgn. 51 Days Payment- ER51"
+    },
+    {
+      "key": "ER60",
+      "text": "East Rgn. No CD>60 Days- ER60 "
+    }
+  ],
+  "distributonChannel": [
+    {
+      "key": "11",
+      "text": "Project - 11"
+    },
+    {
+      "key": "17",
+      "text": "National Project - 17"
+    },
+    {
+      "key": "19",
+      "text": "Dealer - 19"
+    }
+  ],
+  "vertical": [
+    {
+      "key": "10",
+      "text": "Johnson"
+    },
+    {
+      "key": "20",
+      "text": "Porselano"
+    },
+    {
+      "key": "30",
+      "text": "Marbonite"
+    },
+    {
+      "key": "40",
+      "text": "Endura"
+    }
+  ],
+  "quality": [
+    {
+      "key": "P",
+      "text": "P"
+    },
+    {
+      "key": "C",
+      "text": "C"
+    },
+    {
+      "key": "E",
+      "text": "E"
+    },
+    {
+      "key": "U",
+      "text": "U"
+    },
+    {
+      "key": "R",
+      "text": "R"
+    }
+  ],
+  "part": [
+    {
+      "key": "A",
+      "text": "A"
+    },
+    {
+      "key": "B",
+      "text": "B"
+    },
+    {
+      "key": "L",
+      "text": "L"
+    }
+  ],
+  "exFacDepo": [
+    {
+      "key": "X",
+      "text": "Ex Factory"
+    },
+    {
+      "key": " ",
+      "text": "Ex Depot"
+    }
+  ]
 }

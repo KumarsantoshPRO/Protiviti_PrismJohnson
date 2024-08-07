@@ -72,6 +72,7 @@
                         iconColor="Critical"
                         text="Delayed"
                         key="Delayed"
+                        visible="false"
                         count="{count>/Delayed}"
                     />
                     <IconTabFilter
@@ -103,7 +104,7 @@
                                     <Input
                                         id="id.SalesOffice.Input"
                                         placeholder="Sales Office"
-                                        submit="onSearch"
+                                       
                                         showValueHelp="true"
                                         valueHelpRequest="onSalesOfficeHelp"
                                         change="onSalesOfficeInputSubmit"
@@ -192,7 +193,7 @@
                                     <Select
                                         id="id.Division.ComboBox"
                                         forceSelection="false"
-                                        change="onSearch"
+                                       
                                     >
                                         <core:Item
                                             key="10"
@@ -223,7 +224,7 @@
                                     <Input
                                         id="id.PafNo.Input"
                                         placeholder="PAF No."
-                                        submit="onSearch"
+                                        
                                     />
                                 </fb:control>
                             </fb:FilterGroupItem>
@@ -239,7 +240,7 @@
                                         id="id.Date.DatePicker"
                                         valueFormat="MM/dd/yyyy"
                                         displayFormat="dd/MM/YYYY"
-                                        change="onSearch"
+                                     
                                         placeholder="e.g: 31/12/2020"
                                     />
                                 </fb:control>

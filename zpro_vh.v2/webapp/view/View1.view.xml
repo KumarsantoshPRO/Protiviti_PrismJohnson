@@ -85,6 +85,7 @@
                         text="Delayed"
                         key="Delayed"
                         count="{count>/Delayed}"
+                        visible="false"
                     />
                     <IconTabFilter
                         icon="sap-icon://delete"
@@ -245,7 +246,7 @@
                             </Column>
                             <Column
                                 hAlign="End"
-                                width="10rem"
+                                width="5rem"
                             >
                                 <Text text="Sales Office" />
                             </Column>
@@ -292,7 +293,7 @@
                             <Column
                                 hAlign="End"
                                 demandPopin="true"
-                                width="6rem"
+                                width="4rem"
                             >
                                 <Text text="Validity" />
                             </Column>

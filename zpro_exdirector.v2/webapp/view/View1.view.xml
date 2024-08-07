@@ -75,6 +75,7 @@
                         iconColor="Critical"
                         text="Delayed"
                         key="Delayed"
+                        visible="false"
                         count="{count>/Delayed}"
                     />
                     <IconTabFilter

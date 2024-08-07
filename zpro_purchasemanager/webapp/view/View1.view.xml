@@ -63,6 +63,7 @@
                         count="{count>/Delayed}"
                         text="{i18n.View1>View1.IconTabFilter.delay}"
                         key="Delay"
+                     
                     />
                 </items>
                 <content>

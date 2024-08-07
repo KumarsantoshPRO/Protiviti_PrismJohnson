@@ -60,6 +60,7 @@
                                             <Column
                                                 demandPopin="true"
                                                 hAlign="Center"
+                                                width="8rem"
                                             >
                                                 <Label
                                                     text="{i18n.View2>View2.table.materialfreightgroups}"
@@ -117,6 +118,14 @@
                                             >
                                                 <Label
                                                     text="{i18n.View2>View2.table.buyingPrice}"
+                                                />
+                                            </Column>
+                                             <Column
+                                                demandPopin="true"
+                                                hAlign="Center"
+                                            >
+                                                <Label
+                                                    text=" BP Remarks"
                                                 />
                                             </Column>
                                             <!-- <Column
@@ -202,7 +211,9 @@
                                                     <Text
                                                         text="{oRequestModel>Buyingpricesqft}"
                                                     />
-
+                                                      <Text
+                                                        text="{oRequestModel>Sbremark}"
+                                                    />
                                                     <Text
                                                         text="{oRequestModel>Desiredbp}"
                                                         textAlign="End"

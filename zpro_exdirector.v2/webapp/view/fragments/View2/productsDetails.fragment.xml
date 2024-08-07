@@ -22,13 +22,14 @@
                     minScreenWidth="Tablet"
                     demandPopin="true"
                     hAlign="Center"
+                    width="8rem"
                 >
                     <Text text="Material Freight Groups" />
                 </Column>
                 <Column
                     minScreenWidth="Tablet"
                     demandPopin="true"
-                    hAlign="End"
+                    hAlign="Center"
                 >
                     <Text text="Size" />
                 </Column>
@@ -58,37 +59,46 @@
                 <Column
                     minScreenWidth="Tablet"
                     demandPopin="true"
-                    hAlign="End"
+                    hAlign="Center"
                 >
                     <Text text="Freight" />
                 </Column>
                 <Column
                     minScreenWidth="Tablet"
                     demandPopin="true"
-                    hAlign="End"
+                    hAlign="Center"
                 >
                     <Text text="Revised freight" />
                 </Column>
                 <Column
                     minScreenWidth="Tablet"
                     demandPopin="true"
-                    hAlign="End"
+                    hAlign="Center"
                 >
                     <Text text="Discount" />
                 </Column> 
                 <Column
                     minScreenWidth="Desktop"
                     demandPopin="true"
-                    hAlign="End"
+                    hAlign="Center"
+                    width="8rem"
                 >
                     <Text text="Net Ex Factory(Sqft)" />
                 </Column>
                 <Column
                     minScreenWidth="Desktop"
                     demandPopin="true"
-                    hAlign="End"
+                    hAlign="Center"
+                    width="8rem"
                 >
                     <Text text="SVC/BP(Sqft)" />
+                </Column>
+                <Column
+                    minScreenWidth="Desktop"
+                    demandPopin="true"
+                    hAlign="Center"
+                >
+                    <Text text=" BP Remarks"/>
                 </Column>
                 <Column
                     minScreenWidth="Desktop"
@@ -109,14 +119,14 @@
                 <Column
                     minScreenWidth="Desktop"
                     demandPopin="true"
-                    hAlign="End"
+                    hAlign="Center"
                 >
                     <Text text="Revised BP(Sqft)" />
                 </Column>
                 <Column
                     minScreenWidth="Desktop"
                     demandPopin="true"
-                    hAlign="End"
+                    hAlign="Center"
                 >
                     <Text text="Gross Margin(%)" />
                 </Column>
@@ -150,6 +160,7 @@
                         <!-- <Text text="{ProductModel>Discount}" /> -->
                         <Text text="{ProductModel>Netexsqft}" />
                         <Text text="{ProductModel>Buyingpricesqft}" />
+                         <Text text="{ProductModel>Sbremark}" />
                         <Text
                             visible="false"
                             text="{ProductModel>Grossmarg}"

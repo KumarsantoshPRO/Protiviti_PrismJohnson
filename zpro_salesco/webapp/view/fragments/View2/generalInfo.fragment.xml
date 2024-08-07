@@ -111,7 +111,7 @@
                 id="idV2LblPayTerm"
                 text="{i18nV2>view2.simpleForm.label.payTerm}"
             />
-            <Select
+            <!-- <Select
                 id="idV2SLPaymentTerm"
                 forceSelection="false"
                 items="{LocalJSONModels>/paymentTerms}"
@@ -124,6 +124,26 @@
                     id="idV2SLItemPayTerm"
                     key="{LocalJSONModels>key}"
                     text="{LocalJSONModels>text}"
+                />
+            </Select> -->
+                   <Select
+                id="idV2SLPaymentTerm"
+                forceSelection="false"
+                items="{path:'/ET_VALUE_HELPSSet',
+        filters : [
+            { path : 'Domname', operator : 'EQ', value1 : 'TVZBT'},
+            { path : 'Domname1', operator : 'EQ', value1 : ''},
+            { path : 'Domname2', operator : 'EQ', value1 : ''}
+        ]}"
+                selectedKey="{JSONModelPayload>/Zterm}"
+                valueStateText="Select {i18nV2>view2.simpleForm.label.payTerm}"
+                editable="{GlobalModel>/Editable}"
+                change="onPaymentTermsSelectChange"
+            >
+                <core:Item
+                    id="idV2SLItemPayTerm"
+                    key="{DomvalueL}"
+                    text="{DomvalueL}-{Ddtext}"
                 />
             </Select>
 

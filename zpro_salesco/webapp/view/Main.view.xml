@@ -66,6 +66,61 @@
                                     id="id.PafNo.Input"
                                     placeholder="PAF No."
                                 />
+                                <Label
+                id="idV2LblCustCode"
+                text="{i18nV2>view2.simpleForm.label.custCode}"
+                required="true"
+            />
+
+            <Input
+                id="idV2InpCustCode"
+                value="{JSONModelPayload>/Kunnr}"
+                valueStateText="Enter {i18nV2>view2.simpleForm.label.custCode}"
+                showValueHelp="true"
+                valueHelpRequest="onCustomerCodeHelp"
+                class="sapUiSmallMarginEnd"
+                placeholder="{i18nV2>view2.simpleForm.label.custCode}"
+                editable="{GlobalModel>/Editable}"
+
+                textFormatMode="ValueKey"
+                showSuggestion="true"
+                showTableSuggestionValueHelp="false"
+                suggest=".onSuggest_custCode"
+                suggestionRows="{JSONModelForSuggest_custCode>/}"
+                suggestionItemSelected="onCustomerCodeInputSuggestionSelect"
+                
+                submit="onCustomerCodeInputSubmit"
+                change="onCustomerCodeInputChange"
+                liveChange="onCustomerCodeLiveChange"
+            >
+                <suggestionColumns>
+                    <Column
+                        popinDisplay="Inline"
+                        demandPopin="true"
+                    >
+                        <Label text="Customer Code" />
+                    </Column>
+                    <Column
+                        popinDisplay="Inline"
+                        demandPopin="true"
+                    >
+                        <Label text="Customer Name" />
+                    </Column>
+
+                    <!-- <core:Item
+                        text="{JSONModelForSuggest_custCode>DomvalueL}"
+                        key="{JSONModelForSuggest_custCode>Ddtext}"
+                    /> -->
+                </suggestionColumns>
+                <suggestionRows>
+                    <ColumnListItem>
+                        <Label
+                            text="{JSONModelForSuggest_custCode>DomvalueL}"
+                        />
+                        <Label text="{JSONModelForSuggest_custCode>Ddtext}" />
+                    </ColumnListItem>
+                </suggestionRows>
+            </Input>
                                 <Label />
                                 <Button
                                     text="Submit"
